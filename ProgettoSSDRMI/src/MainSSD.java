@@ -51,10 +51,10 @@ public class MainSSD {
         	//host = "kastknocker.no-ip.biz";
         	host = "192.168.1.190";
         	
-        	System.out.println("Provo a connettermi a: "+host);
+        	System.out.println("Io, "+System.getProperty("user.name")+", Provo a connettermi a: "+host);
             Registry registry = LocateRegistry.getRegistry(host);
             Hello stub = (Hello) registry.lookup("Hello");
-            String response = stub.sayHello();
+            String response = stub.sayHello(System.getProperty("user.name").toString());
             System.out.println("response: " + response);
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());

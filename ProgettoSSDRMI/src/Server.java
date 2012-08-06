@@ -1,3 +1,4 @@
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,6 +11,11 @@ public class Server implements Hello {
     	System.out.println("Ho ricevuto una richiesta da: ");
         return "Hello, world! FEBIO";
     }
+    
+	public String sayHello(String nome) throws RemoteException {
+    	System.out.println("Ho ricevuto una richiesta da: "+nome);
+        return "Hello "+nome+" da "+System.getProperty("user.name");
+	}
         
     public static void main(String args[]) {
     	System.out.println("********* START SERVER *********");
@@ -38,4 +44,6 @@ public class Server implements Hello {
             e.printStackTrace();
         }
     }
+
+	
 }

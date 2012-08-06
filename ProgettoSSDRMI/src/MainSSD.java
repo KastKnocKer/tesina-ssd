@@ -1,3 +1,7 @@
+import java.math.BigDecimal;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 
 public class MainSSD {
 
@@ -16,6 +20,20 @@ public class MainSSD {
     	}
 		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
+		
+		try {
+            String name = "Compute";
+            Registry registry = LocateRegistry.getRegistry(args[0]);
+            Compute comp = (Compute) registry.lookup(name);
+            Pi task = new Pi(Integer.parseInt(args[1]));
+            BigDecimal pi = comp.executeTask(task);
+            System.out.println(pi);
+        } catch (Exception e) {
+            System.err.println("ComputePi exception:");
+            e.printStackTrace();
+        }
+		
 		
 		Status status = new Status();
 		

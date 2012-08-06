@@ -1,6 +1,6 @@
 echo off
 echo client
 cd bin
-java Client
+java MainSSD
 
 PAUSE > NUL

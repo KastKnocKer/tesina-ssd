@@ -1,4 +1,4 @@
-package SIP;
+package RMI;
 
 import java.rmi.RemoteException;
 

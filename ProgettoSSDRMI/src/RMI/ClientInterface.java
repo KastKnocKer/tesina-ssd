@@ -1,8 +1,8 @@
-package SIP;
+package RMI;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface SIPInterface extends Remote{
+public interface ClientInterface extends Remote{
 	String sayHello() throws RemoteException;
 }

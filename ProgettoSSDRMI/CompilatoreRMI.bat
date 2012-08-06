@@ -8,7 +8,6 @@ echo -- RMIC --
 cd ..
 cd bin
 rmic Server
-rmic Hello
 
 copy * D:\Dropbox\Public\SSD
 ECHO DONE

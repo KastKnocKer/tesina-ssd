@@ -8,7 +8,7 @@ public class Server implements Hello {
 
     public String sayHello() {
     	System.out.println("Ho ricevuto una richiesta da: ");
-        return "Hello, world!";
+        return "Hello, world! FEBIO";
     }
         
     public static void main(String args[]) {

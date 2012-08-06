@@ -24,8 +24,7 @@ public class XML_Configurator {
 		try {
 
 			File fXmlFile = new File("CONF.xml");
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
@@ -74,8 +73,7 @@ public class XML_Configurator {
 	private void createEmptyConfigurationFile() {
 		try {
 
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
 			// root elements

@@ -21,6 +21,19 @@ public class MainSSD {
 		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
+		Status status = new Status();
+		status.readConfXML();
+		status.writeConfXML();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		// AVVIO PARTE SERVER
 		System.out.println("**** START - SERVER ****");
@@ -49,7 +62,8 @@ public class MainSSD {
 		
         try {
         	//host = "kastknocker.no-ip.biz";
-        	host = "192.168.1.190";
+        	//host = "192.168.1.190";
+        	host = status.getSIPAddress();
         	
         	System.out.println("Io, "+System.getProperty("user.name")+", Provo a connettermi a: "+host);
             Registry registry = LocateRegistry.getRegistry(host);
@@ -65,7 +79,7 @@ public class MainSSD {
 		
 		
 		
-		Status status = new Status();
+		
 		
 		XML_Configurator xml = new XML_Configurator();
 

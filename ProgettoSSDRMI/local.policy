@@ -1,0 +1,8 @@
+grant {
+	permission java.net.SocketPermission "*:1024-", "accept, resolve, connect";
+};
+
+grant codebase "file:/path/to/code" {
+    permission java.io.FilePermission "\D:\Programmazione\Workspace\GuidaRMI\bin\-", "read";
+}
+

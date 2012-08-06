@@ -30,7 +30,7 @@ public class Server implements Hello {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             
             System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("Hello", stub);
+            registry.rebind("FABIO TROIA DI MERDA :D", stub);
 
             System.err.println("Server ready");
         } catch (Exception e) {

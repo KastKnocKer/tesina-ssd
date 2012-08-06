@@ -1,5 +1,6 @@
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 
 public class MainSSD {
@@ -19,6 +20,26 @@ public class MainSSD {
     	}
 		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
+		
+		// AVVIO PARTE SERVER
+		 try {
+	            Server obj = new Server();
+	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+
+	            // Bind the remote object's stub in the registry
+	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+	            
+	            System.out.println("Registry port "+registry.REGISTRY_PORT);
+	            registry.rebind("FABIO TROIA DI MERDA :D", stub);
+
+	            System.err.println("Server ready");
+	        } catch (Exception e) {
+	            System.err.println("Server exception:\n" + e.toString());
+	            e.printStackTrace();
+	        }
+		
+		// AVVIO PARTE CLIENT
 		
 		
 

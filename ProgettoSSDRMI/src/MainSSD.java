@@ -23,7 +23,8 @@ public class MainSSD {
 		
 		
 		// AVVIO PARTE SERVER
-		 try {
+		System.out.println("**** START - SERVER ****");
+		try {
 	            Server obj = new Server();
 	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
 
@@ -33,15 +34,14 @@ public class MainSSD {
 	            System.out.println("Registry port "+registry.REGISTRY_PORT);
 	            registry.rebind("FABIO TROIA DI MERDA :D", stub);
 
-	            System.err.println("Server ready");
-	        } catch (Exception e) {
-	            System.err.println("Server exception:\n" + e.toString());
+	            System.out.println("Server ready");
+	     } catch (Exception e) {
+	            System.out.println("Server exception:\n" + e.toString());
 	            e.printStackTrace();
-	        }
+	     }
 		
 		// AVVIO PARTE CLIENT
-		
-		
+		System.out.println("**** START - CLIENT ****");
 
 
 		String host = (args.length < 1) ? null : args[0];

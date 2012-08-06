@@ -3,6 +3,6 @@ grant {
 };
 
 grant codebase "file:/path/to/code" {
-    permission java.io.FilePermission "\D:\Programmazione\Workspace\GuidaRMI\bin\-", "read";
+    permission java.io.FilePermission "\D:\Programmazione\Workspace-Tesina-SSD\ProgettoSSDRMI\bin\-", "read";
 }
 

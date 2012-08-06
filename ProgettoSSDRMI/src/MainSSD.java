@@ -1,4 +1,3 @@
-import java.math.BigDecimal;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -22,17 +21,25 @@ public class MainSSD {
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
 		
-		try {
-            String name = "Compute";
-            Registry registry = LocateRegistry.getRegistry(args[0]);
-            Compute comp = (Compute) registry.lookup(name);
-            Pi task = new Pi(Integer.parseInt(args[1]));
-            BigDecimal pi = comp.executeTask(task);
-            System.out.println(pi);
+
+
+		String host = (args.length < 1) ? null : args[0];
+		
+		System.out.println("Provo a connettermi a: "+host);
+        try {
+        	//host = "kastknocker.no-ip.biz";
+        	host = "192.168.1.190";
+            Registry registry = LocateRegistry.getRegistry(host);
+            Hello stub = (Hello) registry.lookup("Hello");
+            String response = stub.sayHello();
+            System.out.println("response: " + response);
         } catch (Exception e) {
-            System.err.println("ComputePi exception:");
+            System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
         }
+		
+		
+		
 		
 		
 		Status status = new Status();

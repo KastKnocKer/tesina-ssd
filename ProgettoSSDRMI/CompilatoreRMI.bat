@@ -7,7 +7,7 @@ javac -d ../bin *.java
 echo -- RMIC --
 cd ..
 cd bin
-rmic ComputeEngine
+rmic Server
 
 copy * D:\Dropbox\Public\SSD
 ECHO DONE

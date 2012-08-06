@@ -32,7 +32,7 @@ public class MainSSD {
 	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 	            
 	            System.out.println("Registry port "+registry.REGISTRY_PORT);
-	            registry.rebind("FABIO TROIA DI MERDA :D", stub);
+	            registry.rebind("Hello", stub);
 
 	            System.out.println("Server ready");
 	     } catch (Exception e) {

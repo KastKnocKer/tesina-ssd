@@ -25,8 +25,7 @@ public class MainSSD {
     		
     	}
 		
-		//whatismyip = new URL("http://automation.whatismyip.com/n09230945.asp");
-		
+		//	Acquisisco i miei indirizzi IP
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		
 		System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
@@ -35,11 +34,10 @@ public class MainSSD {
 			System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
 		}
 		
-		
-
-		
-		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
+		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
+		
 		
 		
 		Status status = new Status();
@@ -109,11 +107,4 @@ public class MainSSD {
 
 	}
 	
-
-	public BufferedReader read(String url) throws Exception{
-		return new BufferedReader(
-			new InputStreamReader(
-				new URL(url).openStream()));
-	}
-
 }

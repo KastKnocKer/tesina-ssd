@@ -25,6 +25,8 @@ public class MainSSD {
     		
     	}
 		
+		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
 		//	Acquisisco i miei indirizzi IP
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		
@@ -35,7 +37,7 @@ public class MainSSD {
 		}
 		
 		System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
-		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
 		
 		
 		
@@ -105,6 +107,16 @@ public class MainSSD {
 		
 		XML_Configurator xml = new XML_Configurator();
 
+	}
+	
+	
+	
+	private boolean StarterSIP(){
+		return true;
+	}
+	
+	private boolean StarterClient(){
+		return true;
 	}
 	
 }

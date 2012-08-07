@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
  *
  *	Configurazione - Contatti - Stato contatti
  */
+
 public class Status {
 	
 	private final static int TYPE_SIP = 	0;

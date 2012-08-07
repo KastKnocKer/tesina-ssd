@@ -10,6 +10,9 @@ import Chat.Contact;
 
 
 public class MainSSD {
+	private static int SIP_PORT = 1101;
+	private static int CLIENT_PORT = 1102;
+	
 
 	/**
 	 * @param args
@@ -112,6 +115,18 @@ public class MainSSD {
 	
 	
 	private boolean StarterSIP(){
+		try {
+            SIP sip = new SIP();
+            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, SIP_PORT);
+            // Registro il SIP nel RMIREGISTRY
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+            registry.rebind("SIP", stub);
+            System.out.println("SIP Server ready");
+		} catch (Exception e) {
+            System.out.println("SIP Server exception:\n" + e.toString());
+            e.printStackTrace();
+		}
 		return true;
 	}
 	

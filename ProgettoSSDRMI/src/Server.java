@@ -16,9 +16,10 @@ public class Server implements Hello {
     
 	public String sayHello(String nome) throws RemoteException {
     	System.out.println("Ho ricevuto una richiesta da: "+nome);
-        return "Hello "+nome+" da "+System.getProperty("user.name");
+        return "Hello "+nome+" da "+System.getProperty("user.name")+" (From Global:"+new WhatIsMyIP().getGlobalIP()+" Local: "+new WhatIsMyIP().getLocalIPs()[0][0]+")";
 	}
         
+	/*
     public static void main(String args[]) {
     	System.out.println("********* START SERVER *********");
     	
@@ -46,6 +47,7 @@ public class Server implements Hello {
             e.printStackTrace();
         }
     }
+    */
 
 	
 }

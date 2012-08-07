@@ -28,7 +28,11 @@ public class MainSSD {
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		
 		System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
-		System.out.println("My LOCAL IP: "+wimi.getLocalIPs());
+		String[][] localIPs = wimi.getLocalIPs();
+		for(int i=0; i<localIPs.length; i++){
+			System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
+		}
+		
 		
 
 		

@@ -8,6 +8,8 @@ echo -- RMIC --
 cd ..
 cd bin
 rmic Server
+rmic SIP
+rmic Client
 
 copy * D:\Dropbox\Public\SSD
 ECHO DONE

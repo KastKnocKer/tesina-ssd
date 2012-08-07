@@ -77,10 +77,10 @@ public class MainSSD {
 		
 		
         try {
-        	//host = "kastknocker.no-ip.biz";
+        	host = "kastknocker.no-ip.biz";
         	//host = "192.168.1.190";
         	//host = status.getSIPAddress();
-        	host = "95.238.41.105";
+        	//host = "95.238.41.105";
         	
         	System.out.println("Io, "+System.getProperty("user.name")+", Provo a connettermi a: "+host);
             Registry registry = LocateRegistry.getRegistry(host);

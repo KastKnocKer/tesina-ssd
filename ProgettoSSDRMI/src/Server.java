@@ -3,6 +3,8 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
+
+import Chat.Contact;
         
 public class Server implements Hello {
         
@@ -16,6 +18,11 @@ public class Server implements Hello {
     
 	public String sayHello(String nome) throws RemoteException {
     	System.out.println("Ho ricevuto una richiesta da: "+nome);
+        return "Hello "+nome+" da "+System.getProperty("user.name")+" (From Global:"+new WhatIsMyIP().getGlobalIP()+" Local: "+new WhatIsMyIP().getLocalIPs()[0][0]+")";
+	}
+
+	public String sayHello(String nome, Contact userRequestor)throws RemoteException {
+		System.out.println("Ho ricevuto una richiesta da: "+userRequestor.Nickname+" "+userRequestor.GlobalIP+" "+userRequestor.LocalIPs[0][0]);
         return "Hello "+nome+" da "+System.getProperty("user.name")+" (From Global:"+new WhatIsMyIP().getGlobalIP()+" Local: "+new WhatIsMyIP().getLocalIPs()[0][0]+")";
 	}
         

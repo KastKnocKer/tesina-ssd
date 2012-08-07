@@ -6,6 +6,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import Chat.Contact;
+
 
 public class MainSSD {
 
@@ -41,6 +43,7 @@ public class MainSSD {
 		
 		
 		Status status = new Status();
+		status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), wimi.getLocalIPs());
 		status.readConfXML();
 		status.writeConfXML();
 		
@@ -89,7 +92,7 @@ public class MainSSD {
         	System.out.println("Io, "+System.getProperty("user.name")+", Provo a connettermi a: "+host);
             Registry registry = LocateRegistry.getRegistry(host);
             Hello stub = (Hello) registry.lookup("Hello");
-            String response = stub.sayHello(System.getProperty("user.name").toString());
+            String response = stub.sayHello(System.getProperty("user.name").toString(),status.localUser);
             System.out.println("response: " + response);
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());

@@ -16,6 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import Chat.Contact;
+
 /**
  * 
  * @author Andrea Castelli
@@ -32,6 +34,7 @@ public class Status {
 	private static int Type = 1;
 	private static String SIP_Address = "kastknocker.no-ip.biz";
 	
+	public static Contact localUser;
 	
 	public Status(){}
 	

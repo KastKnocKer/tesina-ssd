@@ -39,7 +39,7 @@ public class MainSSD {
 		System.out.println("**** START - SERVER ****");
 		try {
 	            Server obj = new Server();
-	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 2000);
+	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 1100);
 
 	            // Bind the remote object's stub in the registry
 	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
@@ -64,7 +64,8 @@ public class MainSSD {
         try {
         	//host = "kastknocker.no-ip.biz";
         	//host = "192.168.1.190";
-        	host = status.getSIPAddress();
+        	//host = status.getSIPAddress();
+        	host = "95.238.41.105";
         	
         	System.out.println("Io, "+System.getProperty("user.name")+", Provo a connettermi a: "+host);
             Registry registry = LocateRegistry.getRegistry(host);

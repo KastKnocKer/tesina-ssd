@@ -1,11 +1,13 @@
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
         
 public class Server implements Hello {
         
     public Server() {}
+    public Server(int port) {}
 
     public String sayHello() {
     	System.out.println("Ho ricevuto una richiesta da: ");

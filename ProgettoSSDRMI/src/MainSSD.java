@@ -39,13 +39,14 @@ public class MainSSD {
 		System.out.println("**** START - SERVER ****");
 		try {
 	            Server obj = new Server();
-	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);
+	            Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 2000);
 
 	            // Bind the remote object's stub in the registry
 	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 	            
 	            System.out.println("Registry port "+registry.REGISTRY_PORT);
 	            registry.rebind("Hello", stub);
+	            
 
 	            System.out.println("Server ready");
 	     } catch (Exception e) {

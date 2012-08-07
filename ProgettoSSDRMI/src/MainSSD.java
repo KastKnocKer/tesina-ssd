@@ -1,3 +1,7 @@
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,7 +23,18 @@ public class MainSSD {
     		
     	}
 		
+		//whatismyip = new URL("http://automation.whatismyip.com/n09230945.asp");
+		
+		WhatIsMyIP wimi = new WhatIsMyIP();
+		
+		System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
+		System.out.println("My LOCAL IP: "+wimi.getLocalIPs());
+		
+
+		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
+		
 		
 		Status status = new Status();
 		status.readConfXML();
@@ -85,6 +100,13 @@ public class MainSSD {
 		
 		XML_Configurator xml = new XML_Configurator();
 
+	}
+	
+
+	public BufferedReader read(String url) throws Exception{
+		return new BufferedReader(
+			new InputStreamReader(
+				new URL(url).openStream()));
 	}
 
 }

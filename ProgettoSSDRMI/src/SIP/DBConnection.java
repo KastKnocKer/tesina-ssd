@@ -6,12 +6,17 @@ package SIP;
  * Gestisce l'apertura e la chiusura della connessione col Database
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
-import java.sql.*;
-import java.util.*;
-
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 
 import Chat.Contact;
+
+import com.mysql.jdbc.PreparedStatement;
 
 public class DBConnection implements DBEngine{
 	
@@ -235,6 +240,44 @@ public boolean modifyContact(Contact contact) {
 	}
 	
 	return completed;
+}
+
+@Override
+public String requestFriendship(String fromEmail, String toEmail) {
+	String message = "";
+	ResultSet results;
+	System.out.println("aggiunta amicizia: "+fromEmail+" -> "+toEmail);
+	
+	if(!connesso){
+		connetti();
+	}
+	boolean completed = false;
+	try {
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?");
+		prepSt.setString(1, fromEmail);
+		prepSt.setString(2, toEmail);
+		results = prepSt.executeQuery();
+		
+		ResultSetMetaData rsmd = results.getMetaData();
+        int colonne = rsmd.getColumnCount();
+
+        while(results.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+//           record = new String[colonne];
+//           for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
+//           v.add( (String[]) record.clone() );
+        	for (int i=0; i<colonne; i++) System.out.println( results.getString(i+1) );
+        }
+        results.close();     // Chiudo il ResultSet
+        prepSt.close();   // Chiudo lo Statement
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	
+	
+	
+	return message;
 }
    
    

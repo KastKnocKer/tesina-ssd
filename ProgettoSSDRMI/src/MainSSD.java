@@ -7,6 +7,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import Chat.Contact;
+import RMI.SIP;
+import RMI.SIPInterface;
 
 
 public class MainSSD {

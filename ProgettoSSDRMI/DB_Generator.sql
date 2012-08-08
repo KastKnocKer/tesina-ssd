@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS USER(
 	nickname varchar(50) not null,
 	password varchar(50) not null,
 	
-	primary key (idUser),
-	unique (email)
+	primary key (idUser)/*,
+	unique (email)*/
 );
 
 CREATE TABLE IF NOT EXISTS USERSTATUS(

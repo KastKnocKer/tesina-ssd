@@ -9,6 +9,7 @@ public class Contact implements Serializable{
 	public String Nome = NONE;
 	public String Cognome = NONE;
 	public String eMail = NONE;
+	public String Password = NONE;
 
 	public String GlobalIP = NONE;
 	public String[][] LocalIPs = null;

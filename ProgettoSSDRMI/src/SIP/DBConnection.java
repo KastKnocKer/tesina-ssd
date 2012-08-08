@@ -9,12 +9,16 @@ package SIP;
 import java.sql.*;
 import java.util.*;
 
-public class DBConnection {
+import com.mysql.jdbc.PreparedStatement;
+
+import Chat.Contact;
+
+public class DBConnection implements DBEngine{
 	
 	private String Host			= "localhost";
 	private String nomeDB 		= "sip_db";     		// Nome del Database a cui connettersi
-	private String nomeUtente	= "programma";   			// Nome utente utilizzato per la connessione al Database
-	private String pwdUtente	= "programma";    			// Password usata per la connessione al Database
+	private String nomeUtente	= "prog";   			// Nome utente utilizzato per la connessione al Database
+	private String pwdUtente	= "prog";    			// Password usata per la connessione al Database
 	private String nomeDriver	= "com.mysql.jdbc.Driver";	//Contiene il nome del driver JDBC
 	private String errore		= "";       				// Raccoglie informazioni riguardo l'ultima eccezione sollevata
 	
@@ -23,18 +27,27 @@ public class DBConnection {
 	private Connection db;       // La connessione col Database
 	private boolean connesso;    // Flag che indica se la connessione è attiva o meno
 
-	public DBConnection() {}
+	public DBConnection(){}
 	
 	/**
 	 * Apre la connessione con il Database
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
 	 */
 	public boolean connetti() {
 		connesso = false;
-	      try {
-	    	  Class.forName(nomeDriver);
-	    	  db = DriverManager.getConnection("jdbc:mysql://"+Host+"/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
-	    	  connesso = true;		// La connessione è avvenuta con successo
-	      } catch (Exception e) { errore = e.getMessage(); }
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			db = DriverManager.getConnection("jdbc:mysql://"+Host+"/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
+			connesso = true;
+		} catch (SQLException ex) {
+				// handle any errors
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+		} catch (InstantiationException ex){} catch (ClassNotFoundException ex){} catch (IllegalAccessException ex){}
+		
 		return connesso;
 	}
    
@@ -181,6 +194,54 @@ public class DBConnection {
 	   	disconnetti();
 	    return tmp; 
    }
+
+public boolean insertContact(Contact contact) {
+	if(!connesso){
+		connetti();
+	}
+	boolean completed = false;
+	try {
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
+		prepSt.setString(1, contact.Nome);
+		prepSt.setString(2, contact.Cognome);
+		prepSt.setString(3, contact.eMail);
+		prepSt.setString(4, contact.Nickname);
+		prepSt.setString(5, contact.Password);
+		completed = prepSt.execute();
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	return completed;
+}
+
+public boolean modifyContact(Contact contact) {
+	if(!connesso){
+		connetti();
+	}
+	boolean completed = false;
+	try {
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
+		prepSt.setString(1, contact.Nome);
+		prepSt.setString(2, contact.Cognome);
+		prepSt.setString(3, contact.eMail);
+		prepSt.setString(4, contact.Nickname);
+		prepSt.setString(5, contact.Password);
+		completed = prepSt.execute();
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	return completed;
+}
+   
+   
+   
+   
+   
+   
 
 	   
 	   

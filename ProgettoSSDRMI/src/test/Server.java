@@ -1,4 +1,8 @@
+package test;
+
 import java.rmi.RemoteException;
+
+import utility.WhatIsMyIP;
 
 import Chat.Contact;
         

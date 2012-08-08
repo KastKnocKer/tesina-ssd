@@ -1,3 +1,4 @@
+package utility;
 /*
  *  SyncIT , easy synchronization of files between computers and devices.
  *  Copyright (C) 2011  Christian Masus <cmasus(at)gmail.com>

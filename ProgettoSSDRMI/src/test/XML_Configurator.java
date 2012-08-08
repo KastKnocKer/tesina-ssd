@@ -1,3 +1,4 @@
+package test;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -16,40 +17,23 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import Chat.Contact;
+public class XML_Configurator {
 
-/**
- * 
- * @author Andrea Castelli
- * Classe statica utilizzata per gestire lo stato dell'applicazione
- *
- *	Configurazione - Contatti - Stato contatti
- */
+	public XML_Configurator() {
+		super();
 
-public class Status {
-	
-	private final static int TYPE_SIP = 	0;
-	private final static int TYPE_CLIENT = 	1;
-	
-	private static int Type = 1;
-	private static String SIP_Address = "kastknocker.no-ip.biz";
-	
-	public static Contact localUser;
-	
-	public Status(){}
-	
-	public boolean readConfXML(){
 		try {
+
 			File fXmlFile = new File("CONF.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
 
-//			System.out.println("Root element :"
-//					+ doc.getDocumentElement().getNodeName());
-			NodeList nList = doc.getElementsByTagName("Configuration");
-//			System.out.println("-----------------------");
+			System.out.println("Root element :"
+					+ doc.getDocumentElement().getNodeName());
+			NodeList nList = doc.getElementsByTagName("staff");
+			System.out.println("-----------------------");
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -58,24 +42,36 @@ public class Status {
 
 					Element eElement = (Element) nNode;
 
-					System.out.println("*** Lettura CONF.XML ***");
-					System.out.println("Type: " + getTagValue("Type", eElement));
-					System.out.println("SIP_ADDRESS: " + getTagValue("SIPA_ddress", eElement));
+					System.out.println("First Name : "
+							+ getTagValue("firstname", eElement));
+					System.out.println("Last Name : "
+							+ getTagValue("lastname", eElement));
+					System.out.println("Nick Name : "
+							+ getTagValue("nickname", eElement));
+					System.out.println("Salary : "
+							+ getTagValue("salary", eElement));
 
 				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("FILE NOT FOUND SAD");
-			writeConfXML();
+			createEmptyConfigurationFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("WAAAAAAAA");
 		}
-		return true;
+
 	}
-	
-	public boolean writeConfXML(){
+
+	private static String getTagValue(String sTag, Element eElement) {
+		NodeList nlList = eElement.getElementsByTagName(sTag).item(0)
+				.getChildNodes();
+		Node nValue = nlList.item(0);
+		return nValue.getNodeValue();
+	}
+
+	private void createEmptyConfigurationFile() {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -83,20 +79,8 @@ public class Status {
 
 			// root elements
 			Document doc = docBuilder.newDocument();
-			Element rootElement = doc.createElement("Configuration");
+			Element rootElement = doc.createElement("company");
 			doc.appendChild(rootElement);
-			
-			Element elemento;
-			//TYPE
-			elemento = doc.createElement("Type");
-				elemento.setTextContent(Integer.toString(Type));
-					rootElement.appendChild(elemento);
-			//SIP ADDRESS
-			elemento = doc.createElement("SIPA_ddress");
-				elemento.setTextContent(SIP_Address);
-					rootElement.appendChild(elemento);
-			
-/*			
 
 			// staff elements
 			Element staff = doc.createElement("Staff");
@@ -129,17 +113,17 @@ public class Status {
 			Element salary = doc.createElement("salary");
 			salary.appendChild(doc.createTextNode("100000"));
 			staff.appendChild(salary);
-*/
-			System.out.println("*** Scrittura CONF.XML ***");
+
 			// write the content into xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("CONF.xml"));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
-			
+
 			transformer.transform(source, result);
 
 			System.out.println("File saved!");
@@ -149,16 +133,6 @@ public class Status {
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-		return true;
 	}
 
-	
-	public static String getSIPAddress(){	return SIP_Address;	}
-	
-	//FUNZIONI DI UTILITY
-	private String getTagValue(String sTag, Element eElement) {
-		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
-		Node nValue = nlList.item(0);
-		return nValue.getNodeValue();
-	}
 }

@@ -16,6 +16,8 @@ public class MAINPERPROVA {
 		
 		dbconn.insertContact(new Contact("Nickname", "Nome", "Cognome", "eMail", "GlobalIP", null));
 		
+		dbconn.requestFriendship("mailz", "eMail");
+		
 		
 	}
 

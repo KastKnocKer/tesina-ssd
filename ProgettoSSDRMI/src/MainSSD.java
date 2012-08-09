@@ -2,11 +2,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import layout.LoginFrame;
-import Chat.Contact;
+import layout.HomeFrame;
+import layout.LoginPanel;
 import RMI.SIP;
 import RMI.SIPInterface;
 
@@ -21,6 +22,7 @@ public class MainSSD {
 	 */
 	public static void main(String[] args) {
 		
+		// imposto visualizzazione con look and feel del sistema operativo in uso 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
@@ -30,8 +32,21 @@ public class MainSSD {
 		// places the application on the Swing Event Queue 
 		SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
-	                LoginFrame loginFrame = new LoginFrame();
-	                loginFrame.setVisible(true);
+	            	
+	            	HomeFrame hf = new HomeFrame(); 
+	            	hf.setVisible(true);
+	            	
+	            	// mostro il login screen
+//	            	JFrame mainFrame = new JFrame(); 
+//	                LoginPanel loginFrame = new LoginPanel();
+//	                mainFrame.add(loginFrame); 
+//	                mainFrame.setVisible(true); 
+//	                
+//	                mainFrame.setTitle("Always On - RMI Chat");
+//	                mainFrame.setSize(280,250);
+//	                mainFrame.setLocationRelativeTo(null);
+//	                // mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//	                // loginFrame.setVisible(true);
 	            }
 		});
 		

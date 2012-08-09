@@ -14,11 +14,12 @@ public class Contact implements Serializable{
 	public String GlobalIP = NONE;
 	public String[][] LocalIPs = null;
 	
-	public Contact(String Nickname, String Nome, String Cognome, String eMail, String GlobalIP, String[][] LocalIPs){
+	public Contact(String Nickname, String Nome, String Cognome, String eMail, String Password, String GlobalIP, String[][] LocalIPs){
 		this.Nickname = Nickname;
 		this.Nome = Nome;
 		this.Cognome = Cognome;
 		this.eMail = eMail;
+		this.Password = Password;
 		
 		this.GlobalIP = GlobalIP;
 		this.LocalIPs = LocalIPs;

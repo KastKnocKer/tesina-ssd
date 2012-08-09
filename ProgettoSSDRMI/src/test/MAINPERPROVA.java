@@ -15,9 +15,11 @@ public class MAINPERPROVA {
 		
 		dbconn.eseguiQuery("SELECT * FROM user");
 		
-		dbconn.insertContact(new Contact("Nickname", "Nome", "Cognome", "eMail", "GlobalIP", null));
+		dbconn.insertContact(new Contact("Nickname", "Nome", "Cognome", "eMail","password", "GlobalIP", null));
 		
 		dbconn.requestFriendship("mailz", "eMail");
+		
+		dbconn.login("email", "password");
 		
 		
 	}

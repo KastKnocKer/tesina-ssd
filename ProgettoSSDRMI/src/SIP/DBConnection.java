@@ -279,6 +279,34 @@ public String requestFriendship(String fromEmail, String toEmail) {
 	
 	return message;
 }
+
+@Override
+public boolean login(String username, String password) {
+	if(!connesso){
+		connetti();
+	}
+	ResultSet result;
+	
+	try {
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
+		prepSt.setString(1, username);
+		prepSt.setString(2, password);
+		result = prepSt.executeQuery();
+		result.next();
+        if(result.getInt("COUNT") == 0){
+        	System.out.println("Login["+username+"] rifiutato.");
+        	return false;
+        }else{
+        	System.out.println("Login["+username+"] effettuato.");
+        	return true;
+        }
+        		
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return false;
+}
    
    
    

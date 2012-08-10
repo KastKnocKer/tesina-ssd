@@ -7,7 +7,7 @@ javac -d ../bin *.java
 echo -- RMIC --
 cd ..
 cd bin
-rmic Server
+rmic test.Server
 rmic RMI.SIP
 rmic RMI.Client
 

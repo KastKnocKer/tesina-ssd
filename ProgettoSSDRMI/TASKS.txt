@@ -1,6 +1,5 @@
 //TODO
 LOGIN P2P
-REGISTRAZIONE con SIP
 REGISTRAZIONE P2P
 CRUD - Utenti lato SIP
 CRUD - Amicizie lato SIP
@@ -15,3 +14,4 @@ GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti
 GUI - Login
 GUI - Registrazione
 LOGIN con SIP
+REGISTRAZIONE con SIP

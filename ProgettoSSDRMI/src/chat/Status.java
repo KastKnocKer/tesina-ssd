@@ -103,8 +103,16 @@ public class Status {
 				elemento.setTextContent(Integer.toString(Type));
 					rootElement.appendChild(elemento);
 			//SIP ADDRESS
-			elemento = doc.createElement("SIPA_ddress");
+			elemento = doc.createElement("SIP_Address");
 				elemento.setTextContent(SIP_Address);
+					rootElement.appendChild(elemento);
+			//SIP PORT
+			elemento = doc.createElement("SIP_Port");
+				elemento.setTextContent(Integer.toString(SIP_Port));
+					rootElement.appendChild(elemento);
+			//CLIENT PORT
+			elemento = doc.createElement("Client_Port");
+				elemento.setTextContent(Integer.toString(Client_Port));
 					rootElement.appendChild(elemento);
 			//PrivateKey
 			elemento = doc.createElement("PrivateKey");
@@ -172,8 +180,12 @@ public class Status {
 	}
 
 	
-	public static String getSIPAddress()	{	return SIP_Address;	}
-	public static int getType() 			{	return Type; }
+	public static String getSIPAddress()	{				return SIP_Address;	}
+	public static int getType() 			{				return Type; }
+	public static int getSIP_Port() {						return SIP_Port; }
+	public static void setSIP_Port(int sIP_PORT) {			SIP_Port = sIP_PORT;	}
+	public static int getClient_Port() {					return Client_Port;	}
+	public static void setClient_Port(int cLIENT_PORT) {	Client_Port = cLIENT_PORT;	}
 	
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {
@@ -182,19 +194,5 @@ public class Status {
 		return nValue.getNodeValue();
 	}
 
-	public static int getSIP_Port() {
-		return SIP_Port;
-	}
-
-	public static void setSIP_Port(int sIP_PORT) {
-		SIP_Port = sIP_PORT;
-	}
-
-	public static int getClient_Port() {
-		return Client_Port;
-	}
-
-	public static void setClient_Port(int cLIENT_PORT) {
-		Client_Port = cLIENT_PORT;
-	}
+	
 }

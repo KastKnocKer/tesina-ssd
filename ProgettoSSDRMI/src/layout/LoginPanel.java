@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import client.ClientEngine;
+
 public class LoginPanel extends JPanel {
 
 	private JPanel mainPanel;
@@ -82,7 +84,15 @@ public class LoginPanel extends JPanel {
 	       subPanel_02 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
 	       centerPanel_boxLayout.add(subPanel_02);
 	       
-	       loginButton = new JButton("Login"); 
+	       loginButton = new JButton("Login");
+	       loginButton.addActionListener(new ActionListener() {
+	    	   public void actionPerformed(ActionEvent arg0) {
+	    		   //ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()));
+	    		   System.out.println(textField_username.getText()+" "+new String(textField_password.getPassword()));
+	    	   }
+	       });
+	       
+	       
 	       quitButton = new JButton("Exit");
 	       
 	       quitButton.addActionListener(new ActionListener() {

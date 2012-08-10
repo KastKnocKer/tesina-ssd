@@ -38,10 +38,12 @@ public class Status {
 	//DATI DA CARICARE DA CONF.XML
 	////////////////////////////////////////////////
 	private static int Type = 0;
-	
-
+	private static String PrivateKey = "";
+	private static String PublicKey = "";
 	//private static String SIP_Address = "kastknocker.no-ip.biz";
 	private static String SIP_Address = "192.168.1.113";
+
+	
 	
 	public Status(){}
 	
@@ -101,6 +103,14 @@ public class Status {
 			//SIP ADDRESS
 			elemento = doc.createElement("SIPA_ddress");
 				elemento.setTextContent(SIP_Address);
+					rootElement.appendChild(elemento);
+			//PrivateKey
+			elemento = doc.createElement("PrivateKey");
+				elemento.setTextContent(PrivateKey);
+					rootElement.appendChild(elemento);
+			//PublicKey
+			elemento = doc.createElement("PublicKey");
+				elemento.setTextContent(PublicKey);
 					rootElement.appendChild(elemento);
 			
 /*			

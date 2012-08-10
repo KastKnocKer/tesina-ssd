@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import layout.HomeFrame;
+import layout.LayoutReferences;
 import layout.LoginPanel;
 import RMI.Client;
 import RMI.ClientInterface;
@@ -187,6 +188,7 @@ public class MainSSD {
 			            	
 			            	HomeFrame hf = new HomeFrame(); 
 			            	hf.setVisible(true);
+			            	LayoutReferences.setHomeFrame(hf);
 			            	
 			            	// mostro il login screen
 //			            	JFrame mainFrame = new JFrame(); 

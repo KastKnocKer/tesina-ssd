@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import client.ClientEngine;
 
 public class LoginPanel extends JPanel {
 
@@ -86,9 +85,17 @@ public class LoginPanel extends JPanel {
 	       
 	       loginButton = new JButton("Login");
 	       loginButton.addActionListener(new ActionListener() {
-	    	   public void actionPerformed(ActionEvent arg0) {
+	    	   public void actionPerformed(ActionEvent event) {
+	    		   
+	    		   /* Chiudo l'home frame contenente i pannelli di 
+	    		    * login e registrazione */
+	    		   LayoutReferences.getHomeFrame().dispose();
+	    		   
+	    		   // ((JFrame) event.getSource()).getParent().getParent().processWindowEvent( new WindowEvent( this, WindowEvent.WINDOW_CLOSING) );	    		
+	    		   
 	    		   //ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()));
-	    		   System.out.println(textField_username.getText()+" "+new String(textField_password.getPassword()));
+//	    		   System.out.println(textField_username.getText()+" "+new String(textField_password.getPassword()));
+	    		   
 	    	   }
 	       });
 	       

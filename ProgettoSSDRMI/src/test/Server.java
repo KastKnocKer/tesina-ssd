@@ -2,9 +2,10 @@ package test;
 
 import java.rmi.RemoteException;
 
+import chat.Contact;
+
 import utility.WhatIsMyIP;
 
-import Chat.Contact;
         
 public class Server implements Hello {
         

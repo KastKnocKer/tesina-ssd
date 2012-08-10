@@ -1,5 +1,5 @@
 package test;
-import Chat.Contact;
+import chat.Contact;
 import SIP.DBConnection;
 
 

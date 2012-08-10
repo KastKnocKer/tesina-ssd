@@ -4,8 +4,9 @@ package RMI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Chat.Contact;
-import Chat.Message;
+import chat.Contact;
+import chat.Message;
+
 
 public interface ClientInterface extends Remote{
 	

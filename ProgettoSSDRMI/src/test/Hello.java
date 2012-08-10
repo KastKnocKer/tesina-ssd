@@ -2,7 +2,8 @@ package test;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Chat.Contact;
+import chat.Contact;
+
 
 public interface Hello extends Remote {
 	String sayHello() throws RemoteException;

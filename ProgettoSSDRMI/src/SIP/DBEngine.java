@@ -1,6 +1,6 @@
 package SIP;
 
-import Chat.Contact;
+import chat.Contact;
 
 public interface DBEngine {
 	

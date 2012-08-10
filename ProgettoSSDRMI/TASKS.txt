@@ -1,0 +1,17 @@
+//TODO
+LOGIN P2P
+REGISTRAZIONE con SIP
+REGISTRAZIONE P2P
+CRUD - Utenti lato SIP
+CRUD - Amicizie lato SIP
+CRUD - Stato di connessione lato SIP
+GUI - Finestra di conversazione
+GUI - Finestra elenco contatti
+GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti
+
+
+
+//DONE
+GUI - Login
+GUI - Registrazione
+LOGIN con SIP

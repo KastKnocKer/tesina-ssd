@@ -46,6 +46,7 @@ public class MainSSD {
 			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());
 		status.readConfXML();
 		status.writeConfXML();
+		status.writeContactsXML();
 		
 		
 		if( Status.getType() == Status.TYPE_SIP ) StarterSIP();

@@ -1,6 +1,7 @@
 package chat;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +12,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,6 +32,8 @@ public class Status {
 	public final static int TYPE_CLIENT = 	1;
 		
 	public static Contact localUser;
+	
+	private static Vector<Contact> contactList = new Vector<Contact>();
 	
 	
 	/////////////////////////////////////////////////
@@ -77,11 +79,11 @@ public class Status {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("FILE NOT FOUND SAD");
+			System.out.println("readConfXML() exception FILE NOT FOUND");
 			writeConfXML();
 		} catch (Exception e) {
+			System.out.println("readConfXML() exception");
 			e.printStackTrace();
-			System.out.println("WAAAAAAAA");
 		}
 		return true;
 	}
@@ -178,7 +180,156 @@ public class Status {
 		}
 		return true;
 	}
+	
 
+	public boolean writeContactsXML(){
+		contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
+		contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
+		contactList.add(new Contact("Nickname3", "Nome3", "Cognome3", "eMail3", "Password3", null, null));
+		
+		
+		
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+			// root elements
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("Contacts");
+			doc.appendChild(rootElement);
+			
+			//Per ogni contatto
+			for(int i=0; i<contactList.size(); i++){
+				Contact contact = contactList.get(i);
+				Element contactElem = doc.createElement("Contact");
+					Element id = doc.createElement("ID");
+					Element nome = doc.createElement("Nome");
+					Element cognome = doc.createElement("Cognome");
+					Element email = doc.createElement("Email");
+					Element nickname = doc.createElement("Nickname");
+					Element stato = doc.createElement("Stato");
+					id.setTextContent(Integer.toString(contact.ID));
+					nome.setTextContent(contact.Nome);
+					cognome.setTextContent(contact.Cognome);
+					email.setTextContent(contact.eMail);
+					nickname.setTextContent(contact.Nickname);
+					stato.setTextContent("stato");	/////
+				
+					contactElem.appendChild(id);
+					contactElem.appendChild(nome);
+					contactElem.appendChild(cognome);
+					contactElem.appendChild(email);
+					contactElem.appendChild(nickname);
+					contactElem.appendChild(stato);
+					
+				
+				rootElement.appendChild(contactElem);
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			Element el1 = doc.createElement("kiss1");
+			Element el2 = doc.createElement("kiss2");
+			Element el3 = doc.createElement("kiss3");
+			Element el4 = doc.createElement("kiss4");
+			Element el5 = doc.createElement("kiss5");
+			rootElement.appendChild(el1);
+			el1.appendChild(el2);
+			el2.appendChild(el3);
+			el3.appendChild(el4);
+			el4.appendChild(el5);
+			
+			
+			
+			
+			Element elemento;
+			//TYPE
+			elemento = doc.createElement("Type");
+				elemento.setTextContent(Integer.toString(Type));
+					rootElement.appendChild(elemento);
+			//SIP ADDRESS
+			Node newNode = doc.createTextNode("asd");
+				elemento.setTextContent(SIP_Address);
+					rootElement.appendChild(elemento);
+			//SIP PORT
+			elemento = doc.createElement("SIP_Port");
+				elemento.setTextContent(Integer.toString(SIP_Port));
+					rootElement.appendChild(elemento);
+			//CLIENT PORT
+			elemento = doc.createElement("Client_Port");
+				elemento.setTextContent(Integer.toString(Client_Port));
+					rootElement.appendChild(elemento);
+			//PrivateKey
+			elemento = doc.createElement("PrivateKey");
+				elemento.setTextContent(PrivateKey);
+					rootElement.appendChild(elemento);
+			//PublicKey
+			elemento = doc.createElement("PublicKey");
+				elemento.setTextContent(PublicKey);
+					rootElement.appendChild(elemento);
+			
+/*			
+
+			// staff elements
+			Element staff = doc.createElement("Staff");
+			rootElement.appendChild(staff);
+
+			// set attribute to staff element
+			Attr attr = doc.createAttribute("id");
+			attr.setValue("1");
+			staff.setAttributeNode(attr);
+
+			// shorten way
+			// staff.setAttribute("id", "1");
+
+			// firstname elements
+			Element firstname = doc.createElement("firstname");
+			firstname.appendChild(doc.createTextNode("yong"));
+			staff.appendChild(firstname);
+
+			// lastname elements
+			Element lastname = doc.createElement("lastname");
+			lastname.appendChild(doc.createTextNode("mook kim"));
+			staff.appendChild(lastname);
+
+			// nickname elements
+			Element nickname = doc.createElement("nickname");
+			nickname.appendChild(doc.createTextNode("mkyong"));
+			staff.appendChild(nickname);
+
+			// salary elements
+			Element salary = doc.createElement("salary");
+			salary.appendChild(doc.createTextNode("100000"));
+			staff.appendChild(salary);
+*/
+			System.out.println("*** Scrittura CONTACTS.XML ***");
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("CONTACTS.xml"));
+
+			// Output to console for testing
+			// StreamResult result = new StreamResult(System.out);
+			
+			transformer.transform(source, result);
+
+			System.out.println("File saved!");
+
+		} catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		} catch (TransformerException tfe) {
+			tfe.printStackTrace();
+		}
+		return true;
+	}
 	
 	public static String getSIPAddress()	{				return SIP_Address;	}
 	public static int getType() 			{				return Type; }

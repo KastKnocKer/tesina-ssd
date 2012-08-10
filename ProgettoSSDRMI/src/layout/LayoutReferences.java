@@ -16,18 +16,22 @@ public class LayoutReferences {
 	
 	public static void setHomeFrame(HomeFrame hf) {
 		homeFrame = hf; 
+		System.out.println("Frame settato");
 	}
 	
 	public static HomeFrame getHomeFrame() {
+		System.out.println("Frame recuperato");
 		return homeFrame; 
+	}
+
+	public static void setHomeFrame_CardPanel(JPanel hcp) {
+		homeFrame_cardPanel = hcp;
 	}
 
 	public static JPanel getHomeFrame_CardPanel() {
 		return homeFrame_cardPanel;
 	}
 
-	public static void setHomeFrame_CardPanel(JPanel hcp) {
-		homeFrame_cardPanel = hcp;
-	}
+
 
 }

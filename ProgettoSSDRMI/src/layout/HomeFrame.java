@@ -15,7 +15,10 @@ public class HomeFrame extends JFrame {
 	
 	public HomeFrame() {
 		
-		   setTitle("Always On - RMI Chat");
+		/* Imposto un riferimento globale statico a questo frame */   
+		LayoutReferences.setHomeFrame(this);
+		
+		setTitle("Always On - RMI Chat");
 	       setSize(375,450);
 	       setLocationRelativeTo(null);
 	       setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,13 +29,13 @@ public class HomeFrame extends JFrame {
 	       
 	       LoginPanel lp = new LoginPanel(); 
 	       RegistrationPanel rp = new RegistrationPanel(); 
-	       FriendsListPanel flp = new FriendsListPanel(); 
+	       
 	       
 	       LayoutReferences.setHomeFrame_CardPanel(cardsPanel); 
 
 	       cardsPanel.add(lp, "Login"); 
 	       cardsPanel.add(rp, "Register");
-	       cardsPanel.add(flp, "FriendsList");
+	       
 	       
 	       /* Mostro una delle due cards */
 	       CardLayout cl = (CardLayout)(cardsPanel.getLayout());
@@ -41,26 +44,81 @@ public class HomeFrame extends JFrame {
 	       this.add(cardsPanel); 
 	       
 	       /* Aggiungo la Menu Bar */
-	        JMenuBar menubar = new JMenuBar();
+	       show_HomeFrame_LoginMenuBar();
+	}
+	
+	/* Aggiunge la menu bar all'Home Frame */
+	public void show_HomeFrame_LoginMenuBar() {
+		
+		setJMenuBar(null);
+		
+		JMenuBar menubar = new JMenuBar();
 
-	        JMenu file = new JMenu("File");
-	        file.setMnemonic(KeyEvent.VK_F);
+        JMenu file = new JMenu("File");
+        file.setMnemonic(KeyEvent.VK_F);
 
-	        JMenuItem eMenuItem = new JMenuItem("Exit", null);
-	        eMenuItem.setMnemonic(KeyEvent.VK_C);
-	        eMenuItem.setToolTipText("Exit application");
-	        
-	        eMenuItem.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent event) {
-	                System.exit(0);
-	            }
+        JMenuItem eMenuItem = new JMenuItem("Exit", null);
+        eMenuItem.setMnemonic(KeyEvent.VK_C);
+        eMenuItem.setToolTipText("Exit application");
+        
+        eMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
 
-	        });
+        });
 
-	        file.add(eMenuItem);
+        file.add(eMenuItem);
 
-	        menubar.add(file);
+        menubar.add(file);
 
-	        setJMenuBar(menubar);
+        setJMenuBar(menubar);
+		
+	}
+	
+	/* Aggiunge la menu bar con tutte le opzioni che si hanno
+	 * una volta effettuato il login nel sistema */
+	public void show_HomeFrame_LoggedMenuBar() {
+		
+		setJMenuBar(null);
+		
+		JMenuBar menubar = new JMenuBar();
+
+		/* File */
+        JMenu file = new JMenu("File");
+        file.setMnemonic(KeyEvent.VK_F);
+
+        JMenuItem eMenuItem = new JMenuItem("Exit", null);
+        eMenuItem.setMnemonic(KeyEvent.VK_C);
+        eMenuItem.setToolTipText("Exit application");
+        
+        eMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+
+        file.add(eMenuItem);
+        
+        menubar.add(file);
+
+        /* Contacts */ 
+        JMenu contacts = new JMenu("Contacts");
+
+        JMenuItem contacts_add = new JMenuItem("Add Contact...", null);
+        
+        contacts_add.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.out.println("Premuto 'Add Contact..'");
+            	//System.exit(0);
+            }
+        });
+
+        contacts.add(contacts_add);
+        
+        menubar.add(contacts);
+        
+        setJMenuBar(menubar);
+		
 	}
 }

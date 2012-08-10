@@ -77,8 +77,8 @@ public class LoginPanel extends JPanel {
 	       // label_loginPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 	       
 	       /* Username & Password TextFields */
-	       textField_username = new JTextField("email@yourdomain.com");
-	       textField_password = new JPasswordField("password"); 
+	       textField_username = new JTextField("biofrost88@gmail.com");
+	       textField_password = new JPasswordField("bio"); 
 
 	       centerPanel_boxLayout.add(textField_username);
 	       centerPanel_boxLayout.add(textField_password);
@@ -95,9 +95,15 @@ public class LoginPanel extends JPanel {
 	    			   if( ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()))  ){
 	    				   System.out.println("Login effettuato");
 	    				   
-	    				   /* Apro il pannello contenente la lista amici */
+	    				   /* Creo ed apro il pannello contenente la lista amici */
 	    	    		   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
+	    	    		   
+	    	    		   FriendsListPanel flp = new FriendsListPanel(); 
+	    	    	       cardsPanel.add(flp, "FriendsList");
+	    	    	       
 	    	    		   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "FriendsList"); 
+	    	    		   
+	    	    		   
 	    			   }else{
 	    				   System.out.println("Login rifiutato");
 	    			   }

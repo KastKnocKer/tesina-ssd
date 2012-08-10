@@ -191,7 +191,7 @@ public class MainSSD {
 			            	
 			            	HomeFrame hf = new HomeFrame(); 
 			            	hf.setVisible(true);
-			            	LayoutReferences.setHomeFrame(hf);
+			            	
 			            	
 			            	// mostro il login screen
 //			            	JFrame mainFrame = new JFrame(); 

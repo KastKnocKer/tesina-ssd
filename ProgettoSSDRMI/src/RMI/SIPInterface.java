@@ -27,7 +27,7 @@ public interface SIPInterface extends Remote{
 	/**
 	 * Login del client presso il SIP
 	 */
-	boolean login() throws RemoteException;
+	boolean login(String username, String password) throws RemoteException;
 	
 	
 }

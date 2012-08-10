@@ -22,6 +22,8 @@ public class MainSSD {
 	 */
 	public static void main(String[] args) {
 		
+		StarterSIP();
+		
 		// imposto visualizzazione con look and feel del sistema operativo in uso 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -148,7 +150,7 @@ public class MainSSD {
 	
 	
 	
-	private boolean StarterSIP(){
+	private static boolean StarterSIP(){
 		try {
             SIP sip = new SIP();
             SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, SIP_PORT);

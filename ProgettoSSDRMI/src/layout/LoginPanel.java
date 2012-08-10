@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import client.ClientEngine;
+
+import SIP.DBConnection;
+
 public class LoginPanel extends JPanel {
 
 	private JPanel mainPanel;
@@ -89,12 +93,18 @@ public class LoginPanel extends JPanel {
 	    		   
 	    		   /* Chiudo l'home frame contenente i pannelli di 
 	    		    * login e registrazione */
-	    		   LayoutReferences.getHomeFrame().dispose();
+	    		   //LayoutReferences.getHomeFrame().dispose();
 	    		   
 	    		   // ((JFrame) event.getSource()).getParent().getParent().processWindowEvent( new WindowEvent( this, WindowEvent.WINDOW_CLOSING) );	    		
 	    		   
-	    		   //ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()));
-//	    		   System.out.println(textField_username.getText()+" "+new String(textField_password.getPassword()));
+	    			   if( ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()))  ){
+	    				   System.out.println("Login effettuato");
+	    			   }else{
+	    				   System.out.println("Login rifiutato");
+	    			   }
+	    			   		
+	    		   
+	    		   System.out.println("GUI - Login: "+textField_username.getText()+" "+new String(textField_password.getPassword()));
 	    		   
 	    	   }
 	       });

@@ -32,7 +32,8 @@ public class Status {
 	private final static int TYPE_CLIENT = 	1;
 	
 	private static int Type = 1;
-	private static String SIP_Address = "kastknocker.no-ip.biz";
+	//private static String SIP_Address = "kastknocker.no-ip.biz";
+	private static String SIP_Address = "192.168.1.113";
 	
 	public static Contact localUser;
 	

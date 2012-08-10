@@ -10,8 +10,11 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import client.ClientEngine;
 
 public class RegistrationPanel extends JPanel {
 	
@@ -32,12 +35,12 @@ public class RegistrationPanel extends JPanel {
 		   JLabel label_password= new JLabel("Password:");
 		   JLabel label_passwordConfirm= new JLabel("Conferma Password:");
 		   
-		   JTextField textField_firstName = new JTextField(20);
-		   JTextField textField_lastName = new JTextField(20);
-		   JTextField textField_email = new JTextField(20);
-		   JTextField textField_nickname = new JTextField(20);
-		   JTextField textField_password = new JTextField(20);
-		   JTextField textField_passwordConfirm = new JTextField(20);
+		   final JTextField textField_firstName = new JTextField(20);
+		   final JTextField textField_lastName = new JTextField(20);
+		   final JTextField textField_email = new JTextField(20);
+		   final JTextField textField_nickname = new JTextField(20);
+		   final JTextField textField_password = new JTextField(20);
+		   final JTextField textField_passwordConfirm = new JTextField(20);
 		   
 		   p.setLayout(new GridLayout(0,2));
 		   
@@ -60,6 +63,34 @@ public class RegistrationPanel extends JPanel {
 		   
 		   /* Aggiungo bottoni per submittare e tornare indietro */
 		   JButton buttonSubmit = new JButton("Submit");
+		   buttonSubmit.addActionListener(new ActionListener() {
+			   
+			   
+			   
+			   public void actionPerformed(ActionEvent e) {
+				   if(  (textField_firstName == null ||	textField_firstName.getText().length()==0) 	||
+						(textField_lastName == null || 	textField_lastName.getText().length()==0) 	||
+						(textField_email == null || 	textField_email.getText().length()==0) 		||
+						(textField_nickname == null || 	textField_nickname.getText().length()==0) 	||
+						(textField_password == null || 	textField_password.getText().length()==0) ){
+					   JOptionPane.showMessageDialog(null, "Ci sono campi mancanti!", "Registrazione", JOptionPane.WARNING_MESSAGE);
+					   return;
+				   }
+				   
+				   if(!textField_password.getText().equals(textField_passwordConfirm.getText())){
+					   JOptionPane.showMessageDialog(null, "Le password inserite non coincidono.", "Registrazione", JOptionPane.WARNING_MESSAGE);
+					   return;
+				   }
+				   
+				   if( ClientEngine.RegisterNewAccount(textField_firstName.getText(), textField_lastName.getText(), textField_email.getText(), textField_nickname.getText(), textField_password.getText())){
+					   JOptionPane.showMessageDialog(null, "Account inserito con successo.", "Registrazione", JOptionPane.WARNING_MESSAGE);
+					   
+					 //TODO per fabio :) INSERISCI IL RITORNO AL PANNELLO DI LOGIN
+				   }else{
+					   JOptionPane.showMessageDialog(null, "Account non inserito.", "Registrazione", JOptionPane.WARNING_MESSAGE);
+				   }
+			   }
+		   });
 		   
 		   p.add(new JLabel());
 		   p.add(new JLabel());

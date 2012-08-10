@@ -1,4 +1,4 @@
-package Chat;
+package chat;
 import java.io.File;
 import java.io.FileNotFoundException;
 

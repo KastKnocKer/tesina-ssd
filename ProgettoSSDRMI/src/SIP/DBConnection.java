@@ -14,7 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import Chat.Contact;
+
+import chat.Contact;
 
 import com.mysql.jdbc.PreparedStatement;
 

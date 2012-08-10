@@ -30,12 +30,13 @@ public class Status {
 	
 	private final static int TYPE_SIP = 	0;
 	private final static int TYPE_CLIENT = 	1;
+		
+	public static Contact localUser;
 	
+	//DATI DA CARICARE DA CONF.XML
 	private static int Type = 1;
 	//private static String SIP_Address = "kastknocker.no-ip.biz";
 	private static String SIP_Address = "192.168.1.113";
-	
-	public static Contact localUser;
 	
 	public Status(){}
 	

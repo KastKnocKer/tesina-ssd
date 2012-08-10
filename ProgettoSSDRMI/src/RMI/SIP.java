@@ -5,6 +5,8 @@ package RMI;
 
 import java.rmi.RemoteException;
 
+import SIP.DBConnection;
+
 public class SIP implements SIPInterface{
 
 	public SIP() {super();}
@@ -30,8 +32,8 @@ public class SIP implements SIPInterface{
 	}
 
 	public boolean login(String username, String password) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		DBConnection dbConn = new DBConnection();
+		return dbConn.login(username, password);
 	}
 
 }

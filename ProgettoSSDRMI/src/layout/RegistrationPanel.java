@@ -8,6 +8,7 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,16 +16,15 @@ import javax.swing.JTextField;
 
 public class RegistrationPanel extends JPanel {
 	
-	private JPanel mainPanel;
-	private JPanel centerPanel_flowLayout;
-	private JPanel centerPanel_boxLayout;
-	
 	public RegistrationPanel() {
 		   
-		   JLabel lbl = new JLabel("Registrazione:");
 		   
-		   Panel p = new Panel();
-		   Panel p1 = new Panel();
+
+		   
+		   JPanel boxPanel = new JPanel();
+		   boxPanel.setLayout(new BoxLayout(boxPanel, BoxLayout.Y_AXIS));
+		   
+		   JPanel p = new JPanel();
 		   
 		   JLabel label_firstName = new JLabel("Nome:");
 		   JLabel label_lastName = new JLabel("Cognome:");
@@ -42,8 +42,7 @@ public class RegistrationPanel extends JPanel {
 		   
 		   p.setLayout(new GridLayout(0,2));
 		   
-		   /* Aggiungo label di titolo */
-		   JPanel subPanel_01 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
+		  
 		   
 		   /* Aggiungo campi del form */
 		   p.add(label_firstName);
@@ -88,13 +87,21 @@ public class RegistrationPanel extends JPanel {
 	       });
 
 		   
+		   
 		   p.add(new JLabel());
 		   p.add(buttonGoBack);
 		   
+		   /* Aggiungo label di titolo */
 		   
-		   p1.add(p);
-		   this.add(lbl, BorderLayout.NORTH);
-		   this.add(p1,BorderLayout.NORTH);
+		   JPanel subPanel_01 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
+		   JLabel lbl = new JLabel("Registrazione:");
+
+		   subPanel_01.add(lbl);
+		   boxPanel.add(subPanel_01);
+		   
+		   /* */
+		   boxPanel.add(p);
+		   this.add(boxPanel); 
 		   
 		   this.setSize(350,200);
 		   this.setVisible(true);

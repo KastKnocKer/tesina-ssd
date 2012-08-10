@@ -22,7 +22,7 @@ public interface SIPInterface extends Remote{
 	/**
 	 * Registrazione del client presso il SIP
 	 */
-	boolean register() throws RemoteException;
+	boolean register(String nome, String cognome,String email, String nickname, String password) throws RemoteException;
 	
 	/**
 	 * Login del client presso il SIP

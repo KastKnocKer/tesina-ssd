@@ -213,10 +213,12 @@ public boolean insertContact(Contact contact) {
 		prepSt.setString(3, contact.eMail);
 		prepSt.setString(4, contact.Nickname);
 		prepSt.setString(5, contact.Password);
-		completed = prepSt.execute();
-		
+		prepSt.execute();
+		System.out.println("SIP - Nuovo contatto "+contact.eMail+" inserito.");
+		return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
+		System.out.println("SIP - Nuovo contatto "+contact.eMail+" NON inserito.");
 	}
 	
 	return completed;
@@ -234,8 +236,8 @@ public boolean modifyContact(Contact contact) {
 		prepSt.setString(3, contact.eMail);
 		prepSt.setString(4, contact.Nickname);
 		prepSt.setString(5, contact.Password);
-		completed = prepSt.execute();
-		
+		prepSt.execute();
+		return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}

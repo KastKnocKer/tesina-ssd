@@ -7,6 +7,8 @@ import java.rmi.registry.Registry;
 
 import javax.swing.JOptionPane;
 
+import utility.RMIResponse;
+
 import RMI.SIPInterface;
 import chat.Status;
 
@@ -26,7 +28,21 @@ public class ClientEngine {
 		return response;
 	}
 	
+	public static boolean RegisterNewAccount(String nome, String cognome,String email, String nickname, String password) {
+		boolean response = false;
+		try {
+			response = getSIP().register(nome, cognome, email, nickname, password);
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RegisterNewAccount() exception", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+			//e.printStackTrace();
+		}
+		return response;
+	}
 	
+	/**
+	 * @return Riferimento al SIP
+	 */
 	public static SIPInterface getSIP(){
 		Registry registry;
 		SIPInterface sip = null;
@@ -44,4 +60,7 @@ public class ClientEngine {
 		}
 		return sip;
 	}
+
+
+
 }

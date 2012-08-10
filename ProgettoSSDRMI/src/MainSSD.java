@@ -2,25 +2,20 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import chat.Status;
-
 import layout.HomeFrame;
-import layout.LayoutReferences;
-import layout.LoginPanel;
+import utility.WhatIsMyIP;
 import RMI.Client;
 import RMI.ClientInterface;
 import RMI.SIP;
 import RMI.SIPInterface;
+import chat.Status;
 
 
 public class MainSSD {
-	private static int SIP_PORT = 1101;
-	private static int CLIENT_PORT = 1102;
 	
 
 	/**
@@ -35,9 +30,22 @@ public class MainSSD {
     	} catch (java.io.IOException e) {
     		System.exit(0);
     	}
-		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
+		
+		//	Acquisisco i miei indirizzi IP
+		WhatIsMyIP wimi = new WhatIsMyIP();
+		
+		System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
+		String[][] localIPs = wimi.getLocalIPs();
+		for(int i=0; i<localIPs.length; i++){
+			System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
+		}
+		//	Carico i dati locali
+		Status status = new Status();
+			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());
+		status.readConfXML();
+		status.writeConfXML();
 		
 		
 		if( Status.getType() == Status.TYPE_SIP ) StarterSIP();
@@ -147,7 +155,7 @@ public class MainSSD {
 		System.out.println("*** SIP is starting ***");
 		try {
             SIP sip = new SIP();
-            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, SIP_PORT);
+            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
             // Registro il SIP nel RMIREGISTRY
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             //System.out.println("Registry port "+registry.REGISTRY_PORT);
@@ -166,7 +174,7 @@ public class MainSSD {
 		System.out.println("*** Client is starting ***");
 		try {
             Client client = new Client();
-            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, CLIENT_PORT);
+            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
             // Registro il SIP nel RMIREGISTRY
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             //System.out.println("Registry port "+registry.REGISTRY_PORT);

@@ -1,9 +1,5 @@
 package RMI;
-
-
-
 import java.rmi.RemoteException;
-
 import chat.Contact;
 import chat.Message;
 

@@ -37,6 +37,8 @@ public class Status {
 	/////////////////////////////////////////////////
 	//DATI DA CARICARE DA CONF.XML
 	////////////////////////////////////////////////
+	private static int SIP_Port = 1101;
+	private static int Client_Port = 1102;
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
@@ -178,5 +180,21 @@ public class Status {
 		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 		Node nValue = nlList.item(0);
 		return nValue.getNodeValue();
+	}
+
+	public static int getSIP_Port() {
+		return SIP_Port;
+	}
+
+	public static void setSIP_Port(int sIP_PORT) {
+		SIP_Port = sIP_PORT;
+	}
+
+	public static int getClient_Port() {
+		return Client_Port;
+	}
+
+	public static void setClient_Port(int cLIENT_PORT) {
+		Client_Port = cLIENT_PORT;
 	}
 }

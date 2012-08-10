@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS USERSTATUS(
 CREATE TABLE IF NOT EXISTS FRIENDSHIP(
 	idUserA int(11) not null,
 	idUserB int(11) not null,
-	linkType enum('LIBERO','OCCUPATO', 'PRENOTATO', 'PULIRE') not null default 'LIBERO'
+	linkType enum('LIBERO','OCCUPATO', 'PRENOTATO', 'PULIRE') not null default 'LIBERO',
 	
 	primary key (idUserA,idUserB)
 );

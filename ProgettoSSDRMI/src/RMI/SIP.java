@@ -29,7 +29,7 @@ public class SIP implements SIPInterface{
 		return false;
 	}
 
-	public boolean login() throws RemoteException {
+	public boolean login(String username, String password) throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
 	}

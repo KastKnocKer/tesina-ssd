@@ -3,6 +3,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -33,6 +34,7 @@ public class MainSSD {
     	catch (java.io.IOException e) {
     		
     	}
+		
 		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
@@ -151,8 +153,8 @@ public class MainSSD {
             registry.rebind("SIP", stub);
             System.out.println("*** SIP Server ready ***");
 		} catch (Exception e) {
-            System.out.println("SIP Server exception:\n" + e.toString());
-            e.printStackTrace();
+            //System.out.println("SIP Server exception:\n" + e.toString());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
             System.out.println("EXIT FORZATO");
             System.exit(0);
 		}
@@ -171,7 +173,7 @@ public class MainSSD {
             System.out.println("*** Client obj ready ***");
 		} catch (Exception e) {
             System.out.println("Client obj exception:\n" + e.toString());
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
             System.out.println("EXIT FORZATO");
             System.exit(0);
 		}

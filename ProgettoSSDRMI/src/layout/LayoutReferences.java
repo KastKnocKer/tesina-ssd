@@ -1,5 +1,7 @@
 package layout;
 
+import javax.swing.JPanel;
+
 /**
  * Classe statica contenente i riferimenti ad alcune delle istanze
  * degli elementi più significativi del layout. 
@@ -7,8 +9,10 @@ package layout;
  */
 public class LayoutReferences {
 
+	/* Frame contenente: login, registrazione, lista amici */
 	private static HomeFrame homeFrame; 
-	private static FriendsListFrame friendsListFrame; 
+	/* Pannello contenente CardLayout: usato per switchare fra i pannelli */
+	private static JPanel homeFrame_cardPanel; 
 	
 	public static void setHomeFrame(HomeFrame hf) {
 		homeFrame = hf; 
@@ -18,11 +22,12 @@ public class LayoutReferences {
 		return homeFrame; 
 	}
 
-	public static FriendsListFrame getFriendsListFrame() {
-		return friendsListFrame; 
+	public static JPanel getHomeFrame_CardPanel() {
+		return homeFrame_cardPanel;
 	}
-	
-	public static void setFriendsListFrame(FriendsListFrame flf) {
-		friendsListFrame = flf; 
+
+	public static void setHomeFrame_CardPanel(JPanel hcp) {
+		homeFrame_cardPanel = hcp;
 	}
+
 }

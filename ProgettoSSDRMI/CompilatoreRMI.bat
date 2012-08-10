@@ -2,7 +2,7 @@ echo off
 cd src
 
 echo -- JAVAC --
-javac -d ../bin *.java
+:: javac -d ../bin *.java
 
 echo -- RMIC --
 cd ..

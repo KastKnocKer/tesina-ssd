@@ -90,15 +90,14 @@ public class LoginPanel extends JPanel {
 	       loginButton = new JButton("Login");
 	       loginButton.addActionListener(new ActionListener() {
 	    	   public void actionPerformed(ActionEvent event) {
-	    		   
-	    		   /* Chiudo l'home frame contenente i pannelli di 
-	    		    * login e registrazione */
-	    		   //LayoutReferences.getHomeFrame().dispose();
-	    		   
-	    		   // ((JFrame) event.getSource()).getParent().getParent().processWindowEvent( new WindowEvent( this, WindowEvent.WINDOW_CLOSING) );	    		
-	    		   
+	    		  
+	    		   	/* Login */
 	    			   if( ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()))  ){
 	    				   System.out.println("Login effettuato");
+	    				   
+	    				   /* Apro il pannello contenente la lista amici */
+	    	    		   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
+	    	    		   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "FriendsList"); 
 	    			   }else{
 	    				   System.out.println("Login rifiutato");
 	    			   }
@@ -137,9 +136,8 @@ public class LoginPanel extends JPanel {
 	        	   RegistrationPanel rp = new RegistrationPanel(); 
 	        	   
 	        	   
-	        	   /* risalendo la gerarchia di pannelli, arrivo fino al cardsPanel */
-	        	   JPanel cardsPanel = (JPanel) button.getParent().getParent().getParent().getParent().getParent().getParent(); 
-
+	        	   /* Mostro il pannello Register */
+	        	   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
 	        	   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "Register"); 
 	        	   
 	          }

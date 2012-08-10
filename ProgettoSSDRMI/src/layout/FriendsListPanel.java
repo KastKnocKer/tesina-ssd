@@ -8,10 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
-public class FriendsListFrame extends JFrame {
-	public FriendsListFrame() {
-		friendsListMenuBarCreator(this); 
+public class FriendsListPanel extends JPanel {
+	public FriendsListPanel() {
+		/* Cambio la menu bar */
+		friendsListMenuBarCreator(LayoutReferences.getHomeFrame()); 
 	}
 	
 	/* Metodo che crea la Menu Bar della finestra con la lista amici */
@@ -19,7 +21,7 @@ public class FriendsListFrame extends JFrame {
 		
 		 	JMenuBar menubar = new JMenuBar();
 
-	        JMenu file = new JMenu("File");
+	        JMenu file = new JMenu("FileNew");
 	        file.setMnemonic(KeyEvent.VK_F);
 
 	        JMenuItem eMenuItem = new JMenuItem("Exit", null);
@@ -37,7 +39,7 @@ public class FriendsListFrame extends JFrame {
 
 	        menubar.add(file);
 
-	        frame.setJMenuBar(menubar);
+	        // frame.setJMenuBar(menubar);
 		
 	}
 }

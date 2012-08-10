@@ -26,9 +26,13 @@ public class HomeFrame extends JFrame {
 	       
 	       LoginPanel lp = new LoginPanel(); 
 	       RegistrationPanel rp = new RegistrationPanel(); 
+	       FriendsListPanel flp = new FriendsListPanel(); 
+	       
+	       LayoutReferences.setHomeFrame_CardPanel(cardsPanel); 
 
 	       cardsPanel.add(lp, "Login"); 
 	       cardsPanel.add(rp, "Register");
+	       cardsPanel.add(flp, "FriendsList");
 	       
 	       /* Mostro una delle due cards */
 	       CardLayout cl = (CardLayout)(cardsPanel.getLayout());

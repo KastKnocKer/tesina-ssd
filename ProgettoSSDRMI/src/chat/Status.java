@@ -28,13 +28,18 @@ import org.w3c.dom.NodeList;
 
 public class Status {
 	
-	private final static int TYPE_SIP = 	0;
-	private final static int TYPE_CLIENT = 	1;
+	public final static int TYPE_SIP = 	0;
+	public final static int TYPE_CLIENT = 	1;
 		
 	public static Contact localUser;
 	
+	
+	/////////////////////////////////////////////////
 	//DATI DA CARICARE DA CONF.XML
-	private static int Type = 1;
+	////////////////////////////////////////////////
+	private static int Type = 0;
+	
+
 	//private static String SIP_Address = "kastknocker.no-ip.biz";
 	private static String SIP_Address = "192.168.1.113";
 	
@@ -155,7 +160,8 @@ public class Status {
 	}
 
 	
-	public static String getSIPAddress(){	return SIP_Address;	}
+	public static String getSIPAddress()	{	return SIP_Address;	}
+	public static int getType() 			{	return Type; }
 	
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {

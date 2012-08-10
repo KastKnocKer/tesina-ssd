@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import chat.Status;
+
 import layout.HomeFrame;
 import layout.LayoutReferences;
 import layout.LoginPanel;
@@ -30,16 +32,15 @@ public class MainSSD {
 		try {
     		Runtime.getRuntime().exec("rmiregistry");
     		Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
+    	} catch (java.io.IOException e) {
+    		System.exit(0);
     	}
-    	catch (java.io.IOException e) {
-    		
-    	}
-		
 		
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
-		StarterSIP();
 		
+		
+		if( Status.getType() == Status.TYPE_SIP ) StarterSIP();
 		StarterClient();
 		
 		

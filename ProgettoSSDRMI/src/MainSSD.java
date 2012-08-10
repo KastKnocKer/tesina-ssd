@@ -8,6 +8,8 @@ import javax.swing.UIManager;
 
 import layout.HomeFrame;
 import layout.LoginPanel;
+import RMI.Client;
+import RMI.ClientInterface;
 import RMI.SIP;
 import RMI.SIPInterface;
 
@@ -21,36 +23,23 @@ public class MainSSD {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println("**** START - Always-ON Messenger ****");
+		
+		try {
+    		Runtime.getRuntime().exec("rmiregistry");
+    		Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
+    	}
+    	catch (java.io.IOException e) {
+    		
+    	}
+		
+		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
 		StarterSIP();
 		
-		// imposto visualizzazione con look and feel del sistema operativo in uso 
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception ex) {
-			System.err.println("Impossibile impostare L&F di sistema");
-		}
+		StarterClient();
 		
-		// places the application on the Swing Event Queue 
-		SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
-	            	
-	            	HomeFrame hf = new HomeFrame(); 
-	            	hf.setVisible(true);
-	            	
-	            	// mostro il login screen
-//	            	JFrame mainFrame = new JFrame(); 
-//	                LoginPanel loginFrame = new LoginPanel();
-//	                mainFrame.add(loginFrame); 
-//	                mainFrame.setVisible(true); 
-//	                
-//	                mainFrame.setTitle("Always On - RMI Chat");
-//	                mainFrame.setSize(280,250);
-//	                mainFrame.setLocationRelativeTo(null);
-//	                // mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//	                // loginFrame.setVisible(true);
-	            }
-		});
+		
 		
 		return;
 //		
@@ -151,6 +140,7 @@ public class MainSSD {
 	
 	
 	private static boolean StarterSIP(){
+		System.out.println("*** SIP is starting ***");
 		try {
             SIP sip = new SIP();
             SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, SIP_PORT);
@@ -158,15 +148,59 @@ public class MainSSD {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             //System.out.println("Registry port "+registry.REGISTRY_PORT);
             registry.rebind("SIP", stub);
-            System.out.println("SIP Server ready");
+            System.out.println("*** SIP Server ready ***");
 		} catch (Exception e) {
             System.out.println("SIP Server exception:\n" + e.toString());
             e.printStackTrace();
+            System.out.println("EXIT FORZATO");
+            System.exit(0);
 		}
 		return true;
 	}
 	
-	private boolean StarterClient(){
+	private static boolean StarterClient(){
+		System.out.println("*** Client is starting ***");
+		try {
+            Client client = new Client();
+            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, CLIENT_PORT);
+            // Registro il SIP nel RMIREGISTRY
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+            registry.rebind("Client", stub);
+            System.out.println("*** Client obj ready ***");
+		} catch (Exception e) {
+            System.out.println("Client obj exception:\n" + e.toString());
+            e.printStackTrace();
+            System.out.println("EXIT FORZATO");
+            System.exit(0);
+		}
+		// imposto visualizzazione con look and feel del sistema operativo in uso 
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (Exception ex) {
+					System.err.println("Impossibile impostare L&F di sistema");
+				}
+				
+				// places the application on the Swing Event Queue 
+				SwingUtilities.invokeLater(new Runnable() {
+			            public void run() {
+			            	
+			            	HomeFrame hf = new HomeFrame(); 
+			            	hf.setVisible(true);
+			            	
+			            	// mostro il login screen
+//			            	JFrame mainFrame = new JFrame(); 
+//			                LoginPanel loginFrame = new LoginPanel();
+//			                mainFrame.add(loginFrame); 
+//			                mainFrame.setVisible(true); 
+//			                
+//			                mainFrame.setTitle("Always On - RMI Chat");
+//			                mainFrame.setSize(280,250);
+//			                mainFrame.setLocationRelativeTo(null);
+//			                // mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//			                // loginFrame.setVisible(true);
+			            }
+				});
 		return true;
 	}
 	

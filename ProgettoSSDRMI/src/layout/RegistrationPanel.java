@@ -1,10 +1,9 @@
 package layout;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -94,7 +93,8 @@ public class RegistrationPanel extends JPanel {
 		   /* Aggiungo label di titolo */
 		   
 		   JPanel subPanel_01 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
-		   JLabel lbl = new JLabel("Registrazione:");
+		   JLabel lbl = new JLabel("REGISTRAZIONE");
+		   lbl.setFont(new Font("Arial Black", Font.BOLD, 15));
 
 		   subPanel_01.add(lbl);
 		   boxPanel.add(subPanel_01);

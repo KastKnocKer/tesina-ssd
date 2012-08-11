@@ -249,7 +249,7 @@ public boolean modifyContact(Contact contact) {
 public String requestFriendship(String fromEmail, String toEmail) {
 	String message = "";
 	ResultSet results;
-	System.out.println("aggiunta amicizia: "+fromEmail+" -> "+toEmail);
+	System.out.println("SIP - aggiunta amicizia: "+fromEmail+" -> "+toEmail);
 	
 	if(!connesso){
 		connetti();
@@ -297,10 +297,10 @@ public boolean login(String username, String password) {
 		result = prepSt.executeQuery();
 		result.next();
         if(result.getInt("COUNT") == 0){
-        	System.out.println("Login["+username+"] rifiutato.");
+        	System.out.println("SIP - Login["+username+"] rifiutato.");
         	return false;
         }else{
-        	System.out.println("Login["+username+"] effettuato.");
+        	System.out.println("SIP - Login["+username+"] effettuato.");
         	return true;
         }
         		

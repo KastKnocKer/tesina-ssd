@@ -19,6 +19,7 @@ public class ClientEngine {
 		boolean response = false;
 		//Login mediante server SIP
 		try {
+			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 			response = getSIP().login(username, password);
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
@@ -31,6 +32,7 @@ public class ClientEngine {
 	public static boolean RegisterNewAccount(String nome, String cognome,String email, String nickname, String password) {
 		boolean response = false;
 		try {
+			if(Status.DEBUG) System.out.println("Client - Tentativo registrazione nuovo utente: "+nome+", "+cognome+", "+email+", "+nickname+", ["+password+"]");
 			response = getSIP().register(nome, cognome, email, nickname, password);
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RegisterNewAccount() exception", JOptionPane.ERROR_MESSAGE);
@@ -47,6 +49,7 @@ public class ClientEngine {
 		Registry registry;
 		SIPInterface sip = null;
 		try {
+			if(Status.DEBUG) System.out.println("Client - Tentativo getSIP() SIP: "+Status.getSIPAddress()+":"+Status.getSIP_Port());
 			registry = LocateRegistry.getRegistry(Status.getSIPAddress());
 			sip = (SIPInterface) registry.lookup("SIP");
 		} catch (RemoteException e) {

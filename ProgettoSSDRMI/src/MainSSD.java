@@ -45,7 +45,6 @@ public class MainSSD {
 		Status status = new Status();
 			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());
 		status.readConfXML();
-		status.writeConfXML();
 		status.writeContactsXML();
 		
 		

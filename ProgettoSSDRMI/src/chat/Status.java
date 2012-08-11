@@ -59,10 +59,7 @@ public class Status {
 			Document doc = dBuilder.parse(fXmlFile);
 			doc.getDocumentElement().normalize();
 
-//			System.out.println("Root element :"
-//					+ doc.getDocumentElement().getNodeName());
 			NodeList nList = doc.getElementsByTagName("Configuration");
-//			System.out.println("-----------------------");
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -71,10 +68,24 @@ public class Status {
 
 					Element eElement = (Element) nNode;
 
+					//LETTURA ELEMENTI DI CONFIGURAZIONE
 					System.out.println("*** Lettura CONF.XML ***");
-					System.out.println("Type: " + getTagValue("Type", eElement));
-					System.out.println("SIP_ADDRESS: " + getTagValue("SIPA_ddress", eElement));
-
+					try {	Type = Integer.parseInt(getTagValue("Type", eElement));					} catch (Exception e) {}
+					try {	SIP_Port = Integer.parseInt(getTagValue("SIP_Port", eElement));			} catch (Exception e) {}
+					try {	Client_Port = Integer.parseInt(getTagValue("Client_Port", eElement));	} catch (Exception e) {}
+					try {	PrivateKey = getTagValue("PrivateKey", eElement);						} catch (Exception e) {}
+					try {	PublicKey = getTagValue("PublicKey", eElement);							} catch (Exception e) {}
+					try {	SIP_Address = getTagValue("SIP_Address", eElement);						} catch (Exception e) {}
+					
+					//RISULTATI
+					System.out.println("Type: " + Type);
+					System.out.println("SIP_Port: " + SIP_Port);
+					System.out.println("Client_Port: " + Client_Port);
+					System.out.println("PrivateKey: " + PrivateKey);
+					System.out.println("PublicKey: " + PublicKey);
+					System.out.println("SIP_Address: " + SIP_Address);
+					
+					
 				}
 			}
 		} catch (FileNotFoundException e) {

@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class Status {
-	
+	public final static boolean DEBUG = true; 
 	public final static int TYPE_SIP = 	0;
 	public final static int TYPE_CLIENT = 	1;
 		
@@ -44,8 +44,8 @@ public class Status {
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
-	//private static String SIP_Address = "kastknocker.no-ip.biz";
-	private static String SIP_Address = "192.168.1.113";
+	private static String SIP_Address = "kastknocker.no-ip.biz";
+	//private static String SIP_Address = "192.168.1.113";
 
 	
 	

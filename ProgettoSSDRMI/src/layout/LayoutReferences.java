@@ -13,6 +13,9 @@ public class LayoutReferences {
 	private static HomeFrame homeFrame; 
 	/* Pannello contenente CardLayout: usato per switchare fra i pannelli */
 	private static JPanel homeFrame_cardPanel; 
+
+	private static FriendsListTable friendsListTable; 
+	private static FriendsListTableModel friendsListTableModel; 
 	
 	public static void setHomeFrame(HomeFrame hf) {
 		homeFrame = hf; 
@@ -30,6 +33,22 @@ public class LayoutReferences {
 
 	public static JPanel getHomeFrame_CardPanel() {
 		return homeFrame_cardPanel;
+	}
+
+	public static FriendsListTable getFriendsListTable() {
+		return friendsListTable;
+	}
+
+	public static void setFriendsListTable(FriendsListTable friendsListTable) {
+		LayoutReferences.friendsListTable = friendsListTable;
+	}
+
+	public static FriendsListTableModel getFriendsListTableModel() {
+		return friendsListTableModel;
+	}
+
+	public static void setFriendsListTableModel(FriendsListTableModel frameListTableModel) {
+		LayoutReferences.friendsListTableModel = frameListTableModel;
 	}
 
 

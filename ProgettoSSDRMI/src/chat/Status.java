@@ -30,6 +30,8 @@ public class Status {
 	public final static boolean DEBUG = true; 
 	public final static int TYPE_SIP = 	0;
 	public final static int TYPE_CLIENT = 	1;
+	private static FriendsList friendsList; 
+
 		
 	public static Contact localUser;
 	
@@ -50,6 +52,55 @@ public class Status {
 	
 	
 	public Status(){}
+	
+	
+
+/** Metodo per reperire la lista amici globale 
+	 * @return lista amici
+	 */
+	public static FriendsList getFriendsList() {
+		return friendsList;
+	}
+	
+	/**
+	 * Metodo per impostare il riferimento globale alla lista amici 
+	 * dell'utente.
+	 * @param lista amici
+	 */
+	public static void setFriendsList(FriendsList fl) {
+		friendsList = fl; 
+	}
+	
+	/** 
+	 * Metodo per caricare la lista amici non filtrata 
+	 */
+	// TODO da perfezionare
+	public static void loadFriendsList() {
+		FriendsList fl = new FriendsList(); 
+		
+		/* Primo amico */
+		Friend f1 = new Friend(); 
+		f1.setNickname("Fabio"); 
+		f1.setStatus(StatusList.ONLINE);
+		f1.setUserId(1); 
+		
+		/* Secondo amico */
+		Friend f2 = new Friend(); 
+		f2.setNickname("Kast"); 
+		f2.setStatus(StatusList.BUSY);
+		f2.setUserId(2); 
+		
+		/* terzo amico */
+		Friend f3 = new Friend(); 
+		f3.setNickname("Marco"); 
+		f3.setStatus(StatusList.BUSY);
+		f3.setUserId(3); 
+		
+		fl.addFriend(f1); 
+		fl.addFriend(f2); 
+		fl.addFriend(f3); 
+	}
+	
 	
 	public boolean readConfXML(){
 		try {

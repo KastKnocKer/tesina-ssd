@@ -3,6 +3,8 @@ package layout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
@@ -45,6 +47,28 @@ public class HomeFrame extends JFrame {
 	       
 	       /* Aggiungo la Menu Bar */
 	       show_HomeFrame_LoginMenuBar();
+	       
+	       /* *******************************************
+	        * ActionListener: componentResized
+	        *********************************************/
+	       this.addComponentListener(new ComponentAdapter() {
+	    	      @Override
+	    	      public void componentResized(ComponentEvent e) {
+	    	    	  System.out.println("HomeFrame Resized");
+	    	    	  /* Se ridimensiono, e c'è la tabella di lista amici */
+	    	    	  if(LayoutReferences.getFriendsListTable() != null) {
+	    	    		  /* la aggiorno graficamente */
+	    	    		  System.out.println("FriendsListTable exists: update!");
+//	    	    		  LayoutReferences.getFriendsListTable().updateTable(); 
+//	    	    		  LayoutReferences.getHomeFrame().validate();
+//	    	    		  LayoutReferences.getHomeFrame().repaint(); 
+//	    	    		  LayoutReferences.getHomeFrame(); 
+	    	    		  
+	    	    	  }
+	    	    	  
+	    	      }
+	       }); 
+
 	}
 	
 	/* Aggiunge la menu bar all'Home Frame */

@@ -30,7 +30,10 @@ public class MainSSD {
     	} catch (java.io.IOException e) {
     		System.exit(0);
     	}
-		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		
+		
+		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");
+		// System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
 		
 		//	Acquisisco i miei indirizzi IP
@@ -48,8 +51,11 @@ public class MainSSD {
 		status.writeContactsXML();
 		
 		
-		if( Status.getType() == Status.TYPE_SIP ) StarterSIP();
-		StarterClient();
+		if( Status.getType() == Status.TYPE_SIP ) 
+			StarterSIP();
+		// TODO: rimetti l'else
+		// else 
+			StarterClient();
 		
 		
 		
@@ -162,8 +168,9 @@ public class MainSSD {
             registry.rebind("SIP", stub);
             System.out.println("*** SIP Server ready ***");
 		} catch (Exception e) {
-            //System.out.println("SIP Server exception:\n" + e.toString());
+            System.out.println("SIP Server exception:\n" + e.toString());
             JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); 
             System.out.println("EXIT FORZATO");
             System.exit(0);
 		}

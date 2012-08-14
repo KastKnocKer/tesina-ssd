@@ -97,6 +97,8 @@ public class FriendsListTable extends JTable implements MouseListener,ActionList
 	public void updateTable(){
 		Status.loadFriendsList();
 		this.updateUI();
+//		this.revalidate();
+//		this.repaint(); 
 	}
 	
 	/**

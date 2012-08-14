@@ -9,48 +9,55 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import chat.Status;
+
 public class FriendsListPanel extends JPanel {
 	
+	private HomeFrame homeFrame; 
 	private JPanel mainPanel; 
 	private JTable table_friendsList; 
 	
 	public FriendsListPanel() {
 		
 		/* recupero l'home frame */
-		HomeFrame hf = LayoutReferences.getHomeFrame(); 
+		homeFrame = LayoutReferences.getHomeFrame(); 
 		
 		mainPanel = new JPanel(new BorderLayout()); 
-		
+
 		/* Cambio la menu bar del frame */
-		hf.show_HomeFrame_LoggedMenuBar(); 
+		homeFrame.show_HomeFrame_LoggedMenuBar(); 
 		
 		/* In alto, metto un pannello */
-		drawHeaderPanel();
+		// drawHeaderPanel();
 		
 		/* Disegno la Table */
 		drawFriendsListTable(); 
 		
-		ImageIcon myIcon = new ImageIcon("images/myPic.gif");
+		// ImageIcon myIcon = new ImageIcon("images/myPic.gif");
 
 		this.add(mainPanel); 
-		mainPanel.setSize(800,800); 
+		// mainPanel.setSize(800,800); 
 		mainPanel.setVisible(true); 
 	}
 	
 	/* Disegno il pannello sopra con avatar ecc. */
 	private void drawHeaderPanel() {
 		ImagePanel imagePanel = new ImagePanel("Chrysanthemum.jpg"); 
-		mainPanel.add(imagePanel, BorderLayout.CENTER);
+		mainPanel.add(imagePanel, BorderLayout.SOUTH);
 		imagePanel.setVisible(true); 
 	}
 	
 	/* Disegno la tabella di amici */
 	private void drawFriendsListTable() {
 		
-		FriendsListTableModel fl_tableModel = new FriendsListTableModel(); 
+		
+		FriendsListTableModel fl_tableModel = new FriendsListTableModel();
+		fl_tableModel.setFriendsList(Status.getFriendsList()); 
 		FriendsListTable fl_table = new FriendsListTable(fl_tableModel); 
+		fl_table.setFriendsList(Status.getFriendsList()); 
 		
 		fl_table.updateTable();
+		fl_table.setVisible(true); 
 //		 
 //		Object rowData[][] = {  {"Online", "Fabio Pierazzi"}, 
 //								{"Online", "Andrea Castelli"},
@@ -64,18 +71,22 @@ public class FriendsListPanel extends JPanel {
 //		table_friendsList = new JTable(tm);
 //		
 //		/* Aggiungo la tabella al pannello */ 
-//		JScrollPane scrollPane = new JScrollPane(table_friendsList);
-//		table_friendsList.setFillsViewportHeight(true);
-//		
+		JScrollPane scrollPane = new JScrollPane(fl_table);
+		fl_table.setFillsViewportHeight(true);
+		
 //		table_friendsList.setSize(500, 200); 
-		mainPanel.setLayout(new BorderLayout());
 		
-		// mainPanel.add(table_friendsList.getTableHeader(), BorderLayout.PAGE_START);
 		
-		JPanel pannello = new JPanel(); 
-		pannello.add(fl_table);
-		// pannello.setSize(500,350); 
-		mainPanel.add(pannello, BorderLayout.NORTH);
+		
+//		mainPanel.add(fl_table.getTableHeader(), BorderLayout.PAGE_START);
+//		mainPanel.add(fl_table, BorderLayout.CENTER); 
+		
+		homeFrame.add(scrollPane);
+		
+		//		JPanel tablePanel = new JPanel(); 
+//		tablePanel.add(fl_table);
+//		// pannello.setSize(500,350); 
+//		mainPanel.add(tablePanel, BorderLayout.CENTER);
 	}
 }
 

@@ -23,6 +23,7 @@ public class FriendsListTableModel extends AbstractTableModel {
 	public FriendsListTableModel() {
 		super();
 		LayoutReferences.setFriendsListTableModel(this); 
+		// this.setFriendsList(Status.getFriendsList());
 	}
 	
 	/**
@@ -38,7 +39,7 @@ public class FriendsListTableModel extends AbstractTableModel {
 	 * @return numero di righe
 	 */
 	public int getRowCount() {
-		return friendsList.getLength();
+		return this.friendsList.getLength();
 	}
 
 	/**

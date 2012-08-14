@@ -76,29 +76,35 @@ public class Status {
 	 */
 	// TODO da perfezionare
 	public static void loadFriendsList() {
-		FriendsList fl = new FriendsList(); 
+		
+		FriendsList temp_friendsList = new FriendsList(); 
 		
 		/* Primo amico */
 		Friend f1 = new Friend(); 
 		f1.setNickname("Fabio"); 
 		f1.setStatus(StatusList.ONLINE);
 		f1.setUserId(1); 
+		System.out.println( f1.getUserId() + ". " + f1.getNickname() + ": " + f1.getStatus());
 		
 		/* Secondo amico */
 		Friend f2 = new Friend(); 
 		f2.setNickname("Kast"); 
 		f2.setStatus(StatusList.BUSY);
 		f2.setUserId(2); 
+		System.out.println( f2.getUserId() + ". " + f2.getNickname() + ": " + f2.getStatus());
 		
 		/* terzo amico */
 		Friend f3 = new Friend(); 
 		f3.setNickname("Marco"); 
 		f3.setStatus(StatusList.BUSY);
 		f3.setUserId(3); 
+		System.out.println( f3.getUserId() + ". " + f3.getNickname() + ": " + f3.getStatus());
 		
-		fl.addFriend(f1); 
-		fl.addFriend(f2); 
-		fl.addFriend(f3); 
+		temp_friendsList.addFriend(f1); 
+		temp_friendsList.addFriend(f2); 
+		temp_friendsList.addFriend(f3); 
+		
+		Status.setFriendsList(temp_friendsList); 
 	}
 	
 	

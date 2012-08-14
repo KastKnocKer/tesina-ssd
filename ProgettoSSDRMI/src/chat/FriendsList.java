@@ -15,6 +15,7 @@ public class FriendsList {
 	public FriendsList() {
 		/** Imposto il riferimento globale statico 
 		 * a quest'oggetto FriendsList */
+		friendsArrayList = new ArrayList<Friend>(); 
 		Status.setFriendsList(this); 
 	}
 
@@ -31,6 +32,7 @@ public class FriendsList {
 	 * @param friend
 	 */
 	public void addFriend(Friend friend) {
+		System.out.println("Adding friend to list: " + friend.getUserId() + ". " + friend.getNickname() + ": " + friend.getStatus());
 		this.friendsArrayList.add(friend);
 	}
 	

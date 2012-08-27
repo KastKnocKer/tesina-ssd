@@ -3,6 +3,11 @@ package RMI;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import RMIMessages.RMIBasicMessage;
+
+import chat.Contact;
 
 public interface SIPInterface extends Remote{
 	String sayHello() throws RemoteException;
@@ -10,12 +15,12 @@ public interface SIPInterface extends Remote{
 	/**
 	 * Il client indica al SIP il mio stato
 	 */
-	boolean imAlive() throws RemoteException;
+	boolean imAlive(RMIBasicMessage msg) throws RemoteException;
 	
 	/**
 	 * Il client indica al SIP di volersi disconnettere
 	 */
-	boolean imLeaving() throws RemoteException;
+	boolean imLeaving(RMIBasicMessage msg) throws RemoteException;
 	
 	
 	//TODO
@@ -29,5 +34,9 @@ public interface SIPInterface extends Remote{
 	 */
 	boolean login(String username, String password) throws RemoteException;
 	
+	/**
+	 * Richiede la lista dei contatti al SIP
+	 */
+	ArrayList<Contact> getMyContacts(RMIBasicMessage msg) throws RemoteException;
 	
 }

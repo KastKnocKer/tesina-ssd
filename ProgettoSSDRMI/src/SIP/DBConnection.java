@@ -13,11 +13,13 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RequestFriendshipMessage;
 import chat.Contact;
+import chat.Friend;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -210,17 +212,17 @@ public boolean insertContact(Contact contact) {
 	boolean completed = false;
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
-		prepSt.setString(1, contact.Nome);
-		prepSt.setString(2, contact.Cognome);
-		prepSt.setString(3, contact.eMail);
-		prepSt.setString(4, contact.Nickname);
-		prepSt.setString(5, contact.Password);
+		prepSt.setString(1, contact.getNome());
+		prepSt.setString(2, contact.getCognome());
+		prepSt.setString(3, contact.geteMail());
+		prepSt.setString(4, contact.getNickname());
+		prepSt.setString(5, contact.getPassword());
 		prepSt.execute();
-		System.out.println("SIP - Nuovo contatto "+contact.eMail+" inserito.");
+		System.out.println("SIP - Nuovo contatto "+contact.geteMail()+" inserito.");
 		return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
-		System.out.println("SIP - Nuovo contatto "+contact.eMail+" NON inserito.");
+		System.out.println("SIP - Nuovo contatto "+contact.geteMail()+" NON inserito.");
 	}
 	
 	return completed;
@@ -233,11 +235,11 @@ public boolean modifyContact(Contact contact) {
 	boolean completed = false;
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
-		prepSt.setString(1, contact.Nome);
-		prepSt.setString(2, contact.Cognome);
-		prepSt.setString(3, contact.eMail);
-		prepSt.setString(4, contact.Nickname);
-		prepSt.setString(5, contact.Password);
+		prepSt.setString(1, contact.getNome());
+		prepSt.setString(2, contact.getCognome());
+		prepSt.setString(3, contact.geteMail());
+		prepSt.setString(4, contact.getNickname());
+		prepSt.setString(5, contact.getPassword());
 		prepSt.execute();
 		return true;
 	} catch (SQLException e) {
@@ -316,9 +318,9 @@ public boolean login(String username, String password) {
 /**
  * Funzione per la richiesta del client al SIP dei propri contatti
  */
-public Contact[] getMyContacts(RMIBasicMessage msg) {
+public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	// TODO Introdurre l'autenticazione del richiedente
-	Contact[] contacts = null;
+	ArrayList<Contact> contacts = new ArrayList<Contact>();
 	
 	if(!connesso){
 		connetti();
@@ -326,22 +328,31 @@ public Contact[] getMyContacts(RMIBasicMessage msg) {
 	ResultSet result;
 	
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user");
 		//prepSt.setString(1, username);
 		//prepSt.setString(2, password);
 		result = prepSt.executeQuery();
 		result.next();
-        if(result.getInt("COUNT") == 0){
-        	//System.out.println("SIP - Login["+username+"] rifiutato.");
-        	return null;
-        }else{
-        	//System.out.println("SIP - Login["+username+"] effettuato.");
-        	//return true;
+		
+		//v = new Vector();
+        ResultSetMetaData rsmd = result.getMetaData();
+        Contact contact;
+        while(result.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+        	contact = new Contact();
+        	contact.setID(		Integer.parseInt(result.getString(1)));
+        	contact.setNome(	result.getString(2));
+        	contact.setCognome(	result.getString(3));
+        	contact.seteMail(	result.getString(4));
+        	contact.setNickname(result.getString(5));           
+        	contacts.add(contact);
+        	contact.printInfo();
         }
-        		
+        result.close();     // Chiudo il ResultSet
+        prepSt.close();   // Chiudo lo Statement
 		
 	} catch (SQLException e) {
 		e.printStackTrace();
+		return null;
 	}
 	
 	return contacts;

@@ -1,6 +1,7 @@
 package chat;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,6 +18,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import client.ClientEngine;
+
+import RMIMessages.RMIBasicMessage;
+
 
 /**
  * 
@@ -30,12 +35,16 @@ public class Status {
 	public final static boolean DEBUG = true; 
 	public final static int TYPE_SIP = 	0;
 	public final static int TYPE_CLIENT = 	1;
-	private static FriendsList friendsList; 
-
+	private static String GlobalIP;
+	private static FriendsList friendsList;
+	private static ArrayList<Contact> contactList;
 		
+	
+
+
+
 	public static Contact localUser;
 	
-	private static Vector<Contact> contactList = new Vector<Contact>();
 	
 	
 	/////////////////////////////////////////////////
@@ -46,6 +55,18 @@ public class Status {
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
+	public static String getPublicKey() {
+		return PublicKey;
+	}
+
+
+
+	public static void setPublicKey(String publicKey) {
+		PublicKey = publicKey;
+	}
+
+
+
 	private static String SIP_Address = "kastknocker.no-ip.biz";
 	//private static String SIP_Address = "192.168.1.113";
 
@@ -60,6 +81,9 @@ public class Status {
 	 */
 	public static FriendsList getFriendsList() {
 		return friendsList;
+	}
+	
+	public static void loadFriendListFromSIP(){
 	}
 	
 	/**
@@ -79,7 +103,7 @@ public class Status {
 		
 		// TODO Controllare che esista il file CONTACTS.xml
 		// TODO Se esiste, caricare i contatti dal file altrimenti richiedere al sip
-		
+		ClientEngine.LoadContactsFromSIP();
 		FriendsList temp_friendsList = new FriendsList(); 
 		
 		/* Primo amico */
@@ -254,9 +278,10 @@ public class Status {
 	
 
 	public boolean writeContactsXML(){
-		contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
-		contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
-		contactList.add(new Contact("Nickname3", "Nome3", "Cognome3", "eMail3", "Password3", null, null));
+		if(contactList == null) contactList = new ArrayList<Contact>();
+			contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
+			contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
+			contactList.add(new Contact("Nickname3", "Nome3", "Cognome3", "eMail3", "Password3", null, null));
 		
 		
 		
@@ -270,8 +295,10 @@ public class Status {
 			doc.appendChild(rootElement);
 			
 			//Per ogni contatto
-			for(int i=0; i<contactList.size(); i++){
-				Contact contact = contactList.get(i);
+			//for(int i=0; i<contactList.size(); i++){
+			
+			for(Contact contact : contactList){
+				//Contact contact = contactList.get(i);
 				Element contactElem = doc.createElement("Contact");
 					Element id = doc.createElement("ID");
 					Element nome = doc.createElement("Nome");
@@ -279,11 +306,11 @@ public class Status {
 					Element email = doc.createElement("Email");
 					Element nickname = doc.createElement("Nickname");
 					Element stato = doc.createElement("Stato");
-					id.setTextContent(Integer.toString(contact.ID));
-					nome.setTextContent(contact.Nome);
-					cognome.setTextContent(contact.Cognome);
-					email.setTextContent(contact.eMail);
-					nickname.setTextContent(contact.Nickname);
+					id.setTextContent(Integer.toString(contact.getID()));
+					nome.setTextContent(contact.getNome());
+					cognome.setTextContent(contact.getCognome());
+					email.setTextContent(contact.geteMail());
+					nickname.setTextContent(contact.getNickname());
 					stato.setTextContent("stato");	/////
 				
 					contactElem.appendChild(id);
@@ -295,7 +322,9 @@ public class Status {
 					
 				
 				rootElement.appendChild(contactElem);
-			}
+			}	
+			
+			
 			
 			
 			
@@ -416,5 +445,21 @@ public class Status {
 		return nValue.getNodeValue();
 	}
 
-	
+
+
+	public static String getGlobalIP() {
+		return GlobalIP;
+	}
+	public static void setGlobalIP(String globalIP) {
+		GlobalIP = globalIP;
+	}
+
+	public static ArrayList<Contact> getContactList() {
+		return contactList;
+	}
+	public static void setContactList(ArrayList<Contact> contactList) {
+		//TODO aggiungere aggiornamento della tabella visuale
+		//todo Aggiungere aggiornamento friendlist
+		Status.contactList = contactList;
+	}
 }

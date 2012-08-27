@@ -15,6 +15,8 @@ import java.sql.Statement;
 
 import java.util.Vector;
 
+import RMIMessages.RMIBasicMessage;
+import RMIMessages.RequestFriendshipMessage;
 import chat.Contact;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -246,10 +248,10 @@ public boolean modifyContact(Contact contact) {
 }
 
 @Override
-public String requestFriendship(String fromEmail, String toEmail) {
+public String requestFriendship(RequestFriendshipMessage msg) {
 	String message = "";
 	ResultSet results;
-	System.out.println("SIP - aggiunta amicizia: "+fromEmail+" -> "+toEmail);
+	System.out.println("SIP - aggiunta amicizia: "+msg.getFromEmail()+" -> "+msg.getToEmail());
 	
 	if(!connesso){
 		connetti();
@@ -257,8 +259,8 @@ public String requestFriendship(String fromEmail, String toEmail) {
 	boolean completed = false;
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?");
-		prepSt.setString(1, fromEmail);
-		prepSt.setString(2, toEmail);
+		prepSt.setString(1, msg.getFromEmail());
+		prepSt.setString(2, msg.getToEmail());
 		results = prepSt.executeQuery();
 		
 		ResultSetMetaData rsmd = results.getMetaData();
@@ -310,7 +312,41 @@ public boolean login(String username, String password) {
 	}
 	return false;
 }
-   
+
+/**
+ * Funzione per la richiesta del client al SIP dei propri contatti
+ */
+public Contact[] getMyContacts(RMIBasicMessage msg) {
+	// TODO Introdurre l'autenticazione del richiedente
+	Contact[] contacts = null;
+	
+	if(!connesso){
+		connetti();
+	}
+	ResultSet result;
+	
+	try {
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
+		//prepSt.setString(1, username);
+		//prepSt.setString(2, password);
+		result = prepSt.executeQuery();
+		result.next();
+        if(result.getInt("COUNT") == 0){
+        	//System.out.println("SIP - Login["+username+"] rifiutato.");
+        	return null;
+        }else{
+        	//System.out.println("SIP - Login["+username+"] effettuato.");
+        	//return true;
+        }
+        		
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	return contacts;
+}
+
    
    
    

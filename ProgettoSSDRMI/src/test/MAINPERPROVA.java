@@ -1,5 +1,6 @@
 package test;
 import chat.Contact;
+import RMIMessages.RequestFriendshipMessage;
 import SIP.DBConnection;
 
 
@@ -17,7 +18,7 @@ public class MAINPERPROVA {
 		
 		dbconn.insertContact(new Contact("Nickname", "Nome", "Cognome", "eMail","password", "GlobalIP", null));
 		
-		dbconn.requestFriendship("mailz", "eMail");
+		dbconn.requestFriendship(new RequestFriendshipMessage("mailz", "eMail"));
 		
 		dbconn.login("email", "password");
 		

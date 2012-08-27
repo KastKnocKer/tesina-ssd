@@ -32,8 +32,8 @@ public class MainSSD {
     	}
 		
 		
-		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");
-		// System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");
+		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
 		
 		
 		//	Acquisisco i miei indirizzi IP

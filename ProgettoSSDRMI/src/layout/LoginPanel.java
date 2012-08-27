@@ -4,21 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import client.ClientEngine;
-
-import SIP.DBConnection;
 
 public class LoginPanel extends JPanel {
 
@@ -60,7 +57,6 @@ public class LoginPanel extends JPanel {
 
 	       
 	       /* Aggiungo centerPanel a mainPanel */
-//	       getContentPane().add(mainPanel);
 	       this.add(mainPanel);
 	       mainPanel.setBackground(Color.gray);
 	       centerPanel_boxLayout.setAlignmentY(50);
@@ -72,6 +68,7 @@ public class LoginPanel extends JPanel {
 	       subPanel_01 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
 	       centerPanel_boxLayout.add(subPanel_01); 
 	       label_loginPanel = new JLabel("Login Screen"); 
+	       label_loginPanel.setFont(new Font("Arial Black", Font.BOLD, 15));
 	       subPanel_01.add(label_loginPanel, BorderLayout.CENTER);
 	       
 	       // label_loginPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));

@@ -124,7 +124,7 @@ public class RegistrationPanel extends JPanel {
 		   /* Aggiungo label di titolo */
 		   
 		   JPanel subPanel_01 = new JPanel(new FlowLayout(FlowLayout.CENTER) ); 
-		   JLabel lbl = new JLabel("REGISTRAZIONE");
+		   JLabel lbl = new JLabel("Registrazione");
 		   lbl.setFont(new Font("Arial Black", Font.BOLD, 15));
 
 		   subPanel_01.add(lbl);

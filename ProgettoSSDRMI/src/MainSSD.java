@@ -203,25 +203,17 @@ public class MainSSD {
 					System.err.println("Impossibile impostare L&F di sistema");
 				}
 				
+				
+				/**
+				 * Mostro l'Home Frame
+				 * @author Fabio Pierazzi 
+				 */
 				// places the application on the Swing Event Queue 
 				SwingUtilities.invokeLater(new Runnable() {
 			            public void run() {
 			            	
 			            	HomeFrame hf = new HomeFrame(); 
 			            	hf.setVisible(true);
-			            	
-			            	
-			            	// mostro il login screen
-//			            	JFrame mainFrame = new JFrame(); 
-//			                LoginPanel loginFrame = new LoginPanel();
-//			                mainFrame.add(loginFrame); 
-//			                mainFrame.setVisible(true); 
-//			                
-//			                mainFrame.setTitle("Always On - RMI Chat");
-//			                mainFrame.setSize(280,250);
-//			                mainFrame.setLocationRelativeTo(null);
-//			                // mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//			                // loginFrame.setVisible(true);
 			            }
 				});
 		return true;

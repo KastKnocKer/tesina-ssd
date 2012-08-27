@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Configuration><Type>0</Type><SIP_Address>192.168.1.106</SIP_Address><SIP_Port>1101</SIP_Port><Client_Port>1102</Client_Port><PrivateKey/><PublicKey/></Configuration>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Configuration><Type>0</Type><SIP_Address>192.168.1.110</SIP_Address><SIP_Port>1101</SIP_Port><Client_Port>1102</Client_Port><PrivateKey/><PublicKey/></Configuration>

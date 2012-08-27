@@ -54,18 +54,7 @@ public class HomeFrame extends JFrame {
 	       this.addComponentListener(new ComponentAdapter() {
 	    	      @Override
 	    	      public void componentResized(ComponentEvent e) {
-	    	    	  System.out.println("HomeFrame Resized");
-	    	    	  /* Se ridimensiono, e c'è la tabella di lista amici */
-	    	    	  if(LayoutReferences.getFriendsListTable() != null) {
-	    	    		  /* la aggiorno graficamente */
-	    	    		  System.out.println("FriendsListTable exists: update!");
-//	    	    		  LayoutReferences.getFriendsListTable().updateTable(); 
-//	    	    		  LayoutReferences.getHomeFrame().validate();
-//	    	    		  LayoutReferences.getHomeFrame().repaint(); 
-//	    	    		  LayoutReferences.getHomeFrame(); 
-	    	    		  
-	    	    	  }
-	    	    	  
+	    	    	  /* Evento on-resize */
 	    	      }
 	       }); 
 

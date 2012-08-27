@@ -22,6 +22,8 @@ public class FriendsListPanel extends JPanel {
 		/* recupero l'home frame */
 		homeFrame = LayoutReferences.getHomeFrame(); 
 		
+		this.setLayout(new BorderLayout());
+		
 		mainPanel = new JPanel(new BorderLayout()); 
 
 		/* Cambio la menu bar del frame */
@@ -35,7 +37,7 @@ public class FriendsListPanel extends JPanel {
 		
 		// ImageIcon myIcon = new ImageIcon("images/myPic.gif");
 
-		this.add(mainPanel); 
+		this.add(mainPanel, BorderLayout.CENTER); 
 		// mainPanel.setSize(800,800); 
 		mainPanel.setVisible(true); 
 	}
@@ -81,7 +83,7 @@ public class FriendsListPanel extends JPanel {
 //		mainPanel.add(fl_table.getTableHeader(), BorderLayout.PAGE_START);
 //		mainPanel.add(fl_table, BorderLayout.CENTER); 
 		
-		homeFrame.add(scrollPane);
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		//		JPanel tablePanel = new JPanel(); 
 //		tablePanel.add(fl_table);

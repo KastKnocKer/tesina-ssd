@@ -98,6 +98,7 @@ public class LoginPanel extends JPanel {
 	    				   /* Creo ed apro il pannello contenente la lista amici */
 	    	    		   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
 	    	    		   
+	    	    		   /* Aggiungo il tab relativo alla FriendsList all'interno del CardPanel */
 	    	    		   FriendsListPanel flp = new FriendsListPanel(); 
 	    	    	       cardsPanel.add(flp, "FriendsList");
 	    	    	       

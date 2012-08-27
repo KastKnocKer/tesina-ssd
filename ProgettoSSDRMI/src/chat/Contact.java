@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class Contact implements Serializable{
 	public static String NONE = "";
-	private int ID = 0;
+	private int UserID = 0;
 	private String Nickname = NONE;
 	private String Nome = NONE;
 	private String Cognome = NONE;
 	private String eMail = NONE;
 	private String Password = NONE;
+	private StatusList Status = StatusList.OFFLINE;
 
 	private String GlobalIP = NONE;
 	private String[][] LocalIPs = null;
@@ -29,12 +30,20 @@ public class Contact implements Serializable{
 		this.LocalIPs = LocalIPs;
 	}
 	
+	public Friend getFriend(){
+		Friend friend = new Friend();
+		friend.setUserId(UserID);
+		friend.setNickname(Nickname);
+		friend.setStatus(Status);
+		return friend;
+	}
+	
 	public int getID() {
-		return ID;
+		return UserID;
 	}
 
 	public void setID(int iD) {
-		ID = iD;
+		UserID = iD;
 	}
 
 	public String getNickname() {
@@ -94,7 +103,7 @@ public class Contact implements Serializable{
 	}
 
 	public void printInfo(){
-		System.out.println(ID +" - "+ eMail+ " - "+ Nickname);
+		System.out.println(UserID +" - "+ eMail+ " - "+ Nickname);
 	}
 	
 	 

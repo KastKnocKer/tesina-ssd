@@ -4,12 +4,15 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import utility.RMIResponse;
 
 import RMI.SIPInterface;
+import RMIMessages.RMIBasicMessage;
+import chat.Contact;
 import chat.Status;
 
 public class ClientEngine {
@@ -41,6 +44,26 @@ public class ClientEngine {
 		}
 		return response;
 	}
+	
+	
+	public static boolean LoadContactsFromSIP(){
+		boolean response = false;
+		try {
+			if(Status.DEBUG) System.out.println("Client - Richiesta lista contatti al SIP");
+			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
+			if(contacts != null){
+				Status.setContactList(contacts);
+				response = true;
+			}
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.LoadContactsFromSIP() exception", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+			//e.printStackTrace();
+			return false;
+		}
+		return response;
+	}
+	
 	
 	/**
 	 * @return Riferimento al SIP

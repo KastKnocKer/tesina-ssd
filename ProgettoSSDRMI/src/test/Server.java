@@ -23,7 +23,7 @@ public class Server implements Hello {
 	}
 
 	public String sayHello(String nome, Contact userRequestor) throws RemoteException {
-		System.out.println("Ho ricevuto una richiesta da: "+userRequestor.Nickname+" - GlobalIP:"+userRequestor.GlobalIP+" LocalIP:"+userRequestor.LocalIPs[0][0]);
+		System.out.println("Ho ricevuto una richiesta da: "+userRequestor.getNickname()+" - GlobalIP:"+userRequestor.getGlobalIP()+" LocalIP:"+userRequestor.getLocalIPs()[0][0]);
         return "Hello "+nome+" da "+System.getProperty("user.name")+" (From Global:"+new WhatIsMyIP().getGlobalIP()+" Local: "+new WhatIsMyIP().getLocalIPs()[0][0]+")";
 	}
         

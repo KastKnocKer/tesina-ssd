@@ -11,9 +11,16 @@ import chat.Status;
 public class RMIBasicMessage implements Serializable {
 
 	private int UserID;
+	private String GlobalIP;
+	private int ClientPort;
+	private String PublicKey;
+	
 	
 	public RMIBasicMessage(){
-		
+		UserID = 		Status.getClient_Port();
+		GlobalIP = 		Status.getGlobalIP();
+		ClientPort = 	Status.getClient_Port();
+		PublicKey = 	Status.getPublicKey();
 	}
 
 }

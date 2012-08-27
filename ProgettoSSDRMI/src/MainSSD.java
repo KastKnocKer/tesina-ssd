@@ -44,6 +44,9 @@ public class MainSSD {
 		for(int i=0; i<localIPs.length; i++){
 			System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
 		}
+		//TODO carico su status
+		Status.setGlobalIP(wimi.getLocalIPs()[0][0]);
+		
 		//	Carico i dati locali
 		Status status = new Status();
 			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());

@@ -31,9 +31,8 @@ public class MainSSD {
     		System.exit(0);
     	}
 		
-		
-		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");
-		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");
+		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		//Repository FABIO
+		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");			//Repository KKK
 		
 		
 		//	Acquisisco i miei indirizzi IP
@@ -51,7 +50,7 @@ public class MainSSD {
 		Status status = new Status();
 			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());
 		status.readConfXML();
-		status.writeContactsXML();
+		
 		
 		
 		if( Status.getType() == Status.TYPE_SIP ) 

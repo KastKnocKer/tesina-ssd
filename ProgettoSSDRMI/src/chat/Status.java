@@ -55,15 +55,8 @@ public class Status {
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
-	public static String getPublicKey() {
-		return PublicKey;
-	}
+	
 
-
-
-	public static void setPublicKey(String publicKey) {
-		PublicKey = publicKey;
-	}
 
 
 
@@ -100,7 +93,7 @@ public class Status {
 		
 		// TODO Controllare che esista il file CONTACTS.xml
 		// TODO Se esiste, caricare i contatti dal file altrimenti richiedere al sip
-		ClientEngine.LoadContactsFromSIP();
+		
 		FriendsList temp_friendsList = new FriendsList(); 
 		
 		/* Primo amico */
@@ -128,11 +121,10 @@ public class Status {
 		temp_friendsList.addFriend(f2); 
 		temp_friendsList.addFriend(f3); 
 		
-		for(Contact contact : Status.getContactList()){
-			temp_friendsList.addFriend(contact.getFriend());
-		}
 		
 		Status.setFriendsList(temp_friendsList); 
+		
+		ClientEngine.LoadContactsFromSIP();
 	}
 	
 	
@@ -278,7 +270,7 @@ public class Status {
 	}
 	
 
-	public boolean writeContactsXML(){
+	public static boolean writeContactsXML(){
 		if(contactList == null) contactList = new ArrayList<Contact>();
 			contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
 			contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
@@ -447,7 +439,12 @@ public class Status {
 	}
 
 
-
+	public static String getPublicKey() {
+		return PublicKey;
+	}
+	public static void setPublicKey(String publicKey) {
+		PublicKey = publicKey;
+	}
 	public static String getGlobalIP() {
 		return GlobalIP;
 	}
@@ -461,6 +458,12 @@ public class Status {
 	public static void setContactList(ArrayList<Contact> contactList) {
 		//TODO aggiungere aggiornamento della tabella visuale
 		//todo Aggiungere aggiornamento friendlist
+		FriendsList temp_friendsList = new FriendsList(); 
+		for(Contact contact : contactList){
+			temp_friendsList.addFriend(contact.getFriend());
+		}
 		Status.contactList = contactList;
+		Status.setFriendsList(temp_friendsList); 
+		Status.writeContactsXML();
 	}
 }

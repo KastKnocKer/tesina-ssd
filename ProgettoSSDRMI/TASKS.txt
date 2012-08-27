@@ -1,9 +1,9 @@
 //TODO
 LOGIN P2P
 REGISTRAZIONE P2P
-CRUD - Utenti lato SIP
-CRUD - Amicizie lato SIP
+
 CRUD - Stato di connessione lato SIP
+
 GUI - Finestra di conversazione
 
 
@@ -15,6 +15,16 @@ GUI - Finestra elenco contatti
 GUI - Login
 GUI - Registrazione
 
-//DONE (Kasty)
-LOGIN con SIP
+
+
+
+
+// DOING (KKK)
+CRUD - Utenti lato SIP
+CRUD - Amicizie lato SIP
+
+
+//DONE (KKK)
+LOGIN con SIP OTTIMIZZATO
 REGISTRAZIONE con SIP
+RICHIESTA DEI PROPRI CONTATTI DEL CLIENT PRESSO IL SIP

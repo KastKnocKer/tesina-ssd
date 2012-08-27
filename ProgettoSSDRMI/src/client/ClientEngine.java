@@ -45,7 +45,9 @@ public class ClientEngine {
 		return response;
 	}
 	
-	
+	/**
+	 * Richiede al sip l'intera lista dei propri conatti, aggiornando la lista dei contatti in Status
+	 */
 	public static boolean LoadContactsFromSIP(){
 		boolean response = false;
 		try {

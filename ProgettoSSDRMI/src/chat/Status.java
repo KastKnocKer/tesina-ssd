@@ -83,9 +83,6 @@ public class Status {
 		return friendsList;
 	}
 	
-	public static void loadFriendListFromSIP(){
-	}
-	
 	/**
 	 * Metodo per impostare il riferimento globale alla lista amici 
 	 * dell'utente.
@@ -130,6 +127,10 @@ public class Status {
 		temp_friendsList.addFriend(f1); 
 		temp_friendsList.addFriend(f2); 
 		temp_friendsList.addFriend(f3); 
+		
+		for(Contact contact : Status.getContactList()){
+			temp_friendsList.addFriend(contact.getFriend());
+		}
 		
 		Status.setFriendsList(temp_friendsList); 
 	}

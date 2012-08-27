@@ -77,6 +77,9 @@ public class Status {
 	// TODO da perfezionare
 	public static void loadFriendsList() {
 		
+		// TODO Controllare che esista il file CONTACTS.xml
+		// TODO Se esiste, caricare i contatti dal file altrimenti richiedere al sip
+		
 		FriendsList temp_friendsList = new FriendsList(); 
 		
 		/* Primo amico */

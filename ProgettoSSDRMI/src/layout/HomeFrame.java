@@ -13,14 +13,23 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+/**
+ * Frame principale dell'applicazione. Usato per contenere il pannello 
+ * di Login, quello di Registrazione, e (una volta loggati correttamente nel sistema)
+ * la FriendsList, cioé l'elenco dei contatti.
+ *  
+ * @author Fabio Pierazzi
+ */
 public class HomeFrame extends JFrame {
 	
+	/* Costruttore */
 	public HomeFrame() {
 		
-		/* Imposto un riferimento globale statico a questo frame */   
-		LayoutReferences.setHomeFrame(this);
-		
-		setTitle("Always On - RMI Chat");
+			/* Imposto un riferimento globale statico a questo frame */   
+			LayoutReferences.setHomeFrame(this);
+			
+			/* Imposto alcune proprietà del frame */
+			setTitle("Always On - RMI Chat");
 	       setSize(375,450);
 	       setLocationRelativeTo(null);
 	       setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,7 +69,11 @@ public class HomeFrame extends JFrame {
 
 	}
 	
-	/* Aggiunge la menu bar all'Home Frame */
+	/** 
+	 * Aggiunge all'HomeFrame la menu bar
+	 * 
+	 * @author Fabio Pierazzi
+	 */
 	public void show_HomeFrame_LoginMenuBar() {
 		
 		setJMenuBar(null);
@@ -89,8 +102,11 @@ public class HomeFrame extends JFrame {
 		
 	}
 	
-	/* Aggiunge la menu bar con tutte le opzioni che si hanno
-	 * una volta effettuato il login nel sistema */
+	/** Aggiunge all'HomeFrame la menu bar con tutte le opzioni che si hanno
+	 * una volta effettuato il login nel sistema 
+	 * 
+	 * @author Fabio Pierazzi 
+	 */
 	public void show_HomeFrame_LoggedMenuBar() {
 		
 		setJMenuBar(null);
@@ -122,8 +138,8 @@ public class HomeFrame extends JFrame {
         
         contacts_add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                System.out.println("Premuto 'Add Contact..'");
-            	//System.exit(0);
+                AddContact_Frame frame_addContact = new AddContact_Frame(); 
+                frame_addContact.setVisible(true); 
             }
         });
 

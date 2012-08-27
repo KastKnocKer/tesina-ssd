@@ -52,7 +52,6 @@ public class FriendsListPanel extends JPanel {
 	/* Disegno la tabella di amici */
 	private void drawFriendsListTable() {
 		
-		
 		FriendsListTableModel fl_tableModel = new FriendsListTableModel();
 		fl_tableModel.setFriendsList(Status.getFriendsList()); 
 		FriendsListTable fl_table = new FriendsListTable(fl_tableModel); 
@@ -60,35 +59,13 @@ public class FriendsListPanel extends JPanel {
 		
 		fl_table.updateTable();
 		fl_table.setVisible(true); 
-//		 
-//		Object rowData[][] = {  {"Online", "Fabio Pierazzi"}, 
-//								{"Online", "Andrea Castelli"},
-//								{"Offline", "Matteina al mare"},
-//								{"Offline", "Marco Guerri"}
-//							};
-//		Object columnNames[] = {"Status", "Nome"}; 
-//		
-//		TableModel tm = new DefaultTableModel(rowData, columnNames);
-//		
-//		table_friendsList = new JTable(tm);
-//		
-//		/* Aggiungo la tabella al pannello */ 
+		
+		/* Aggiungo la tabella al pannello */ 
 		JScrollPane scrollPane = new JScrollPane(fl_table);
 		fl_table.setFillsViewportHeight(true);
 		
-//		table_friendsList.setSize(500, 200); 
-		
-		
-		
-//		mainPanel.add(fl_table.getTableHeader(), BorderLayout.PAGE_START);
-//		mainPanel.add(fl_table, BorderLayout.CENTER); 
-		
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
-		//		JPanel tablePanel = new JPanel(); 
-//		tablePanel.add(fl_table);
-//		// pannello.setSize(500,350); 
-//		mainPanel.add(tablePanel, BorderLayout.CENTER);
 	}
 }
 

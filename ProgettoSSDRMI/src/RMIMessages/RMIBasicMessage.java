@@ -18,7 +18,7 @@ public class RMIBasicMessage implements Serializable {
 	
 	
 	public RMIBasicMessage(){
-		UserID = 		Status.getClient_Port();
+		UserID = 		Status.getUserID();
 		GlobalIP = 		Status.getGlobalIP();
 		ClientPort = 	Status.getClient_Port();
 		PublicKey = 	Status.getPublicKey();

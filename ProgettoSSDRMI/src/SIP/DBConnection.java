@@ -263,11 +263,10 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 	if(!connesso){
 		connetti();
 	}
-	boolean completed = false;
 	
 	//Cerco l'esistenza dei due contatti
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?;");
 		prepSt.setString(1, fromEmail);
 		prepSt.setString(2, toEmail);
 		results = prepSt.executeQuery();
@@ -293,19 +292,47 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.");
 	}
 	
-	//Controllo che esistano i 2 utenti
-	if( fromEmail.equals(contacts[0][1]) && toEmail.equals(contacts[1][1]) ){
-		
-	}else if ( fromEmail.equals(contacts[1][1]) && toEmail.equals(contacts[0][1]) ){
-		
-	}else{
+	System.out.println("contacts[0][0] "+contacts[0][0]);
+	System.out.println("contacts[0][1] "+contacts[0][1]);
+	System.out.println("contacts[1][0] "+contacts[1][0]);
+	System.out.println("contacts[1][1] "+contacts[1][1]);
+	
+	//Controllo che esistano i 2 utenti, se non presenti abortisco l'operazione
+	if(contacts[0][0] == null || contacts[0][1] == null || contacts[1][0] == null || contacts[1][1] == null ){
 		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nUtenti non validi.");
+	}
+	
+	PreparedStatement prepSt = null;
+	boolean flagAB = Integer.parseInt(contacts[0][0]) < Integer.parseInt(contacts[1][0]);		//Indica se contacts[0][0] (A) < contacts[1][0] (B)
+	boolean flagFromEmail = contacts[0][1].equals(fromEmail);									//Indica se contacts[0][1] (A) è il contatto richiedente
+	try {
+		prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
+		if(flagAB){
+			prepSt.setString(1, contacts[0][0]);
+			prepSt.setString(2, contacts[1][0]);
+			if(flagFromEmail)
+				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
+			else
+				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
+		}else{
+			prepSt.setString(1, contacts[1][0]);
+			prepSt.setString(2, contacts[0][0]);
+			if(flagFromEmail)
+				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
+			else
+				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
+		}
+		
+		prepSt.executeUpdate();
+		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente!");
+		
+	} catch (SQLException e1) {
+		e1.printStackTrace();
+		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
 	}
 	
 	
 	
-	
-	return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente.");
 }
 
 @Override
@@ -357,9 +384,13 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	ResultSet result;
 	
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE email != ?");
-		prepSt.setString(1, msg.getRequestorEmail());	//Mi faccio restituire tutti i contatti tranne me
+		//PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE email != ?");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE idUser IN (SELECT idUserB FROM friendship WHERE idUserA = ? UNION SELECT idUserA FROM friendship WHERE idUserB = ?);");
+		
+		prepSt.setString(1, Integer.toString(msg.getRequestorUserID()));
+		prepSt.setString(2, Integer.toString(msg.getRequestorUserID()));
 		//prepSt.setString(2, password);
+		System.err.println("Query: "+prepSt.getPreparedSql() + "  "+ msg.getRequestorUserID());
 		result = prepSt.executeQuery();
 		
 		//v = new Vector();

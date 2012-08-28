@@ -41,6 +41,7 @@ public class Status {
 		
 	public static Contact localUser;
 	
+	private static int UserID = -1;
 	private static String Nome = "***";
 	private static String Cognome = "***";
 	private static String Nickname = "***";
@@ -448,6 +449,8 @@ public class Status {
 	public static void setNickname(String nickname) {		Nickname = nickname;	}
 	public static StatusList getStato() {					return Stato;	}
 	public static void setStato(StatusList stato) {			Stato = stato;	}
+	public static int getUserID() {							return UserID;	}
+	public static void setUserID(int userID) {				UserID = userID;	}
 	
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {
@@ -473,6 +476,10 @@ public class Status {
 		Status.setFriendsList(temp_friendsList); 
 		Status.writeContactsXML();
 	}
+
+
+
+
 
 
 

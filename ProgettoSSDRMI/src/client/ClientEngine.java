@@ -28,7 +28,11 @@ public class ClientEngine {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 			response = getSIP().login(username, password);
 			if(response.isSUCCESS()){
+				Status.setUserID(response.getLoggedContact().getID());
 				Status.setEmail(response.getLoggedContact().geteMail());
+				Status.setNome(response.getLoggedContact().getNome());
+				Status.setCognome(response.getLoggedContact().getCognome());
+				Status.setNickname(response.getLoggedContact().getNickname());
 			}
 			return response;
 		} catch (RemoteException e) {

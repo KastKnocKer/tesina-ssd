@@ -2,7 +2,6 @@ package chat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,8 +18,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import client.ClientEngine;
-
-import RMIMessages.RMIBasicMessage;
 
 
 /**
@@ -45,6 +42,7 @@ public class Status {
 	private static String Nome = "***";
 	private static String Cognome = "***";
 	private static String Nickname = "***";
+	private static String AvatarURL = ""; 
 	private static StatusList Stato = StatusList.OFFLINE;
 	
 	/////////////////////////////////////////////////
@@ -452,15 +450,20 @@ public class Status {
 	public static int getUserID() {							return UserID;	}
 	public static void setUserID(int userID) {				UserID = userID;	}
 	
+	public static String getAvatarURL() {
+		return AvatarURL;
+	}
+
+	public static void setAvatarURL(String avatarURL) {
+		AvatarURL = avatarURL;
+	}
+
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 		Node nValue = nlList.item(0);
 		return nValue.getNodeValue();
 	}
-
-
-	
 
 	public static ArrayList<Contact> getContactList() {
 		return contactList;

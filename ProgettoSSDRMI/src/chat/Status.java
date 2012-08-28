@@ -431,6 +431,12 @@ public class Status {
 	public static void setSIP_Port(int sIP_PORT) {			SIP_Port = sIP_PORT;	}
 	public static int getClient_Port() {					return Client_Port;	}
 	public static void setClient_Port(int cLIENT_PORT) {	Client_Port = cLIENT_PORT;	}
+	public static String getPublicKey() {					return PublicKey;	}
+	public static void setPublicKey(String publicKey) {		PublicKey = publicKey;	}
+	public static String getGlobalIP() {					return GlobalIP;	}
+	public static void setGlobalIP(String globalIP) {		GlobalIP = globalIP;	}
+	public static String getEmail() {						return Email;	}
+	public static void setEmail(String email) {				Email = email;	}
 	
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {
@@ -440,18 +446,7 @@ public class Status {
 	}
 
 
-	public static String getPublicKey() {
-		return PublicKey;
-	}
-	public static void setPublicKey(String publicKey) {
-		PublicKey = publicKey;
-	}
-	public static String getGlobalIP() {
-		return GlobalIP;
-	}
-	public static void setGlobalIP(String globalIP) {
-		GlobalIP = globalIP;
-	}
+	
 
 	public static ArrayList<Contact> getContactList() {
 		return contactList;
@@ -470,13 +465,5 @@ public class Status {
 
 
 
-	public static String getEmail() {
-		return Email;
-	}
-
-
-
-	public static void setEmail(String email) {
-		Email = email;
-	}
+	
 }

@@ -24,9 +24,9 @@ public interface SIPInterface extends Remote{
 	 * Il client indica al SIP di volersi disconnettere
 	 */
 	boolean imLeaving(RMIBasicMessage msg) throws RemoteException;
-	
-	
 	//TODO
+	
+	
 	/**
 	 * Registrazione del client presso il SIP
 	 */

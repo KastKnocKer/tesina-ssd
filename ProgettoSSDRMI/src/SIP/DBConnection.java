@@ -343,7 +343,6 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 		//prepSt.setString(1, username);
 		//prepSt.setString(2, password);
 		result = prepSt.executeQuery();
-		result.next();
 		
 		//v = new Vector();
         ResultSetMetaData rsmd = result.getMetaData();

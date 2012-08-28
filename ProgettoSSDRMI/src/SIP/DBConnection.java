@@ -253,28 +253,37 @@ public boolean modifyContact(Contact contact) {
 
 @Override
 public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg) {
+	String fromEmail = msg.getRequestorEmail(); 
+	String toEmail	 = msg.getToEmail();
+	String[][] contacts = new String[2][2];
 	String message = "";
 	ResultSet results;
-	System.out.println("SIP - aggiunta amicizia: "+msg.getRequestorEmail()+" -> "+msg.getToEmail());
+	System.out.println("SIP - aggiunta amicizia: "+fromEmail+" -> "+toEmail);
 	
 	if(!connesso){
 		connetti();
 	}
 	boolean completed = false;
+	
+	//Cerco l'esistenza dei due contatti
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?");
-		prepSt.setString(1, msg.getRequestorEmail());
-		prepSt.setString(2, msg.getToEmail());
+		prepSt.setString(1, fromEmail);
+		prepSt.setString(2, toEmail);
 		results = prepSt.executeQuery();
 		
 		ResultSetMetaData rsmd = results.getMetaData();
         int colonne = rsmd.getColumnCount();
-
+        int index = 0;
         while(results.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
 //           record = new String[colonne];
 //           for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
 //           v.add( (String[]) record.clone() );
-        	for (int i=0; i<colonne; i++) System.out.println( results.getString(i+1) );
+        	for (int i=0; i<colonne; i++){
+        		System.out.println( results.getString(i+1) );
+        		contacts[index][i] = results.getString(i+1);
+        	}
+        	index++;
         }
         results.close();     // Chiudo il ResultSet
         prepSt.close();   // Chiudo lo Statement
@@ -282,6 +291,15 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 	} catch (SQLException e) {
 		e.printStackTrace();
 		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.");
+	}
+	
+	//Controllo che esistano i 2 utenti
+	if( fromEmail.equals(contacts[0][1]) && toEmail.equals(contacts[1][1]) ){
+		
+	}else if ( fromEmail.equals(contacts[1][1]) && toEmail.equals(contacts[0][1]) ){
+		
+	}else{
+		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nUtenti non validi.");
 	}
 	
 	
@@ -339,8 +357,8 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	ResultSet result;
 	
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user");
-		//prepSt.setString(1, username);
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE email != ?");
+		prepSt.setString(1, msg.getRequestorEmail());	//Mi faccio restituire tutti i contatti tranne me
 		//prepSt.setString(2, password);
 		result = prepSt.executeQuery();
 		

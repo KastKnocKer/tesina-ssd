@@ -18,6 +18,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import chat.Status;
+import chat.StatusList; 
 
 /**
  * Pannello contenente la lista amici. Viene inserito
@@ -32,9 +33,19 @@ public class FriendsListPanel extends JPanel {
 	private JTable table_friendsList; 
 	
 	
+	/* stato personale utente, mostrato nella parte alta del pannello */
+	private JLabel nicknameLabel;
+	private JLabel statusLabel; 
+	private JLabel picture; 
+	
 	/* Costruttore */
 	public FriendsListPanel() {
 		
+		/* Imposto riferimento globale a questo pannello */
+		LayoutReferences.setFriendsListPanel(this); 
+		
+
+		/* Modifico caratteristiche frame */
 		LayoutReferences.getHomeFrame().setSize(300,550);
 	
 		this.setLayout(new BorderLayout());
@@ -65,8 +76,13 @@ public class FriendsListPanel extends JPanel {
 		/********************************************************
 		 * AVATAR
 		 ********************************************************/
-		ImageIcon icon = new ImageIcon("images/avatars/tn_tate.jpg");
-		JLabel picture = new JLabel(); 
+		if(Status.getAvatarURL().equals("")) {
+			System.out.println("No avatar found. Setting Default Avatar.");
+			Status.setAvatarURL("images/avatars/tn_tate.jpg");
+		}
+		
+		ImageIcon icon = new ImageIcon(Status.getAvatarURL());
+		picture = new JLabel(); 
         picture.setIcon(icon);
         picture.setSize(150,150); 
         
@@ -102,9 +118,26 @@ public class FriendsListPanel extends JPanel {
 		/* Header del Pannello */
 		JPanel nicknamePanel = new JPanel(new GridBagLayout()); 
 		
-		JLabel nicknameLabel = new JLabel("Febio"); 
+		nicknameLabel = new JLabel(Status.getNickname()); 
 		nicknameLabel.setFont(new Font("Arial", Font.BOLD, 13));
-		JLabel statusLabel = new JLabel("(Occupato)");
+		
+		
+		statusLabel = new JLabel(); 
+		
+		if(Status.getStato() == StatusList.ONLINE) {
+			statusLabel.setText("(Online)");
+			System.out.println("ONLINE");
+		} else if(Status.getStato() == StatusList.BUSY) {
+			statusLabel.setText("(Occupato)");
+			System.out.println("BUSY");
+		} else if(Status.getStato() == StatusList.AWAY) {
+			statusLabel.setText("(Non al computer)");
+			System.out.println("AWAY");
+		} else {
+			System.out.println("NO STATUS");
+			statusLabel.setText("(Online)");
+		}
+		
 		statusLabel.setFont(new Font("Arial", Font.ITALIC, 13));
 
 		GridBagConstraints nicknamePanelInsideconstraints = new GridBagConstraints(); 
@@ -113,7 +146,7 @@ public class FriendsListPanel extends JPanel {
 		nicknamePanelInsideconstraints.gridy = 1; 
 		nicknamePanelInsideconstraints.gridwidth = 1; 
 		nicknamePanelInsideconstraints.gridheight = 1; 
-		nicknamePanelInsideconstraints.anchor = GridBagConstraints.LINE_START;
+		nicknamePanelInsideconstraints.anchor = GridBagConstraints.CENTER;
 		nicknamePanelInsideconstraints.insets = new Insets(2, 2, 2, 2);
 		
 		nicknamePanel.add(nicknameLabel, nicknamePanelInsideconstraints); 
@@ -147,14 +180,18 @@ public class FriendsListPanel extends JPanel {
 		
 		mainPanel.add(nicknamePanel, constraints); 
 		
-		/* Listener per la pressione del mouse sul pannello con il nickname, 
-		 * usato per aggiornare i propri nickname e status. */
+		/****************************************************
+		 *  Listener per la pressione del mouse sul pannello con il nickname, 
+		 * 	usato per aggiornare i propri nickname e status. 
+		 * **************************************************/
 		nicknamePanel.addMouseListener(new MouseListener() {
 
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					// TODO Auto-generated method stub
 					System.out.println("Premuto il pannello");
+					ChangeNickname_Frame cnf = new ChangeNickname_Frame(); 
+					cnf.setVisible(true); 
 				}
 	
 				@Override
@@ -210,6 +247,39 @@ public class FriendsListPanel extends JPanel {
 		nestedPanel.add(scrollPane, BorderLayout.CENTER); 
 		mainPanel.add(nestedPanel, constraints);
 		
+	}
+	
+	/**
+	 * Metodo che aggiorna graficamente l'aspetto grafico del pannello.
+	 * In particolare, aggiorna nickname, avatar e stato dell'utente. 
+	 * Aggiorna anche la tabella con la lista amici. 
+	 */
+	public void refreshPanel() {
+		
+		/* Aggiorno nickname */
+		nicknameLabel.setText(Status.getNickname()); 
+		
+		/* Aggiorno stato */
+		if(Status.getStato() == StatusList.ONLINE) {
+			statusLabel.setText("(Online)");
+			System.out.println("ONLINE");
+		} else if(Status.getStato() == StatusList.BUSY) {
+			statusLabel.setText("(Occupato)");
+			System.out.println("BUSY");
+		} else if(Status.getStato() == StatusList.AWAY) {
+			statusLabel.setText("(Non al computer)");
+			System.out.println("AWAY");
+		} else {
+			System.out.println("NO STATUS");
+			statusLabel.setText("(Online)");
+		}
+		
+		/* Aggiorno avatar */
+		ImageIcon icon = new ImageIcon(Status.getAvatarURL());
+		picture.setIcon(icon); 
+		
+		// TODO 
+		// aggiorna tabella lista amici 
 	}
 }
 

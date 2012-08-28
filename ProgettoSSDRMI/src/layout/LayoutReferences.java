@@ -17,6 +17,8 @@ public class LayoutReferences {
 	private static FriendsListTable friendsListTable; 
 	private static FriendsListTableModel friendsListTableModel; 
 	
+	private static FriendsListPanel friendsListPanel; 
+	
 	public static void setHomeFrame(HomeFrame hf) {
 		homeFrame = hf; 
 		System.out.println("Frame settato");
@@ -49,6 +51,14 @@ public class LayoutReferences {
 
 	public static void setFriendsListTableModel(FriendsListTableModel frameListTableModel) {
 		LayoutReferences.friendsListTableModel = frameListTableModel;
+	}
+
+	public static FriendsListPanel getFriendsListPanel() {
+		return friendsListPanel;
+	}
+
+	public static void setFriendsListPanel(FriendsListPanel friendsListPanel) {
+		LayoutReferences.friendsListPanel = friendsListPanel;
 	}
 
 

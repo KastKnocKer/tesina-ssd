@@ -113,7 +113,6 @@ public class AddContact_Frame extends JFrame {
 			addContact_Panel.add(textField_email, constraints);
 			
 			
-			
 			/* Bottone per aggiungere amico */
 			addFriendButton = new JButton("Aggiungi"); 
 			

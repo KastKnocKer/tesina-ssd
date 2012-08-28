@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS USERSTATUS(
 CREATE TABLE IF NOT EXISTS FRIENDSHIP(
 	idUserA int(11) not null,
 	idUserB int(11) not null,
-	linkType enum('LIBERO','OCCUPATO', 'PRENOTATO', 'PULIRE') not null default 'LIBERO',
+	linkType enum('RICHIESTA_AB','RICHIESTA_BA', 'ATTIVA') not null default 'RICHIESTA_AB',
 	
 	primary key (idUserA,idUserB)
 )ENGINE=InnoDB;
@@ -39,3 +39,9 @@ INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Andrea', 'Castelli', 'kastknocker@gmail.com', 'KastKnocKer', 'asd');
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Matteo', 'Renzi', 'mattexxx@gmail.com', 'IlManico', 'asd');
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'marco@gmail.com', 'Marco', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'A@gmail.com', 'A', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'B@gmail.com', 'B', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'C@gmail.com', 'C', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'D@gmail.com', 'D', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'E@gmail.com', 'E', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'F@gmail.com', 'F', 'asd');

@@ -39,15 +39,11 @@ public class Status {
 	private static FriendsList friendsList;
 	private static ArrayList<Contact> contactList;
 		
-	
-
-
-
 	public static Contact localUser;
 	
-	private static String Nome = "";
-	private static String Cognome = "";
-	private static String Nickname = "";
+	private static String Nome = "***";
+	private static String Cognome = "***";
+	private static String Nickname = "***";
 	private static StatusList Stato = StatusList.OFFLINE;
 	
 	/////////////////////////////////////////////////

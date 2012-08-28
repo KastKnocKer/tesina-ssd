@@ -27,6 +27,9 @@ public class ClientEngine {
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 			response = getSIP().login(username, password);
+			if(response.isSUCCESS()){
+				Status.setEmail(response.getLoggedContact().geteMail());
+			}
 			return response;
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);

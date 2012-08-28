@@ -14,6 +14,7 @@ public class RMIBasicMessage implements Serializable {
 	private String GlobalIP;
 	private int ClientPort;
 	private String PublicKey;
+	private String Email;
 	
 	
 	public RMIBasicMessage(){
@@ -21,6 +22,21 @@ public class RMIBasicMessage implements Serializable {
 		GlobalIP = 		Status.getGlobalIP();
 		ClientPort = 	Status.getClient_Port();
 		PublicKey = 	Status.getPublicKey();
+		Email =			Status.getEmail();
 	}
+
+
+	public int getRequestorUserID() {						return UserID;	}
+	public void setUserID(int userID) {				UserID = userID;	}
+	public String getRequestorGlobalIP() {					return GlobalIP;	}
+	public void setGlobalIP(String globalIP) {		GlobalIP = globalIP;	}
+	public int getRequestorClientPort() {					return ClientPort;	}
+	public void setClientPort(int clientPort) {		ClientPort = clientPort;	}
+	public String getRequestorPublicKey() {					return PublicKey;	}
+	public void setPublicKey(String publicKey) {	PublicKey = publicKey;	}
+	public String getRequestorEmail() {						return Email;	}
+	public void setEmail(String email) {			Email = email;	}
+	
+	
 
 }

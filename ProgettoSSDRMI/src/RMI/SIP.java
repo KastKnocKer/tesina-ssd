@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import chat.Contact;
 
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMISIPBasicResponseMessage;
+import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.ResponseLoginMessage;
 import SIP.DBConnection;
 
 public class SIP implements SIPInterface{
@@ -36,7 +39,7 @@ public class SIP implements SIPInterface{
 		return dbConn.insertContact(contact);
 	}
 
-	public boolean login(String username, String password) throws RemoteException {
+	public ResponseLoginMessage login(String username, String password) throws RemoteException {
 		DBConnection dbConn = new DBConnection();
 		return dbConn.login(username, password);
 	}
@@ -44,6 +47,11 @@ public class SIP implements SIPInterface{
 	public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 		DBConnection dbConn = new DBConnection();
 		return dbConn.getMyContacts(msg);
+	}
+
+	public RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException {
+		DBConnection dbConn = new DBConnection();
+		return dbConn.requestFriendship(requestFriendshipMessage);
 	}
 
 

@@ -6,6 +6,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMISIPBasicResponseMessage;
+import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.ResponseLoginMessage;
 
 import chat.Contact;
 
@@ -32,11 +35,15 @@ public interface SIPInterface extends Remote{
 	/**
 	 * Login del client presso il SIP
 	 */
-	boolean login(String username, String password) throws RemoteException;
+	ResponseLoginMessage login(String username, String password) throws RemoteException;
 	
 	/**
 	 * Richiede la lista dei contatti al SIP
 	 */
 	ArrayList<Contact> getMyContacts(RMIBasicMessage msg) throws RemoteException;
 	
+	/**
+	 * Richiede l'amicizia di un nuovo contatto
+	 */
+	RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException;
 }

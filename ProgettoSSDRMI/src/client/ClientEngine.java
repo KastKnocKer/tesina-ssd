@@ -12,24 +12,28 @@ import utility.RMIResponse;
 
 import RMI.SIPInterface;
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMISIPBasicResponseMessage;
+import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Status;
 
 public class ClientEngine {
 
 	
-	public static boolean Login(String username, String password){
-		boolean response = false;
+	public static ResponseLoginMessage Login(String username, String password){
+		ResponseLoginMessage response = null;
 		//Login mediante server SIP
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 			response = getSIP().login(username, password);
+			return response;
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.Login() exception: " + e.toString());
 			//e.printStackTrace();
+			return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 		}
-		return response;
 	}
 	
 	public static boolean RegisterNewAccount(String nome, String cognome,String email, String nickname, String password) {
@@ -64,6 +68,22 @@ public class ClientEngine {
 			return false;
 		}
 		return response;
+	}
+	
+	/**
+	 * Richiede l'amicizia ad un altro contatto
+	 */
+	public static RMISIPBasicResponseMessage RequestFriendship(String email){
+		RMISIPBasicResponseMessage response = null;
+		try {//TODO
+			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: "+email);
+			return getSIP().askFriendship(new RequestFriendshipMessage(email));
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+			//e.printStackTrace();
+			return new RMISIPBasicResponseMessage(false, "ClientEngine.RequestFriendship() exception");
+		}
 	}
 	
 	

@@ -1,9 +1,12 @@
 package chat;
 
 /**
- * Classe che rappresenta i dati di un singolo amico presente 
- * nella lista amici. Utilizzata dalla FriendsListTable per 
- * mostrare l'elenco amici dell'utente. 
+ * Classe di interfaccia che rappresenta i dati di un singolo 
+ * amico presente nella lista amici. 
+ * A differenza della classe Contact, questa classe viene usata 
+ * per contenere i dati di contatto utili a mostrare le informazioni
+ * dei propri contatti all'interno dell'interfaccia grafica (più precisamente,
+ * all'interno della FriendsListTable). 
  * 
  * @author Fabio Pierazzi
  */

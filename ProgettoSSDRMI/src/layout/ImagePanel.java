@@ -34,7 +34,7 @@ public class ImagePanel extends JPanel {
 		  }
 		  setBorder(BorderFactory.createLineBorder(Color.black));
 		  
-		  this.setSize(500, 500); 
+		  // this.setSize(100, 100); 
 	  }
 
 	  public void paint(Graphics g) {

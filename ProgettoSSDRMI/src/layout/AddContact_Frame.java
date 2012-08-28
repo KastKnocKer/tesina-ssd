@@ -43,7 +43,7 @@ public class AddContact_Frame extends JFrame {
 			
 			/* Imposto alcune proprietà del frame */
 			setTitle("Always On - RMI Chat - Aggiungi Contatto");
-			setSize(450,250);
+			setSize(380,200);
 			setLocationRelativeTo(null);
 			// setDefaultCloseOperation(EXIT_ON_CLOSE);
 	       
@@ -154,7 +154,7 @@ public class AddContact_Frame extends JFrame {
 			
 			quitButton.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent event) {
-	                System.out.println("Premuto 'Quit'"); 
+	            	dispose(); 
 	            }
 	        });
 			

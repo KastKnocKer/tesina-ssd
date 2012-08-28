@@ -45,7 +45,10 @@ public class Status {
 
 	public static Contact localUser;
 	
-	
+	private static String Nome = "";
+	private static String Cognome = "";
+	private static String Nickname = "";
+	private static StatusList Stato = StatusList.OFFLINE;
 	
 	/////////////////////////////////////////////////
 	//DATI DA CARICARE DA CONF.XML
@@ -61,6 +64,10 @@ public class Status {
 
 
 
+	
+	
+
+	
 	private static String SIP_Address = "kastknocker.no-ip.biz";
 	//private static String SIP_Address = "192.168.1.113";
 
@@ -437,6 +444,14 @@ public class Status {
 	public static void setGlobalIP(String globalIP) {		GlobalIP = globalIP;	}
 	public static String getEmail() {						return Email;	}
 	public static void setEmail(String email) {				Email = email;	}
+	public static String getNome() {						return Nome;	}
+	public static void setNome(String nome) {				Nome = nome;	}
+	public static String getCognome() {						return Cognome;	}
+	public static void setCognome(String cognome) {			Cognome = cognome;	}
+	public static String getNickname() {					return Nickname;	}
+	public static void setNickname(String nickname) {		Nickname = nickname;	}
+	public static StatusList getStato() {					return Stato;	}
+	public static void setStato(StatusList stato) {			Stato = stato;	}
 	
 	//FUNZIONI DI UTILITY
 	private String getTagValue(String sTag, Element eElement) {

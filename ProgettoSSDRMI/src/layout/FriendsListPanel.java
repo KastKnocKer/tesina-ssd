@@ -1,13 +1,15 @@
 package layout;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +35,8 @@ public class FriendsListPanel extends JPanel {
 	/* Costruttore */
 	public FriendsListPanel() {
 		
+		LayoutReferences.getHomeFrame().setSize(300,550);
+	
 		this.setLayout(new BorderLayout());
 		mainPanel = new JPanel(new GridBagLayout()); 
 		this.add(mainPanel, BorderLayout.CENTER); 
@@ -57,52 +61,82 @@ public class FriendsListPanel extends JPanel {
 	 * @author Fabio Pierazzi
 	 */
 	private void showHeaderPanel() {
+		
+		/********************************************************
+		 * AVATAR
+		 ********************************************************/
+		ImageIcon icon = new ImageIcon("images/avatars/tn_tate.jpg");
+		JLabel picture = new JLabel(); 
+        picture.setIcon(icon);
+        picture.setSize(150,150); 
+        
 //		ImagePanel imagePanel = new ImagePanel("Chrysanthemum.jpg"); 
 //		mainPanel.add(imagePanel, BorderLayout.SOUTH);
 //		imagePanel.setVisible(true); 
 		
-		
-		/* Avatar */
-		// JLabel avatarLabel = new JLabel("Avatar!");
+//		/* Avatar */
+//		// JLabel avatarLabel = new JLabel("Avatar!");
 //		ImagePanel imagePanel = new ImagePanel("Chrysanthemum.jpg");
 //		
-//		GridBagConstraints constraints = new GridBagConstraints(); 
-//		constraints.fill = GridBagConstraints.BOTH;
-//		constraints.gridx = 0;
-//		constraints.gridy = 0; 
-//		constraints.gridwidth = 1; 
-//		constraints.gridheight = 1; 
-//		constraints.insets = new Insets(5, 5, 5, 5);  
+//		GridBagConstraints contraintsPicture = new GridBagConstraints(); 
+//		contraintsPicture.fill = GridBagConstraints.NONE;
+//		contraintsPicture.gridx = 0;
+//		contraintsPicture.gridy = 0; 
+//		contraintsPicture.gridwidth = 1; 
+//		contraintsPicture.gridheight = 1; 
+//		contraintsPicture.insets = new Insets(5, 5, 5, 5);  
+		
 //		
-//		JPanel tempContainerPanel = new JPanel(new BorderLayout());
-//		tempContainerPanel.setSize(150,150); 
-//		tempContainerPanel.add(imagePanel, BorderLayout.CENTER);
-//		tempContainerPanel.setBorder( BorderFactory.createTitledBorder("Avatar") );
-//		mainPanel.add(tempContainerPanel, constraints); 
+		JPanel tempContainerPanel = new JPanel(new BorderLayout());
+//		imagePanel.setSize(150,150); 
+		tempContainerPanel.setSize(150,150); 
+		tempContainerPanel.add(picture, BorderLayout.CENTER);
+		tempContainerPanel.setBorder( BorderFactory.createTitledBorder("Avatar") );
+//		mainPanel.add(tempContainerPanel, contraintsPicture); 
 		
 		
-		/* Titolo */
-		JPanel nicknamePanel = new JPanel(); 
+		/********************************************************
+		 * Nickname And Status
+		 ********************************************************/
+
+		/* Header del Pannello */
+		JPanel nicknamePanel = new JPanel(new GridBagLayout()); 
 		
 		JLabel nicknameLabel = new JLabel("Febio"); 
 		nicknameLabel.setFont(new Font("Arial", Font.BOLD, 13));
 		JLabel statusLabel = new JLabel("(Occupato)");
 		statusLabel.setFont(new Font("Arial", Font.ITALIC, 13));
+
+		GridBagConstraints nicknamePanelInsideconstraints = new GridBagConstraints(); 
+		nicknamePanelInsideconstraints.fill = GridBagConstraints.NONE;
+		nicknamePanelInsideconstraints.gridx = 0;
+		nicknamePanelInsideconstraints.gridy = 1; 
+		nicknamePanelInsideconstraints.gridwidth = 1; 
+		nicknamePanelInsideconstraints.gridheight = 1; 
+		nicknamePanelInsideconstraints.anchor = GridBagConstraints.LINE_START;
+		nicknamePanelInsideconstraints.insets = new Insets(2, 2, 2, 2);
 		
-		nicknamePanel.add(nicknameLabel); 
-		nicknamePanel.add(statusLabel); 
+		nicknamePanel.add(nicknameLabel, nicknamePanelInsideconstraints); 
 		
-//		JLabel titleLabel = new JLabel("Febio (Occupato)"); 
+		nicknamePanelInsideconstraints.gridx = 1; 
 		
+		nicknamePanel.add(statusLabel, nicknamePanelInsideconstraints); 
+		
+		nicknamePanelInsideconstraints.gridy = 0;
+		nicknamePanelInsideconstraints.gridx = 0; 
+		nicknamePanelInsideconstraints.gridwidth = 2;
+		
+		nicknamePanel.add(tempContainerPanel, nicknamePanelInsideconstraints);
+		
+		
+		/* Inserisco il pannello con GridBagLayout */
 		GridBagConstraints constraints = new GridBagConstraints(); 
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 1;
 		constraints.gridy = 0; 
 		constraints.gridwidth = 2; 
 		constraints.gridheight = 1; 
 		constraints.insets = new Insets(5, 5, 5, 5);  
-		
-//		titleLabel.setFont(new Font("Arial", Font.BOLD, 13));
 		
 		nicknamePanel.setBorder(
 				new CompoundBorder(
@@ -110,8 +144,33 @@ public class FriendsListPanel extends JPanel {
 						new EmptyBorder(5,5,5,5)
 			       )
 				);
-				
+		
 		mainPanel.add(nicknamePanel, constraints); 
+		
+		/* Listener per la pressione del mouse sul pannello con il nickname, 
+		 * usato per aggiornare i propri nickname e status. */
+		nicknamePanel.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					System.out.println("Premuto il pannello");
+				}
+	
+				@Override
+				public void mouseEntered(MouseEvent arg0) {}
+	
+				@Override
+				public void mouseExited(MouseEvent arg0) {}
+	
+				@Override
+				public void mousePressed(MouseEvent arg0) {}
+	
+				@Override
+				public void mouseReleased(MouseEvent arg0) {}
+			
+		});
+		
 	}
 	
 	/**

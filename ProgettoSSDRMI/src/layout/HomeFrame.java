@@ -113,13 +113,27 @@ public class HomeFrame extends JFrame {
 		
 		JMenuBar menubar = new JMenuBar();
 
-		/* File */
+		/* File TopMenu */
         JMenu file = new JMenu("File");
         file.setMnemonic(KeyEvent.VK_F);
 
+        /* LogOut */
+        JMenuItem eMenuItem_logout = new JMenuItem("Logout");
+        
+        eMenuItem_logout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+            	// TODO
+            	System.out.println("Premuto bottone Logout...");
+            }
+        });
+        
+        file.add(eMenuItem_logout); 
+        
+        /* Exit */
         JMenuItem eMenuItem = new JMenuItem("Exit", null);
         eMenuItem.setMnemonic(KeyEvent.VK_C);
-        eMenuItem.setToolTipText("Exit application");
+        // eMenuItem.setToolTipText("Exit application");
+         
         
         eMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {

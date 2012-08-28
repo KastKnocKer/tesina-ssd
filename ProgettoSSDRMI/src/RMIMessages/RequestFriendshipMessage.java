@@ -6,18 +6,10 @@ package RMIMessages;
 public class RequestFriendshipMessage extends RMIBasicMessage{
 
 	private String fromEmail,toEmail;
-	public RequestFriendshipMessage(String fromEmail, String toEmail){
+	public RequestFriendshipMessage(String toEmail){
 		super();
 		this.fromEmail = fromEmail;
 		this.setToEmail(toEmail);
-	}
-	
-	public String getFromEmail() {
-		return fromEmail;
-	}
-	
-	public void setFromEmail(String fromEmail) {
-		this.fromEmail = fromEmail;
 	}
 
 	public String getToEmail() {

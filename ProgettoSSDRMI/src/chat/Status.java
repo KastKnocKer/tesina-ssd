@@ -55,6 +55,7 @@ public class Status {
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
+	private static String Email = "";
 	
 
 
@@ -465,5 +466,17 @@ public class Status {
 		Status.contactList = contactList;
 		Status.setFriendsList(temp_friendsList); 
 		Status.writeContactsXML();
+	}
+
+
+
+	public static String getEmail() {
+		return Email;
+	}
+
+
+
+	public static void setEmail(String email) {
+		Email = email;
 	}
 }

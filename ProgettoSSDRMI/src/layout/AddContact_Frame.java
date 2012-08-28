@@ -11,8 +11,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import RMIMessages.RMISIPBasicResponseMessage;
+
+import client.ClientEngine;
 
 /**
  * Frame contenente il pannello per l'aggiunta di nuovi 
@@ -122,7 +127,14 @@ public class AddContact_Frame extends JFrame {
 			
 			addFriendButton.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent event) {
-	                System.out.println("Premuto 'Aggiungi (Amico)'");
+	            	// TODO INSERIRE RICHIESTA DI AGGIUNTA CONTATTO
+	                System.out.println("Premuto 'Aggiungi (Amico "+textField_email.getText()+")'");
+	                RMISIPBasicResponseMessage resp = ClientEngine.RequestFriendship(textField_email.getText());
+	                if(resp.isSUCCESS()){
+	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+	                }else{
+	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.ERROR_MESSAGE);
+	                }
 	            }
 	        });
 			

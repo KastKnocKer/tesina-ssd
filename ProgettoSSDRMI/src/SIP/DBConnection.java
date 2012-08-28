@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Friend;
 
@@ -250,10 +252,10 @@ public boolean modifyContact(Contact contact) {
 }
 
 @Override
-public String requestFriendship(RequestFriendshipMessage msg) {
+public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg) {
 	String message = "";
 	ResultSet results;
-	System.out.println("SIP - aggiunta amicizia: "+msg.getFromEmail()+" -> "+msg.getToEmail());
+	System.out.println("SIP - aggiunta amicizia: "+msg.getRequestorEmail()+" -> "+msg.getToEmail());
 	
 	if(!connesso){
 		connetti();
@@ -261,7 +263,7 @@ public String requestFriendship(RequestFriendshipMessage msg) {
 	boolean completed = false;
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?");
-		prepSt.setString(1, msg.getFromEmail());
+		prepSt.setString(1, msg.getRequestorEmail());
 		prepSt.setString(2, msg.getToEmail());
 		results = prepSt.executeQuery();
 		
@@ -279,40 +281,49 @@ public String requestFriendship(RequestFriendshipMessage msg) {
 		
 	} catch (SQLException e) {
 		e.printStackTrace();
+		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.");
 	}
 	
 	
 	
 	
-	return message;
+	return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente.");
 }
 
 @Override
-public boolean login(String username, String password) {
+public ResponseLoginMessage login(String username, String password) {
 	if(!connesso){
 		connetti();
 	}
 	ResultSet result;
 	
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT *,COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
 		prepSt.setString(1, username);
 		prepSt.setString(2, password);
 		result = prepSt.executeQuery();
 		result.next();
+		
+		
         if(result.getInt("COUNT") == 0){
         	System.out.println("SIP - Login["+username+"] rifiutato.");
-        	return false;
+        	return new ResponseLoginMessage(false, "Login rifiutato", null);
         }else{
         	System.out.println("SIP - Login["+username+"] effettuato.");
-        	return true;
+        	Contact contact = new Contact();
+        	contact.setID(		Integer.parseInt(result.getString(1)));
+        	contact.setNome(	result.getString(2));
+        	contact.setCognome(	result.getString(3));
+        	contact.seteMail(	result.getString(4));
+        	contact.setNickname(result.getString(5));  
+        	//TODO aggiungere private e publick key
+        	return new ResponseLoginMessage(true, "Login permesso", contact);
         }
-        		
-		
 	} catch (SQLException e) {
-		e.printStackTrace();
+		//e.printStackTrace();
+		System.err.println("SIP - login() exception");
+		return new ResponseLoginMessage(false, "Login exception", null);
 	}
-	return false;
 }
 
 /**

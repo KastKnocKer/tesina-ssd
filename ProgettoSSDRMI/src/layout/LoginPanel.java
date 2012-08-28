@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import RMIMessages.ResponseLoginMessage;
+
 import client.ClientEngine;
 
 public class LoginPanel extends JPanel {
@@ -89,7 +91,8 @@ public class LoginPanel extends JPanel {
 	    	   public void actionPerformed(ActionEvent event) {
 	    		  
 	    		   	/* Login */
-	    			   if( ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()))  ){
+	    		   ResponseLoginMessage rlm = ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()));
+	    			   if( rlm.isSUCCESS() ){
 	    				   System.out.println("Login effettuato");
 	    				   
 	    				   /* Creo ed apro il pannello contenente la lista amici */

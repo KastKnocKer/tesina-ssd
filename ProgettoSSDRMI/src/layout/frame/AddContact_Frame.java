@@ -1,4 +1,4 @@
-package layout;
+package layout.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

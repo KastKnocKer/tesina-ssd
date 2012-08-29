@@ -1,4 +1,4 @@
-package layout;
+package layout.panel;
 
 import java.awt.CardLayout;
 import java.awt.FlowLayout;

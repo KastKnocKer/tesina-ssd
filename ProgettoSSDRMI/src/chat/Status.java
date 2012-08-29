@@ -46,7 +46,7 @@ public class Status {
 	private static StatusList Stato = StatusList.OFFLINE;
 	
 	/////////////////////////////////////////////////
-	//DATI DA CARICARE DA CONF.XML
+	//	DATI DA CARICARE DA CONF.XML
 	////////////////////////////////////////////////
 	private static int SIP_Port = 1101;
 	private static int Client_Port = 1102;
@@ -64,7 +64,7 @@ public class Status {
 
 	
 	private static String SIP_Address = "kastknocker.no-ip.biz";
-	//private static String SIP_Address = "192.168.1.113";
+	// private static String SIP_Address = "192.168.1.113";
 
 	
 	

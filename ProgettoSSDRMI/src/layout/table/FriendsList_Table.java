@@ -94,15 +94,25 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	}
 	
 	/**
-	 * Aggiorna la tabella
+	 * Ricarica i contatti e aggiorna graficamente la tabella
 	 */
 	public void updateTable(){
+
+		/* ricarico la friendsList */
 		Status.loadFriendsList();
+		
+		/* re-imposto le nuove friendsList per la tabella e per il table model.
+		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
+		 * così applicare eventuali filtraggi a parte. */
 		this.setFriendsList(Status.getFriendsList());
+		LayoutReferences.getFriendsListTableModel().setFriendsList(Status.getFriendsList());
+		LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
 		this.updateUI();
 //		this.revalidate();
 //		this.repaint(); 
 	}
+	
+	
 	
 	/**
 	 * Imposta la struttura dati contenente la lista amici

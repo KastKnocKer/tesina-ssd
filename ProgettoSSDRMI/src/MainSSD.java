@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import layout.frame.HomeFrame;
+import layout.frame.Home_Frame;
 import utility.WhatIsMyIP;
 import RMI.Client;
 import RMI.ClientInterface;
@@ -211,7 +211,7 @@ public class MainSSD {
 				SwingUtilities.invokeLater(new Runnable() {
 			            public void run() {
 			            	
-			            	HomeFrame hf = new HomeFrame(); 
+			            	Home_Frame hf = new Home_Frame(); 
 			            	hf.setVisible(true);
 			            }
 				});

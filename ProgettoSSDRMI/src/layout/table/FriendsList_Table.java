@@ -14,7 +14,7 @@ import layout.LayoutReferences;
 import chat.FriendsList;
 import chat.Status;
 
-public class FriendsListTable extends JTable implements MouseListener,ActionListener {
+public class FriendsList_Table extends JTable implements MouseListener,ActionListener {
 
 	private JPopupMenu jPopupMenu;
 	private JTableHeader jTableHeader;
@@ -29,7 +29,7 @@ public class FriendsListTable extends JTable implements MouseListener,ActionList
 	 * Costruttore con parametro
 	 * @param Table Model
 	 */
-	public FriendsListTable(FriendsListTableModel friendsListTableModel) {
+	public FriendsList_Table(FriendsList_TableModel friendsListTableModel) {
 		
 		super(friendsListTableModel);
 		

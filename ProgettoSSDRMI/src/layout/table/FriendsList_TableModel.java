@@ -12,7 +12,7 @@ import chat.Status;
  * Modello che definisce i dati da mostrare nella FriendsListTable
  * @author Fabio Pierazzi
  */
-public class FriendsListTableModel extends AbstractTableModel {
+public class FriendsList_TableModel extends AbstractTableModel {
 
 	/** Uso una variabile privata per gestire manualmente
 	 * l'aggiornamento grafico della FriendsListTable */
@@ -22,7 +22,7 @@ public class FriendsListTableModel extends AbstractTableModel {
 	/**
 	 *  Costruttore
 	 */
-	public FriendsListTableModel() {
+	public FriendsList_TableModel() {
 		super();
 		LayoutReferences.setFriendsListTableModel(this); 
 		// this.setFriendsList(Status.getFriendsList());

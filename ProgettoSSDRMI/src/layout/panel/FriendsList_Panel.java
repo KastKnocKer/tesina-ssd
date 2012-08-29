@@ -19,9 +19,9 @@ import javax.swing.border.EmptyBorder;
 
 import layout.LayoutReferences;
 import layout.frame.ChangeNickname_Frame;
-import layout.frame.HomeFrame;
-import layout.table.FriendsListTable;
-import layout.table.FriendsListTableModel;
+import layout.frame.Home_Frame;
+import layout.table.FriendsList_Table;
+import layout.table.FriendsList_TableModel;
 
 import chat.Status;
 import chat.StatusList; 
@@ -32,9 +32,9 @@ import chat.StatusList;
  * 
  * @author Fabio Pierazzi
  */
-public class FriendsListPanel extends JPanel {
+public class FriendsList_Panel extends JPanel {
 	
-	private HomeFrame homeFrame; 
+	private Home_Frame homeFrame; 
 	private JPanel mainPanel; 
 	private JTable table_friendsList; 
 	
@@ -45,7 +45,7 @@ public class FriendsListPanel extends JPanel {
 	private JLabel picture; 
 	
 	/* Costruttore */
-	public FriendsListPanel() {
+	public FriendsList_Panel() {
 		
 		/* Imposto riferimento globale a questo pannello */
 		LayoutReferences.setFriendsListPanel(this); 
@@ -224,9 +224,9 @@ public class FriendsListPanel extends JPanel {
 	 */
 	private void showFriendsListTable() {
 		
-		FriendsListTableModel fl_tableModel = new FriendsListTableModel();
+		FriendsList_TableModel fl_tableModel = new FriendsList_TableModel();
 		fl_tableModel.setFriendsList(Status.getFriendsList()); 
-		FriendsListTable fl_table = new FriendsListTable(fl_tableModel); 
+		FriendsList_Table fl_table = new FriendsList_Table(fl_tableModel); 
 		fl_table.setFriendsList(Status.getFriendsList()); 
 		
 		fl_table.updateTable();

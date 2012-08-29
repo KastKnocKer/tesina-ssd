@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 
 import chat.Contact;
+import chat.StatusList;
 
 public interface SIPInterface extends Remote{
 	String sayHello() throws RemoteException;
@@ -35,7 +37,7 @@ public interface SIPInterface extends Remote{
 	/**
 	 * Login del client presso il SIP
 	 */
-	ResponseLoginMessage login(String username, String password) throws RemoteException;
+	ResponseLoginMessage login(RequestLoginMessage rlm) throws RemoteException;
 	
 	/**
 	 * Richiede la lista dei contatti al SIP

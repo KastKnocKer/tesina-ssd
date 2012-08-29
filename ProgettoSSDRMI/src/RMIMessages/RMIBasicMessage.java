@@ -13,6 +13,7 @@ public class RMIBasicMessage implements Serializable {
 	private int UserID;
 	private String GlobalIP;
 	private int ClientPort;
+	private int RMIRegistryPort;
 	private String PublicKey;
 	private String Email;
 	
@@ -26,16 +27,18 @@ public class RMIBasicMessage implements Serializable {
 	}
 
 
-	public int getRequestorUserID() {						return UserID;	}
-	public void setUserID(int userID) {				UserID = userID;	}
-	public String getRequestorGlobalIP() {					return GlobalIP;	}
-	public void setGlobalIP(String globalIP) {		GlobalIP = globalIP;	}
-	public int getRequestorClientPort() {					return ClientPort;	}
-	public void setClientPort(int clientPort) {		ClientPort = clientPort;	}
-	public String getRequestorPublicKey() {					return PublicKey;	}
-	public void setPublicKey(String publicKey) {	PublicKey = publicKey;	}
-	public String getRequestorEmail() {						return Email;	}
-	public void setEmail(String email) {			Email = email;	}
+	public int getRequestorUserID() {							return UserID;	}
+	public void setUserID(int userID) {							UserID = userID;	}
+	public String getRequestorGlobalIP() {						return GlobalIP;	}
+	public void setGlobalIP(String globalIP) {					GlobalIP = globalIP;	}
+	public int getRequestorClientPort() {						return ClientPort;	}
+	public void setClientPort(int clientPort) {					ClientPort = clientPort;	}
+	public String getRequestorPublicKey() {						return PublicKey;	}
+	public void setPublicKey(String publicKey) {				PublicKey = publicKey;	}
+	public String getRequestorEmail() {							return Email;	}
+	public void setEmail(String email) {						Email = email;	}
+	public int getRMIRegistryPort() {							return RMIRegistryPort;	}
+	public void setRMIRegistryPort(int rMIRegistryPort) {		RMIRegistryPort = rMIRegistryPort;	}
 	
 	
 

@@ -50,6 +50,7 @@ public class Status {
 	////////////////////////////////////////////////
 	private static int SIP_Port = 1101;
 	private static int Client_Port = 1102;
+	private static int RMIRegistryPort = 1099;
 	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
@@ -460,6 +461,11 @@ public class Status {
 		/* boh? */
 		Status.writeContactsXML();
 	}
+
+
+
+	public static int getRMIRegistryPort() {		return RMIRegistryPort;	}
+	public static void setRMIRegistryPort(int rMIRegistryPort) {	RMIRegistryPort = rMIRegistryPort;	}
 
 
 

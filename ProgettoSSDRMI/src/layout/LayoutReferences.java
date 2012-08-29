@@ -2,10 +2,10 @@ package layout;
 
 import javax.swing.JPanel;
 
-import layout.frame.HomeFrame;
-import layout.panel.FriendsListPanel;
-import layout.table.FriendsListTable;
-import layout.table.FriendsListTableModel;
+import layout.frame.Home_Frame;
+import layout.panel.FriendsList_Panel;
+import layout.table.FriendsList_Table;
+import layout.table.FriendsList_TableModel;
 
 /**
  * Classe statica contenente i riferimenti ad alcune delle istanze
@@ -15,21 +15,21 @@ import layout.table.FriendsListTableModel;
 public class LayoutReferences {
 
 	/* Frame contenente: login, registrazione, lista amici */
-	private static HomeFrame homeFrame; 
+	private static Home_Frame homeFrame; 
 	/* Pannello contenente CardLayout: usato per switchare fra i pannelli */
 	private static JPanel homeFrame_cardPanel; 
 
-	private static FriendsListTable friendsListTable; 
-	private static FriendsListTableModel friendsListTableModel; 
+	private static FriendsList_Table friendsListTable; 
+	private static FriendsList_TableModel friendsListTableModel; 
 	
-	private static FriendsListPanel friendsListPanel; 
+	private static FriendsList_Panel friendsListPanel; 
 	
-	public static void setHomeFrame(HomeFrame hf) {
+	public static void setHomeFrame(Home_Frame hf) {
 		homeFrame = hf; 
 		System.out.println("Frame settato");
 	}
 	
-	public static HomeFrame getHomeFrame() {
+	public static Home_Frame getHomeFrame() {
 		System.out.println("Frame recuperato");
 		return homeFrame; 
 	}
@@ -42,27 +42,27 @@ public class LayoutReferences {
 		return homeFrame_cardPanel;
 	}
 
-	public static FriendsListTable getFriendsListTable() {
+	public static FriendsList_Table getFriendsListTable() {
 		return friendsListTable;
 	}
 
-	public static void setFriendsListTable(FriendsListTable friendsListTable) {
+	public static void setFriendsListTable(FriendsList_Table friendsListTable) {
 		LayoutReferences.friendsListTable = friendsListTable;
 	}
 
-	public static FriendsListTableModel getFriendsListTableModel() {
+	public static FriendsList_TableModel getFriendsListTableModel() {
 		return friendsListTableModel;
 	}
 
-	public static void setFriendsListTableModel(FriendsListTableModel frameListTableModel) {
+	public static void setFriendsListTableModel(FriendsList_TableModel frameListTableModel) {
 		LayoutReferences.friendsListTableModel = frameListTableModel;
 	}
 
-	public static FriendsListPanel getFriendsListPanel() {
+	public static FriendsList_Panel getFriendsListPanel() {
 		return friendsListPanel;
 	}
 
-	public static void setFriendsListPanel(FriendsListPanel friendsListPanel) {
+	public static void setFriendsListPanel(FriendsList_Panel friendsListPanel) {
 		LayoutReferences.friendsListPanel = friendsListPanel;
 	}
 

@@ -14,8 +14,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import layout.LayoutReferences;
-import layout.panel.LoginPanel;
-import layout.panel.RegistrationPanel;
+import layout.panel.Login_Panel;
+import layout.panel.Registration_Panel;
 
 /**
  * Frame principale dell'applicazione. Usato per contenere il pannello 
@@ -24,10 +24,10 @@ import layout.panel.RegistrationPanel;
  *  
  * @author Fabio Pierazzi
  */
-public class HomeFrame extends JFrame {
+public class Home_Frame extends JFrame {
 	
 	/* Costruttore */
-	public HomeFrame() {
+	public Home_Frame() {
 		
 			/* Imposto un riferimento globale statico a questo frame */   
 			LayoutReferences.setHomeFrame(this);
@@ -42,8 +42,8 @@ public class HomeFrame extends JFrame {
 	       /* Mostro i pannelli all'interno di un card layout */
 	       JPanel cardsPanel = new JPanel(new CardLayout());
 	       
-	       LoginPanel lp = new LoginPanel(); 
-	       RegistrationPanel rp = new RegistrationPanel(); 
+	       Login_Panel lp = new Login_Panel(); 
+	       Registration_Panel rp = new Registration_Panel(); 
 	       
 	       
 	       LayoutReferences.setHomeFrame_CardPanel(cardsPanel); 

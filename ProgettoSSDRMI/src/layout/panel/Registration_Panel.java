@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 
 import client.ClientEngine;
 
-public class RegistrationPanel extends JPanel {
+public class Registration_Panel extends JPanel {
 	
-	public RegistrationPanel() {
+	public Registration_Panel() {
 		   
 		   
 
@@ -106,7 +106,7 @@ public class RegistrationPanel extends JPanel {
 	        	   
 	        	   /* Recupero la sorgente dell'evento */
 	        	   JButton button = (JButton) event.getSource();
-	        	   LoginPanel lp = new LoginPanel(); 
+	        	   Login_Panel lp = new Login_Panel(); 
 
 	        	   /* risalendo la gerarchia di pannelli, arrivo fino al cardsPanel */
 	        	   JPanel cardsPanel = (JPanel) button.getParent().getParent().getParent().getParent(); 

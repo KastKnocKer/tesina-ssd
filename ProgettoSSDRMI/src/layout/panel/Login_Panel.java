@@ -22,7 +22,7 @@ import RMIMessages.ResponseLoginMessage;
 
 import client.ClientEngine;
 
-public class LoginPanel extends JPanel {
+public class Login_Panel extends JPanel {
 
 	private JPanel mainPanel;
 	private JPanel centerPanel_flowLayout;
@@ -39,7 +39,7 @@ public class LoginPanel extends JPanel {
 	private JButton quitButton; 
 	private JButton registerButton;
 	
-	public LoginPanel() {
+	public Login_Panel() {
 		
 		  /* Imposto alcune proprietà del frame principale */
 //		   setTitle("Always On - RMI Chat");
@@ -102,7 +102,7 @@ public class LoginPanel extends JPanel {
 	    	    		   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
 	    	    		   
 	    	    		   /* Aggiungo il tab relativo alla FriendsList all'interno del CardPanel */
-	    	    		   FriendsListPanel flp = new FriendsListPanel(); 
+	    	    		   FriendsList_Panel flp = new FriendsList_Panel(); 
 	    	    	       cardsPanel.add(flp, "FriendsList");
 	    	    	       
 	    	    		   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "FriendsList"); 
@@ -143,7 +143,7 @@ public class LoginPanel extends JPanel {
 	        	   
 	        	   /* Recupero la sorgente dell'evento */
 	        	   JButton button = (JButton) event.getSource();
-	        	   RegistrationPanel rp = new RegistrationPanel(); 
+	        	   Registration_Panel rp = new Registration_Panel(); 
 	        	   
 	        	   
 	        	   /* Mostro il pannello Register */

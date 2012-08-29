@@ -7,10 +7,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import chat.Contact;
+import chat.StatusList;
 
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import SIP.DBConnection;
 
@@ -39,9 +41,9 @@ public class SIP implements SIPInterface{
 		return dbConn.insertContact(contact);
 	}
 
-	public ResponseLoginMessage login(String username, String password) throws RemoteException {
+	public ResponseLoginMessage login(RequestLoginMessage rlm) throws RemoteException {
 		DBConnection dbConn = new DBConnection();
-		return dbConn.login(username, password);
+		return dbConn.login(rlm);
 	}
 
 	public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {

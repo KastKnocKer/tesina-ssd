@@ -19,6 +19,7 @@ import java.util.Vector;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Friend;
@@ -336,7 +337,7 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 }
 
 @Override
-public ResponseLoginMessage login(String username, String password) {
+public ResponseLoginMessage login(RequestLoginMessage rlm) {
 	if(!connesso){
 		connetti();
 	}
@@ -344,17 +345,17 @@ public ResponseLoginMessage login(String username, String password) {
 	
 	try {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT *,COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
-		prepSt.setString(1, username);
-		prepSt.setString(2, password);
+		prepSt.setString(1, rlm.getUsername());
+		prepSt.setString(2, rlm.getPassword());
 		result = prepSt.executeQuery();
 		result.next();
 		
 		
         if(result.getInt("COUNT") == 0){
-        	System.out.println("SIP - Login["+username+"] rifiutato.");
+        	System.out.println("SIP - Login["+rlm.getUsername()+"] rifiutato.");
         	return new ResponseLoginMessage(false, "Login rifiutato", null);
         }else{
-        	System.out.println("SIP - Login["+username+"] effettuato.");
+        	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato.");
         	Contact contact = new Contact();
         	contact.setID(		Integer.parseInt(result.getString(1)));
         	contact.setNome(	result.getString(2));
@@ -362,6 +363,20 @@ public ResponseLoginMessage login(String username, String password) {
         	contact.seteMail(	result.getString(4));
         	contact.setNickname(result.getString(5));  
         	//TODO aggiungere private e publick key
+        	
+        	
+        	
+        	//AGGIORNO I DATI DELLO STATO DI CONNESSIONE DELL'UTENTE
+        	// TODO
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
         	return new ResponseLoginMessage(true, "Login permesso", contact);
         }
 	} catch (SQLException e) {

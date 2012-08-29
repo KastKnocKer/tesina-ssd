@@ -14,9 +14,11 @@ import RMI.SIPInterface;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Status;
+import chat.StatusList;
 
 public class ClientEngine {
 
@@ -26,7 +28,7 @@ public class ClientEngine {
 		//Login mediante server SIP
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
-			response = getSIP().login(username, password);
+			response = getSIP().login(new RequestLoginMessage(username, password, StatusList.ONLINE));
 			if(response.isSUCCESS()){
 				Status.setUserID(response.getLoggedContact().getID());
 				Status.setEmail(response.getLoggedContact().geteMail());

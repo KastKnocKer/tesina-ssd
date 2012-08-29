@@ -10,6 +10,8 @@ public class Contact implements Serializable{
 	private String Cognome = NONE;
 	private String eMail = NONE;
 	private String Password = NONE;
+	
+
 	private StatusList Status = StatusList.OFFLINE;
 
 	private String GlobalIP = NONE;
@@ -25,7 +27,6 @@ public class Contact implements Serializable{
 		this.Cognome = Cognome;
 		this.eMail = eMail;
 		this.Password = Password;
-		
 		this.GlobalIP = GlobalIP;
 		this.LocalIPs = LocalIPs;
 	}
@@ -105,7 +106,13 @@ public class Contact implements Serializable{
 	public void printInfo(){
 		System.out.println(UserID +" - "+ eMail+ " - "+ Nickname);
 	}
-	
+	public StatusList getStatus() {		
+		return Status;	
+	}
+
+	public void setStatus(StatusList status) {		
+		Status = status;	
+	}
 	 
 	
 	

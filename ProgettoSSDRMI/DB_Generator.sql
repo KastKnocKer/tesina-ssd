@@ -17,15 +17,15 @@ CREATE TABLE IF NOT EXISTS USER(
 CREATE TABLE IF NOT EXISTS USERSTATUS(
 	idUser int(11) not null,
 	publicIP varchar(20) not null,
-	localIP varchar(20) not null,
+	localIP varchar(20) not null default '',
 	rmiregistryPort int(11) not null default 1099,
-	clientPort int(11) not null,
+	clientPort int(11) not null default 1102,
 	lastConnection timestamp not null default NOW(),
 	status enum('ONLINE','BUSY','AWAY','OFFLINE') not null default 'OFFLINE',
 	
-	primary key (idUser),
-	KEY `FK1` (`idUser`),
-	CONSTRAINT `FK1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+	primary key (idUser)--,
+	--KEY `FK1` (`idUser`),
+	--CONSTRAINT `FK1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS FRIENDSHIP(

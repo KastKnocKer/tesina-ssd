@@ -6,6 +6,7 @@ package SIP;
  * Gestisce l'apertura e la chiusura della connessione col Database
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Friend;
+import chat.StatusList;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -367,14 +369,7 @@ public ResponseLoginMessage login(RequestLoginMessage rlm) {
         	
         	
         	//AGGIORNO I DATI DELLO STATO DI CONNESSIONE DELL'UTENTE
-        	// TODO
-        	
-        	
-        	
-        	
-        	
-        	
-        	
+        	System.out.println("ESITO AGGIORNAMENTO: "+this.updateContactConnectionStatus(Integer.parseInt(result.getString(1)), rlm.getRequestorGlobalIP(), rlm.getRequestorLocalIP(), rlm.getRMIRegistryPort(), rlm.getRequestorClientPort(), rlm.getStato()));
         	
         	
         	return new ResponseLoginMessage(true, "Login permesso", contact);
@@ -400,7 +395,7 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	
 	try {
 		//PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE email != ?");
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE idUser IN (SELECT idUserB FROM friendship WHERE idUserA = ? UNION SELECT idUserA FROM friendship WHERE idUserB = ?);");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user left outer join  userstatus AS us ON user.idUser = us.idUser WHERE user.idUser IN (SELECT idUserB FROM friendship WHERE idUserA = ? UNION SELECT idUserA FROM friendship WHERE idUserB = ?);");
 		
 		prepSt.setString(1, Integer.toString(msg.getRequestorUserID()));
 		prepSt.setString(2, Integer.toString(msg.getRequestorUserID()));
@@ -417,7 +412,17 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         	contact.setNome(	result.getString(2));
         	contact.setCognome(	result.getString(3));
         	contact.seteMail(	result.getString(4));
-        	contact.setNickname(result.getString(5));           
+        	contact.setNickname(result.getString(5));
+        	
+        	
+        	if(result.getString(13) == null){	//il contatto non ha la tupla della connessione
+        		contact.setStatus(StatusList.OFFLINE);
+        	}else{
+        		// TODO
+        		contact.setGlobalIP(result.getString(8));
+        	}
+        	System.out.print("\n");
+        	for(int i=1; i<12;i++) System.out.print(result.getString(i)+ " - ");
         	contacts.add(contact);
         	contact.printInfo();
         }
@@ -430,6 +435,53 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	}
 	
 	return contacts;
+}
+
+
+/**
+ * Funzione che aggiorna lo stato della connessione dell'utente per permettere agli altri contatti
+ * di poterlo contattare
+ */
+public boolean updateContactConnectionStatus(int UserID, String PublicIP, String LocalIP, int rmiregistryPort, int clientport, StatusList status) {
+	if(!connesso){
+		connetti();
+	}
+	System.out.println("PER LA CONFESSIONEEEE");
+	
+	try {
+		String query = "INSERT INTO userstatus (idUser, publicIP, localIP, rmiregistryPort, clientPort, lastConnection, status) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?) ON DUPLICATE KEY UPDATE idUser=?, publicIP=?, localIP=?, rmiregistryPort=?, clientPort=?, lastConnection=CURRENT_TIMESTAMP, status=?;";
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement(query);
+		
+		prepSt.setString(1, Integer.toString(UserID));
+		prepSt.setString(2, PublicIP);
+		prepSt.setString(3, LocalIP);
+		prepSt.setString(4, Integer.toString(rmiregistryPort));
+		prepSt.setString(5, Integer.toString(clientport));
+		prepSt.setString(6, status.toString());
+		prepSt.setString(7, Integer.toString(UserID));
+		prepSt.setString(8, PublicIP);
+		prepSt.setString(9, LocalIP);
+		prepSt.setString(10, Integer.toString(rmiregistryPort));
+		prepSt.setString(11, Integer.toString(clientport));
+		prepSt.setString(12, status.toString());
+		
+		System.out.println("Query: "+prepSt.getNonRewrittenSql());
+		
+		prepSt.execute();
+		
+        prepSt.close();   // Chiudo lo Statement
+		
+	} catch (SQLException e) {
+		Toolkit.getDefaultToolkit().beep();
+		e.printStackTrace();
+		return false;
+	}
+	
+	
+	
+	
+	
+	return true;
 }
 
    

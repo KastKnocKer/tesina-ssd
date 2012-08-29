@@ -34,22 +34,24 @@ public class MainSSD {
 		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		//Repository FABIO
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");			//Repository KKK
 		
+		//Inizializzo la classe statica Status
+		Status status = new Status();
 		
-		//	Acquisisco i miei indirizzi IP
+		//	Acquisisco i miei indirizzi IP e li carico sulla classe Status
 		WhatIsMyIP wimi = new WhatIsMyIP();
-		
-		System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
-		String[][] localIPs = wimi.getLocalIPs();
-		for(int i=0; i<localIPs.length; i++){
-			System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
+		Status.setGlobalIP(wimi.getGlobalIP());
+		Status.setLocalIP(wimi.getLocalIPs()[0][0]);
+		if(Status.SUPER_DEBUG){
+			System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
+			String[][] localIPs = wimi.getLocalIPs();
+			for(int i=0; i<localIPs.length; i++){
+				System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);
+			}
 		}
-		//TODO carico su status
-		Status.setGlobalIP(wimi.getLocalIPs()[0][0]);
+		
 		
 		//	Carico i dati locali
-		Status status = new Status();
-			//status.localUser = new Contact(System.getProperty("user.name").toString(), "N", "C", "@", wimi.getGlobalIP(), null, wimi.getLocalIPs());
-		status.readConfXML();
+		status.readConfXML();	//File locale di configurazione
 		
 		
 		

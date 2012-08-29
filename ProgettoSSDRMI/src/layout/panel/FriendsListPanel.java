@@ -1,4 +1,4 @@
-package layout;
+package layout.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -16,6 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+
+import layout.LayoutReferences;
+import layout.frame.ChangeNickname_Frame;
+import layout.frame.HomeFrame;
+import layout.table.FriendsListTable;
+import layout.table.FriendsListTableModel;
 
 import chat.Status;
 import chat.StatusList; 
@@ -120,7 +126,6 @@ public class FriendsListPanel extends JPanel {
 		
 		nicknameLabel = new JLabel(Status.getNickname()); 
 		nicknameLabel.setFont(new Font("Arial", Font.BOLD, 13));
-		
 		
 		statusLabel = new JLabel(); 
 		

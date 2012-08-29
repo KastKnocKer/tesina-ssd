@@ -1,4 +1,4 @@
-package layout;
+package layout.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import layout.LayoutReferences;
+
 
 import RMIMessages.ResponseLoginMessage;
 

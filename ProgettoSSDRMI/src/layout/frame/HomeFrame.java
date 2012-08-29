@@ -1,4 +1,4 @@
-package layout;
+package layout.frame;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import layout.LayoutReferences;
+import layout.panel.LoginPanel;
+import layout.panel.RegistrationPanel;
 
 /**
  * Frame principale dell'applicazione. Usato per contenere il pannello 

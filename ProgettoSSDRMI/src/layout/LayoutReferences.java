@@ -2,6 +2,11 @@ package layout;
 
 import javax.swing.JPanel;
 
+import layout.frame.HomeFrame;
+import layout.panel.FriendsListPanel;
+import layout.table.FriendsListTable;
+import layout.table.FriendsListTableModel;
+
 /**
  * Classe statica contenente i riferimenti ad alcune delle istanze
  * degli elementi più significativi del layout. 

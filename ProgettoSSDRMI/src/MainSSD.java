@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import layout.HomeFrame;
+import layout.frame.HomeFrame;
 import utility.WhatIsMyIP;
 import RMI.Client;
 import RMI.ClientInterface;

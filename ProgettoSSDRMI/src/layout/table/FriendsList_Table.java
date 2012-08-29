@@ -48,7 +48,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		friendsListTableModel.setFriendsList(friendsList); 
 		
 		// TODO 
-		Status.loadFriendsList();
+		//Status.loadFriendsList();
 		
 		this.updateUI();
 //		

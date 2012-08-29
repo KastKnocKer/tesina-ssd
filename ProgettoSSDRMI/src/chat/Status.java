@@ -29,10 +29,12 @@ import client.ClientEngine;
  */
 
 public class Status {
-	public final static boolean DEBUG = true; 
+	public final static boolean DEBUG = true;
+	public final static boolean SUPER_DEBUG = false; 
 	public final static int TYPE_SIP = 	0;
 	public final static int TYPE_CLIENT = 	1;
 	private static String GlobalIP;
+	private static String LocalIP;
 	private static FriendsList friendsList;
 	private static ArrayList<Contact> contactList;
 		
@@ -55,16 +57,8 @@ public class Status {
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
 	private static String Email = "";
-	
-
-
-
-
-	
-	
-
-	
 	private static String SIP_Address = "kastknocker.no-ip.biz";
+	
 	// private static String SIP_Address = "192.168.1.113";
 
 	
@@ -466,6 +460,8 @@ public class Status {
 
 	public static int getRMIRegistryPort() {		return RMIRegistryPort;	}
 	public static void setRMIRegistryPort(int rMIRegistryPort) {	RMIRegistryPort = rMIRegistryPort;	}
+	public static String getLocalIP() {		return LocalIP;	}
+	public static void setLocalIP(String localIP) {		LocalIP = localIP;	}
 
 
 

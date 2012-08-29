@@ -16,10 +16,12 @@ CREATE TABLE IF NOT EXISTS USER(
 
 CREATE TABLE IF NOT EXISTS USERSTATUS(
 	idUser int(11) not null,
-	publicIP varchar(50) not null,
-	localIP varchar(50) not null,
-	rmiregistryPort int(11) not null,
+	publicIP varchar(20) not null,
+	localIP varchar(20) not null,
+	rmiregistryPort int(11) not null default 1099,
+	clientPort int(11) not null,
 	lastConnection timestamp not null default NOW(),
+	status enum('ONLINE','BUSY','AWAY','OFFLINE') not null default 'OFFLINE',
 	
 	primary key (idUser),
 	KEY `FK1` (`idUser`),

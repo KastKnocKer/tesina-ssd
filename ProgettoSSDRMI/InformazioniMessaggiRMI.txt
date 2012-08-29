@@ -1,0 +1,27 @@
+/*
+*	MESSAGGI DI RICHIESTA
+*/
+RMIBasicMessage
+	private int UserID;
+	private String GlobalIP;
+	private int ClientPort;
+	private String PublicKey;
+	private String Email;
+	
+RequestFriendshipMessage
+	private String fromEmail,toEmail;
+	
+RequestLoginMessage
+	private String Username;
+	private String Password;
+	private StatusList Stato;
+	
+/*
+*	MESSAGGI DI RISPOSTA
+*/
+RMISIPBasicResponseMessage
+	private boolean SUCCESS;
+	private String MESSAGE;
+	
+ResponseLoginMessage
+	private Contact contact;

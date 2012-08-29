@@ -98,6 +98,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	 */
 	public void updateTable(){
 		Status.loadFriendsList();
+		this.setFriendsList(Status.getFriendsList());
 		this.updateUI();
 //		this.revalidate();
 //		this.repaint(); 

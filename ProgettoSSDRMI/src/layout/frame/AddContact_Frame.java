@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import layout.LayoutReferences;
+
 import RMIMessages.RMISIPBasicResponseMessage;
 
 import client.ClientEngine;
@@ -131,9 +133,14 @@ public class AddContact_Frame extends JFrame {
 	                RMISIPBasicResponseMessage resp = ClientEngine.RequestFriendship(textField_email.getText());
 	                if(resp.isSUCCESS()){
 	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+	                	/* aggiorno l'aspetto grafico della tabella */
+	                	LayoutReferences.getFriendsListTable().updateTable();
 	                }else{
 	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.ERROR_MESSAGE);
 	                }
+	                
+	                /* Chiudo il frame */
+	                dispose(); 
 	            }
 	        });
 			

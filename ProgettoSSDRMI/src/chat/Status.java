@@ -150,7 +150,7 @@ public class Status {
 		return true;
 	}
 	
-	public boolean writeConfXML(){
+	public static boolean writeConfXML(){
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

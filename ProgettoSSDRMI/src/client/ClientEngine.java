@@ -35,6 +35,12 @@ public class ClientEngine {
 				Status.setNome(response.getLoggedContact().getNome());
 				Status.setCognome(response.getLoggedContact().getCognome());
 				Status.setNickname(response.getLoggedContact().getNickname());
+				
+				
+				//Aggiorno i dati del LastLogin su Status
+				Status.setLastLoginUsername(username);
+				Status.setLastLoginPassword(password);
+				Status.writeConfXML();
 			}
 			return response;
 		} catch (RemoteException e) {

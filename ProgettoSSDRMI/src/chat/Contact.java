@@ -104,7 +104,7 @@ public class Contact implements Serializable{
 	}
 
 	public void printInfo(){
-		System.out.println(UserID +" - "+ eMail+ " - "+ Nickname);
+		System.out.println("Contact Info: " + UserID +" - "+ eMail+ " - "+ Nickname +" - "+ GlobalIP);
 	}
 	public StatusList getStatus() {		
 		return Status;	

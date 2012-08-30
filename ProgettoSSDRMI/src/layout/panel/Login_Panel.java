@@ -20,6 +20,7 @@ import layout.LayoutReferences;
 
 import RMIMessages.ResponseLoginMessage;
 
+import chat.Status;
 import client.ClientEngine;
 
 public class Login_Panel extends JPanel {
@@ -79,8 +80,8 @@ public class Login_Panel extends JPanel {
 	       // label_loginPanel.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 	       
 	       /* Username & Password TextFields */
-	       textField_username = new JTextField("biofrost88@gmail.com");
-	       textField_password = new JPasswordField("bio"); 
+	       textField_username = new JTextField(Status.getLastLoginUsername());
+	       textField_password = new JPasswordField(Status.getLastLoginPassword()); 
 
 	       centerPanel_boxLayout.add(textField_username);
 	       centerPanel_boxLayout.add(textField_password);

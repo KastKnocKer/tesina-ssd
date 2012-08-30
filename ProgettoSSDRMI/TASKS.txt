@@ -5,7 +5,8 @@ REGISTRAZIONE P2P
 CRUD - Stato di connessione lato SIP
 
 GUI - Finestra di conversazione
-
+Client Thread -> Controllo periodico dello stato dei contatti e del loro ciclo di vita,
+					comunicazione periodica ai propri contatti del proprio stato di connessione
 
 // DOING (Febio)
 GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti

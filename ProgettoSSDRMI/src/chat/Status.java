@@ -58,6 +58,8 @@ public class Status {
 	private static String PublicKey = "";
 	private static String Email = "";
 	private static String SIP_Address = "kastknocker.no-ip.biz";
+	private static String LastLoginUsername = "biofrost88@gmail.com";
+	private static String LastLoginPassword = "bio";
 	
 	// private static String SIP_Address = "192.168.1.113";
 
@@ -121,6 +123,10 @@ public class Status {
 					try {	PrivateKey = getTagValue("PrivateKey", eElement);						} catch (Exception e) {}
 					try {	PublicKey = getTagValue("PublicKey", eElement);							} catch (Exception e) {}
 					try {	SIP_Address = getTagValue("SIP_Address", eElement);						} catch (Exception e) {}
+					try {	LastLoginUsername = getTagValue("LastLoginUsername", eElement);						} catch (Exception e) {}
+					try {	LastLoginPassword = getTagValue("LastLoginPassword", eElement);						} catch (Exception e) {}
+					
+					
 					
 					//RISULTATI
 					System.out.println("Type: " + Type);
@@ -135,10 +141,10 @@ public class Status {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("readConfXML() exception FILE NOT FOUND");
+			System.out.println("Client - readConfXML() exception FILE NOT FOUND");
 			writeConfXML();
 		} catch (Exception e) {
-			System.out.println("readConfXML() exception");
+			System.out.println("Client - readConfXML() exception");
 			e.printStackTrace();
 		}
 		return true;
@@ -179,6 +185,16 @@ public class Status {
 			//PublicKey
 			elemento = doc.createElement("PublicKey");
 				elemento.setTextContent(PublicKey);
+					rootElement.appendChild(elemento);
+					
+			//LastLoginUsername
+			elemento = doc.createElement("LastLoginUsername");
+				elemento.setTextContent(LastLoginUsername);
+					rootElement.appendChild(elemento);
+			
+			//LastLoginPassword
+			elemento = doc.createElement("LastLoginPassword");
+				elemento.setTextContent(LastLoginPassword);
 					rootElement.appendChild(elemento);
 			
 /*			
@@ -267,19 +283,22 @@ public class Status {
 					Element email = doc.createElement("Email");
 					Element nickname = doc.createElement("Nickname");
 					Element stato = doc.createElement("Stato");
+					Element globalIP = doc.createElement("GlobalIP");
 					id.setTextContent(Integer.toString(contact.getID()));
 					nome.setTextContent(contact.getNome());
 					cognome.setTextContent(contact.getCognome());
 					email.setTextContent(contact.geteMail());
 					nickname.setTextContent(contact.getNickname());
-					stato.setTextContent("stato");	/////
-				
+					stato.setTextContent(contact.getStatus().toString());
+					globalIP.setTextContent(contact.getGlobalIP());
+					
 					contactElem.appendChild(id);
 					contactElem.appendChild(nome);
 					contactElem.appendChild(cognome);
 					contactElem.appendChild(email);
 					contactElem.appendChild(nickname);
 					contactElem.appendChild(stato);
+					contactElem.appendChild(globalIP);
 					
 				
 				rootElement.appendChild(contactElem);
@@ -462,6 +481,30 @@ public class Status {
 	public static void setRMIRegistryPort(int rMIRegistryPort) {	RMIRegistryPort = rMIRegistryPort;	}
 	public static String getLocalIP() {		return LocalIP;	}
 	public static void setLocalIP(String localIP) {		LocalIP = localIP;	}
+
+
+
+	public static String getLastLoginUsername() {
+		return LastLoginUsername;
+	}
+
+
+
+	public static void setLastLoginUsername(String lastLoginUsername) {
+		LastLoginUsername = lastLoginUsername;
+	}
+
+
+
+	public static String getLastLoginPassword() {
+		return LastLoginPassword;
+	}
+
+
+
+	public static void setLastLoginPassword(String lastLoginPassword) {
+		LastLoginPassword = lastLoginPassword;
+	}
 
 
 

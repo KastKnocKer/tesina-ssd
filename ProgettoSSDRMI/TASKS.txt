@@ -2,7 +2,7 @@
 LOGIN P2P
 REGISTRAZIONE P2P
 
-CRUD - Stato di connessione lato SIP
+
 
 GUI - Finestra di conversazione
 Client Thread -> Controllo periodico dello stato dei contatti e del loro ciclo di vita,
@@ -23,6 +23,7 @@ GUI - Registrazione
 // DOING (KKK)
 CRUD - Utenti lato SIP
 CRUD - Amicizie lato SIP
+CRUD - Stato di connessione lato SIP
 
 
 //DONE (KKK)

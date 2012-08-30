@@ -113,6 +113,13 @@ public class Contact implements Serializable{
 	public void setStatus(StatusList status) {		
 		Status = status;	
 	}
+	
+	public void setStatus(String status) {		
+		if(	status.equals(StatusList.ONLINE.toString())	)	this.Status = StatusList.ONLINE;
+		else if(	status.equals(StatusList.BUSY.toString())	)	this.Status = StatusList.BUSY;
+		else if(	status.equals(StatusList.AWAY.toString())	)	this.Status = StatusList.AWAY;
+		else if(	status.equals(StatusList.OFFLINE.toString())	)	this.Status = StatusList.OFFLINE;
+	}
 	 
 	
 	

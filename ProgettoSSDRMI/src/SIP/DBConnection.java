@@ -420,6 +420,7 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         	}else{
         		// TODO
         		contact.setGlobalIP(result.getString(8));
+        		contact.setStatus(result.getString(13));
         	}
         	System.out.print("\n");
         	for(int i=1; i<12;i++) System.out.print(result.getString(i)+ " - ");

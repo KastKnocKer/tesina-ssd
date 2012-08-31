@@ -6,12 +6,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 
 import chat.Contact;
+import chat.Message;
 import chat.StatusList;
 
 public interface SIPInterface extends Remote{
@@ -48,4 +50,11 @@ public interface SIPInterface extends Remote{
 	 * Richiede l'amicizia di un nuovo contatto
 	 */
 	RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException;
+	
+	
+	/**
+	 * Permette l'invio dei messaggi di chat
+	 */
+	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException;
+	
 }

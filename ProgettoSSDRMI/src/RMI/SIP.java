@@ -6,10 +6,14 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import client.ClientEngine;
+
 import chat.Contact;
+import chat.Message;
 import chat.StatusList;
 
 import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
@@ -54,6 +58,12 @@ public class SIP implements SIPInterface{
 	public RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException {
 		DBConnection dbConn = new DBConnection();
 		return dbConn.requestFriendship(requestFriendshipMessage);
+	}
+
+	
+	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException {
+		for(Message msg : chatMsgs)ClientEngine.receiveMessageFromContact(msg);
+		return new RMIBasicResponseMessage(true, "OK");
 	}
 
 

@@ -13,7 +13,7 @@ public class Contact implements Serializable{
 	
 
 	private StatusList Status = StatusList.OFFLINE;
-
+	private static int Client_Port = 1102;
 	private String GlobalIP = NONE;
 	private String[][] LocalIPs = null;
 	
@@ -120,7 +120,15 @@ public class Contact implements Serializable{
 		else if(	status.equals(StatusList.AWAY.toString())	)	this.Status = StatusList.AWAY;
 		else if(	status.equals(StatusList.OFFLINE.toString())	)	this.Status = StatusList.OFFLINE;
 	}
-	 
+
+	public static int getClient_Port() {
+		return Client_Port;
+	}
+
+	public static void setClient_Port(int client_Port) {
+		Client_Port = client_Port;
+	}
+
 	
 	
 }

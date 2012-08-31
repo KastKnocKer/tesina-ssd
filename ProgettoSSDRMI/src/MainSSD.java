@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import client.ClientThread;
+
 import layout.frame.Home_Frame;
 import utility.WhatIsMyIP;
 import RMI.Client;
@@ -183,6 +185,8 @@ public class MainSSD {
 	
 	private static boolean StarterClient(){
 		System.out.println("*** Client is starting ***");
+		ClientThread ct = new ClientThread();
+		ct.run();
 		try {
             Client client = new Client();
             ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());

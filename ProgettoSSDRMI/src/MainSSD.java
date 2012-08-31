@@ -1,3 +1,4 @@
+import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -27,8 +28,8 @@ public class MainSSD {
 		System.out.println("**** START - Always-ON Messenger ****");
 		
 		try {
+			Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
     		Runtime.getRuntime().exec("rmiregistry");
-    		Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
     	} catch (java.io.IOException e) {
     		System.exit(0);
     	}

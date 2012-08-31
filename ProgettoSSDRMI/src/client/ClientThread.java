@@ -18,7 +18,7 @@ public class ClientThread implements Runnable{
 			}
 			
 			index++;
-			try {Thread.currentThread().sleep(1000);} catch (InterruptedException e) {	e.printStackTrace(); System.out.println("ClientThread Exception");}
+			try {Thread.sleep(1000);} catch (InterruptedException e) {	e.printStackTrace(); System.out.println("ClientThread Exception");}
 		}
 		
 	}

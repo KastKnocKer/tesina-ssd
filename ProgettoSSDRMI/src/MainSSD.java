@@ -62,6 +62,7 @@ public class MainSSD {
 		// TODO: rimetti l'else
 		// else 
 			StarterClient();
+			
 		
 		
 		
@@ -185,8 +186,7 @@ public class MainSSD {
 	
 	private static boolean StarterClient(){
 		System.out.println("*** Client is starting ***");
-		ClientThread ct = new ClientThread();
-		ct.run();
+		
 		try {
             Client client = new Client();
             ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
@@ -221,6 +221,8 @@ public class MainSSD {
 			            	hf.setVisible(true);
 			            }
 				});
+		ClientThread ct = new ClientThread();
+		ct.run();
 		return true;
 	}
 	

@@ -235,7 +235,7 @@ public class MainSSD {
 			            }
 				});
 		ClientThread ct = new ClientThread();
-		//ct.start();
+		ct.start();
 		return true;
 	}
 }

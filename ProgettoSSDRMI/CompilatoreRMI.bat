@@ -1,8 +1,14 @@
 echo off
 cd src
 
+echo -- Kill rmid, rmiregistry --
+:: killo rmid ed rmiregistry, perchè altrimenti rimarrebbero attivi
+TASKKILL /F /IM "rmid.exe"
+TASKKILL /F /IM "rmiregistry.exe"
+
+
 echo -- JAVAC --
-echo commented!
+:: echo commented!
 javac -d ../bin *.java
 
 echo -- RMIC --
@@ -21,5 +27,6 @@ echo copying for Fabio Vaio...
 copy * C:\Users\Fabio\Dropbox\Public\SSD
 echo -------------
 ECHO DONE
+
 
 PAUSE >NUL

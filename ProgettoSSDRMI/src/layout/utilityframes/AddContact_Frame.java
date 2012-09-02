@@ -1,4 +1,4 @@
-package layout.frame;
+package layout.utilityframes;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import layout.LayoutReferences;
+import layout.managers.LayoutReferences;
 
 import RMIMessages.RMISIPBasicResponseMessage;
 

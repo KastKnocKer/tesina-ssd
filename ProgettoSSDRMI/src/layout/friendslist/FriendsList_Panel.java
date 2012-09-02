@@ -1,4 +1,4 @@
-package layout.panel;
+package layout.friendslist;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -17,14 +17,11 @@ import javax.swing.JTable;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import layout.LayoutReferences;
-import layout.frame.ChangeNickname_Frame;
-import layout.frame.Home_Frame;
-import layout.table.FriendsList_Table;
-import layout.table.FriendsList_TableModel;
-
+import layout.utilityframes.*;
+import layout.homeframe.Home_Frame;
+import layout.managers.LayoutReferences;
 import chat.Status;
-import chat.StatusList; 
+import chat.StatusList;
 
 /**
  * Pannello contenente la lista amici. Viene inserito
@@ -38,7 +35,6 @@ public class FriendsList_Panel extends JPanel {
 	private JPanel mainPanel; 
 	private JTable table_friendsList; 
 	
-	
 	/* stato personale utente, mostrato nella parte alta del pannello */
 	private JLabel nicknameLabel;
 	private JLabel statusLabel; 
@@ -49,7 +45,6 @@ public class FriendsList_Panel extends JPanel {
 		
 		/* Imposto riferimento globale a questo pannello */
 		LayoutReferences.setFriendsListPanel(this); 
-		
 
 		/* Modifico caratteristiche frame */
 		LayoutReferences.getHomeFrame().setSize(300,550);

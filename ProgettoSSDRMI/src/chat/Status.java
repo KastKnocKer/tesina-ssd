@@ -29,10 +29,12 @@ import client.ClientEngine;
  */
 
 public class Status {
+	private static boolean LOGGED = false;
 	public final static boolean DEBUG = true;
 	public final static boolean SUPER_DEBUG = false; 
-	public final static int TYPE_SIP = 	0;
-	public final static int TYPE_CLIENT = 	1;
+	public final static int TYPE_SIP = 			0;
+	public final static int TYPE_CLIENT = 		1;
+	public final static int TYPE_SIPCLIENT = 	-1;
 	private static String GlobalIP;
 	private static String LocalIP;
 	private static FriendsList friendsList;
@@ -117,7 +119,7 @@ public class Status {
 
 					//LETTURA ELEMENTI DI CONFIGURAZIONE
 					System.out.println("*** Lettura CONF.XML ***");
-					try {	Type = Integer.parseInt(getTagValue("Type", eElement));					} catch (Exception e) {}
+					try {	Type = Integer.parseInt(getTagValue("Type", eElement));					} catch (Exception e) {System.err.println("Read Type exception");}
 					try {	SIP_Port = Integer.parseInt(getTagValue("SIP_Port", eElement));			} catch (Exception e) {}
 					try {	Client_Port = Integer.parseInt(getTagValue("Client_Port", eElement));	} catch (Exception e) {}
 					try {	PrivateKey = getTagValue("PrivateKey", eElement);						} catch (Exception e) {}
@@ -508,6 +510,15 @@ public class Status {
 
 
 
+	public static boolean isLOGGED() {
+		return LOGGED;
+	}
+
+
+
+	public static void setLOGGED(boolean lOGGED) {
+		LOGGED = lOGGED;
+	}
 
 
 

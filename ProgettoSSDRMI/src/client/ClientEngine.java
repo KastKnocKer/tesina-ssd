@@ -1,5 +1,6 @@
 package client;
 
+import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -40,7 +41,7 @@ public class ClientEngine {
 				Status.setNome(response.getLoggedContact().getNome());
 				Status.setCognome(response.getLoggedContact().getCognome());
 				Status.setNickname(response.getLoggedContact().getNickname());
-				
+				Status.setLOGGED(true);
 				
 				//Aggiorno i dati del LastLogin su Status
 				Status.setLastLoginUsername(username);
@@ -116,9 +117,10 @@ public class ClientEngine {
 	/**
 	 * Riceve un messaggio da un contatto
 	 */
-	public static /*synchronized*/ boolean receiveMessageFromContact(Message chatMsg){
-		System.out.println("OthClient - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
+	public static synchronized boolean receiveMessageFromContact(Message chatMsg){
 		INList.add(chatMsg);
+		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+INList.size());
+		
 		return true;
 	}
 	
@@ -153,19 +155,8 @@ public class ClientEngine {
 			
 			
 			
-			Message[] messagesToDeliver = new Message[MessagesToDeliver.size()];
-			for(int i=0; i<MessagesToDeliver.size(); i++){
-				messagesToDeliver[i] = MessagesToDeliver.get(i);
-			}
-			try {
-				//TODO modificare con GetClient
-				SIPInterface client = getSIP();
-				client.sendMessageToContact(messagesToDeliver);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			ClientThreadSender cts = new ClientThreadSender(MessagesToDeliver);
+			cts.start();
 			
 			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUTList.size());
 		}
@@ -206,13 +197,34 @@ public class ClientEngine {
 	/**
 	 * @return Riferimento al Client
 	 */
-	public static ClientInterface getClient(Contact contact){
+	public static ClientInterface getClient(int ContactUserID){
+		Contact contact = null;
+		for(Contact cont : Status.getContactList()){
+			if(cont.getID() == ContactUserID){
+				contact = cont;
+				if(cont.getStatus() == StatusList.OFFLINE){
+					return null;
+				}
+				break;
+			}
+		}
+		if(contact == null) return null;
 		Registry registry;
 		ClientInterface client = null;
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
 			registry = LocateRegistry.getRegistry(contact.getGlobalIP());
 			client = (ClientInterface) registry.lookup("Client");
+		} catch (java.rmi.ConnectException e) {
+			//Quando sull'host non risponde l'rmiregistry
+			//Ritengo quindi che l'utente sia andato offline
+			contact.setStatus(StatusList.OFFLINE);
+			System.err.println("Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE!");
+			
+			
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient()", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
@@ -224,15 +236,11 @@ public class ClientEngine {
 		}
 		return client;
 	}
+	
+	
+	
 
-	public static ArrayList<Message> getOUTList() {
-		return OUTList;
-	}
-
-	public static ArrayList<Message> getINList() {
-		return INList;
-	}
-
-
+	public static ArrayList<Message> getOUTList() {		return OUTList;	}
+	public static ArrayList<Message> getINList() {		return INList;	}
 
 }

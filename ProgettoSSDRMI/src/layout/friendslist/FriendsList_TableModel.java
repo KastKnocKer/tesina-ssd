@@ -1,8 +1,8 @@
-package layout.table;
+package layout.friendslist;
 
 import javax.swing.table.AbstractTableModel;
 
-import layout.LayoutReferences;
+import layout.managers.LayoutReferences;
 
 import chat.Friend;
 import chat.FriendsList;

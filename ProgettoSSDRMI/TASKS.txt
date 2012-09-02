@@ -2,29 +2,22 @@
 LOGIN P2P
 REGISTRAZIONE P2P
 
-
-
-Client Thread -> Controllo periodico dello stato dei contatti e del loro ciclo di vita,
-					comunicazione periodica ai propri contatti del proprio stato di connessione
+CRUD - Stato di connessione lato SIP
 
 // DOING (Febio)
 GUI - Finestra di conversazione
 
-
 //DONE (Febio)
 GUI - Login
 GUI - Registrazione
-GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti
 GUI - Finestra elenco contatti
-
-
+GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti
 
 
 
 // DOING (KKK)
 CRUD - Utenti lato SIP
 CRUD - Amicizie lato SIP
-CRUD - Stato di connessione lato SIP
 
 
 //DONE (KKK)

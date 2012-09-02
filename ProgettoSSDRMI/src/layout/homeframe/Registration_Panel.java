@@ -1,4 +1,4 @@
-package layout.panel;
+package layout.homeframe;
 
 import java.awt.CardLayout;
 import java.awt.FlowLayout;

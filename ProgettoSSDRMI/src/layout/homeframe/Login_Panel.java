@@ -1,4 +1,4 @@
-package layout.panel;
+package layout.homeframe;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -15,7 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import layout.LayoutReferences;
+import layout.friendslist.FriendsList_Panel;
+import layout.managers.LayoutReferences;
 
 
 import RMIMessages.ResponseLoginMessage;

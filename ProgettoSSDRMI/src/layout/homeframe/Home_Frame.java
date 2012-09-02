@@ -1,4 +1,4 @@
-package layout.frame;
+package layout.homeframe;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -13,9 +13,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import layout.LayoutReferences;
-import layout.panel.Login_Panel;
-import layout.panel.Registration_Panel;
+import layout.managers.LayoutReferences;
+import layout.utilityframes.*;
 
 /**
  * Frame principale dell'applicazione. Usato per contenere il pannello 
@@ -132,6 +131,8 @@ public class Home_Frame extends JFrame {
         });
         
         file.add(eMenuItem_logout); 
+        
+        file.addSeparator();
         
         /* Exit */
         JMenuItem eMenuItem = new JMenuItem("Exit", null);

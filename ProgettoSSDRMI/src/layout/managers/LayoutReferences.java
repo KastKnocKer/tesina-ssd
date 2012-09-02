@@ -1,11 +1,11 @@
-package layout;
+package layout.managers;
 
 import javax.swing.JPanel;
 
-import layout.frame.Home_Frame;
-import layout.panel.FriendsList_Panel;
-import layout.table.FriendsList_Table;
-import layout.table.FriendsList_TableModel;
+import layout.friendslist.FriendsList_Panel;
+import layout.friendslist.FriendsList_Table;
+import layout.friendslist.FriendsList_TableModel;
+import layout.homeframe.Home_Frame;
 
 /**
  * Classe statica contenente i riferimenti ad alcune delle istanze

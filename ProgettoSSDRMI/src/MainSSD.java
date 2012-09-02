@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 import client.ClientThread;
 
-import layout.frame.Home_Frame;
+import layout.homeframe.Home_Frame;
 import utility.WhatIsMyIP;
 import RMI.Client;
 import RMI.ClientInterface;

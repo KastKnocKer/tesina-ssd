@@ -3,6 +3,10 @@ package layout.conversationframe;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,6 +37,19 @@ public class Conversation_Frame extends JFrame {
 	private String userEmail_conversation; 
 	
 	private JPanel mainPanel; 
+	
+	private JLabel hisNicknameImageLabel;
+	private ImageIcon hisNicknameImage; 
+	
+	private JLabel myNicknameImageLabel; 
+	private ImageIcon myNicknameImage; 
+	
+	private JTextArea textAreaSendMessage;
+	
+	private JButton buttonSendMessage; 
+	
+	private JTextArea textAreaProvaShowMessage; 
+	
 	
 	/**
 	 * Costruttore con parametri di Conversation_Frame
@@ -77,11 +94,11 @@ public class Conversation_Frame extends JFrame {
 //		mainPanel.add(hisNicknameLabel, constraints); 
 		
 		/* Avatar */
-		JLabel hisNicknameImageLabel = new JLabel(); 
+		hisNicknameImageLabel = new JLabel(); 
 		hisNicknameImageLabel.setBorder( BorderFactory.createTitledBorder(nickname) );
 		
 		// TODO : per semplicità per ora uso lo stesso avatar
-		ImageIcon hisNicknameImage = new ImageIcon(Status.getAvatarURL()); 
+		hisNicknameImage = new ImageIcon(Status.getAvatarURL()); 
 		hisNicknameImageLabel.setIcon(hisNicknameImage); 
 		
 		GridBagConstraints constraints = new GridBagConstraints(); 
@@ -113,14 +130,11 @@ public class Conversation_Frame extends JFrame {
 //		mainPanel.add(myNicknameLabel, constraints); 
 		
 		/* Avatar */
-		JLabel myNicknameImageLabel = new JLabel(); 
+		myNicknameImageLabel = new JLabel(); 
 		
 		myNicknameImageLabel.setBorder( BorderFactory.createTitledBorder(Status.getNickname()) );
-		ImageIcon myNicknameImage = new ImageIcon(Status.getAvatarURL()); 
+		myNicknameImage = new ImageIcon(Status.getAvatarURL()); 
 		myNicknameImageLabel.setIcon(myNicknameImage); 
-		
-		
-		
 		
 		constraints = new GridBagConstraints(); 
 		constraints.fill = GridBagConstraints.NONE;
@@ -137,8 +151,9 @@ public class Conversation_Frame extends JFrame {
 		/* *******************************************
 		 * TextArea per inviare messaggi 
 		 * *******************************************/
-		JTextArea textAreaSendMessage = new JTextArea();
+		textAreaSendMessage = new JTextArea();
 		textAreaSendMessage.setWrapStyleWord(true); 
+		textAreaSendMessage.setLineWrap(true); 
 		
 		JScrollPane scrollPane_textAreaSendMessage = new JScrollPane(textAreaSendMessage); 
 		
@@ -153,11 +168,26 @@ public class Conversation_Frame extends JFrame {
 		
 		mainPanel.add(scrollPane_textAreaSendMessage, constraints); 
 		
+		/* Listener textArea */
+		textAreaSendMessage.addKeyListener
+	      (new KeyAdapter() {
+	         public void keyReleased(KeyEvent e) {
+	           int key = e.getKeyCode();
+	           /* Pressione tasto invio: mando messaggio di chat */
+	           if (key == KeyEvent.VK_ENTER) {
+//	        	   	Toolkit.getDefaultToolkit().beep();   
+	        	   	sendChatMsg(); 
+	        	   
+	              }
+	           }
+	         }
+	      );
+		
 		
 		/* *******************************************
 		 * Bottone per inviare messaggi 
 		 * *******************************************/
-		JButton buttonSendMessage = new JButton("Send"); 
+		buttonSendMessage = new JButton("Send"); 
 		
 		buttonSendMessage.setSize(400, 10); 
 		
@@ -172,11 +202,20 @@ public class Conversation_Frame extends JFrame {
 		
 		mainPanel.add(buttonSendMessage, constraints); 
 		
+		/* Listener per inviare messaggio */
+		buttonSendMessage.addActionListener(new ActionListener() {
+	    	   public void actionPerformed(ActionEvent event) {
+	    		   sendChatMsg(); 
+	    	   }
+	       });
+		
 		/* *******************************************
 		 * Tabella contenente l'elenco messaggi scambiati 
 		 * *******************************************/
-		JTextArea textAreaProvaShowMessage = new JTextArea(); 
+		textAreaProvaShowMessage = new JTextArea(); 
 		textAreaProvaShowMessage.setEditable(false); 
+		textAreaProvaShowMessage.setLineWrap(true); 
+		textAreaProvaShowMessage.setWrapStyleWord(true); 
 		JScrollPane scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage); 
 		
 		constraints = new GridBagConstraints(); 
@@ -190,6 +229,17 @@ public class Conversation_Frame extends JFrame {
 		constraints.insets = new Insets(2, 2, 2, 2);
 		
 		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
+	}
+	
+	/* Funzione che mostra nella finestra di chat il messaggio contenuto al momento
+	 * della pressione all'interno della JTextArea
+	 */
+	private void sendChatMsg() {
+		
+		String msg = textAreaSendMessage.getText(); 
+		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
+		textAreaSendMessage.setText(""); 
+		
 	}
 
 

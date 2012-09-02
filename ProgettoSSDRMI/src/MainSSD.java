@@ -31,11 +31,19 @@ public class MainSSD {
 			Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
     		Runtime.getRuntime().exec("rmiregistry");
     	} catch (java.io.IOException e) {
-    		System.exit(0);
+    		System.out.println("Attenzione: rmid e rmiregistry non trovati!");
+    		//System.exit(0);
     	}
 		
 		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		//Repository FABIO
 		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");			//Repository KKK
+		
+		//TODO tentativo qua sotto fallito
+		//Timeout per le chiamate ad oggetto remoto
+		System.setProperty("sun.rmi.transport.connectionTimeout", "2000");
+		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
+		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
+		
 		
 		//Inizializzo la classe statica Status
 		Status status = new Status();
@@ -56,13 +64,17 @@ public class MainSSD {
 		//	Carico i dati locali
 		status.readConfXML();	//File locale di configurazione
 		
+		System.err.println("CLIENT TYPE: "+Status.getType());
 		
-		
-		if( Status.getType() == Status.TYPE_SIP ) 
+		if( Status.getType() == Status.TYPE_SIP ){
 			StarterSIP();
-		// TODO: rimetti l'else
-		// else 
+		}else if( Status.getType() == Status.TYPE_CLIENT ){
 			StarterClient();
+		}else if( Status.getType() == Status.TYPE_SIPCLIENT ){
+			StarterSIP();
+			StarterClient();
+		}
+			
 			
 		
 		
@@ -223,8 +235,7 @@ public class MainSSD {
 			            }
 				});
 		ClientThread ct = new ClientThread();
-		ct.run();
+		//ct.start();
 		return true;
 	}
-	
 }

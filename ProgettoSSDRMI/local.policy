@@ -4,5 +4,9 @@ grant {
 
 grant codebase "file:/path/to/code" {
     permission java.io.FilePermission "\bin\-", "read";
-}
+};
+
+grant {
+	permission java.security.AllPermission;	
+}; 
 

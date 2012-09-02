@@ -4,6 +4,8 @@ package RMI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import RMIMessages.RMIBasicResponseMessage;
+
 import chat.Contact;
 import chat.Message;
 
@@ -26,5 +28,10 @@ public interface ClientInterface extends Remote{
 	 * Chiede all'utente contattato il suo stato
 	 */
 	Contact howAreYou() throws RemoteException;
+	
+	/**
+	 * Permette l'invio dei messaggi di chat
+	 */
+	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException;
 	
 }

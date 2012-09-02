@@ -53,7 +53,7 @@ public interface SIPInterface extends Remote{
 	
 	
 	/**
-	 * Permette l'invio dei messaggi di chat
+	 * Permette l'invio dei messaggi di chat	SOLO CLIENT DA TOGLIERE QUINDI 
 	 */
 	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException;
 	

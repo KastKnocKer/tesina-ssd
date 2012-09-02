@@ -17,6 +17,8 @@ public class Friend {
 	private StatusList status;
 	/** Identificativo univoco dell'utente */
 	private int userId; 
+	/** Indirizzo email dell'utente */
+	private String email; 
 	
 	public String getNickname() {
 		return nickname;
@@ -36,6 +38,12 @@ public class Friend {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	} 
 
 }

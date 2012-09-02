@@ -168,6 +168,8 @@ public class Conversation_Frame extends JFrame {
 		
 		mainPanel.add(scrollPane_textAreaSendMessage, constraints); 
 		
+		textAreaSendMessage.requestFocus(); 
+		
 		/* Listener textArea */
 		textAreaSendMessage.addKeyListener
 	      (new KeyAdapter() {
@@ -177,7 +179,6 @@ public class Conversation_Frame extends JFrame {
 	           if (key == KeyEvent.VK_ENTER) {
 //	        	   	Toolkit.getDefaultToolkit().beep();   
 	        	   	sendChatMsg(); 
-	        	   
 	              }
 	           }
 	         }

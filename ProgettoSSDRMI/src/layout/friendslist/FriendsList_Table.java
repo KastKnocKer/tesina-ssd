@@ -11,10 +11,9 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
-import layout.conversationframe.*;
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
-
+import chat.Contact;
 import chat.FriendsList;
 import chat.Status;
 
@@ -47,18 +46,21 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		
 		super(friendsListTableModel);
 		
+
+		/* Rimuovo la colonna con l'userID (solo alla vista) */
+//		this.removeColumn(this.getColumnModel().getColumn(0));
+
 		/* Aggiungo gli ascoltatori */
 		this.setName("JTable_FriendsListTable");
 		this.addMouseListener(this);
 		
-		JTableHeader jth =this.getTableHeader();
+		JTableHeader jth = this.getTableHeader();
 		jth.setName("JTable_FriendsListTableHeader");
 		jth.addMouseListener(this);
 		
 		/* Imposto il valore delle variabili static globali 
 		 * con le quali farò successivamente riferimento alla 
 		 * tabella contenente la lista amici */
-		
 		if(LayoutReferences.getFriendsListTable() == null)
 			LayoutReferences.setFriendsListTable(this); 
 		
@@ -175,19 +177,27 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		clickedRow = rowAtPoint(mouseEvent.getPoint());
 		clickedColumn = columnAtPoint(mouseEvent.getPoint());
 			
-		/* Verifico il doppio click */
-		if(mouseEvent.getClickCount() == 2 && !mouseEvent.isConsumed() && clickedRow == lastClickedRow) {
-			mouseEvent.consume(); 
-			openConversationFrame("Conversation with Matteina"); 
-			System.out.println("Doppio click :)");
-		}
-
-		/* salvo in una variabile la penultima riga cliccata */
-		lastClickedRow = clickedRow; 
-		
 		/* Se non seleziono nessuna vera riga, ritorno */
 		if(clickedRow == -1 || clickedColumn == -1) 
 			return; 
+		
+		/* Verifico il doppio click */
+		if(mouseEvent.getClickCount() == 2 && !mouseEvent.isConsumed() && clickedRow == lastClickedRow) {
+			mouseEvent.consume(); 
+
+			/* Apro il frame di conversazione con l'utente */
+			Contact contact = Status.searchContactById((int) this.getValueAt(clickedRow, 0)); 
+			openConversationFrame(contact); 
+			
+//			System.out.println("Doppio click :)");
+		}
+		
+		/* salvo in una variabile la penultima riga cliccata */
+		lastClickedRow = clickedRow; 
+		
+		
+		
+		
 		
 		this.setRowSelectionInterval(clickedRow, clickedRow);
 		
@@ -252,31 +262,24 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	/**
 	 * Funzione per aprire un nuovo frame di conversazione
 	 */
-	public void openConversationFrame(String frameTitle) {
-		ConversationWindowsManager.showConversationFrame(10, "Matteina", "matteo.renzi.88@gmail.com"); 
+	public void openConversationFrame(Contact contact) {
+		ConversationWindowsManager.showConversationFrame(contact); 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -288,7 +291,9 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		/* Specifico le azioni da intraprendere nel momento
 		 * in cui viene selezionata una voce del jPopUpMenu */
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
-			openConversationFrame("Conversation with Matteina"); 
+			
+			Contact contact = Status.searchContactById((int) this.getValueAt(clickedRow, 0)); 
+			openConversationFrame(contact); 
 		}
 	}
 

@@ -33,7 +33,7 @@ public class FriendsList_TableModel extends AbstractTableModel {
 	 * @return numero di colonne
 	 */
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 
 	/**
@@ -55,9 +55,10 @@ public class FriendsList_TableModel extends AbstractTableModel {
 		obj = friendsList.getFriendByPosition(row); 
 		
 		switch(col){
-			case 0: return row+1;
+			case 0: return ((Friend) obj).getUserId(); //  return row+1;
 			case 1: return ((Friend) obj).getNickname(); 
 			case 2: return ((Friend) obj).getStatus();
+			case 3: return ((Friend) obj).getEmail(); 
 			default: return "***";
 		}
 	}
@@ -69,9 +70,10 @@ public class FriendsList_TableModel extends AbstractTableModel {
 	 */
 	public String getColumnName(int col){
 		switch(col){
-			case 0: return "N."; 
+			case 0: return "ID"; 
 			case 1: return "Nickname"; 
 			case 2: return "Status";
+			case 3: return "Email";
 			default: return "***";
 		}
 	}

@@ -31,11 +31,20 @@ public class Contact implements Serializable{
 		this.LocalIPs = LocalIPs;
 	}
 	
+	/** 
+	 * Metodo che restituisce una versione semplificata (cioè, con meno parametri) 
+	 * della classe Contact, utilizzata per mostare informazioni all'interno della 
+	 * lista amici 
+	 * 
+	 * @return un'istanza della classe Friend, versione semplificata 
+	 * (cioè, con meno parametri) della classe Contact.
+	 */
 	public Friend getFriend(){
 		Friend friend = new Friend();
 		friend.setUserId(UserID);
 		friend.setNickname(Nickname);
 		friend.setStatus(Status);
+		friend.setEmail(eMail); 
 		return friend;
 	}
 	

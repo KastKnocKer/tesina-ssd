@@ -1,7 +1,9 @@
 package layout.managers;
 
 import java.util.ArrayList;
-import layout.conversationframe.*;
+
+import layout.conversationframe.Conversation_Frame;
+import chat.Contact;
 
 /**
  * Classe usata per gestire le finestre di conversazione. 
@@ -73,11 +75,13 @@ public class ConversationWindowsManager {
 	 * Se la finestra non è ancora stata aperta, la inizializzo; 
 	 * altrimenti, la rendo nuovamente visibile. 
 	 * 
-	 * @param userID dell'utente (su database) di cui si vuole mostrare la finestra di conversazione
-	 * @param nickname dell'utente di cui si vuole mostrare la finestra di conversazione
-	 * @param email dell'utente di cui si vuole mostrare la finestra di conversazione
+	 * @param contact, istanza della classe Contact corrispondente al contatto invocato. 
 	 */
-	public static void showConversationFrame(int userID, String nickname, String email) {
+	public static void showConversationFrame(Contact contact) {
+		
+		int userID = contact.getID(); 
+		String nickname = contact.getNickname(); 
+		String email = contact.geteMail(); 
 		
 		/* Verifico se c'è un ConversationFrame già aperto */
 		int result = searchConversationWindow(userID);
@@ -94,7 +98,7 @@ public class ConversationWindowsManager {
 			/* rendo visibile la finestra di conversazione che era stata solamente nascosta */
 			default: 
 				System.out.println("Conversazione con " + nickname + " ( " + email + " ) era già stata aperta");
-				arrayList_conversationFrames.get(result).setLocationRelativeTo(null); 
+//				arrayList_conversationFrames.get(result).setLocationRelativeTo(null); 
 				arrayList_conversationFrames.get(result).setVisible(true); 
 				break; 
 		}

@@ -21,11 +21,10 @@ import client.ClientEngine;
 
 
 /**
+ * Classe statica utilizzata per gestire lo stato dell'applicazione
+ * (Configurazione - Contatti - Stato contatti)
  * 
  * @author Andrea Castelli
- * Classe statica utilizzata per gestire lo stato dell'applicazione
- *
- *	Configurazione - Contatti - Stato contatti
  */
 
 public class Status {
@@ -37,8 +36,8 @@ public class Status {
 	public final static int TYPE_SIPCLIENT = 	-1;
 	private static String GlobalIP;
 	private static String LocalIP;
-	private static FriendsList friendsList;
-	private static ArrayList<Contact> contactList;
+	private static FriendsList friendsList = null;
+	private static ArrayList<Contact> contactList = null;
 		
 	public static Contact localUser;
 	
@@ -66,12 +65,11 @@ public class Status {
 	// private static String SIP_Address = "192.168.1.113";
 
 	
-	
+	/* Costruttore */
 	public Status(){}
 	
-	
 
-/** Metodo per reperire la lista amici globale 
+	/** Metodo per reperire la lista amici globale 
 	 * @return lista amici
 	 */
 	public static FriendsList getFriendsList() {
@@ -88,7 +86,11 @@ public class Status {
 	}
 	
 	/** 
-	 * Metodo per caricare la lista amici non filtrata 
+	 * Mediante questo metodo, il sistema carica da file di configurazione
+	 * la lista amici (senza filtri), ed essa viene mostrata all'interno
+	 * della tabella lista amici dell'interfaccia grafica.
+	 * 
+	 * @author Fabio Pierazzi
 	 */
 	// TODO da perfezionare
 	public static void loadFriendsList() {
@@ -477,6 +479,33 @@ public class Status {
 		Status.writeContactsXML();
 	}
 
+	/**
+	 *  Ricerco un contatto in base all'ID.
+	 * 
+	 * @param contactID (su database) del contatto da cercare
+	 * @return il contatto, se viene trovato; null, altrimenti.
+	 * 
+	 *  @author Fabio Pierazzi
+	 */
+	public static Contact searchContactById(int contactID) {
+		
+		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
+		if(contactList == null) {
+			System.out.println("Status.searchContactById: la lista contatti non esiste; ne creo una. ");
+			contactList = new ArrayList<Contact>(); 
+			return null;
+		}
+		
+		/* Ricerco il contatto all'interno della lista */
+		for(Contact contact : contactList) {
+			if(contact.getID() == contactID)
+				return contact; 
+		}
+			
+		/* Se arrivo fin qua, significa che non è stato trovato, 
+		 * quindi ritorno null */
+		return null; 
+	}
 
 
 	public static int getRMIRegistryPort() {		return RMIRegistryPort;	}

@@ -16,7 +16,7 @@ public class ClientThread extends Thread{
 //			int sendTo = (int)(Math.random() * 10)+2;
 //			ClientEngine.sendMessageToContact(new Message(Status.getUserID(),sendTo,"\t\t["+Status.getNickname()+"]Msg n° "+index));
 			
-			if(index%20 == 0){
+			if(index%2 == 0){
 				//try {Thread.currentThread().sleep(500);} catch (InterruptedException e) {	e.printStackTrace(); System.out.println("ClientThread Exception");}
 				ClientEngine.deliverAllMessages();
 			}

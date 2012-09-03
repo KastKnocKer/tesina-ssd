@@ -128,4 +128,26 @@ public class ConversationWindowsManager {
 				break; 
 		}
 	}
+	
+	/**
+	 * 
+	 * @param userID destinatario del messaggio
+	 * @param msg da mostrare in chat
+	 */
+	public static void writeToConversationFrame(int userID, String msg) {
+		
+		/* Verifico se c'è un ConversationFrame già aperto */
+		int result = searchConversationWindow(userID);
+		
+		switch(result) {
+			/* non faccio niente */
+			case -1: 
+				break;
+			
+			/* rendo NON visibile la finestra di conversazione con l'utente che ha id userID */
+			default: 
+				arrayList_conversationFrames.get(result).writeChatMsg(msg);  
+				break; 
+		}
+	}
 }

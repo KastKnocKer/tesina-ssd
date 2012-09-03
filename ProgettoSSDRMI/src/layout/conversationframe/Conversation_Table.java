@@ -1,6 +1,7 @@
 package layout.conversationframe;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Tabella in cui verranno mostrati (formattati) i messaggi
@@ -11,7 +12,7 @@ import javax.swing.JTable;
 public class Conversation_Table extends JTable {
 	
 	/* Costruttore */
-	public Conversation_Table(Conversation_TableModel conversation_TableModel) {
+	public Conversation_Table(DefaultTableModel model) {
 		
 	}
 

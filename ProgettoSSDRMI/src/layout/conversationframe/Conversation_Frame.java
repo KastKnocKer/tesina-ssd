@@ -18,11 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
-import client.ClientEngine;
-
 import chat.Contact;
 import chat.Message;
 import chat.Status;
+import client.ClientEngine;
 
 /**
  * Classe che rappresenta il frame della finestra di
@@ -237,6 +236,10 @@ public class Conversation_Frame extends JFrame {
 		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
 		
 		/* Versione Tabella */
+		
+//		model = new DefaultTableModel();
+//		conversation_Table = new Conversation_Table(model); 
+		
 //		conversation_TableModel = new Conversation_TableModel(); 
 //		
 //		model = new DefaultTableModel();
@@ -288,6 +291,9 @@ public class Conversation_Frame extends JFrame {
 	}
 
 
+	public void writeChatMsg(String msg) {
+		textAreaProvaShowMessage.append(contact.getNickname() + ": " +  msg); 
+	}
 
 	public Contact getContact() {
 		return contact;

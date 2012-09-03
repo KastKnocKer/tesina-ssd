@@ -1,16 +1,12 @@
 package client;
 
-import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.security.ProtectionDomain;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
-import utility.RMIResponse;
 
 import RMI.ClientInterface;
 import RMI.SIPInterface;
@@ -23,6 +19,8 @@ import chat.Contact;
 import chat.Message;
 import chat.Status;
 import chat.StatusList;
+
+import layout.managers.*;
 
 public class ClientEngine {
 	
@@ -120,6 +118,13 @@ public class ClientEngine {
 	public static synchronized boolean receiveMessageFromContact(Message chatMsg){
 		INList.add(chatMsg);
 		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+INList.size());
+		
+		/* Mostro la finestra se arriva il messaggio */
+		Contact contact = Status.searchContactById(chatMsg.getFrom()); 
+		ConversationWindowsManager.showConversationFrame(contact); 
+		
+		/* Scrivo il messaggio nella finestra */
+		ConversationWindowsManager.writeToConversationFrame(chatMsg.getFrom(), chatMsg.getMessage());
 		
 		return true;
 	}

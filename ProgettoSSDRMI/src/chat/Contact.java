@@ -10,7 +10,16 @@ public class Contact implements Serializable{
 	private String Cognome = NONE;
 	private String eMail = NONE;
 	private String Password = NONE;
+	private String AvatarURL = NONE;
 	
+
+	public String getAvatarURL() {
+		return AvatarURL;
+	}
+
+	public void setAvatarURL(String avatarURL) {
+		AvatarURL = avatarURL;
+	}
 
 	private StatusList Status = StatusList.OFFLINE;
 	private static int Client_Port = 1102;

@@ -10,7 +10,9 @@ import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
+import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
+import RMIMessages.ResponseModifyContactInfos;
 
 import chat.Contact;
 import chat.Message;
@@ -51,10 +53,9 @@ public interface SIPInterface extends Remote{
 	 */
 	RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException;
 	
-	
 	/**
-	 * Permette l'invio dei messaggi di chat	SOLO CLIENT DA TOGLIERE QUINDI 
+	 * Aggiorna sul DB i dati dell'utente
 	 */
-	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException;
+	ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException;
 	
 }

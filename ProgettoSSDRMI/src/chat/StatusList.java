@@ -13,5 +13,6 @@ public enum StatusList {
 	ONLINE, 
 	BUSY,
 	AWAY,
-	OFFLINE
+	OFFLINE,
+	WAITING
 }

@@ -24,8 +24,15 @@ public interface ClientInterface extends Remote{
 	 */
 	Contact whoAreYou() throws RemoteException;
 	
+	
+	
+	
+	
+	
+	
+	
 	/**
-	 * Chiede all'utente contattato il suo stato
+	 * Chiede all'utente contattato il suo stato, comunicando anche il proprio
 	 */
 	Contact howAreYou() throws RemoteException;
 	

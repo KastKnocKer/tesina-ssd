@@ -29,7 +29,8 @@ public class Client implements ClientInterface{
 		return null;
 	}
 
-	@Override
+
+
 	public Contact howAreYou() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;

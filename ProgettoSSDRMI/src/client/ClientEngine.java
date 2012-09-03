@@ -228,11 +228,13 @@ public class ClientEngine {
 		Registry registry;
 		ClientInterface client = null;
 		try {
-			if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
+			
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
+				if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
 				registry = LocateRegistry.getRegistry(contact.getLocalIP());
 			}else{
+				if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
 				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
 			}
 				

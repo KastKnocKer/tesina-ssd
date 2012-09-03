@@ -30,7 +30,7 @@ import client.ClientEngine;
 public class Status {
 	private static boolean LOGGED = false;
 	public final static boolean DEBUG = true;
-	public final static boolean SUPER_DEBUG = false; 
+	public final static boolean SUPER_DEBUG = true; 
 	public final static int TYPE_SIP = 			0;
 	public final static int TYPE_CLIENT = 		1;
 	public final static int TYPE_SIPCLIENT = 	-1;

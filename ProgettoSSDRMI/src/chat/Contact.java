@@ -15,6 +15,7 @@ public class Contact implements Serializable{
 	private StatusList Status = StatusList.OFFLINE;
 	private static int Client_Port = 1102;
 	private String GlobalIP = NONE;
+	private String LocalIP = NONE;
 	private String[][] LocalIPs = null;
 	
 	public Contact(){
@@ -136,6 +137,14 @@ public class Contact implements Serializable{
 
 	public static void setClient_Port(int client_Port) {
 		Client_Port = client_Port;
+	}
+
+	public String getLocalIP() {
+		return LocalIP;
+	}
+
+	public void setLocalIP(String localIP) {
+		LocalIP = localIP;
 	}
 
 	

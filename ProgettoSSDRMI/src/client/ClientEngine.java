@@ -213,7 +213,14 @@ public class ClientEngine {
 		ClientInterface client = null;
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
-			registry = LocateRegistry.getRegistry(contact.getGlobalIP());
+			
+			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
+				registry = LocateRegistry.getRegistry(contact.getLocalIP());
+			}else{
+				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
+			}
+				
+			
 			client = (ClientInterface) registry.lookup("Client");
 		} catch (java.rmi.ConnectException e) {
 			//Quando sull'host non risponde l'rmiregistry

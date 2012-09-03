@@ -5,8 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -21,9 +19,9 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import chat.Contact;
-import chat.Message;
 import chat.Status;
-import client.ClientEngine;
+
+import utility.*;
 
 /**
  * Classe che rappresenta il frame della finestra di
@@ -224,34 +222,41 @@ public class Conversation_Frame extends JFrame {
 		 * *******************************************/
 		
 		/* Versione TextArea */
-		textAreaProvaShowMessage = new JTextArea(); 
-		textAreaProvaShowMessage.setEditable(false); 
-		textAreaProvaShowMessage.setLineWrap(true); 
-		textAreaProvaShowMessage.setWrapStyleWord(true); 
-		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
-		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-	        }
-	    });
-
-		
-		constraints = new GridBagConstraints(); 
-		constraints.fill = GridBagConstraints.BOTH;
-		constraints.weightx = 1; 
-		constraints.weighty = 1; 
-		constraints.gridx = 1;
-		constraints.gridy = 0; 
-		constraints.gridwidth = 2; 
-		constraints.gridheight = 3; 
-		constraints.insets = new Insets(2, 2, 2, 2);
-		
-		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
+//		textAreaProvaShowMessage = new JTextArea(); 
+//		textAreaProvaShowMessage.setEditable(false); 
+//		textAreaProvaShowMessage.setLineWrap(true); 
+//		textAreaProvaShowMessage.setWrapStyleWord(true); 
+//		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
+//		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+//	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+//	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+//	        }
+//	    });
+//
+//		
+//		constraints = new GridBagConstraints(); 
+//		constraints.fill = GridBagConstraints.BOTH;
+//		constraints.weightx = 1; 
+//		constraints.weighty = 1; 
+//		constraints.gridx = 1;
+//		constraints.gridy = 0; 
+//		constraints.gridwidth = 2; 
+//		constraints.gridheight = 3; 
+//		constraints.insets = new Insets(2, 2, 2, 2);
+//		
+//		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
 		
 		/* Versione Tabella */
+		model = new DefaultTableModel() {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       // all cells false
+		       return false;
+		    }
+		}; 
 		
-//		model = new DefaultTableModel();
-//		conversation_Table = new Conversation_Table(model); 
+		conversation_Table = new Conversation_Table(model); 
 		
 //		conversation_TableModel = new Conversation_TableModel(); 
 //		
@@ -265,20 +270,20 @@ public class Conversation_Frame extends JFrame {
 //		
 //		conversation_Table = new Conversation_Table(conversation_TableModel); 
 //		
-//		JScrollPane scrollPane = new JScrollPane(conversation_Table);
-//		conversation_Table.setFillsViewportHeight(true);
-//		
-//		constraints = new GridBagConstraints(); 
-//		constraints.fill = GridBagConstraints.BOTH;
-//		constraints.weightx = 1; 
-//		constraints.weighty = 1; 
-//		constraints.gridx = 1;
-//		constraints.gridy = 0; 
-//		constraints.gridwidth = 2; 
-//		constraints.gridheight = 3; 
-//		constraints.insets = new Insets(2, 2, 2, 2);
-//		
-//		mainPanel.add(scrollPane, constraints); 
+		JScrollPane conversationTable_scrollPane = new JScrollPane(conversation_Table);
+		conversation_Table.setFillsViewportHeight(true);
+		
+		constraints = new GridBagConstraints(); 
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.weightx = 1; 
+		constraints.weighty = 1; 
+		constraints.gridx = 1;
+		constraints.gridy = 0; 
+		constraints.gridwidth = 2; 
+		constraints.gridheight = 3; 
+		constraints.insets = new Insets(2, 2, 2, 2);
+		
+		mainPanel.add(conversationTable_scrollPane, constraints); 
 	}
 	
 	/* Funzione che mostra nella finestra di chat il messaggio contenuto al momento
@@ -287,24 +292,35 @@ public class Conversation_Frame extends JFrame {
 	private void sendChatMsg() {
 		
 		/* Versione TextArea */
-		String msg = textAreaSendMessage.getText(); 
-		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
-		textAreaSendMessage.setText("");
-		
-		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(),msg));
+//		String msg = textAreaSendMessage.getText(); 
+//		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
+//		textAreaSendMessage.setText("");
+//		
+//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(),msg));
 		
 		/* Versione Tabella */
-//		String msg = textAreaSendMessage.getText();
-//		
-//		conversation_TableModel.setValueAt(msg, conversation_TableModel.getRowCount(), 0); 
-//		
-//		textAreaSendMessage.setText(""); 
+		String msg = textAreaSendMessage.getText();
+		
+		String[] text = { 
+				DateUtils.now_time(), 
+				Status.getNickname(), 
+				msg };
+		
+		model.addRow(text); 
+		
+		textAreaSendMessage.setText(""); 
 		
 	}
 
 
 	public void writeChatMsg(String msg) {
-		textAreaProvaShowMessage.append(contact.getNickname() + ": " +  msg);
+		
+		String[] text = { 
+				DateUtils.now_time(), 
+				contact.getNickname(), 
+				msg };
+		
+		model.addRow(text); 
 	}
 
 	public Contact getContact() {

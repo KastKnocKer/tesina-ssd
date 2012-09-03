@@ -19,7 +19,6 @@ import chat.Status;
 
 
 public class MainSSD {
-	
 
 	/**
 	 * @param args

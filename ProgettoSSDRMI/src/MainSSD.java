@@ -50,7 +50,13 @@ public class MainSSD {
 		//	Acquisisco i miei indirizzi IP e li carico sulla classe Status
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		Status.setGlobalIP(wimi.getGlobalIP());
+		
+		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
+		 * mettendo l'IP globale al posto dell'ip locale. 
+		 * NOTA: PROVOCA MALFUNZIONAMENTI IN LAN!!!	 */
 		System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
+		
+		
 		Status.setLocalIP(wimi.getLocalIPs()[0][0]);
 		if(Status.SUPER_DEBUG){
 			System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());

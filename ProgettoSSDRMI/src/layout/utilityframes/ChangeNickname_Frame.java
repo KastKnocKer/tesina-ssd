@@ -15,8 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import client.ClientEngine;
+
 import layout.managers.LayoutReferences;
 
+import chat.Contact;
 import chat.Status;
 import chat.StatusList; 
 
@@ -227,6 +230,7 @@ public class ChangeNickname_Frame extends JFrame {
             	// TODO ? 
             	Status.setNickname(textfield_newNickname.getText()); 
             	
+            	
             	switch(combobox_newStato.getSelectedIndex()) {
             		case 0: Status.setStato(StatusList.ONLINE);
             				System.out.println("ComboBox: Selezionato online");
@@ -241,8 +245,15 @@ public class ChangeNickname_Frame extends JFrame {
             				System.out.println("Errore: nessuno stato selezionato."); 
             				break; 
             	}
-            	
+
             	Status.setAvatarURL(textfield_newAvatar.getText()); 
+            	
+            	//Modifica dei parametri
+            	Contact myContact = new Contact();
+            	myContact.setNickname(Status.getNickname());
+            	myContact.setAvatarURL(Status.getAvatarURL());
+            	myContact.setStatus(Status.getStato());
+            	ClientEngine.ModifyMyInfos(myContact);
             	
             	LayoutReferences.getFriendsListPanel().refreshPanel();
             	

@@ -17,7 +17,9 @@ import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
+import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
+import RMIMessages.ResponseModifyContactInfos;
 import SIP.DBConnection;
 
 public class SIP implements SIPInterface{
@@ -60,11 +62,13 @@ public class SIP implements SIPInterface{
 		return dbConn.requestFriendship(requestFriendshipMessage);
 	}
 
-	
-	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException {
-		for(Message msg : chatMsgs)ClientEngine.receiveMessageFromContact(msg);
-		return new RMIBasicResponseMessage(true, "OK");
+	public ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException{
+		DBConnection dbConn = new DBConnection();
+		//TODO controllare l'autenticazione dell'utente
+		boolean success = dbConn.modifyContact(rmci.getContact());
+		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}
+
 
 
 }

@@ -14,6 +14,7 @@ import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
+import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Message;
@@ -167,14 +168,24 @@ public class ClientEngine {
 		}
 		
 		
-		
-		
-		
-		
-		
 		return true;
 	}
 	
+	
+	/**
+	 * Richiede la modifica delle proprie informazioni
+	 */
+	public static Contact ModifyMyInfos(Contact contact){
+		try {
+			if(Status.DEBUG) System.out.println("Client -  ModifyMyInfos()");
+			return getSIP().modifyContactInfos(new RequestModifyContactInfos(contact)).getContact();
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.ModifyMyInfos() exception", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+			//e.printStackTrace();
+			return null;
+		}
+	}
 	
 	
 	/**

@@ -538,16 +538,8 @@ public class Status {
 	}
 
 
-
-	public static boolean isLOGGED() {
-		return LOGGED;
-	}
-
-
-
-	public static void setLOGGED(boolean lOGGED) {
-		LOGGED = lOGGED;
-	}
+	public static boolean isLOGGED() {		return LOGGED;	}
+	public static void setLOGGED(boolean lOGGED) {		LOGGED = lOGGED;	}
 
 
 

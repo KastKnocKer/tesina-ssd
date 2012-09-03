@@ -24,6 +24,7 @@ import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Friend;
+import chat.Status;
 import chat.StatusList;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -391,6 +392,9 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	if(!connesso){
 		connetti();
 	}
+	
+	if(Status.SUPER_DEBUG) System.out.println("SIP - getMyContacts("+msg.getRequestorUserID()+" - "+msg.getRequestorGlobalIP()+" - "+msg.getRequestorLocalIP()+")");
+	
 	ResultSet result;
 	
 	try {
@@ -423,8 +427,8 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         		contact.setLocalIP(result.getString(9));
         		contact.setStatus(result.getString(13));
         	}
-        	System.out.print("\n");
-        	for(int i=1; i<12;i++) System.out.print(result.getString(i)+ " - ");
+//        	System.out.print("\n");
+//        	for(int i=1; i<12;i++) System.out.print(result.getString(i)+ " - ");
         	contacts.add(contact);
         	contact.printInfo();
         }
@@ -448,7 +452,8 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 	if(!connesso){
 		connetti();
 	}
-	System.out.println("PER LA CONFESSIONEEEE");
+	
+	if(Status.SUPER_DEBUG) System.out.println("SIP - updateContactConnectionStatus("+UserID+")");
 	
 	try {
 		String query = "INSERT INTO userstatus (idUser, publicIP, localIP, rmiregistryPort, clientPort, lastConnection, status) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?) ON DUPLICATE KEY UPDATE idUser=?, publicIP=?, localIP=?, rmiregistryPort=?, clientPort=?, lastConnection=CURRENT_TIMESTAMP, status=?;";

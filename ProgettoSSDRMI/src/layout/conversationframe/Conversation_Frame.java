@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -46,10 +48,13 @@ public class Conversation_Frame extends JFrame {
 	private ImageIcon myNicknameImage; 
 	
 	private JTextArea textAreaSendMessage;
+	private JScrollPane scrollPane_textAreaSendMessage;
+	
 	
 	private JButton buttonSendMessage; 
 	
 	private JTextArea textAreaProvaShowMessage; 
+	private JScrollPane scrollPane_textAreaProvaShowMessage;
 	
 	private Conversation_TableModel conversation_TableModel; 
 	private DefaultTableModel model; 
@@ -157,7 +162,9 @@ public class Conversation_Frame extends JFrame {
 		textAreaSendMessage.setWrapStyleWord(true); 
 		textAreaSendMessage.setLineWrap(true); 
 		
-		JScrollPane scrollPane_textAreaSendMessage = new JScrollPane(textAreaSendMessage); 
+		scrollPane_textAreaSendMessage = new JScrollPane(textAreaSendMessage); 
+		scrollPane_textAreaSendMessage.setAutoscrolls(true);
+		
 		
 		constraints = new GridBagConstraints(); 
 		constraints.fill = GridBagConstraints.BOTH;
@@ -221,7 +228,13 @@ public class Conversation_Frame extends JFrame {
 		textAreaProvaShowMessage.setEditable(false); 
 		textAreaProvaShowMessage.setLineWrap(true); 
 		textAreaProvaShowMessage.setWrapStyleWord(true); 
-		JScrollPane scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage); 
+		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
+		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });
+
 		
 		constraints = new GridBagConstraints(); 
 		constraints.fill = GridBagConstraints.BOTH;
@@ -280,7 +293,6 @@ public class Conversation_Frame extends JFrame {
 		
 		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(),msg));
 		
-		
 		/* Versione Tabella */
 //		String msg = textAreaSendMessage.getText();
 //		
@@ -292,7 +304,7 @@ public class Conversation_Frame extends JFrame {
 
 
 	public void writeChatMsg(String msg) {
-		textAreaProvaShowMessage.append(contact.getNickname() + ": " +  msg); 
+		textAreaProvaShowMessage.append(contact.getNickname() + ": " +  msg);
 	}
 
 	public Contact getContact() {

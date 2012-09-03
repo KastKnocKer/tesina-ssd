@@ -59,7 +59,9 @@ public class ConversationWindowsManager {
 		
 		for(Conversation_Frame conversationFrame : arrayList_conversationFrames) {
 			
-			if(conversationFrame.getUserID_conversation() == userID)
+			int temp_userID = conversationFrame.getContact().getID(); 
+			System.out.println("Temp: " + temp_userID + "; userID: " + userID);
+			if( temp_userID == userID)
 				return pos; 
 						
 			pos++; 
@@ -79,25 +81,25 @@ public class ConversationWindowsManager {
 	 */
 	public static void showConversationFrame(Contact contact) {
 		
-		int userID = contact.getID(); 
-		String nickname = contact.getNickname(); 
-		String email = contact.geteMail(); 
+//		int userID = contact.getID(); 
+//		String nickname = contact.getNickname(); 
+//		String email = contact.geteMail(); 
 		
 		/* Verifico se c'è un ConversationFrame già aperto */
-		int result = searchConversationWindow(userID);
+		int result = searchConversationWindow(contact.getID());
 		
 		switch(result) {
 			/* apro una nuova finestra di conversazione */
 			case -1: 
-				Conversation_Frame cf = new Conversation_Frame(userID, nickname, email);
-				cf.setUserID_conversation(userID); 
+				Conversation_Frame cf = new Conversation_Frame(contact);
+//				cf.setUserID_conversation(userID); 
 				arrayList_conversationFrames.add(cf); 
 				cf.setVisible(true);
 				break;
 			
 			/* rendo visibile la finestra di conversazione che era stata solamente nascosta */
 			default: 
-				System.out.println("Conversazione con " + nickname + " ( " + email + " ) era già stata aperta");
+				System.out.println("Conversazione con " + contact.getNickname() + " ( " + contact.geteMail() + " ) era già stata aperta");
 //				arrayList_conversationFrames.get(result).setLocationRelativeTo(null); 
 				arrayList_conversationFrames.get(result).setVisible(true); 
 				break; 

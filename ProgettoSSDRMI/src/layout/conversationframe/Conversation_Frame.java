@@ -16,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
+import chat.Contact;
 import chat.Status;
 
 /**
@@ -29,12 +31,9 @@ import chat.Status;
  */
 public class Conversation_Frame extends JFrame {
 	
-	/* Nelle seguenti variabili vengono salvati alcuni parametri
-	 * dell'utente con cui si sta avendo la conversazione */
-	// TODO: passare direttamente la classe Contact (o reperirlo tramite ID): servono anche tutte le info necessarie per contattare l'utente
-	private String nickname_conversation; 
-	private int userID_conversation; 
-	private String userEmail_conversation; 
+	/* Salvo il riferimento all'istanza della classe contact del contatto
+	 * con cui sto conversando */
+	private Contact contact; 
 	
 	private JPanel mainPanel; 
 	
@@ -50,6 +49,10 @@ public class Conversation_Frame extends JFrame {
 	
 	private JTextArea textAreaProvaShowMessage; 
 	
+	private Conversation_TableModel conversation_TableModel; 
+	private DefaultTableModel model; 
+	private Conversation_Table conversation_Table; 
+	
 	
 	/**
 	 * Costruttore con parametri di Conversation_Frame
@@ -58,18 +61,15 @@ public class Conversation_Frame extends JFrame {
 	 * @param nickname dell'utente con cui iniziare la conversazione
 	 * @param email dell'utente con cui iniziare la conversazione
 	 */
-	public Conversation_Frame(int userID, String nickname, String email) {
+	public Conversation_Frame(Contact contact) {
 		
 		/* Modifico impostazioni del frame */
 		setSize(400,500); 
-		setTitle("Conversazione con " + nickname + " ( " + email + " ) "); 
+		setTitle("Conversazione con " + contact.getNickname() + " ( " + contact.geteMail() + " ) "); 
 //		setLocationRelativeTo(null);
-		
-		/* Imposto alcuni parametri */
-		this.setNickname_conversation(nickname); 
-		this.setUserID_conversation(userID); 
-		this.setUserEmail_conversation(email); 
-		
+
+		this.setContact(contact); 
+
 		/* *******************************************
 		 * Inizio parte grafica 
 		 * *******************************************/
@@ -95,7 +95,7 @@ public class Conversation_Frame extends JFrame {
 		
 		/* Avatar */
 		hisNicknameImageLabel = new JLabel(); 
-		hisNicknameImageLabel.setBorder( BorderFactory.createTitledBorder(nickname) );
+		hisNicknameImageLabel.setBorder( BorderFactory.createTitledBorder(contact.getNickname()) );
 		
 		// TODO : per semplicità per ora uso lo stesso avatar
 		hisNicknameImage = new ImageIcon(Status.getAvatarURL()); 
@@ -213,6 +213,8 @@ public class Conversation_Frame extends JFrame {
 		/* *******************************************
 		 * Tabella contenente l'elenco messaggi scambiati 
 		 * *******************************************/
+		
+		/* Versione TextArea */
 		textAreaProvaShowMessage = new JTextArea(); 
 		textAreaProvaShowMessage.setEditable(false); 
 		textAreaProvaShowMessage.setLineWrap(true); 
@@ -230,6 +232,34 @@ public class Conversation_Frame extends JFrame {
 		constraints.insets = new Insets(2, 2, 2, 2);
 		
 		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
+		
+		/* Versione Tabella */
+//		conversation_TableModel = new Conversation_TableModel(); 
+//		
+//		model = new DefaultTableModel();
+//		
+////		model.addColumn("Username");
+////		model.addColumn("Message"); 
+////		model.addColumn("Time"); 
+//		
+////		model.insertRow(0, rowData)
+//		
+//		conversation_Table = new Conversation_Table(conversation_TableModel); 
+//		
+//		JScrollPane scrollPane = new JScrollPane(conversation_Table);
+//		conversation_Table.setFillsViewportHeight(true);
+//		
+//		constraints = new GridBagConstraints(); 
+//		constraints.fill = GridBagConstraints.BOTH;
+//		constraints.weightx = 1; 
+//		constraints.weighty = 1; 
+//		constraints.gridx = 1;
+//		constraints.gridy = 0; 
+//		constraints.gridwidth = 2; 
+//		constraints.gridheight = 3; 
+//		constraints.insets = new Insets(2, 2, 2, 2);
+//		
+//		mainPanel.add(scrollPane, constraints); 
 	}
 	
 	/* Funzione che mostra nella finestra di chat il messaggio contenuto al momento
@@ -237,38 +267,28 @@ public class Conversation_Frame extends JFrame {
 	 */
 	private void sendChatMsg() {
 		
+		/* Versione TextArea */
 		String msg = textAreaSendMessage.getText(); 
 		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
 		textAreaSendMessage.setText(""); 
 		
+		/* Versione Tabella */
+//		String msg = textAreaSendMessage.getText();
+//		
+//		conversation_TableModel.setValueAt(msg, conversation_TableModel.getRowCount(), 0); 
+//		
+//		textAreaSendMessage.setText(""); 
+		
 	}
 
 
-	public int getUserID_conversation() {
-		return userID_conversation;
+
+	public Contact getContact() {
+		return contact;
 	}
 
 
-	public void setUserID_conversation(int userID_conversation) {
-		this.userID_conversation = userID_conversation;
-	}
-
-	public String getUserEmail_conversation() {
-		return userEmail_conversation;
-	}
-
-
-	public void setUserEmail_conversation(String userEmail_conversation) {
-		this.userEmail_conversation = userEmail_conversation;
-	}
-
-
-	public String getNickname_conversation() {
-		return nickname_conversation;
-	}
-
-
-	public void setNickname_conversation(String nickname_conversation) {
-		this.nickname_conversation = nickname_conversation;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 }

@@ -18,7 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import client.ClientEngine;
+
 import chat.Contact;
+import chat.Message;
 import chat.Status;
 
 /**
@@ -270,7 +273,10 @@ public class Conversation_Frame extends JFrame {
 		/* Versione TextArea */
 		String msg = textAreaSendMessage.getText(); 
 		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
-		textAreaSendMessage.setText(""); 
+		textAreaSendMessage.setText("");
+		
+		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(),msg));
+		
 		
 		/* Versione Tabella */
 //		String msg = textAreaSendMessage.getText();

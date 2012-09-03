@@ -398,7 +398,7 @@ public class Status {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("CONTACTS.xml"));
+			StreamResult result = new StreamResult(new File("CONTACTS_"+Status.getEmail()+".xml"));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);

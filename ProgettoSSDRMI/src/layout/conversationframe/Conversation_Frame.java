@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -20,10 +22,9 @@ import javax.swing.table.DefaultTableModel;
 
 import utility.DateUtils;
 import chat.Contact;
+import chat.Message;
 import chat.Status;
-
-import client.*;
-import chat.*; 
+import client.ClientEngine;
 
 /**
  * Classe che rappresenta il frame della finestra di
@@ -234,7 +235,7 @@ public class Conversation_Frame extends JFrame {
 //	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
 //	        }
 //	    });
-//
+		
 //		
 //		constraints = new GridBagConstraints(); 
 //		constraints.fill = GridBagConstraints.BOTH;
@@ -273,6 +274,14 @@ public class Conversation_Frame extends JFrame {
 //		conversation_Table = new Conversation_Table(conversation_TableModel); 
 //		
 		JScrollPane conversationTable_scrollPane = new JScrollPane(conversation_Table);
+		
+		/* Imposto un listener affinché la scrollbar sia sempre in basso, man mano che la chat prosegue */
+		conversationTable_scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });
+		
 		conversation_Table.setFillsViewportHeight(true);
 		
 		constraints = new GridBagConstraints(); 

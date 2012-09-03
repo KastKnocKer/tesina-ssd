@@ -18,10 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import utility.DateUtils;
 import chat.Contact;
 import chat.Status;
 
-import utility.*;
+import client.*;
+import chat.*; 
 
 /**
  * Classe che rappresenta il frame della finestra di
@@ -296,7 +298,7 @@ public class Conversation_Frame extends JFrame {
 //		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
 //		textAreaSendMessage.setText("");
 //		
-//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(),msg));
+//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(), msg));
 		
 		/* Versione Tabella */
 		String msg = textAreaSendMessage.getText();
@@ -308,7 +310,13 @@ public class Conversation_Frame extends JFrame {
 		
 		model.addRow(text); 
 		
+		ClientEngine.sendMessageToContact(new Message((int) Status.getUserID(), (int) contact.getID(), (String) msg)); 
+//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(), contact.getID(), msg));
+		
+		
 		textAreaSendMessage.setText(""); 
+		
+		
 		
 	}
 

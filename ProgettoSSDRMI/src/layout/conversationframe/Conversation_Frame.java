@@ -183,12 +183,19 @@ public class Conversation_Frame extends JFrame {
 		/* Listener textArea */
 		textAreaSendMessage.addKeyListener
 	      (new KeyAdapter() {
-	         public void keyReleased(KeyEvent e) {
-	           int key = e.getKeyCode();
+	         public void keyTyped(KeyEvent e) {
+//	           int key = e.getKeyCode();
+	           char key = e.getKeyChar(); 
 	           /* Pressione tasto invio: mando messaggio di chat */
 	           if (key == KeyEvent.VK_ENTER) {
-//	        	   	Toolkit.getDefaultToolkit().beep();   
-	        	   	sendChatMsg(); 
+	        	   
+//	        	   	Toolkit.getDefaultToolkit().beep();
+	        	   
+	        	    /* Rimuovo il ritorno a capo legato alla pressione del tasto invio */
+	        	    String msg = textAreaSendMessage.getText(); 
+	        	    textAreaSendMessage.setText(msg.substring(0, msg.length() - 1));
+	        	    
+	        	    sendChatMsgToRemoteContact();
 	              }
 	           }
 	         }
@@ -216,7 +223,7 @@ public class Conversation_Frame extends JFrame {
 		/* Listener per inviare messaggio */
 		buttonSendMessage.addActionListener(new ActionListener() {
 	    	   public void actionPerformed(ActionEvent event) {
-	    		   sendChatMsg(); 
+	    		   sendChatMsgToRemoteContact(); 
 	    	   }
 	       });
 		
@@ -225,64 +232,17 @@ public class Conversation_Frame extends JFrame {
 		 * *******************************************/
 		
 		/* Versione TextArea */
-//		textAreaProvaShowMessage = new JTextArea(); 
-//		textAreaProvaShowMessage.setEditable(false); 
-//		textAreaProvaShowMessage.setLineWrap(true); 
-//		textAreaProvaShowMessage.setWrapStyleWord(true); 
-//		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
-//		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-//	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-//	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-//	        }
-//	    });
-		
-//		
-//		constraints = new GridBagConstraints(); 
-//		constraints.fill = GridBagConstraints.BOTH;
-//		constraints.weightx = 1; 
-//		constraints.weighty = 1; 
-//		constraints.gridx = 1;
-//		constraints.gridy = 0; 
-//		constraints.gridwidth = 2; 
-//		constraints.gridheight = 3; 
-//		constraints.insets = new Insets(2, 2, 2, 2);
-//		
-//		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
-		
-		/* Versione Tabella */
-		model = new DefaultTableModel() {
-
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       // all cells false
-		       return false;
-		    }
-		}; 
-		
-		conversation_Table = new Conversation_Table(model); 
-		
-//		conversation_TableModel = new Conversation_TableModel(); 
-//		
-//		model = new DefaultTableModel();
-//		
-////		model.addColumn("Username");
-////		model.addColumn("Message"); 
-////		model.addColumn("Time"); 
-//		
-////		model.insertRow(0, rowData)
-//		
-//		conversation_Table = new Conversation_Table(conversation_TableModel); 
-//		
-		JScrollPane conversationTable_scrollPane = new JScrollPane(conversation_Table);
-		
-		/* Imposto un listener affinché la scrollbar sia sempre in basso, man mano che la chat prosegue */
-		conversationTable_scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+		textAreaProvaShowMessage = new JTextArea(); 
+		textAreaProvaShowMessage.setEditable(false); 
+		textAreaProvaShowMessage.setLineWrap(true); 
+		textAreaProvaShowMessage.setWrapStyleWord(true); 
+		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
+		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
 	        public void adjustmentValueChanged(AdjustmentEvent e) {  
 	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
 	        }
 	    });
 		
-		conversation_Table.setFillsViewportHeight(true);
 		
 		constraints = new GridBagConstraints(); 
 		constraints.fill = GridBagConstraints.BOTH;
@@ -294,50 +254,104 @@ public class Conversation_Frame extends JFrame {
 		constraints.gridheight = 3; 
 		constraints.insets = new Insets(2, 2, 2, 2);
 		
-		mainPanel.add(conversationTable_scrollPane, constraints); 
-	}
-	
-	/* Funzione che mostra nella finestra di chat il messaggio contenuto al momento
-	 * della pressione all'interno della JTextArea
-	 */
-	private void sendChatMsg() {
-		
-		/* Versione TextArea */
-//		String msg = textAreaSendMessage.getText(); 
-//		textAreaProvaShowMessage.append(Status.getNickname() + ": " +  msg); 
-//		textAreaSendMessage.setText("");
-//		
-//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(), msg));
+		mainPanel.add(scrollPane_textAreaProvaShowMessage, constraints); 
 		
 		/* Versione Tabella */
-		String msg = textAreaSendMessage.getText();
+//		model = new DefaultTableModel() {
+//
+//		    @Override
+//		    public boolean isCellEditable(int row, int column) {
+//		       // all cells false
+//		       return false;
+//		    }
+//		}; 
+//		
+//		conversation_Table = new Conversation_Table(model); 
+//		
+////		conversation_TableModel = new Conversation_TableModel(); 
+////		
+////		model = new DefaultTableModel();
+////		
+//////		model.addColumn("Username");
+//////		model.addColumn("Message"); 
+//////		model.addColumn("Time"); 
+////		
+//////		model.insertRow(0, rowData)
+////		
+////		conversation_Table = new Conversation_Table(conversation_TableModel); 
+////		
+//		JScrollPane conversationTable_scrollPane = new JScrollPane(conversation_Table);
+//		
+//		/* Imposto un listener affinché la scrollbar sia sempre in basso, man mano che la chat prosegue */
+//		conversationTable_scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+//	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+//	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+//	        }
+//	    });
+//		
+//		conversation_Table.setFillsViewportHeight(true);
+//		
+//		constraints = new GridBagConstraints(); 
+//		constraints.fill = GridBagConstraints.BOTH;
+//		constraints.weightx = 1; 
+//		constraints.weighty = 1; 
+//		constraints.gridx = 1;
+//		constraints.gridy = 0; 
+//		constraints.gridwidth = 2; 
+//		constraints.gridheight = 3; 
+//		constraints.insets = new Insets(2, 2, 2, 2);
+//		
+//		mainPanel.add(conversationTable_scrollPane, constraints); 
+	}
+	
+	/**
+	 *  Funzione per inviare il messaggio dall'host locale all'host remoto,
+	 *  e mostrarlo all'interno della propria finestra di conversazione.
+	 *  @author Fabio Pierazzi
+	 */
+	private void sendChatMsgToRemoteContact() {
 		
-		String[] text = { 
-				DateUtils.now_time(), 
-				Status.getNickname(), 
-				msg };
+		/* Versione TextArea */
+		String msg = textAreaSendMessage.getText(); 
+		textAreaProvaShowMessage.append("[" + DateUtils.now_time() + "] " + Status.getNickname() + ": " +  msg + "\n"); 
+		textAreaSendMessage.setText("");
 		
-		model.addRow(text); 
+		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(), msg));
 		
-		ClientEngine.sendMessageToContact(new Message((int) Status.getUserID(), (int) contact.getID(), (String) msg)); 
-//		ClientEngine.sendMessageToContact(new Message(Status.getUserID(), contact.getID(), msg));
-		
-		
-		textAreaSendMessage.setText(""); 
-		
-		
+		/* Versione Tabella */
+//		String msg = textAreaSendMessage.getText();
+//		
+//		String[] text = { 
+//				DateUtils.now_time(), 
+//				Status.getNickname(), 
+//				msg };
+//		
+//		model.addRow(text); 
+//		
+//		ClientEngine.sendMessageToContact(new Message((int) Status.getUserID(), (int) contact.getID(), (String) msg)); 
+//		
+//		textAreaSendMessage.setText(""); 
 		
 	}
 
 
-	public void writeChatMsg(String msg) {
+	/** 
+	 * Funzione per mostrare un messaggio ricevuto da un determinato contatto
+	 * all'interno della fienstra di conversazione. 
+	 * 
+	 * @param msg , il messaggio da mostrare all'interno della finestra di conversazione
+	 */
+	public void writeChatMsgInConversationWindow(String msg) {
+		/* Versione TextArea */
 		
-		String[] text = { 
-				DateUtils.now_time(), 
-				contact.getNickname(), 
-				msg };
-		
-		model.addRow(text); 
+		textAreaProvaShowMessage.append("[" + DateUtils.now_time() + "] " + contact.getNickname() + ": " +  msg + "\n"); 
+		/* Versione tabella */
+//		String[] text = { 
+//				DateUtils.now_time(), 
+//				contact.getNickname(), 
+//				msg };
+//		
+//		model.addRow(text); 
 	}
 
 	public Contact getContact() {

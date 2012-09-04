@@ -146,7 +146,7 @@ public class ConversationWindowsManager {
 			
 			/* rendo NON visibile la finestra di conversazione con l'utente che ha id userID */
 			default: 
-				arrayList_conversationFrames.get(result).writeChatMsg(msg);  
+				arrayList_conversationFrames.get(result).writeChatMsgInConversationWindow(msg);  
 				break; 
 		}
 	}

@@ -6,14 +6,7 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import client.ClientEngine;
-
-import chat.Contact;
-import chat.Message;
-import chat.StatusList;
-
 import RMIMessages.RMIBasicMessage;
-import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
@@ -21,6 +14,7 @@ import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
 import RMIMessages.ResponseModifyContactInfos;
 import SIP.DBConnection;
+import chat.Contact;
 
 public class SIP implements SIPInterface{
 
@@ -61,7 +55,8 @@ public class SIP implements SIPInterface{
 		DBConnection dbConn = new DBConnection();
 		return dbConn.requestFriendship(requestFriendshipMessage);
 	}
-
+	
+	
 	public ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException{
 		DBConnection dbConn = new DBConnection();
 		//TODO controllare l'autenticazione dell'utente
@@ -69,6 +64,14 @@ public class SIP implements SIPInterface{
 		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}
 
+	/**
+	 * Restituisce il contatto relativo all'email passata come parametro. 
+	 * @author Fabio Pierazzi
+	 */
+	public Contact whois(String email) {
+		DBConnection dbConn = new DBConnection();
+		return dbConn.getContactByEmail(email);
+	}
 
 
 }

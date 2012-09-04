@@ -18,6 +18,10 @@ import chat.Contact;
 import chat.Message;
 import chat.StatusList;
 
+/**
+ * 
+ * @author Andrea Castelli
+ */
 public interface SIPInterface extends Remote{
 	String sayHello() throws RemoteException;
 	
@@ -47,6 +51,19 @@ public interface SIPInterface extends Remote{
 	 * Richiede la lista dei contatti al SIP
 	 */
 	ArrayList<Contact> getMyContacts(RMIBasicMessage msg) throws RemoteException;
+	
+	/**
+	 * Richiede informazioni su un contatto avente una 
+	 * certa email. Sfruttata, ad esempio, in fase di
+	 * richiesta d'amicizia. 
+	 * 
+	 * @param email del contatto da recuperare
+	 * @return un'istanza della classe Contact, con tutte le info a disposizione sul contatto, incluso il suo ultimo IP. 
+	 * @throws RemoteException
+	 * 
+	 * @author Fabio Pierazzi
+	 */
+	public Contact whois(String email) throws RemoteException; 
 	
 	/**
 	 * Richiede l'amicizia di un nuovo contatto

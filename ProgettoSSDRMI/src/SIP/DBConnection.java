@@ -262,7 +262,7 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 	String[][] contacts = new String[2][2];
 	String message = "";
 	ResultSet results;
-	System.out.println("SIP - aggiunta amicizia: "+fromEmail+" -> "+toEmail);
+	System.out.println("SIP - aggiunta amicizia: " + fromEmail + " -> " + toEmail);
 	
 	if(!connesso){
 		connetti();
@@ -393,7 +393,8 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 		connetti();
 	}
 	
-	if(Status.SUPER_DEBUG) System.out.println("SIP - getMyContacts("+msg.getRequestorUserID()+" - "+msg.getRequestorGlobalIP()+" - "+msg.getRequestorLocalIP()+")");
+	if(Status.SUPER_DEBUG) 
+		System.out.println("SIP - getMyContacts("+msg.getRequestorUserID()+" - "+msg.getRequestorGlobalIP()+" - "+msg.getRequestorLocalIP()+")");
 	
 	ResultSet result;
 	
@@ -418,7 +419,6 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         	contact.seteMail(	result.getString(4));
         	contact.setNickname(result.getString(5));
         	
-        	
         	if(result.getString(13) == null){	//il contatto non ha la tupla della connessione
         		contact.setStatus(StatusList.OFFLINE);
         	}else{
@@ -441,6 +441,75 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	}
 	
 	return contacts;
+}
+
+/**
+ * Restituisce un contatto dato il suo indirizzo email. 
+ * Questa funzione viene sfruttata durante la fase della 
+ * richiesta di amicizia. 
+ * 
+ * @param email del contatto di cui reperire informazioni da DB 
+ * @return
+ */
+public Contact getContactByEmail(String email) {
+	
+	Contact contact = new Contact(); 
+	
+	if(Status.SUPER_DEBUG) 
+		System.out.println("SIP - getContactByEmail (" + email + ")");
+	
+	if(!connesso){
+		connetti();
+	}
+	
+	ResultSet result;
+	
+	try {
+		//PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE email != ?");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("" +
+				"SELECT * " +
+				"FROM user left outer join userstatus AS us ON user.idUser = us.idUser " +
+				"WHERE user.email = ? ;");
+		
+		prepSt.setString(1, email);
+		
+		if(Status.SUPER_DEBUG) 
+			System.err.println("Query: "+prepSt.getPreparedSql() + " " + email);
+		
+		result = prepSt.executeQuery();
+//		
+//		//v = new Vector();
+        ResultSetMetaData rsmd = result.getMetaData();
+//        Contact contact;
+        
+        /* Creo il vettore risultato scorrendo tutto il ResultSet */
+        while(result.next()) {   
+        	contact = new Contact();
+        	contact.setID(			Integer.parseInt(result.getString(1)));
+        	contact.setNome(		result.getString(2));
+        	contact.setCognome(		result.getString(3));
+        	contact.seteMail(		result.getString(4));
+        	contact.setNickname(	result.getString(5));
+        	contact.setGlobalIP(	result.getString(8)); 
+        	contact.setLocalIP(		result.getString(9)); 
+        	
+        	contact.printInfo(); 
+        }
+        	
+        result.close(); 
+    	prepSt.close(); 
+	
+	} catch (SQLException e) {
+		
+		if(Status.SUPER_DEBUG) 
+			System.out.println("SIP - getContactByEmail (" + email + "): SQLException occurred");
+		
+		e.printStackTrace();
+		return null;
+	}
+	
+	return contact;
+
 }
 
 

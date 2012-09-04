@@ -28,7 +28,7 @@ public class ClientEngine {
 	private static ArrayList<Message> OUTList = new ArrayList<Message>();
 	private static ArrayList<Message> INList = new ArrayList<Message>();
 	
-	public static ResponseLoginMessage Login(String username, String password){
+	public static ResponseLoginMessage Login(String username, String password) {
 		ResponseLoginMessage response = null;
 		//Login mediante server SIP
 		try {
@@ -94,8 +94,15 @@ public class ClientEngine {
 	 * Richiede l'amicizia ad un altro contatto
 	 */
 	public static RMISIPBasicResponseMessage RequestFriendship(String email){
-		try {//TODO
-			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: "+email);
+		try {
+			
+			/* 1. whois email? ask SIP and p2p network */
+			
+			/* 2. send friendship request (try client, then eventually SIP) */
+			
+			
+			
+			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: " + email);
 			return getSIP().askFriendship(new RequestFriendshipMessage(email));
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);

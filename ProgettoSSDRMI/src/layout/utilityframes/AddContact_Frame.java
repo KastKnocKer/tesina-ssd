@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,8 +19,11 @@ import javax.swing.JTextField;
 
 import layout.managers.LayoutReferences;
 
+import RMIMessages.RMIBasicMessage;
+import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 
+import chat.FriendshipManager;
 import client.ClientEngine;
 
 /**
@@ -73,6 +78,7 @@ public class AddContact_Frame extends JFrame {
 			addContact_Panel.add(addContactLabel, constraints); 
 
 			
+			
 			/* Label Descrizione di cosa fare */
 			addContactLabelDescription = new JLabel("Indicare l'indirizzo email " +
 					"dell'amico da aggiungere."); 
@@ -112,6 +118,18 @@ public class AddContact_Frame extends JFrame {
 			constraints.gridheight = 1; 
 			constraints.insets = new Insets(5, 5, 5, 5);  
 			
+			/* Listener per l'aggiunta del contatto alla pressione del tasto INVIO */
+			textField_email.addKeyListener
+		      (new KeyAdapter() {
+		         public void keyTyped(KeyEvent e) {
+		           char key = e.getKeyChar(); 
+		           if (key == KeyEvent.VK_ENTER) {
+		        	   		addContact(); 
+		              }
+		           }
+		         }
+		      );
+			
 			addContact_Panel.add(textField_email, constraints);
 			
 			
@@ -126,23 +144,30 @@ public class AddContact_Frame extends JFrame {
 			constraints.gridheight = 1; 
 			constraints.insets = new Insets(2, 5, 2, 5); 
 			
+			/* Versione Kast: senza conferma amicizia */
+//			addFriendButton.addActionListener(new ActionListener() {
+//	            public void actionPerformed(ActionEvent event) {
+////	                System.out.println("Premuto 'Aggiungi (Amico "+textField_email.getText()+")'");
+//	                RMISIPBasicResponseMessage resp = ClientEngine.RequestFriendship(textField_email.getText());
+//	                if(resp.isSUCCESS()){
+//	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+//	                	/* aggiorno l'aspetto grafico della tabella */
+//	                	LayoutReferences.getFriendsListTable().updateTable();
+//	                }else{
+//	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.ERROR_MESSAGE);
+//	                }
+//	                
+//	                /* Chiudo il frame */
+//	                dispose(); 
+//	            }
+//	        });
+			
+			
 			addFriendButton.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent event) {
-	            	// TODO INSERIRE RICHIESTA DI AGGIUNTA CONTATTO
-	                System.out.println("Premuto 'Aggiungi (Amico "+textField_email.getText()+")'");
-	                RMISIPBasicResponseMessage resp = ClientEngine.RequestFriendship(textField_email.getText());
-	                if(resp.isSUCCESS()){
-	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-	                	/* aggiorno l'aspetto grafico della tabella */
-	                	LayoutReferences.getFriendsListTable().updateTable();
-	                }else{
-	                	JOptionPane.showMessageDialog(null, resp.getMESSAGE(), "Aggiungi contatto", JOptionPane.ERROR_MESSAGE);
-	                }
-	                
-	                /* Chiudo il frame */
-	                dispose(); 
+	            	addContact();
 	            }
-	        });
+			});
 			
 			addContact_Panel.add(addFriendButton, constraints);
 			
@@ -168,4 +193,25 @@ public class AddContact_Frame extends JFrame {
 			
 	}
 	
+	/**
+	 * Metodo privato che invoca le funzioni 
+	 * necessarie a tentare l'aggiunta del contatto.
+	 * 
+	 * @author Fabio Pierazzi
+	 */
+	private void addContact() {
+	
+		if(textField_email.getText().equals(""))
+			JOptionPane.showMessageDialog(null, "E' necessario specificare una mail nel campo opportuno", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+			
+		RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(textField_email.getText()); 
+    	
+		if(answer.isSUCCESS() == true) {
+			JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
+		}
+        /* Chiudo il frame */
+//        dispose(); 
+	}
 }

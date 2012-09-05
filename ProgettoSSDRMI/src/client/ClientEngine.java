@@ -35,12 +35,20 @@ public class ClientEngine {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 			response = getSIP().login(new RequestLoginMessage(username, password, StatusList.ONLINE));
 			if(response.isSUCCESS()){
+				//Aggiorno i dati personali
 				Status.setUserID(response.getLoggedContact().getID());
 				Status.setEmail(response.getLoggedContact().geteMail());
 				Status.setNome(response.getLoggedContact().getNome());
 				Status.setCognome(response.getLoggedContact().getCognome());
 				Status.setNickname(response.getLoggedContact().getNickname());
 				Status.setLOGGED(true);
+				
+				//Controllo se è stata inviata anche la lista dei contatti
+				ArrayList<Contact> contactList = response.getContactList();
+				if(contactList != null){
+					System.out.println("Contact list caricata dal Login: " +contactList.size());
+					Status.setContactList(contactList);
+				}
 				
 				//Aggiorno i dati del LastLogin su Status
 				Status.setLastLoginUsername(username);

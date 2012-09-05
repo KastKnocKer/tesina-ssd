@@ -2,6 +2,8 @@ package RMI;
 import java.rmi.RemoteException;
 
 import RMIMessages.RMIBasicResponseMessage;
+import RMIMessages.RequestHowAreYou;
+import RMIMessages.ResponseHowAreYou;
 import client.ClientEngine;
 import chat.Contact;
 import chat.Message;
@@ -31,7 +33,7 @@ public class Client implements ClientInterface{
 
 
 
-	public Contact howAreYou() throws RemoteException {
+	public ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

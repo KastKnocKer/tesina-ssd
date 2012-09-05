@@ -5,6 +5,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import RMIMessages.RMIBasicResponseMessage;
+import RMIMessages.RequestHowAreYou;
+import RMIMessages.ResponseHowAreYou;
 
 import chat.Contact;
 import chat.Message;
@@ -34,7 +36,7 @@ public interface ClientInterface extends Remote{
 	/**
 	 * Chiede all'utente contattato il suo stato, comunicando anche il proprio
 	 */
-	Contact howAreYou() throws RemoteException;
+	ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException;
 	
 	/**
 	 * Permette l'invio dei messaggi di chat

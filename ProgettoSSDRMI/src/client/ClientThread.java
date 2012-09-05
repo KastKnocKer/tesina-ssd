@@ -1,5 +1,10 @@
 package client;
 
+import java.util.ArrayList;
+
+import layout.managers.LayoutReferences;
+
+import chat.Contact;
 import chat.Message;
 import chat.Status;
 
@@ -21,10 +26,22 @@ public class ClientThread extends Thread{
 				ClientEngine.deliverAllMessages();
 			}
 			
+			if(index%60 == 0) checkContactList();
+			
 			index++;
 			
 		}
 		
+	}
+	
+	private void checkContactList(){
+		ArrayList<Contact> contactList = Status.getContactList();
+		for(Contact contact : contactList){
+			new ClientThreadTester(contact).start();
+		}
+		LayoutReferences.getFriendsListTable().setFriendsList(Status.getFriendsList());
+		LayoutReferences.getFriendsListTableModel().setFriendsList(Status.getFriendsList());
+		LayoutReferences.getFriendsListTableModel().fireTableDataChanged();
 	}
 
 

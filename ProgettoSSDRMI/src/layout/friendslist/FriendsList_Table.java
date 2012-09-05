@@ -134,8 +134,11 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	 */
 	public void updateTable(){
 
+		//TODO controllare
 		/* ricarico la friendsList */
-		Status.loadFriendsList();
+		if(Status.getContactList() == null || Status.getContactList().size() == 0){
+			Status.loadFriendsList();
+		}
 		
 		/* re-imposto le nuove friendsList per la tabella e per il table model.
 		 * Nota: vengono mantenute separate dalla friendsList globale per poter 

@@ -10,12 +10,12 @@ public class Counter {
 	
 	public synchronized int incr(){
 		counter++;
-		System.out.println("INC:"+counter);
+		//System.out.println("INC:"+counter);
 		return counter;
 	}
 	public synchronized int decr(){
 		counter--;
-		System.out.println("DEC:"+counter);
+		//System.out.println("DEC:"+counter);
 		return counter;
 	}
 

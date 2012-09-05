@@ -37,6 +37,7 @@ public class ClientThreadTester extends Thread{
 				System.err.println("Utente non raggiunto.");
 				contactToTest.setStatus(StatusList.OFFLINE);
 				decrementCounter();
+				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 				return;
 			}
 			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(Status.getMyInfoIntoContact()));
@@ -50,6 +51,7 @@ public class ClientThreadTester extends Thread{
 			System.err.println("Utente non raggiunto.");
 			contactToTest.setStatus(StatusList.OFFLINE);
 			//e.printStackTrace();
+			System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 		}
 		decrementCounter();
 	}
@@ -58,7 +60,7 @@ public class ClientThreadTester extends Thread{
 		counterNumber = counter.decr();
 		if(counterNumber == 0){
 			//TODO x Fabio -> AGGIORNARE TABELLA LISTA CONTATTI
-			System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
+			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
 			Status.writeContactsXML();
 		}

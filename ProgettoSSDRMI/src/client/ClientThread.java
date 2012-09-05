@@ -11,22 +11,25 @@ import chat.Status;
 public class ClientThread extends Thread{
 
 	private int index;
+	
+	//Intervalli di controllo
+	
+	private final int CheckContactListTime = 60;
+	private final int DeliveryAllMessagesTime = 5;
+	
+	
 	public void run() {
 		index = 0;
 		while(true){
 			try {Thread.sleep(1000);} catch (InterruptedException e) {	e.printStackTrace(); System.out.println("ClientThread Exception");}
 			if(!Status.isLOGGED()) continue;	//Se non sono loggato skippo
 
-
-//			int sendTo = (int)(Math.random() * 10)+2;
-//			ClientEngine.sendMessageToContact(new Message(Status.getUserID(),sendTo,"\t\t["+Status.getNickname()+"]Msg n° "+index));
+			//Controllo dello stato di connessione dei propri contatti amici
+			if(index%CheckContactListTime == 0)		checkContactList();
 			
-			if(index%2 == 0){
-				//try {Thread.currentThread().sleep(500);} catch (InterruptedException e) {	e.printStackTrace(); System.out.println("ClientThread Exception");}
-				ClientEngine.deliverAllMessages();
-			}
+			//Consegna dei messaggi
+			if(index%DeliveryAllMessagesTime == 0)	ClientEngine.deliverAllMessages();
 			
-			if(index%60 == 0) checkContactList();
 			
 			index++;
 			

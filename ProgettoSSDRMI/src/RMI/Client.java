@@ -77,7 +77,7 @@ public class Client implements ClientInterface{
 			e.printStackTrace(); 
 		}
 		
-		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente + ".");
+		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente.geteMail() + ".");
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 

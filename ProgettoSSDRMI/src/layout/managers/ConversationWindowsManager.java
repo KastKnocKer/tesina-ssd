@@ -87,7 +87,7 @@ public class ConversationWindowsManager {
 		
 		/* Verifico se c'è un ConversationFrame già aperto */
 		int result = searchConversationWindow(contact.getID());
-		
+
 		switch(result) {
 			/* apro una nuova finestra di conversazione */
 			case -1: 

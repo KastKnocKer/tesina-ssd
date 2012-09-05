@@ -86,6 +86,8 @@ public class FriendshipManager {
 	 */
 	public static void showFriendshipRequestFrom(Contact contattoRichiedente) {
 		
+		System.out.println("Ricevuto richiesta amicizia.");
+		
 		final JOptionPane optionPane = new JOptionPane(
 			    "Hai ricevuto una richiesta di amicizia da " + contattoRichiedente.getNickname() + " ( " + contattoRichiedente.geteMail() + ". \n " +
 			    		"Desideri accettare?",

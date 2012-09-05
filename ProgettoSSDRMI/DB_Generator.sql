@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS USER(
 	email varchar(250) not null,
 	nickname varchar(50) not null,
 	password varchar(50) not null,
+	avatarurl varchar(1024) not null default 'images/avatars/tn_tate.jpg',
 	
 	primary key (idUser),
 	unique (email)

@@ -1,4 +1,4 @@
-package chat;
+package Friendship;
 
 import java.rmi.RemoteException;
 
@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
+import chat.Contact;
+import chat.Status;
 import client.ClientEngine;
 
 /**
@@ -45,7 +47,10 @@ public class FriendshipManager {
 			/* **********************************************
 			 * 2. send friendship request (try client, then eventually SIP)
 			 * **********************************************/
-//			ClientEngine.getClient(futureFriend.getID()).
+			Contact myContact = new Contact(); 
+			myContact.setNickname(Status.getNickname()); 
+			myContact.seteMail(Status.getEmail());
+			ClientEngine.getClient(futureFriend.getID()).sendFriendshipRequest(myContact);
 			
 			if(Status.DEBUG) 
 				System.out.println("Client - Richiesta di amicizia a: " + email);
@@ -70,5 +75,22 @@ public class FriendshipManager {
 	 */
 	public static void sendFriendshipRequestToSIP() {
 		
+	}
+	
+	/**
+	 * Metodo per mostrare la richiesta di amicizia inviata dal contatto
+	 * passato come parametro. Questo metodo viene invocato in seguito 
+	 * all'invocazione remota sul client del metodo per fare richiesta. 
+	 * 
+	 * @param contattoRichiedente che ha inviato la richiesta
+	 */
+	public static void showFriendshipRequestFrom(Contact contattoRichiedente) {
+		
+		final JOptionPane optionPane = new JOptionPane(
+			    "Hai ricevuto una richiesta di amicizia da " + contattoRichiedente.getNickname() + " ( " + contattoRichiedente.geteMail() + ". \n " +
+			    		"Desideri accettare?",
+			    JOptionPane.QUESTION_MESSAGE,
+			    JOptionPane.YES_NO_OPTION);
+		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
 	}
 }

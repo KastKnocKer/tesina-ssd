@@ -41,6 +41,6 @@ public interface ClientInterface extends Remote{
 	/**
 	 * Permette l'invio dei messaggi di chat
 	 */
-	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException;
+	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException;
 	
 }

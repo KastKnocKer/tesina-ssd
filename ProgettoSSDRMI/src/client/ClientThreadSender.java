@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import RMI.ClientInterface;
 
 import chat.Message;
+import chat.Status;
 
 public class ClientThreadSender extends Thread{
 
@@ -28,7 +29,7 @@ public class ClientThreadSender extends Thread{
 				System.err.println("Messaggi non consegnati");
 				return;
 			}
-			client.sendMessageToContact(messagesToDeliver);
+			client.sendMessageToContact(messagesToDeliver,Status.getGlobalIP(),Status.getLocalIP());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

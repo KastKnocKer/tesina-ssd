@@ -7,6 +7,7 @@ import RMIMessages.ResponseHowAreYou;
 import client.ClientEngine;
 import chat.Contact;
 import chat.Message;
+import chat.Status;
 
 
 public class Client implements ClientInterface{
@@ -38,8 +39,18 @@ public class Client implements ClientInterface{
 		return null;
 	}
 	
-	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs) throws RemoteException {
+	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException {
 		for(Message msg : chatMsgs)ClientEngine.receiveMessageFromContact(msg);
+		if(chatMsgs != null || chatMsgs.length>0){
+			int senderID = chatMsgs[0].getFrom();
+			for(Contact contact :  Status.getContactList() ){
+				if(contact.getID() == senderID){
+					contact.setGlobalIP(senderGlobalIP);
+					contact.setLocalIP(senderLocalIP);
+					break;
+				}
+			}
+		}
 		return new RMIBasicResponseMessage(true, "OK");
 	}
 

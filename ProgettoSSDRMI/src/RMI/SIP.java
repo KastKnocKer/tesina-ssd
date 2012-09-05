@@ -63,7 +63,7 @@ public class SIP implements SIPInterface{
 	
 	public ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException{
 		DBConnection dbConn = new DBConnection();
-		//TODO controllare l'autenticazione dell'utente
+		//TODO Sviluppi futuri : controllare l'autenticazione dell'utente
 		boolean success = dbConn.modifyContact(rmci.getContact());
 		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}

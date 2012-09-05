@@ -40,8 +40,10 @@ public class Client implements ClientInterface{
 		int senderID = senderContact.getID();
 		for(Contact contact :  Status.getContactList() ){
 			if(contact.getID() == senderID){
-				Status.getContactList().remove(contact);
-				Status.getContactList().add(senderContact);
+				//Aggiorno le informazioni ricevute
+				contact.updateInfoFromContact(senderContact);
+//				Status.getContactList().remove(contact);
+//				Status.getContactList().add(senderContact);
 				break;
 			}
 		}

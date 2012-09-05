@@ -386,7 +386,7 @@ public ResponseLoginMessage login(RequestLoginMessage rlm) {
  * Funzione per la richiesta del client al SIP dei propri contatti
  */
 public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
-	// TODO Introdurre l'autenticazione del richiedente
+	// TODO Sviluppi futuri: Introdurre l'autenticazione del richiedente
 	ArrayList<Contact> contacts = new ArrayList<Contact>();
 	
 	if(!connesso){
@@ -403,31 +403,30 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 		
 		prepSt.setString(1, Integer.toString(msg.getRequestorUserID()));
 		prepSt.setString(2, Integer.toString(msg.getRequestorUserID()));
-		//prepSt.setString(2, password);
-		System.err.println("Query: "+prepSt.getPreparedSql() + "  "+ msg.getRequestorUserID());
+
 		result = prepSt.executeQuery();
-		
-		//v = new Vector();
+
         ResultSetMetaData rsmd = result.getMetaData();
         Contact contact;
         while(result.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
         	contact = new Contact();
-        	contact.setID(		Integer.parseInt(result.getString(1)));
-        	contact.setNome(	result.getString(2));
-        	contact.setCognome(	result.getString(3));
-        	contact.seteMail(	result.getString(4));
-        	contact.setNickname(result.getString(5));
+        	contact.setID(		Integer.parseInt(result.getString("idUser")));
+        	contact.setNome(	result.getString("nome"));
+        	contact.setCognome(	result.getString("cognome"));
+        	contact.seteMail(	result.getString("email"));
+        	contact.setNickname(result.getString("nickname"));
+        	contact.setAvatarURL(result.getString("avatarurl"));
         	
-        	if(result.getString(13) == null){	//il contatto non ha la tupla della connessione
+        	if(result.getString("status") == null){	//il contatto non ha la tupla della connessione
         		contact.setStatus(StatusList.OFFLINE);
         	}else{
         		// TODO
-        		contact.setGlobalIP(result.getString(8));
-        		contact.setLocalIP(result.getString(9));
-        		contact.setStatus(result.getString(13));
+        		contact.setGlobalIP(result.getString("publicIP"));
+        		contact.setLocalIP(result.getString("localIP"));
+        		contact.setStatus(result.getString("status"));
+  
         	}
-//        	System.out.print("\n");
-//        	for(int i=1; i<12;i++) System.out.print(result.getString(i)+ " - ");
+        
         	contacts.add(contact);
         	contact.printInfo();
         }

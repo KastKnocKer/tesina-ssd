@@ -14,7 +14,7 @@ public class ClientThread extends Thread{
 	
 	//Intervalli di controllo
 	
-	private final int CheckContactListTime = 60;
+	private final int CheckContactListTime = 120;				//Deve esser almeno maggiore di 30 secondi a causa del timeout!
 	private final int DeliveryAllMessagesTime = 5;
 	
 	

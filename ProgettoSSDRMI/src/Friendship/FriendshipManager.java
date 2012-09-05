@@ -93,6 +93,8 @@ public class FriendshipManager {
 			    		"Desideri accettare?",
 			    JOptionPane.QUESTION_MESSAGE,
 			    JOptionPane.YES_NO_OPTION);
+		
+		optionPane.setVisible(true); 
 		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
 	}
 }

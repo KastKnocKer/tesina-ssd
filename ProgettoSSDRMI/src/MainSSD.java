@@ -17,7 +17,12 @@ import RMI.SIP;
 import RMI.SIPInterface;
 import chat.Status;
 
-
+/**
+ * Main dell'applicazione 
+ * 
+ * @author Fabio Pierazzi, Andrea Castelli
+ *
+ */
 public class MainSSD {
 
 	/**

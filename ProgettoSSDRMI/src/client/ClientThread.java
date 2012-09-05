@@ -39,9 +39,6 @@ public class ClientThread extends Thread{
 		for(Contact contact : contactList){
 			new ClientThreadTester(contact).start();
 		}
-		LayoutReferences.getFriendsListTable().setFriendsList(Status.getFriendsList());
-		LayoutReferences.getFriendsListTableModel().setFriendsList(Status.getFriendsList());
-		LayoutReferences.getFriendsListTableModel().fireTableDataChanged();
 	}
 
 

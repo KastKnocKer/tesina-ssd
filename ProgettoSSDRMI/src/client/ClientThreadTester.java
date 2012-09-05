@@ -3,6 +3,8 @@ package client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import utility.Counter;
+
 import RMI.ClientInterface;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
@@ -13,9 +15,11 @@ import chat.Status;
 import chat.StatusList;
 
 public class ClientThreadTester extends Thread{
-	private int numClientThreadTester = 0;
+	private static int numClientThreadTester = 0;
 	private Contact contactToTest;
 	private Contact myContact;
+	private static Counter counter = new Counter();
+	private int counterNumber;
 
 	
 	public ClientThreadTester(Contact contactToTest){
@@ -31,6 +35,7 @@ public class ClientThreadTester extends Thread{
 	
 	
 	public void run() {
+		counter.incr();
 		System.err.println("Start to Test to: "+contactToTest.getNickname());
 		
 		try {
@@ -38,6 +43,7 @@ public class ClientThreadTester extends Thread{
 			if(client == null){
 				System.err.println("Utente non raggiunto.");
 				contactToTest.setStatus(StatusList.OFFLINE);
+				decrementCounter();
 				return;
 			}
 			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(myContact));
@@ -52,8 +58,16 @@ public class ClientThreadTester extends Thread{
 			contactToTest.setStatus(StatusList.OFFLINE);
 			//e.printStackTrace();
 		}
+		decrementCounter();
+	}
+	
+	private void decrementCounter(){
+		counterNumber = counter.decr();
+		if(counterNumber == 0){
+			//TODO AGGIORNARE TABELLA
+			System.out.println("AGGIORNAMENTO TABELLA");
+		}
 	}
 
-	
 
 }

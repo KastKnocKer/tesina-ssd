@@ -42,8 +42,7 @@ public class ClientThreadTester extends Thread{
 			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(Status.getMyInfoIntoContact()));
 			if(rhay.isSuccess()){
 				//Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
-				Status.getContactList().remove(contactToTest);
-				Status.getContactList().add(rhay.getResponseContact());
+				contactToTest.updateInfoFromContact(rhay.getResponseContact());
 			}
 			
 		} catch (RemoteException e) {
@@ -57,8 +56,10 @@ public class ClientThreadTester extends Thread{
 	private void decrementCounter(){
 		counterNumber = counter.decr();
 		if(counterNumber == 0){
-			//TODO AGGIORNARE TABELLA
-			System.out.println("AGGIORNAMENTO TABELLA");
+			//TODO x Fabio -> AGGIORNARE TABELLA LISTA CONTATTI
+			System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
+			//Salvo lo stato dei miei contatti
+			Status.writeContactsXML();
 		}
 	}
 

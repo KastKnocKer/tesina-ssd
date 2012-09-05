@@ -85,7 +85,7 @@ public class Registration_Panel extends JPanel {
 				   if( ClientEngine.RegisterNewAccount(textField_firstName.getText(), textField_lastName.getText(), textField_email.getText(), textField_nickname.getText(), textField_password.getText())){
 					   JOptionPane.showMessageDialog(null, "Account inserito con successo.", "Registrazione", JOptionPane.WARNING_MESSAGE);
 					   
-					 //TODO per fabio :) INSERISCI IL RITORNO AL PANNELLO DI LOGIN
+					 //TODO x Fabio -> :) INSERISCI IL RITORNO AL PANNELLO DI LOGIN
 				   }else{
 					   JOptionPane.showMessageDialog(null, "Account non inserito.", "Registrazione", JOptionPane.WARNING_MESSAGE);
 				   }

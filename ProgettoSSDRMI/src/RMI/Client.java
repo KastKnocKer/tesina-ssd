@@ -36,8 +36,16 @@ public class Client implements ClientInterface{
 
 
 	public ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		Contact senderContact = rhay.getSenderContact();
+		int senderID = senderContact.getID();
+		for(Contact contact :  Status.getContactList() ){
+			if(contact.getID() == senderID){
+				Status.getContactList().remove(contact);
+				Status.getContactList().add(senderContact);
+				break;
+			}
+		}
+		return new ResponseHowAreYou(true, Status.getMyInfoIntoContact());
 	}
 	
 	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException {

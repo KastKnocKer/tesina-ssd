@@ -260,9 +260,9 @@ public class Status {
 
 	public static boolean writeContactsXML(){
 		if(contactList == null) contactList = new ArrayList<Contact>();
-			contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
-			contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
-			contactList.add(new Contact("Nickname3", "Nome3", "Cognome3", "eMail3", "Password3", null, null));
+//			contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
+//			contactList.add(new Contact("Nickname2", "Nome2", "Cognome2", "eMail2", "Password2", null, null));
+//			contactList.add(new Contact("Nickname3", "Nome3", "Cognome3", "eMail3", "Password3", null, null));
 		
 		
 		

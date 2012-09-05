@@ -26,13 +26,6 @@ public interface ClientInterface extends Remote{
 	 */
 	Contact whoAreYou() throws RemoteException;
 	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Chiede all'utente contattato il suo stato, comunicando anche il proprio
 	 */
@@ -42,5 +35,10 @@ public interface ClientInterface extends Remote{
 	 * Permette l'invio dei messaggi di chat
 	 */
 	RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException;
+	
+	/**
+	 * Invio richiesta di amicizia direttamente ad un altro client.
+	 */
+	RMIBasicResponseMessage sendFriendshipRequest(Contact contattoRichiedente) throws RemoteException;
 	
 }

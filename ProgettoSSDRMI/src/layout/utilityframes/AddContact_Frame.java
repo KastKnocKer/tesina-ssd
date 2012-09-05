@@ -19,11 +19,11 @@ import javax.swing.JTextField;
 
 import layout.managers.LayoutReferences;
 
+import Friendship.FriendshipManager;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 
-import chat.FriendshipManager;
 import client.ClientEngine;
 
 /**

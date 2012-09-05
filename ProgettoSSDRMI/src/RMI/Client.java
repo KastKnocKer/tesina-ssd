@@ -1,6 +1,7 @@
 package RMI;
 import java.rmi.RemoteException;
 
+import Friendship.FriendshipManager;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
@@ -52,6 +53,13 @@ public class Client implements ClientInterface{
 			}
 		}
 		return new RMIBasicResponseMessage(true, "OK");
+	}
+
+	@Override
+	public RMIBasicResponseMessage sendFriendshipRequest(
+			Contact contattoRichiedente) throws RemoteException {
+		FriendshipManager.showFriendshipRequestFrom(contattoRichiedente);
+		return null;
 	}
 
 }

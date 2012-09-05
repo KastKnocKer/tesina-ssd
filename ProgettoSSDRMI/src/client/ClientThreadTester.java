@@ -43,6 +43,7 @@ public class ClientThreadTester extends Thread{
 			if(rhay.isSuccess()){
 				//Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
 				contactToTest.updateInfoFromContact(rhay.getResponseContact());
+				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 			}
 			
 		} catch (RemoteException e) {

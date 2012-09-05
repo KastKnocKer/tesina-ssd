@@ -46,7 +46,7 @@ public class Status {
 	private static String Cognome = "***";
 	private static String Nickname = "***";
 	private static String AvatarURL = ""; 
-	private static StatusList Stato = StatusList.OFFLINE;
+	private static StatusList Stato = StatusList.ONLINE;
 	
 	/////////////////////////////////////////////////
 	//	DATI DA CARICARE DA CONF.XML

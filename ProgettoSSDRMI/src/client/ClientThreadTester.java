@@ -24,13 +24,6 @@ public class ClientThreadTester extends Thread{
 	
 	public ClientThreadTester(Contact contactToTest){
 		this.contactToTest = contactToTest;
-		//Inizializzo le informazioni del mio contatto che devo inviare al client
-		myContact = new Contact();
-		myContact.setGlobalIP(Status.getGlobalIP());
-		myContact.setLocalIP(Status.getLocalIP());
-		myContact.setStatus(Status.getStato());
-		myContact.setNickname(Status.getNickname());
-		myContact.setAvatarURL(Status.getAvatarURL());
 	}
 	
 	
@@ -46,7 +39,7 @@ public class ClientThreadTester extends Thread{
 				decrementCounter();
 				return;
 			}
-			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(myContact));
+			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(Status.getMyInfoIntoContact()));
 			if(rhay.isSuccess()){
 				//Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
 				Status.getContactList().remove(contactToTest);

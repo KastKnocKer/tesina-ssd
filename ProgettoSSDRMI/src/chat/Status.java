@@ -542,6 +542,18 @@ public class Status {
 	public static void setLOGGED(boolean lOGGED) {		LOGGED = lOGGED;	}
 
 
+	public static Contact getMyInfoIntoContact(){
+		Contact contact = new Contact();
+		contact = new Contact();
+		contact.setGlobalIP(		Status.getGlobalIP());
+		contact.setLocalIP(			Status.getLocalIP());
+		contact.setStatus(			Status.getStato());
+		contact.setNickname(		Status.getNickname());
+		contact.setAvatarURL(		Status.getAvatarURL());
+		contact.seteMail(			Status.getEmail());
+		contact.setID(				Status.getUserID());
+		return contact;
+	}
 
 
 	

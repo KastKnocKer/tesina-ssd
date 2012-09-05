@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Contact implements Serializable{
 	public static String NONE = "";
-	private int UserID = 0;
+	private int UserID = -1;
 	private String Nickname = NONE;
 	private String Nome = NONE;
 	private String Cognome = NONE;

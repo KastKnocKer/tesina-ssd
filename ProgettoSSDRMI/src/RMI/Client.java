@@ -5,10 +5,10 @@ import Friendship.FriendshipManager;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
-import client.ClientEngine;
 import chat.Contact;
 import chat.Message;
 import chat.Status;
+import client.ClientEngine;
 
 
 public class Client implements ClientInterface{
@@ -68,8 +68,17 @@ public class Client implements ClientInterface{
 	@Override
 	public RMIBasicResponseMessage sendFriendshipRequest(
 			Contact contattoRichiedente) throws RemoteException {
-		FriendshipManager.showFriendshipRequestFrom(contattoRichiedente);
-		return null;
+		try {
+			System.out.println("sendFriendshipRequest: sto per mostrare le finestra al contatto ricevente.");
+			contattoRichiedente.printInfo(); 
+			FriendshipManager.showFriendshipRequestFrom(contattoRichiedente);
+		} catch (Exception e) {
+			System.err.println("Si è verificata un'eccezione eseguendo: FriendshipManager.showFriendshipRequestFrom(contattoRichiedente); ");
+			e.printStackTrace(); 
+		}
+		
+		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente + ".");
+		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 
 }

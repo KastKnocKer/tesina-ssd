@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import RMI.ClientInterface;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import chat.Status;
@@ -48,14 +49,22 @@ public class FriendshipManager {
 			 * 2. send friendship request (try client, then eventually SIP)
 			 * **********************************************/
 			Contact myContact = new Contact(); 
+			myContact.setID(Status.getUserID()); 
 			myContact.setNickname(Status.getNickname()); 
 			myContact.seteMail(Status.getEmail());
 			myContact.setGlobalIP(Status.getGlobalIP()); 
 			myContact.setLocalIP(Status.getLocalIP()); 
+			
 			if( futureFriend.getID() < 0 ) 
 				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto " + email + " non valido"); 
 			
-			ClientEngine.getClient(futureFriend.getID()).sendFriendshipRequest(myContact);
+			ClientInterface clientInterface = ClientEngine.getClient(futureFriend.getID());
+			
+			if(clientInterface == null) {
+				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto."); 
+			} else {
+				clientInterface.sendFriendshipRequest(myContact);
+			}
 			
 //			System.err.println("Mostro finestra di richiesta amicizia");
 //			FriendshipManager.showFriendshipRequestFrom(myContact);

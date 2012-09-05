@@ -191,9 +191,18 @@ public class Conversation_Frame extends JFrame {
 	        	   
 //	        	   	Toolkit.getDefaultToolkit().beep();
 	        	   
+	        	   /* se c'è meno di un carattere, ritorna */
+	        	    if(textAreaSendMessage.getText().length() <= 1) {
+	        	    	textAreaSendMessage.setText(""); 
+	        	    	return; 
+	        	    }
+	        	    	
+	        	    
 	        	    /* Rimuovo il ritorno a capo legato alla pressione del tasto invio */
 	        	    String msg = textAreaSendMessage.getText(); 
 	        	    textAreaSendMessage.setText(msg.substring(0, msg.length() - 1));
+	        	    
+	        	    
 	        	    
 	        	    sendChatMsgToRemoteContact();
 	              }
@@ -237,11 +246,13 @@ public class Conversation_Frame extends JFrame {
 		textAreaProvaShowMessage.setLineWrap(true); 
 		textAreaProvaShowMessage.setWrapStyleWord(true); 
 		scrollPane_textAreaProvaShowMessage = new JScrollPane(textAreaProvaShowMessage);
-		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-	        }
-	    });
+		
+//		scrollPane_textAreaProvaShowMessage
+//		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+//	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+//	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+//	        }
+//	    });
 		
 		
 		constraints = new GridBagConstraints(); 
@@ -316,6 +327,10 @@ public class Conversation_Frame extends JFrame {
 		textAreaProvaShowMessage.append("[" + DateUtils.now_time() + "] " + Status.getNickname() + ": " +  msg + "\n"); 
 		textAreaSendMessage.setText("");
 		
+		/* sposto in basso la scrollbar */
+		int max_value = scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().getMaximum(); 
+		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().setValue(max_value); 
+		
 		ClientEngine.sendMessageToContact(new Message(Status.getUserID(),contact.getID(), msg));
 		
 		/* Versione Tabella */
@@ -345,6 +360,11 @@ public class Conversation_Frame extends JFrame {
 		/* Versione TextArea */
 		
 		textAreaProvaShowMessage.append("[" + DateUtils.now_time() + "] " + contact.getNickname() + ": " +  msg + "\n"); 
+		
+		/* sposto in basso la scrollbar */
+		int max_value = scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().getMaximum(); 
+		scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().setValue(max_value); 
+		
 		/* Versione tabella */
 //		String[] text = { 
 //				DateUtils.now_time(), 

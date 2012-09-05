@@ -43,7 +43,11 @@ public class SIP implements SIPInterface{
 
 	public ResponseLoginMessage login(RequestLoginMessage rlm) throws RemoteException {
 		DBConnection dbConn = new DBConnection();
-		return dbConn.login(rlm);
+		ResponseLoginMessage resplm = dbConn.login(rlm);
+		//aggiorno l'userid in rlm per permettere il recupero della contact list
+		rlm.setUserID(resplm.getLoggedContact().getID());
+		resplm.setContactList(this.getMyContacts(rlm));
+		return resplm;
 	}
 
 	public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {

@@ -26,7 +26,7 @@ public class ClientThreadSender extends Thread{
 		try {
 			ClientInterface client = ClientEngine.getClient(messagesToDeliver[0].getTo());
 			if(client == null){
-				System.err.println("Messaggi non consegnati");
+				System.err.println("Messaggi non consegnati - (getClient() == null)");
 				return;
 			}
 			client.sendMessageToContact(messagesToDeliver,Status.getGlobalIP(),Status.getLocalIP());

@@ -234,12 +234,16 @@ public class ClientEngine {
 			if(cont.getID() == ContactUserID){
 				contact = cont;
 				if(cont.getStatus() == StatusList.OFFLINE){
+					System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" OFFLINE!");
 					return null;
 				}
 				break;
 			}
 		}
-		if(contact == null) return null;
+		if(contact == null){
+			System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" non presente nella lista contatti!");
+			return null;
+		}
 		Registry registry;
 		ClientInterface client = null;
 		try {

@@ -46,7 +46,7 @@ public class ContactListManager {
 			temp_friendsList.addFriend(contact.getFriend());
 		}
 		
-		Status.setFriendsList(temp_friendsList); 
+		FriendsListManager.setFriendsList(temp_friendsList); 
 		
 		/* boh? */
 		ContactListManager.writeContactsXML();

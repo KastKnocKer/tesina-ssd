@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import layout.utilityframes.*;
 import layout.homeframe.Home_Frame;
 import layout.managers.LayoutReferences;
+import managers.FriendsListManager;
 import managers.Status;
 import chat.ChatStatusList;
 
@@ -220,9 +221,9 @@ public class FriendsList_Panel extends JPanel {
 	private void showFriendsListTable() {
 		
 		FriendsList_TableModel fl_tableModel = new FriendsList_TableModel();
-		fl_tableModel.setFriendsList(Status.getFriendsList()); 
+		fl_tableModel.setFriendsList(FriendsListManager.getFriendsList()); 
 		FriendsList_Table fl_table = new FriendsList_Table(fl_tableModel); 
-		fl_table.setFriendsList(Status.getFriendsList()); 
+		fl_table.setFriendsList(FriendsListManager.getFriendsList()); 
 		
 		fl_table.updateTable();
 		fl_table.setVisible(true); 

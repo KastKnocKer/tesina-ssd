@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 
 import chat.ChatStatusList;
 import chat.Contact;
-import chat.FriendsList;
 import client.ClientEngine;
 
 
@@ -39,7 +38,6 @@ public class Status {
 	public final static int P2P_TTL = 4;
 	private static String GlobalIP;
 	private static String LocalIP;
-	private static FriendsList friendsList = null;
 	public static Contact localUser;
 	
 	private static int UserID = -1;
@@ -70,22 +68,6 @@ public class Status {
 	public Status(){}
 	
 
-	/** Metodo per reperire la lista amici globale 
-	 * @return lista amici
-	 */
-	public static FriendsList getFriendsList() {
-		return friendsList;
-	}
-	
-	/**
-	 * Metodo per impostare il riferimento globale alla lista amici 
-	 * dell'utente.
-	 * @param lista amici
-	 */
-	public static void setFriendsList(FriendsList fl) {
-		friendsList = fl; 
-	}
-	
 	/** 
 	 * Mediante questo metodo, il sistema carica da file di configurazione
 	 * la lista amici (senza filtri), ed essa viene mostrata all'interno

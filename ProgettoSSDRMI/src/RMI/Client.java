@@ -109,6 +109,7 @@ public class Client implements ClientInterface{
 
 
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException {
+		System.out.println("Ho ricevuto WHOIS() da: "+requestorUserID+ "  -  "+requestorGlobalIP);
 		new ClientThreadWhoIsRequestor(requestorUserID, requestorGlobalIP, requestorNum, TTL, emailToSearch);
 //		Contact whoisContact;
 //		//Controllo di conoscere il contatto

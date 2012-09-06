@@ -22,7 +22,7 @@ public class Contact implements Serializable{
 	}
 
 	private ChatStatusList Status = ChatStatusList.OFFLINE;
-	private static int Client_Port = 1102;
+	private int Client_Port = 1102;
 	private String GlobalIP = NONE;
 	private String LocalIP = NONE;
 	private String[][] LocalIPs = null;
@@ -140,11 +140,11 @@ public class Contact implements Serializable{
 		else if(	status.equals(ChatStatusList.OFFLINE.toString())	)	this.Status = ChatStatusList.OFFLINE;
 	}
 
-	public static int getClient_Port() {
+	public int getClient_Port() {
 		return Client_Port;
 	}
 
-	public static void setClient_Port(int client_Port) {
+	public void setClient_Port(int client_Port) {
 		Client_Port = client_Port;
 	}
 

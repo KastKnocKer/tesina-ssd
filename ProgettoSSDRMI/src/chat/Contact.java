@@ -169,4 +169,10 @@ public class Contact implements Serializable{
 		eMail		=	contact.geteMail();
 	}
 	
+	public boolean isConnected(){
+		if(GlobalIP == null || GlobalIP.length() == 0) return false;
+		if(Status == ChatStatusList.OFFLINE) return false;
+		return true;
+	}
+	
 }

@@ -479,6 +479,25 @@ public class Status {
 		/* boh? */
 		Status.writeContactsXML();
 	}
+	
+	/**
+	 * Aggiungo un nuovo contatto alla ContactList.
+	 * 
+	 * @param newContact da aggiungere
+	 * @author Fabio Pierazzi
+	 */
+	public static void addToContactList(Contact newContact) {
+		/* Controllo che non sia già presente nella lista */
+		Contact searchedContact = Status.searchContactById(newContact.getID()); 
+		
+		if(searchedContact != null) {
+			System.err.println("Si sta cercando di aggiungere un contatto già presente");
+			return; 
+		}
+		
+		/* */
+		ArrayList<Contact> contactList = Status.getContactList(); 
+	}
 
 	/**
 	 *  Ricerco un contatto in base all'ID.

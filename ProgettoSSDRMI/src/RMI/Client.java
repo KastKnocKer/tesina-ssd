@@ -2,7 +2,8 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import Friendship.FriendshipManager;
+import managers.FriendshipManager;
+
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
@@ -83,6 +84,28 @@ public class Client implements ClientInterface{
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 
+	@Override
+	public RMIBasicResponseMessage sendFriendshipRequestToSIP(
+			Contact contattoRichiedente, Contact contattoRicevente)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RMIBasicResponseMessage sendFriendshipAckToContact(
+			Contact contattoRicevente) throws RemoteException {
+
+		// TODO : aggiungo il contatto alla lista amici
+		
+		// TODO: ricarico la tabella della lista amici
+		
+		// TODO: invio friendshipRequest al SIP (se è offline, devo salvarlo in una coda e ritentare periodicamente) 
+		
+		return new RMIBasicResponseMessage(true, "L'amicizia è stata confermata correttamente all'utente " + Status.getEmail() + ".");
+	}
+
+
 	public Contact whois(String email, int TTL) throws RemoteException {
 		Contact whoisContact;
 		//Controllo di conoscere il contatto
@@ -124,5 +147,4 @@ public class Client implements ClientInterface{
 		//Se non trovo nessun contatto ritorno null
 		return null;
 	}
-
 }

@@ -20,10 +20,10 @@ import client.ClientEngine;
 import RMI.ClientInterface;
 
 import chat.Contact;
+import managers.Status;
 
 import layout.managers.LayoutReferences;
 import layout.utilityframes.*;
-import managers.ContactListManager;
 
 /**
  * Frame principale dell'applicazione. Usato per contenere il pannello 
@@ -185,18 +185,8 @@ public class Home_Frame extends JFrame {
 		JMenuItem eMenuItem_whoisp2p = new JMenuItem("whois P2P");
 		eMenuItem_whoisp2p.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				System.out.println("Kissini");
-				ArrayList<Contact> contactList = ContactListManager.getContactList();
-				Contact contact = contactList.get(0);
-				ClientInterface client = ClientEngine.getClient(contact.getID());
-				Contact responseContact = null;
-				try {
-					responseContact = client.whois("biofrost88@gmail.com", 4);
-					if(responseContact != null) System.out.println("CONTATTO TROVATO YEEEEEEEEE");
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				System.out.println("TestWHOIS biofrost88@gmail.com");
+				ClientEngine.whoIs("biofrost88@gmail.com");
 			}
 		});
 		

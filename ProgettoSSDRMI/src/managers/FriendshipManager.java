@@ -1,11 +1,10 @@
-package Friendship;
+package managers;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import RMI.ClientInterface;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import chat.Status;
@@ -44,7 +43,8 @@ public class FriendshipManager {
 			if(futureFriend.getGlobalIP() == null || futureFriend.getGlobalIP().equals("")) {
 				return new RMISIPBasicResponseMessage(false, "Siamo spiacenti; non è stato possibile reperire il contatto avente email:\n" + email); 
 			}
-				
+			
+			
 			/* **********************************************
 			 * 2. send friendship request (try client, then eventually SIP)
 			 * **********************************************/
@@ -58,13 +58,16 @@ public class FriendshipManager {
 			if( futureFriend.getID() < 0 ) 
 				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto " + email + " non valido"); 
 			
-			ClientInterface clientInterface = ClientEngine.getClient(futureFriend.getID());
 			
-			if(clientInterface == null) {
-				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto."); 
-			} else {
-				clientInterface.sendFriendshipRequest(myContact);
-			}
+			// TODO scommenta
+//			ClientInterface clientInterface = ClientEngine.getClient(futureFriend.getID());
+//			
+//			if(clientInterface == null) {
+//				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto."); 
+//			} else {
+//				clientInterface.sendFriendshipRequest(myContact);
+//			}
+			// TODO da qui in poi lascia commento
 			
 //			System.err.println("Mostro finestra di richiesta amicizia");
 //			FriendshipManager.showFriendshipRequestFrom(myContact);
@@ -108,9 +111,27 @@ public class FriendshipManager {
 	 */
 	public static void showFriendshipRequestFrom(Contact contattoRichiedente) {
 		
-		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.geteMail() + " (IP: " + contattoRichiedente.getGlobalIP() + ")");
+		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.geteMail() + " " +
+				"(IP: " + contattoRichiedente.getGlobalIP() + ")");
 		
-//		JFrame frame = new JFrame();
+		int result = JOptionPane.showConfirmDialog(null, "Hai ricevuto una richiesta di amicizia da: \n" +
+				"" + contattoRichiedente.geteMail() + "\n\n" +
+						"Desideri accettare?", 
+						"Aggiungi Contatto",
+                JOptionPane.YES_NO_OPTION);
+		
+		if(result == JOptionPane.YES_OPTION) {
+			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.geteMail() + "");
+			FriendshipManager.acceptFriendshipRequest(); 
+		}
+		else if(result == JOptionPane.NO_OPTION)  {
+			if(Status.DEBUG)
+				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.geteMail() + "");
+			// TODO: Avvisa il SIP
+			// ClientEngine.getSIP().remove/refuseFriendship() (Do not notify the other client)
+		}
+			
+		//		JFrame frame = new JFrame();
 //	    String message = "message";
 //	    int answer = JOptionPane.showConfirmDialog(frame, message);
 //	    if (answer == JOptionPane.YES_OPTION) {
@@ -127,5 +148,29 @@ public class FriendshipManager {
 //		
 //		optionPane.setVisible(true); 
 		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
+	}
+	
+	/**
+	 * 
+	 * @param myContact
+	 */
+	public static void acceptFriendshipRequest() {
+		Contact myContact = Status.getMyInfoIntoContact(); 
+//		ClientEngine.getClient(contattoRichiedente.getID()).sendFriendshipAck(myContact); 
+		// TODO: Aggiungi l'amico nella FriendsListGlobale
+	}
+	
+	
+	/**
+	 * Funzione per aggiungere un nuovo amico all'interno della propria 
+     * lista contatti. Il contatto viene aggiunto, e viene aggiornata la
+     * tabella contenente la lista amici. 
+     *  
+	 * @param newContact, nuovo contatto da aggiungere alla propria friendsList. 
+	 */
+	public static void addNewFriend(Contact newContact) {
+		
+		
+		
 	}
 }

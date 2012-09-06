@@ -17,14 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import layout.managers.LayoutReferences;
+import managers.FriendshipManager;
 
-import Friendship.FriendshipManager;
-import RMIMessages.RMIBasicMessage;
-import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
-
-import client.ClientEngine;
+import chat.Contact;
+import chat.Status;
 
 /**
  * Frame contenente il pannello per l'aggiunta di nuovi 
@@ -203,7 +200,8 @@ public class AddContact_Frame extends JFrame {
 	
 		if(textField_email.getText().equals(""))
 			JOptionPane.showMessageDialog(null, "E' necessario specificare una mail nel campo opportuno", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-			
+		
+		/* Invio richiesta di amicizia */
 		RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(textField_email.getText()); 
     	
 		if(answer.isSUCCESS() == true) {
@@ -211,6 +209,13 @@ public class AddContact_Frame extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
 		}
+		
+		// TODO: spostare il codice dove deve stare
+		Contact myContact = Status.getMyInfoIntoContact(); 
+		
+		FriendshipManager.showFriendshipRequestFrom(myContact); 
+		
+		
         /* Chiudo il frame */
 //        dispose(); 
 	}

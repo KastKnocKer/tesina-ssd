@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import managers.FriendshipManager;
+import managers.Status;
 
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
-import chat.Status;
 
 /**
  * Frame contenente il pannello per l'aggiunta di nuovi 

@@ -3,10 +3,11 @@ package client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import managers.Status;
+
 import RMI.ClientInterface;
 
 import chat.Message;
-import chat.Status;
 
 public class ClientThreadSender extends Thread{
 

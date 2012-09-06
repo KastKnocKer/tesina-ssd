@@ -20,10 +20,10 @@ import client.ClientEngine;
 import RMI.ClientInterface;
 
 import chat.Contact;
-import chat.Status;
 
 import layout.managers.LayoutReferences;
 import layout.utilityframes.*;
+import managers.ContactListManager;
 
 /**
  * Frame principale dell'applicazione. Usato per contenere il pannello 
@@ -186,7 +186,7 @@ public class Home_Frame extends JFrame {
 		eMenuItem_whoisp2p.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("Kissini");
-				ArrayList<Contact> contactList = Status.getContactList();
+				ArrayList<Contact> contactList = ContactListManager.getContactList();
 				Contact contact = contactList.get(0);
 				ClientInterface client = ClientEngine.getClient(contact.getID());
 				Contact responseContact = null;

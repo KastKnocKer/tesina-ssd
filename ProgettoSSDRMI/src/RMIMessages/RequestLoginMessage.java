@@ -1,14 +1,14 @@
 package RMIMessages;
 
-import chat.StatusList;
+import chat.ChatStatusList;
 
 public class RequestLoginMessage extends RMIBasicMessage{
 
 	private String Username = "";
 	private String Password = "";
-	private StatusList Stato = StatusList.OFFLINE;
+	private ChatStatusList Stato = ChatStatusList.OFFLINE;
 	
-	public RequestLoginMessage(String username, String password, StatusList stato){
+	public RequestLoginMessage(String username, String password, ChatStatusList stato){
 		super();
 		Username = username;
 		Password = password;
@@ -19,7 +19,7 @@ public class RequestLoginMessage extends RMIBasicMessage{
 	public void setUsername(String username) {		Username = username;	}
 	public String getPassword() {					return Password;	}
 	public void setPassword(String password) {		Password = password;	}
-	public StatusList getStato() {					return Stato;	}
-	public void setStato(StatusList stato) {		Stato = stato;	}
+	public ChatStatusList getStato() {					return Stato;	}
+	public void setStato(ChatStatusList stato) {		Stato = stato;	}
 
 }

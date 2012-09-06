@@ -14,7 +14,7 @@ public class Friend {
 	/** Nickname dell'utente */
 	private String nickname; 
 	/** Status: occupato, libero, ... */
-	private StatusList status;
+	private ChatStatusList status;
 	/** Identificativo univoco dell'utente */
 	private int userId; 
 	/** Indirizzo email dell'utente */
@@ -27,10 +27,10 @@ public class Friend {
 		this.nickname = nickname;
 	}
 	
-	public StatusList getStatus() {
+	public ChatStatusList getStatus() {
 		return status;
 	}
-	public void setStatus(StatusList status) {
+	public void setStatus(ChatStatusList status) {
 		this.status = status;
 	}
 	public int getUserId() {

@@ -21,7 +21,7 @@ public class Contact implements Serializable{
 		AvatarURL = avatarURL;
 	}
 
-	private StatusList Status = StatusList.OFFLINE;
+	private ChatStatusList Status = ChatStatusList.OFFLINE;
 	private static int Client_Port = 1102;
 	private String GlobalIP = NONE;
 	private String LocalIP = NONE;
@@ -125,19 +125,19 @@ public class Contact implements Serializable{
 	public void printInfo(){
 		System.out.println("Contact Info: " + UserID +" - "+ eMail+ " - "+ Nickname +" - "+ GlobalIP);
 	}
-	public StatusList getStatus() {		
+	public ChatStatusList getStatus() {		
 		return Status;	
 	}
 
-	public void setStatus(StatusList status) {		
+	public void setStatus(ChatStatusList status) {		
 		Status = status;	
 	}
 	
 	public void setStatus(String status) {		
-		if(	status.equals(StatusList.ONLINE.toString())	)				this.Status = StatusList.ONLINE;
-		else if(	status.equals(StatusList.BUSY.toString())	)		this.Status = StatusList.BUSY;
-		else if(	status.equals(StatusList.AWAY.toString())	)		this.Status = StatusList.AWAY;
-		else if(	status.equals(StatusList.OFFLINE.toString())	)	this.Status = StatusList.OFFLINE;
+		if(	status.equals(ChatStatusList.ONLINE.toString())	)				this.Status = ChatStatusList.ONLINE;
+		else if(	status.equals(ChatStatusList.BUSY.toString())	)		this.Status = ChatStatusList.BUSY;
+		else if(	status.equals(ChatStatusList.AWAY.toString())	)		this.Status = ChatStatusList.AWAY;
+		else if(	status.equals(ChatStatusList.OFFLINE.toString())	)	this.Status = ChatStatusList.OFFLINE;
 	}
 
 	public static int getClient_Port() {

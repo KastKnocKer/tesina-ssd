@@ -16,7 +16,7 @@ import RMIMessages.ResponseModifyContactInfos;
 
 import chat.Contact;
 import chat.Message;
-import chat.StatusList;
+import chat.ChatStatusList;
 
 /**
  * 

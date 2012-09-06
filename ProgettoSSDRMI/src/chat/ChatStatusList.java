@@ -9,7 +9,7 @@ package chat;
  * @author Fabio Pierazzi
  *
  */
-public enum StatusList {
+public enum ChatStatusList {
 	ONLINE, 
 	BUSY,
 	AWAY,

@@ -13,9 +13,10 @@ import javax.swing.table.TableColumn;
 
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
+import managers.ContactListManager;
+import managers.Status;
 import chat.Contact;
 import chat.FriendsList;
-import chat.Status;
 
 public class FriendsList_Table extends JTable implements MouseListener,ActionListener {
 
@@ -136,7 +137,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 
 		//TODO controllare
 		/* ricarico la friendsList */
-		if(Status.getContactList() == null || Status.getContactList().size() == 0){
+		if(ContactListManager.getContactList() == null || ContactListManager.getContactList().size() == 0){
 			Status.loadFriendsList();
 		}
 		
@@ -189,7 +190,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 			mouseEvent.consume(); 
 
 			/* Apro il frame di conversazione con l'utente */
-			Contact contact = Status.searchContactById((int) this.getValueAt(clickedRow, 0)); 
+			Contact contact = ContactListManager.searchContactById((int) this.getValueAt(clickedRow, 0)); 
 			openConversationFrame(contact); 
 			
 //			System.out.println("Doppio click :)");
@@ -295,7 +296,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		 * in cui viene selezionata una voce del jPopUpMenu */
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
 			
-			Contact contact = Status.searchContactById((int) this.getValueAt(clickedRow, 0)); 
+			Contact contact = ContactListManager.searchContactById((int) this.getValueAt(clickedRow, 0)); 
 			openConversationFrame(contact); 
 		}
 	}

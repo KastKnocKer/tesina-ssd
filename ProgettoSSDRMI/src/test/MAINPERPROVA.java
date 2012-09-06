@@ -2,7 +2,7 @@ package test;
 import java.util.ArrayList;
 
 import chat.Contact;
-import chat.StatusList;
+import chat.ChatStatusList;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RequestFriendshipMessage;
 import SIP.DBConnection;
@@ -28,7 +28,7 @@ public class MAINPERPROVA {
 //		
 //		dbconn.login("email", "password");
 		
-		System.out.println(StatusList.AWAY==StatusList.AWAY);
+		System.out.println(ChatStatusList.AWAY==ChatStatusList.AWAY);
 		
 	}
 

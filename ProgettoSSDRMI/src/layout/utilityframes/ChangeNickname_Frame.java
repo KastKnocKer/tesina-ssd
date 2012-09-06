@@ -18,10 +18,10 @@ import javax.swing.JTextField;
 import client.ClientEngine;
 
 import layout.managers.LayoutReferences;
+import managers.Status;
 
 import chat.Contact;
-import chat.Status;
-import chat.StatusList; 
+import chat.ChatStatusList; 
 
 /**
  * Frame usato dall'utene per cambiare i propri nickname
@@ -151,13 +151,13 @@ public class ChangeNickname_Frame extends JFrame {
 
 		combobox_newStato = new JComboBox<String>(statusStrings);
 		
-		if(Status.getStato() == StatusList.ONLINE) {
+		if(Status.getStato() == ChatStatusList.ONLINE) {
 			System.out.println("ONLINE");
 			combobox_newStato.setSelectedIndex(0);
-		} else if(Status.getStato() == StatusList.BUSY) {
+		} else if(Status.getStato() == ChatStatusList.BUSY) {
 			System.out.println("BUSY");
 			combobox_newStato.setSelectedIndex(1);
-		} else if(Status.getStato() == StatusList.AWAY) {
+		} else if(Status.getStato() == ChatStatusList.AWAY) {
 			System.out.println("AWAY");
 			combobox_newStato.setSelectedIndex(2);
 		} else {
@@ -232,13 +232,13 @@ public class ChangeNickname_Frame extends JFrame {
             	
             	
             	switch(combobox_newStato.getSelectedIndex()) {
-            		case 0: Status.setStato(StatusList.ONLINE);
+            		case 0: Status.setStato(ChatStatusList.ONLINE);
             				System.out.println("ComboBox: Selezionato online");
             				break;
-            		case 1: Status.setStato(StatusList.BUSY); 
+            		case 1: Status.setStato(ChatStatusList.BUSY); 
             				System.out.println("ComboBox: Selezionato busy");
             				break; 
-            		case 2: Status.setStato(StatusList.AWAY); 
+            		case 2: Status.setStato(ChatStatusList.AWAY); 
             				System.out.println("ComboBox: Selezionato away");
             				break; 
             		default: 

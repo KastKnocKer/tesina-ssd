@@ -51,6 +51,9 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			}
 		}
 		
+		//Se il Time To Live è 0 non interrogo i miei contatti
+		if(TTL == 0) return;
+		
 		//Provo ad inoltrare la richiesta ai miei contatti
 		//TODO Al momento ritengo che i contatti online siano assolutamente online, pena l'attesa del timeout
 		
@@ -59,7 +62,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			if(contact.isConnected()){
 				ClientInterface client = ClientEngine.getClient(contact.getID());
 				try {
-					client.whois(emailToSearch, TTL-1);
+					client.whois(requestorUserID, requestorGlobalIP, requestorNum, TTL-1, emailToSearch);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -98,7 +101,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 	}
 	
 	private void sendResponseToRequestor(Contact contactToSearch){
-		System.out.println("----->     RISPONDO AL RICHIEDENTE     <-----");
+		System.out.println("----->     MAGIA: RISPONDO AL RICHIEDENTE     <-----");
 	}
 
 

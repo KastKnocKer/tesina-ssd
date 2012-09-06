@@ -69,5 +69,5 @@ public interface ClientInterface extends Remote{
 	/**
 	 * Permette di effettuare il retrieval di un contatto in modo P2P
 	 */
-	public Contact whois(String email, int TTL) throws RemoteException;
+	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException;
 }

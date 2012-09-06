@@ -13,6 +13,7 @@ import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
 import client.ClientEngine;
+import client.ClientThreadWhoIsRequestor;
 
 
 public class Client implements ClientInterface{
@@ -107,45 +108,46 @@ public class Client implements ClientInterface{
 	}
 
 
-	public Contact whois(String email, int TTL) throws RemoteException {
-		Contact whoisContact;
-		//Controllo di conoscere il contatto
-		ArrayList<Contact> contactList = ContactListManager.getContactList();
-		for(Contact contact : contactList){
-			if(contact.geteMail().equals(email)){
-				//Contatto trovato
-				ChatStatusList status = contact.getStatus();
-				if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
-					//Se il contatto è per me connesso lo ritorno
-					return contact;
-				}else{
-					//Altrimenti mando agli altri miei contatti la richiesta
-					break;
-				}
-			}
-		}
-		
-		//Se il Time To Live è 0 non interrogo i miei contatti
-		if(TTL == 0) return null;
-		
-		//Chiedo ai miei contatti se hanno informazioni sul contatto
-		for(Contact contact : contactList){
-			ChatStatusList status = contact.getStatus();
-			if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
-				//Se il contatto è per me connesso lo interrogo
-				ClientInterface client = ClientEngine.getClient(contact.getID());
-				whoisContact = client.whois(email, TTL-1);
-				//Se il contatto ritornato è diverso da null è stato trovato e quindi lo ritorno!
-				if(whoisContact != null) return contact;
-				
-			}else{
-				//Se il contatto non è connesso chiedo al prossimo
-				continue;
-			}
-		}
-		
-		
-		//Se non trovo nessun contatto ritorno null
-		return null;
+	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException {
+		new ClientThreadWhoIsRequestor(requestorUserID, requestorGlobalIP, requestorNum, TTL, emailToSearch);
+//		Contact whoisContact;
+//		//Controllo di conoscere il contatto
+//		ArrayList<Contact> contactList = ContactListManager.getContactList();
+//		for(Contact contact : contactList){
+//			if(contact.geteMail().equals(emailToSearch)){
+//				//Contatto trovato
+//				ChatStatusList status = contact.getStatus();
+//				if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
+//					//Se il contatto è per me connesso lo ritorno
+//					return contact;
+//				}else{
+//					//Altrimenti mando agli altri miei contatti la richiesta
+//					break;
+//				}
+//			}
+//		}
+//		
+//		//Se il Time To Live è 0 non interrogo i miei contatti
+//		if(TTL == 0) return null;
+//		
+//		//Chiedo ai miei contatti se hanno informazioni sul contatto
+//		for(Contact contact : contactList){
+//			ChatStatusList status = contact.getStatus();
+//			if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
+//				//Se il contatto è per me connesso lo interrogo
+//				ClientInterface client = ClientEngine.getClient(contact.getID());
+//				whoisContact = client.whois(email, TTL-1);
+//				//Se il contatto ritornato è diverso da null è stato trovato e quindi lo ritorno!
+//				if(whoisContact != null) return contact;
+//				
+//			}else{
+//				//Se il contatto non è connesso chiedo al prossimo
+//				continue;
+//			}
+//		}
+//		
+//		
+//		//Se non trovo nessun contatto ritorno null
+//		return null;
 	}
 }

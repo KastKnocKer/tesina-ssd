@@ -281,6 +281,13 @@ public class ClientEngine {
 		return client;
 	}
 	
+	/**
+	 * Permette di ottenere l'IP di un contatto data l'email
+	 */
+	public static void whoIs(String email){
+		int randomNum = randomNum = 1+(int)(Math.random()*9999);
+		new ClientThreadWhoIsRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL);
+	}
 	
 	
 

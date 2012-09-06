@@ -6,12 +6,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import client.ClientEngine;
+
+import RMI.ClientInterface;
+
+import chat.Contact;
+import chat.Status;
 
 import layout.managers.LayoutReferences;
 import layout.utilityframes.*;
@@ -168,5 +177,30 @@ public class Home_Frame extends JFrame {
         
         setJMenuBar(menubar);
 		
+        addTestMenu(menubar);
+	}
+
+	private void addTestMenu(JMenuBar menubar){
+		JMenu debug = new JMenu("[Test\\Debug]");
+		JMenuItem eMenuItem_whoisp2p = new JMenuItem("whois P2P");
+		eMenuItem_whoisp2p.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("Kissini");
+				ArrayList<Contact> contactList = Status.getContactList();
+				Contact contact = contactList.get(0);
+				ClientInterface client = ClientEngine.getClient(contact.getID());
+				Contact responseContact = null;
+				try {
+					responseContact = client.whois("biofrost88@gmail.com", 4);
+					if(responseContact != null) System.out.println("CONTATTO TROVATO YEEEEEEEEE");
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		debug.add(eMenuItem_whoisp2p);
+		menubar.add(debug);
 	}
 }

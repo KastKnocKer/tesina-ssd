@@ -41,4 +41,8 @@ public interface ClientInterface extends Remote{
 	 */
 	RMIBasicResponseMessage sendFriendshipRequest(Contact contattoRichiedente) throws RemoteException;
 	
+	/**
+	 * Permette di effettuare il retrieval di un contatto in modo P2P
+	 */
+	public Contact whois(String email, int TTL) throws RemoteException;
 }

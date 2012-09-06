@@ -1,5 +1,6 @@
 package RMI;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import Friendship.FriendshipManager;
 import RMIMessages.RMIBasicResponseMessage;
@@ -8,6 +9,7 @@ import RMIMessages.ResponseHowAreYou;
 import chat.Contact;
 import chat.Message;
 import chat.Status;
+import chat.StatusList;
 import client.ClientEngine;
 
 
@@ -79,6 +81,48 @@ public class Client implements ClientInterface{
 		
 		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente.geteMail() + ".");
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
+	}
+
+	public Contact whois(String email, int TTL) throws RemoteException {
+		Contact whoisContact;
+		//Controllo di conoscere il contatto
+		ArrayList<Contact> contactList = Status.getContactList();
+		for(Contact contact : contactList){
+			if(contact.geteMail().equals(email)){
+				//Contatto trovato
+				StatusList status = contact.getStatus();
+				if( (status == StatusList.ONLINE)||(status == StatusList.BUSY)||(status == StatusList.AWAY)){
+					//Se il contatto è per me connesso lo ritorno
+					return contact;
+				}else{
+					//Altrimenti mando agli altri miei contatti la richiesta
+					break;
+				}
+			}
+		}
+		
+		//Se il Time To Live è 0 non interrogo i miei contatti
+		if(TTL == 0) return null;
+		
+		//Chiedo ai miei contatti se hanno informazioni sul contatto
+		for(Contact contact : contactList){
+			StatusList status = contact.getStatus();
+			if( (status == StatusList.ONLINE)||(status == StatusList.BUSY)||(status == StatusList.AWAY)){
+				//Se il contatto è per me connesso lo interrogo
+				ClientInterface client = ClientEngine.getClient(contact.getID());
+				whoisContact = client.whois(email, TTL-1);
+				//Se il contatto ritornato è diverso da null è stato trovato e quindi lo ritorno!
+				if(whoisContact != null) return contact;
+				
+			}else{
+				//Se il contatto non è connesso chiedo al prossimo
+				continue;
+			}
+		}
+		
+		
+		//Se non trovo nessun contatto ritorno null
+		return null;
 	}
 
 }

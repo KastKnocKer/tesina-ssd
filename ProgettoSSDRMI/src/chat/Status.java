@@ -34,6 +34,7 @@ public class Status {
 	public final static int TYPE_SIP = 			0;
 	public final static int TYPE_CLIENT = 		1;
 	public final static int TYPE_SIPCLIENT = 	-1;
+	public final static int P2P_TTL = 4;
 	private static String GlobalIP;
 	private static String LocalIP;
 	private static FriendsList friendsList = null;

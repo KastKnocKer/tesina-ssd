@@ -14,6 +14,7 @@ import javax.swing.table.TableColumn;
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
+import managers.FriendsListManager;
 import managers.Status;
 import chat.Contact;
 import chat.FriendsList;
@@ -69,7 +70,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 
 		/* Carico la FriendsList globale non filtrata */
 		// TODO check if necessary
-		friendsList = Status.getFriendsList(); 
+		friendsList = FriendsListManager.getFriendsList(); 
 		friendsListTableModel.setFriendsList(friendsList); 
 		
 		// TODO 
@@ -144,8 +145,8 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		/* re-imposto le nuove friendsList per la tabella e per il table model.
 		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
 		 * così applicare eventuali filtraggi a parte. */
-		this.setFriendsList(Status.getFriendsList());
-		LayoutReferences.getFriendsListTableModel().setFriendsList(Status.getFriendsList());
+		this.setFriendsList(FriendsListManager.getFriendsList());
+		LayoutReferences.getFriendsListTableModel().setFriendsList(FriendsListManager.getFriendsList());
 		LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
 		this.updateUI();
 //		this.revalidate();

@@ -2,7 +2,9 @@ package chat;
 
 import java.util.ArrayList;
 
-import managers.Status;
+import managers.FriendsListManager;
+
+
 
 /**
  * Classe che rappresenta una lista di oggetti Friend. Sfruttata
@@ -18,7 +20,7 @@ public class FriendsList {
 		/** Imposto il riferimento globale statico 
 		 * a quest'oggetto FriendsList */
 		friendsArrayList = new ArrayList<Friend>(); 
-		Status.setFriendsList(this); 
+		FriendsListManager.setFriendsList(this); 
 	}
 
 	public ArrayList<Friend> getFriendsArrayList() {

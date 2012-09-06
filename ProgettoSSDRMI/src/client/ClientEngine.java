@@ -283,11 +283,18 @@ public class ClientEngine {
 	}
 	
 	/**
-	 * Permette di ottenere l'IP di un contatto data l'email
+	 * Permette di ottenere l'IP di un contatto data l'email richiedendolo alla rete P2P
 	 */
 	public static void whoIs(String email){
-		int randomNum = randomNum = 1+(int)(Math.random()*9999);
-		new ClientThreadWhoIsRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL);
+		Contact contactToSearch = ContactListManager.searchContactByEmail(email);
+		if(contactToSearch == null || contactToSearch.getStatus()==ChatStatusList.OFFLINE){
+			int randomNum = randomNum = 1+(int)(Math.random()*9999);
+			new ClientThreadWhoIsRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
+		}else{
+			//Contatto trovato e online
+			System.out.println("Client - ClientEngine.whoIs() : Contatto trovato e ONLINE.");
+		}
+		
 	}
 	
 	

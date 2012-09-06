@@ -102,6 +102,30 @@ public class ContactListManager {
 		 * quindi ritorno null */
 		return null; 
 	}
+	
+	/**
+	 * Ricerco un contatto in base all'indirizzo email
+	 */
+	
+		public static Contact searchContactByEmail(String email) {
+		
+		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
+		if(contactList == null) {
+			System.out.println("Status.searchContactById: la lista contatti non esiste; ne creo una. ");
+			contactList = new ArrayList<Contact>(); 
+			return null;
+		}
+		
+		/* Ricerco il contatto all'interno della lista */
+		for(Contact contact : contactList) {
+			if(contact.geteMail() == email)
+				return contact; 
+		}
+			
+		/* Se arrivo fin qua, significa che non è stato trovato, 
+		 * quindi ritorno null */
+		return null; 
+	}
 
 	public static boolean writeContactsXML(){
 			if(contactList == null) contactList = new ArrayList<Contact>();

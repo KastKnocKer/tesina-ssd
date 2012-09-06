@@ -51,6 +51,22 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			}
 		}
 		
+		//Provo ad inoltrare la richiesta ai miei contatti
+		//TODO Al momento ritengo che i contatti online siano assolutamente online, pena l'attesa del timeout
+		
+		ArrayList<Contact> contactList = ContactListManager.getContactList();
+		for(Contact contact : contactList){
+			if(contact.isConnected()){
+				ClientInterface client = ClientEngine.getClient(contact.getID());
+				try {
+					client.whois(emailToSearch, TTL-1);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
 		
 //		
 //		counter.incr();

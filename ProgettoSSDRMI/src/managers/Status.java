@@ -323,6 +323,7 @@ public class Status {
 		contact.setAvatarURL(		Status.getAvatarURL());
 		contact.seteMail(			Status.getEmail());
 		contact.setID(				Status.getUserID());
+		contact.setClient_Port(		Status.getClient_Port());
 		return contact;
 	}
 

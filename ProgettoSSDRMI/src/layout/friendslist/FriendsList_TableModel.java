@@ -3,10 +3,10 @@ package layout.friendslist;
 import javax.swing.table.AbstractTableModel;
 
 import layout.managers.LayoutReferences;
+import managers.Status;
 
 import chat.Friend;
 import chat.FriendsList;
-import chat.Status;
 
 /**
  * Modello che definisce i dati da mostrare nella FriendsListTable

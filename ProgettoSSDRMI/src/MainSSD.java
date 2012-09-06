@@ -10,12 +10,12 @@ import javax.swing.UIManager;
 import client.ClientThread;
 
 import layout.homeframe.Home_Frame;
+import managers.Status;
 import utility.WhatIsMyIP;
 import RMI.Client;
 import RMI.ClientInterface;
 import RMI.SIP;
 import RMI.SIPInterface;
-import chat.Status;
 
 /**
  * Main dell'applicazione 

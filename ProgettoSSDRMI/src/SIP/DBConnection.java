@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import managers.Status;
+
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
@@ -24,8 +26,7 @@ import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Friend;
-import chat.Status;
-import chat.StatusList;
+import chat.ChatStatusList;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -418,7 +419,7 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         	contact.setAvatarURL(result.getString("avatarurl"));
         	
         	if(result.getString("status") == null){	//il contatto non ha la tupla della connessione
-        		contact.setStatus(StatusList.OFFLINE);
+        		contact.setStatus(ChatStatusList.OFFLINE);
         	}else{
         		// TODO
         		contact.setGlobalIP(result.getString("publicIP"));
@@ -515,7 +516,7 @@ public Contact getContactByEmail(String email) {
  * Funzione che aggiorna lo stato della connessione dell'utente per permettere agli altri contatti
  * di poterlo contattare
  */
-public boolean updateContactConnectionStatus(int UserID, String PublicIP, String LocalIP, int rmiregistryPort, int clientport, StatusList status) {
+public boolean updateContactConnectionStatus(int UserID, String PublicIP, String LocalIP, int rmiregistryPort, int clientport, ChatStatusList status) {
 	if(!connesso){
 		connetti();
 	}

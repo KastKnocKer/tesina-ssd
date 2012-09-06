@@ -2,15 +2,16 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import managers.ContactListManager;
 import managers.FriendshipManager;
+import managers.Status;
 
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
 import chat.Contact;
 import chat.Message;
-import chat.Status;
-import chat.StatusList;
+import chat.ChatStatusList;
 import client.ClientEngine;
 
 
@@ -41,7 +42,7 @@ public class Client implements ClientInterface{
 	public ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException {
 		Contact senderContact = rhay.getSenderContact();
 		int senderID = senderContact.getID();
-		for(Contact contact :  Status.getContactList() ){
+		for(Contact contact :  ContactListManager.getContactList() ){
 			if(contact.getID() == senderID){
 				//Aggiorno le informazioni ricevute
 				contact.updateInfoFromContact(senderContact);
@@ -57,7 +58,7 @@ public class Client implements ClientInterface{
 		for(Message msg : chatMsgs)ClientEngine.receiveMessageFromContact(msg);
 		if(chatMsgs != null || chatMsgs.length>0){
 			int senderID = chatMsgs[0].getFrom();
-			for(Contact contact :  Status.getContactList() ){
+			for(Contact contact :  ContactListManager.getContactList() ){
 				if(contact.getID() == senderID){
 					contact.setGlobalIP(senderGlobalIP);
 					contact.setLocalIP(senderLocalIP);
@@ -109,12 +110,12 @@ public class Client implements ClientInterface{
 	public Contact whois(String email, int TTL) throws RemoteException {
 		Contact whoisContact;
 		//Controllo di conoscere il contatto
-		ArrayList<Contact> contactList = Status.getContactList();
+		ArrayList<Contact> contactList = ContactListManager.getContactList();
 		for(Contact contact : contactList){
 			if(contact.geteMail().equals(email)){
 				//Contatto trovato
-				StatusList status = contact.getStatus();
-				if( (status == StatusList.ONLINE)||(status == StatusList.BUSY)||(status == StatusList.AWAY)){
+				ChatStatusList status = contact.getStatus();
+				if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
 					//Se il contatto è per me connesso lo ritorno
 					return contact;
 				}else{
@@ -129,8 +130,8 @@ public class Client implements ClientInterface{
 		
 		//Chiedo ai miei contatti se hanno informazioni sul contatto
 		for(Contact contact : contactList){
-			StatusList status = contact.getStatus();
-			if( (status == StatusList.ONLINE)||(status == StatusList.BUSY)||(status == StatusList.AWAY)){
+			ChatStatusList status = contact.getStatus();
+			if( (status == ChatStatusList.ONLINE)||(status == ChatStatusList.BUSY)||(status == ChatStatusList.AWAY)){
 				//Se il contatto è per me connesso lo interrogo
 				ClientInterface client = ClientEngine.getClient(contact.getID());
 				whoisContact = client.whois(email, TTL-1);

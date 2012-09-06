@@ -18,10 +18,11 @@ import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
 import chat.Contact;
 import chat.Message;
-import chat.Status;
-import chat.StatusList;
+import chat.ChatStatusList;
 
 import layout.managers.*;
+import managers.ContactListManager;
+import managers.Status;
 
 public class ClientEngine {
 	
@@ -33,7 +34,7 @@ public class ClientEngine {
 		//Login mediante server SIP
 		try {
 			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
-			response = getSIP().login(new RequestLoginMessage(username, password, StatusList.ONLINE));
+			response = getSIP().login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
 			if(response.isSUCCESS()){
 				//Aggiorno i dati personali
 				Status.setUserID(response.getLoggedContact().getID());
@@ -47,7 +48,7 @@ public class ClientEngine {
 				ArrayList<Contact> contactList = response.getContactList();
 				if(contactList != null){
 					System.out.println("Contact list caricata dal Login: " +contactList.size());
-					Status.setContactList(contactList);
+					ContactListManager.setContactList(contactList);
 				}
 				
 				//Aggiorno i dati del LastLogin su Status
@@ -86,7 +87,7 @@ public class ClientEngine {
 			if(Status.DEBUG) System.out.println("Client - Richiesta lista contatti al SIP");
 			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
 			if(contacts != null){
-				Status.setContactList(contacts);
+				ContactListManager.setContactList(contacts);
 				response = true;
 			}
 		} catch (RemoteException e) {
@@ -136,7 +137,7 @@ public class ClientEngine {
 		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+INList.size());
 		
 		/* Mostro la finestra se arriva il messaggio */
-		Contact contact = Status.searchContactById(chatMsg.getFrom()); 
+		Contact contact = ContactListManager.searchContactById(chatMsg.getFrom()); 
 		ConversationWindowsManager.showConversationFrame(contact); 
 		
 		/* Scrivo il messaggio nella finestra */
@@ -230,10 +231,10 @@ public class ClientEngine {
 	 */
 	public static ClientInterface getClient(int ContactUserID){
 		Contact contact = null;
-		for(Contact cont : Status.getContactList()){
+		for(Contact cont : ContactListManager.getContactList()){
 			if(cont.getID() == ContactUserID){
 				contact = cont;
-				if(cont.getStatus() == StatusList.OFFLINE){
+				if(cont.getStatus() == ChatStatusList.OFFLINE){
 					System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" OFFLINE!");
 					return null;
 				}
@@ -262,7 +263,7 @@ public class ClientEngine {
 		} catch (java.rmi.ConnectException e) {
 			//Quando sull'host non risponde l'rmiregistry
 			//Ritengo quindi che l'utente sia andato offline
-			contact.setStatus(StatusList.OFFLINE);
+			contact.setStatus(ChatStatusList.OFFLINE);
 			System.err.println("Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE!");
 			
 			

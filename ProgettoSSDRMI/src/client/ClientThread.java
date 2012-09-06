@@ -3,10 +3,11 @@ package client;
 import java.util.ArrayList;
 
 import layout.managers.LayoutReferences;
+import managers.ContactListManager;
+import managers.Status;
 
 import chat.Contact;
 import chat.Message;
-import chat.Status;
 
 public class ClientThread extends Thread{
 
@@ -38,7 +39,7 @@ public class ClientThread extends Thread{
 	}
 	
 	private void checkContactList(){
-		ArrayList<Contact> contactList = Status.getContactList();
+		ArrayList<Contact> contactList = ContactListManager.getContactList();
 		for(Contact contact : contactList){
 			new ClientThreadTester(contact).start();
 		}

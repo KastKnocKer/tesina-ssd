@@ -3,6 +3,9 @@ package client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import managers.ContactListManager;
+import managers.Status;
+
 import utility.Counter;
 
 import RMI.ClientInterface;
@@ -11,8 +14,7 @@ import RMIMessages.ResponseHowAreYou;
 
 import chat.Contact;
 import chat.Message;
-import chat.Status;
-import chat.StatusList;
+import chat.ChatStatusList;
 
 public class ClientThreadWhoIsRequestor extends Thread{
 	private static int numClientThreadTester = 0;
@@ -40,7 +42,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			ClientInterface client = ClientEngine.getClient(contactToTest.getID());
 			if(client == null){
 				System.err.println("Utente non raggiunto.");
-				contactToTest.setStatus(StatusList.OFFLINE);
+				contactToTest.setStatus(ChatStatusList.OFFLINE);
 				decrementCounter();
 				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 				return;
@@ -54,7 +56,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			
 		} catch (RemoteException e) {
 			System.err.println("Utente non raggiunto.");
-			contactToTest.setStatus(StatusList.OFFLINE);
+			contactToTest.setStatus(ChatStatusList.OFFLINE);
 			//e.printStackTrace();
 			System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 		}
@@ -67,7 +69,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 			//TODO x Fabio -> AGGIORNARE TABELLA LISTA CONTATTI
 			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
-			Status.writeContactsXML();
+			ContactListManager.writeContactsXML();
 		}
 	}
 

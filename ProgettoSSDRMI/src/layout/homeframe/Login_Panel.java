@@ -17,11 +17,11 @@ import javax.swing.JTextField;
 
 import layout.friendslist.FriendsList_Panel;
 import layout.managers.LayoutReferences;
+import managers.Status;
 
 
 import RMIMessages.ResponseLoginMessage;
 
-import chat.Status;
 import client.ClientEngine;
 
 public class Login_Panel extends JPanel {

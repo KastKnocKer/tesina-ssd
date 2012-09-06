@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
-import chat.Status;
 import client.ClientEngine;
 
 /**

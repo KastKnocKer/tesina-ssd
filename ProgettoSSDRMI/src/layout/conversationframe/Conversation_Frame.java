@@ -20,10 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
+import managers.Status;
+
 import utility.DateUtils;
 import chat.Contact;
 import chat.Message;
-import chat.Status;
 import client.ClientEngine;
 
 /**

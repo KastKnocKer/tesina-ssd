@@ -20,8 +20,8 @@ import javax.swing.border.EmptyBorder;
 import layout.utilityframes.*;
 import layout.homeframe.Home_Frame;
 import layout.managers.LayoutReferences;
-import chat.Status;
-import chat.StatusList;
+import managers.Status;
+import chat.ChatStatusList;
 
 /**
  * Pannello contenente la lista amici. Viene inserito
@@ -124,13 +124,13 @@ public class FriendsList_Panel extends JPanel {
 		
 		statusLabel = new JLabel(); 
 		
-		if(Status.getStato() == StatusList.ONLINE) {
+		if(Status.getStato() == ChatStatusList.ONLINE) {
 			statusLabel.setText("(Online)");
 			System.out.println("ONLINE");
-		} else if(Status.getStato() == StatusList.BUSY) {
+		} else if(Status.getStato() == ChatStatusList.BUSY) {
 			statusLabel.setText("(Occupato)");
 			System.out.println("BUSY");
-		} else if(Status.getStato() == StatusList.AWAY) {
+		} else if(Status.getStato() == ChatStatusList.AWAY) {
 			statusLabel.setText("(Non al computer)");
 			System.out.println("AWAY");
 		} else {
@@ -260,13 +260,13 @@ public class FriendsList_Panel extends JPanel {
 		nicknameLabel.setText(Status.getNickname()); 
 		
 		/* Aggiorno stato */
-		if(Status.getStato() == StatusList.ONLINE) {
+		if(Status.getStato() == ChatStatusList.ONLINE) {
 			statusLabel.setText("(Online)");
 			System.out.println("ONLINE");
-		} else if(Status.getStato() == StatusList.BUSY) {
+		} else if(Status.getStato() == ChatStatusList.BUSY) {
 			statusLabel.setText("(Occupato)");
 			System.out.println("BUSY");
-		} else if(Status.getStato() == StatusList.AWAY) {
+		} else if(Status.getStato() == ChatStatusList.AWAY) {
 			statusLabel.setText("(Non al computer)");
 			System.out.println("AWAY");
 		} else {

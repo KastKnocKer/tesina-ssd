@@ -2,6 +2,8 @@ package chat;
 
 import java.util.ArrayList;
 
+import managers.Status;
+
 /**
  * Classe che rappresenta una lista di oggetti Friend. Sfruttata
  * in FriendsListTable per mostrare l'elenco di amici. 

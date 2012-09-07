@@ -65,6 +65,9 @@ public class ContactListManager {
 	 * @return ArrayList dei contatti
 	 */
 	public static ArrayList<Contact> getContactList() {
+		if(contactList == null) 
+			contactList = new ArrayList<Contact>(); 
+		
 		return contactList;
 	}
 

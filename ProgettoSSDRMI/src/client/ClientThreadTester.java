@@ -3,6 +3,7 @@ package client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
 
@@ -65,6 +66,7 @@ public class ClientThreadTester extends Thread{
 			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
 			ContactListManager.writeContactsXML();
+			LayoutReferences.getFriendsListTable().updateTable(); 
 		}
 	}
 

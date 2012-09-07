@@ -12,6 +12,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import layout.friendslist.FriendsList_Table;
+import layout.managers.LayoutReferences;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,6 +32,12 @@ public class ContactListManager {
 
 	static ArrayList<Contact> contactList = null;
 	
+	/**
+	 * Metodo per impostare una nuova contactList. 
+	 * Salva anche i contatti all'interno della FriendsList. 
+	 * 
+	 * @param contactList
+	 */
 	public static void setContactList(ArrayList<Contact> contactList) {
 		//TODO aggiungere aggiornamento della tabella visuale
 		//todo Aggiungere aggiornamento friendlist
@@ -39,8 +48,7 @@ public class ContactListManager {
 		
 		/* copia nella friendsList globale (classe di interfaccia
 		 * per mostrare la lista amici nella tabella visibile graficamente
-		 * nella GUI.
-		 */
+		 * nella GUI.  */
 		FriendsList temp_friendsList = new FriendsList(); 
 		for(Contact contact : contactList){
 			temp_friendsList.addFriend(contact.getFriend());
@@ -52,29 +60,16 @@ public class ContactListManager {
 		ContactListManager.writeContactsXML();
 	}
 
+	/**
+	 * Metodo per reperire la lista globale dei contatti. 
+	 * @return ArrayList dei contatti
+	 */
 	public static ArrayList<Contact> getContactList() {
 		return contactList;
 	}
 
-	/**
-	 * Aggiungo un nuovo contatto alla ContactList.
-	 * 
-	 * @param newContact da aggiungere
-	 * @author Fabio Pierazzi
-	 */
-	public static void addToContactList(Contact newContact) {
-		/* Controllo che non sia già presente nella lista */
-		Contact searchedContact = ContactListManager.searchContactById(newContact.getID()); 
-		
-		if(searchedContact != null) {
-			System.err.println("Si sta cercando di aggiungere un contatto già presente");
-			return; 
-		}
-		
-		/* */
-		ArrayList<Contact> contactList = getContactList(); 
-	}
 
+	
 	/**
 	 *  Ricerco un contatto in base all'ID.
 	 * 
@@ -118,7 +113,7 @@ public class ContactListManager {
 		
 		/* Ricerco il contatto all'interno della lista */
 		for(Contact contact : contactList) {
-			if(contact.geteMail() == email)
+			if(contact.getEmail() == email)
 				return contact; 
 		}
 			
@@ -126,7 +121,108 @@ public class ContactListManager {
 		 * quindi ritorno null */
 		return null; 
 	}
+		
+		
+		/**
+		 * Aggiungo un nuovo contatto alla ContactList.
+		 * ATTENZIONE: Esegue anche un update della FriendsListTable, 
+		 * che deve quindi essere stata creata. 
+		 * 
+		 * @param newContact da aggiungere
+		 * @author Fabio Pierazzi
+		 */
+		public static void addToContactList(Contact newContact) {
+			
+			/* Controllo che il contatto non sia già presente nella lista */
+			
+			if(newContact.getID() < 0)
+				return; 
+			
+			Contact searchedContact = ContactListManager.searchContactById(newContact.getID()); 
+			
+			if(searchedContact != null) {
+				System.err.println("Si sta cercando di aggiungere un contatto già presente");
+				return; 
+			}
+			
+			/* Aggiungo il contatto alla lista */
+			ArrayList<Contact> contactList = getContactList(); 
+			contactList.add(newContact); 
+			
+//			/* Aggiungo il nuovo contatto anche alla FriendsList */
+//			FriendsList friendsList = FriendsListManager.getFriendsList(); 
+//			friendsList.addFriend(newContact.getFriend()); 
+			
+			/* Aggiorno graficamente la tabella della lista amici */
+			try {
+				LayoutReferences.getFriendsListTable().updateTable();
+			} catch (Exception e) {
+				e.printStackTrace(); 
+			}
+		}
+		
+		/**
+		 * Rimuove (anche graficamente) un amico dalla Lista Contatti.
+		 * TODO: rimuoverlo sul SIP.
+		 * 
+		 * @param removeId
+		 */
+		public static void removeFromContactList(int removeId) {
+			
+			if(Status.DEBUG) 
+				System.err.println("Starting contact removal...");
+			
+			/* Cerco il contatto e lo rimuovo */
+			ArrayList<Contact> contactList = ContactListManager.getContactList(); 
+			
+			int pos = 0; 
+			for(Contact contact : contactList) {
+				if(contact.getID() == removeId) {
+					try{
+						contactList.remove(pos); 
+					} catch(Exception e) {
+						System.err.println("Errore nel corso della rimozione di un contatto.");
+						e.printStackTrace(); 
+					}
+					
+					break; 
+				}
+				pos++; 
+			}
+			
+			// TODO: Rimuovere amico sul SIP
+			
+			/* Aggiorno graficamente la tabella con la lista amici */
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 
+			/* Se non c'è la tabella, non la aggiorno */
+			if(table == null) {
+				return; 
+			} else {
+				try {
+					table.updateTable();
+				} catch(Exception e) {
+					System.err.println("Errore nell'aggiornamento della tabella" +
+							" a seguito della rimozione di un contatto.");
+				}
+				 
+			}
+			
+			if(Status.DEBUG) 
+				System.err.println("Contact removed.");
+			
+			
+		}
+		
+		
+
+		
+		
+	/**
+	 * Scrive l'elenco contatti su File XML
+	 * @return
+	 * @author Andrea Castelli
+	 */
 	public static boolean writeContactsXML(){
 			if(contactList == null) contactList = new ArrayList<Contact>();
 	//			contactList.add(new Contact("Nickname1", "Nome1", "Cognome1", "eMail1", "Password1", null, null));
@@ -160,7 +256,7 @@ public class ContactListManager {
 						id.setTextContent(Integer.toString(contact.getID()));
 						nome.setTextContent(contact.getNome());
 						cognome.setTextContent(contact.getCognome());
-						email.setTextContent(contact.geteMail());
+						email.setTextContent(contact.getEmail());
 						nickname.setTextContent(contact.getNickname());
 						stato.setTextContent(contact.getStatus().toString());
 						globalIP.setTextContent(contact.getGlobalIP());

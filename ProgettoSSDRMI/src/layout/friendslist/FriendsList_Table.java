@@ -15,7 +15,6 @@ import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendsListManager;
-import managers.Status;
 import chat.Contact;
 import chat.FriendsList;
 
@@ -132,15 +131,21 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	}
 	
 	/**
-	 * Ricarica i contatti e aggiorna graficamente la tabella
+	 * Ricarica l'elenco contatti della lista amici (ricarica la ContactList 
+	 * nella FriendsList) ed aggiorna graficamente la tabella
+	 * 
+	 * @author Fabio Pierazzi
 	 */
 	public void updateTable(){
 
 		//TODO controllare
+		
 		/* ricarico la friendsList */
-		if(ContactListManager.getContactList() == null || ContactListManager.getContactList().size() == 0){
-			Status.loadFriendsList();
-		}
+//		if(ContactListManager.getContactList() == null || ContactListManager.getContactList().size() == 0){
+//			Status.loadFriendsList();
+//		}
+		
+		FriendsListManager.loadFriendsList(); 
 		
 		/* re-imposto le nuove friendsList per la tabella e per il table model.
 		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
@@ -293,12 +298,15 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		/* Recupero l'evento */
 		String event = actionEvent.getActionCommand();
 		
+		int contactId = (int) this.getValueAt(clickedRow, 0); 
+		
 		/* Specifico le azioni da intraprendere nel momento
 		 * in cui viene selezionata una voce del jPopUpMenu */
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
-			
-			Contact contact = ContactListManager.searchContactById((int) this.getValueAt(clickedRow, 0)); 
+			Contact contact = ContactListManager.searchContactById(contactId); 
 			openConversationFrame(contact); 
+		} else if (event.equals(POPUPMENU_REMOVECONTACT)) {
+			ContactListManager.removeFromContactList(contactId);
 		}
 	}
 

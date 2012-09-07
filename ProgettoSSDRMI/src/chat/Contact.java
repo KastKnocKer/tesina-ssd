@@ -8,7 +8,7 @@ public class Contact implements Serializable{
 	private String Nickname = NONE;
 	private String Nome = NONE;
 	private String Cognome = NONE;
-	private String eMail = NONE;
+	private String Email = NONE;
 	private String Password = NONE;
 	private String AvatarURL = NONE;
 	
@@ -18,7 +18,7 @@ public class Contact implements Serializable{
 	}
 
 	public void setAvatarURL(String avatarURL) {
-		AvatarURL = avatarURL;
+		avatarURL = avatarURL;
 	}
 
 	private ChatStatusList Status = ChatStatusList.OFFLINE;
@@ -35,7 +35,7 @@ public class Contact implements Serializable{
 		this.Nickname = Nickname;
 		this.Nome = Nome;
 		this.Cognome = Cognome;
-		this.eMail = eMail;
+		this.Email = eMail;
 		this.Password = Password;
 		this.GlobalIP = GlobalIP;
 		this.LocalIPs = LocalIPs;
@@ -54,7 +54,8 @@ public class Contact implements Serializable{
 		friend.setUserId(UserID);
 		friend.setNickname(Nickname);
 		friend.setStatus(Status);
-		friend.setEmail(eMail); 
+		friend.setEmail(Email); 
+		friend.setAvatarURL(AvatarURL); 
 		return friend;
 	}
 	
@@ -90,12 +91,12 @@ public class Contact implements Serializable{
 		Cognome = cognome;
 	}
 
-	public String geteMail() {
-		return eMail;
+	public String getEmail() {
+		return Email;
 	}
 
 	public void seteMail(String eMail) {
-		this.eMail = eMail;
+		this.Email = eMail;
 	}
 
 	public String getPassword() {
@@ -123,7 +124,7 @@ public class Contact implements Serializable{
 	}
 
 	public void printInfo(){
-		System.out.println("Contact Info: " + UserID +" - "+ eMail+ " - "+ Nickname +" - "+ GlobalIP);
+		System.out.println("Contact Info: " + UserID +" - "+ Email+ " - "+ Nickname +" - "+ GlobalIP);
 	}
 	public ChatStatusList getStatus() {		
 		return Status;	
@@ -166,7 +167,7 @@ public class Contact implements Serializable{
 		Status		=	contact.getStatus();
 		Nickname	=	contact.getNickname();
 		AvatarURL	=	contact.getAvatarURL();
-		eMail		=	contact.geteMail();
+		Email		=	contact.getEmail();
 	}
 	
 	public boolean isConnected(){

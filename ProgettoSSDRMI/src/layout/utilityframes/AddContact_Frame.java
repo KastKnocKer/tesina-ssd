@@ -213,7 +213,8 @@ public class AddContact_Frame extends JFrame {
 		// TODO: spostare il codice dove deve stare
 		Contact myContact = Status.getMyInfoIntoContact(); 
 		
-		FriendshipManager.showFriendshipRequestFrom(myContact); 
+		if(answer.isSUCCESS())
+			FriendshipManager.showFriendshipRequestFrom(myContact); 
 		
 		
         /* Chiudo il frame */

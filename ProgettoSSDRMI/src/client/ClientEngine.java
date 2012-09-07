@@ -38,7 +38,7 @@ public class ClientEngine {
 			if(response.isSUCCESS()){
 				//Aggiorno i dati personali
 				Status.setUserID(response.getLoggedContact().getID());
-				Status.setEmail(response.getLoggedContact().geteMail());
+				Status.setEmail(response.getLoggedContact().getEmail());
 				Status.setNome(response.getLoggedContact().getNome());
 				Status.setCognome(response.getLoggedContact().getCognome());
 				Status.setNickname(response.getLoggedContact().getNickname());

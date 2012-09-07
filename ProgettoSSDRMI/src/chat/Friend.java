@@ -19,6 +19,8 @@ public class Friend {
 	private int userId; 
 	/** Indirizzo email dell'utente */
 	private String email; 
+	/** URL dell'avatar dell'utente */
+	private String avatarURL; 
 	
 	public String getNickname() {
 		return nickname;
@@ -44,6 +46,12 @@ public class Friend {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getAvatarURL() {
+		return avatarURL;
+	}
+	public void setAvatarURL(String avatarURL) {
+		this.avatarURL = avatarURL;
 	} 
 
 }

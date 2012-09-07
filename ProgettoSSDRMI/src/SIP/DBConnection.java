@@ -221,15 +221,15 @@ public boolean insertContact(Contact contact) {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
 		prepSt.setString(1, contact.getNome());
 		prepSt.setString(2, contact.getCognome());
-		prepSt.setString(3, contact.geteMail());
+		prepSt.setString(3, contact.getEmail());
 		prepSt.setString(4, contact.getNickname());
 		prepSt.setString(5, contact.getPassword());
 		prepSt.execute();
-		System.out.println("SIP - Nuovo contatto "+contact.geteMail()+" inserito.");
+		System.out.println("SIP - Nuovo contatto "+contact.getEmail()+" inserito.");
 		return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
-		System.out.println("SIP - Nuovo contatto "+contact.geteMail()+" NON inserito.");
+		System.out.println("SIP - Nuovo contatto "+contact.getEmail()+" NON inserito.");
 	}
 	
 	return completed;
@@ -244,7 +244,7 @@ public boolean modifyContact(Contact contact) {
 		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
 		prepSt.setString(1, contact.getNome());
 		prepSt.setString(2, contact.getCognome());
-		prepSt.setString(3, contact.geteMail());
+		prepSt.setString(3, contact.getEmail());
 		prepSt.setString(4, contact.getNickname());
 		prepSt.setString(5, contact.getPassword());
 		prepSt.execute();

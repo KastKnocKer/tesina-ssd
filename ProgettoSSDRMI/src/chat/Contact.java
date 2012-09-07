@@ -11,16 +11,6 @@ public class Contact implements Serializable{
 	private String Email = NONE;
 	private String Password = NONE;
 	private String AvatarURL = NONE;
-	
-
-	public String getAvatarURL() {
-		return AvatarURL;
-	}
-
-	public void setAvatarURL(String avatarURL) {
-		avatarURL = avatarURL;
-	}
-
 	private ChatStatusList Status = ChatStatusList.OFFLINE;
 	private int Client_Port = 1102;
 	private String GlobalIP = NONE;
@@ -140,6 +130,15 @@ public class Contact implements Serializable{
 		else if(	status.equals(ChatStatusList.AWAY.toString())	)		this.Status = ChatStatusList.AWAY;
 		else if(	status.equals(ChatStatusList.OFFLINE.toString())	)	this.Status = ChatStatusList.OFFLINE;
 	}
+	
+
+	public String getAvatarURL() {
+		return AvatarURL;
+	}
+
+	public void setAvatarURL(String avatarURL) {
+		avatarURL = avatarURL;
+	}
 
 	public int getClient_Port() {
 		return Client_Port;
@@ -175,5 +174,7 @@ public class Contact implements Serializable{
 		if(Status == ChatStatusList.OFFLINE) return false;
 		return true;
 	}
+	
+	
 	
 }

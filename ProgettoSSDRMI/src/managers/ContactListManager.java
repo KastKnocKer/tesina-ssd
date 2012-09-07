@@ -103,6 +103,9 @@ public class ContactListManager {
 	
 	/**
 	 * Ricerco un contatto in base all'indirizzo email
+	 * 
+	 * @param email del contatto
+	 * @return il contatto, se viene trovato; null, altrimenti
 	 */
 	
 		public static Contact searchContactByEmail(String email) {
@@ -116,7 +119,7 @@ public class ContactListManager {
 		
 		/* Ricerco il contatto all'interno della lista */
 		for(Contact contact : contactList) {
-			if(contact.getEmail() == email)
+			if(contact.getEmail().equals(email))
 				return contact; 
 		}
 			

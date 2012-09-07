@@ -2,7 +2,7 @@ package chat;
 
 import java.io.Serializable;
 
-public class Message implements Serializable{
+public class Message implements Serializable {
 	
 	private int From = -1;
 	private int To = -1;

@@ -38,6 +38,7 @@ public interface ClientInterface extends Remote{
 	
 	/**
 	 * Invio richiesta di amicizia direttamente ad un altro client.
+	 * @param contattoRichiedente contatto di chi ha chiesto l'amicizia
 	 */
 	RMIBasicResponseMessage sendFriendshipRequestToContact(Contact contattoRichiedente) throws RemoteException;
 	
@@ -71,6 +72,4 @@ public interface ClientInterface extends Remote{
 	 */
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException;
 
-	RMIBasicResponseMessage sendFriendshipRequest(Contact contattoRichiedente)
-			throws RemoteException;
 }

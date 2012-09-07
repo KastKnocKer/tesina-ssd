@@ -43,6 +43,7 @@ public class Client implements ClientInterface{
 	public ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException {
 		Contact senderContact = rhay.getSenderContact();
 		int senderID = senderContact.getID();
+		
 		for(Contact contact :  ContactListManager.getContactList() ){
 			if(contact.getID() == senderID){
 				//Aggiorno le informazioni ricevute

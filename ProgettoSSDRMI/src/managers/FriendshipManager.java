@@ -1,10 +1,11 @@
 package managers;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import layout.managers.LayoutReferences;
+import RMI.ClientInterface;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.ClientEngine;
@@ -48,25 +49,26 @@ public class FriendshipManager {
 			/* **********************************************
 			 * 2. send friendship request (try client, then eventually SIP)
 			 * **********************************************/
-			Contact myContact = new Contact(); 
-			myContact.setID(Status.getUserID()); 
-			myContact.setNickname(Status.getNickname()); 
-			myContact.seteMail(Status.getEmail());
-			myContact.setGlobalIP(Status.getGlobalIP()); 
-			myContact.setLocalIP(Status.getLocalIP()); 
+			Contact myContact = Status.getMyInfoIntoContact(); 
 			
 			if( futureFriend.getID() < 0 ) 
 				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto " + email + " non valido"); 
 			
 			
 			// TODO scommenta
-//			ClientInterface clientInterface = ClientEngine.getClient(futureFriend.getID());
-//			
-//			if(clientInterface == null) {
-//				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto."); 
-//			} else {
-//				clientInterface.sendFriendshipRequest(myContact);
-//			}
+			ClientInterface clientInterface = null;
+			
+			try {
+				clientInterface = ClientEngine.getClient(futureFriend.getID());
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			if(clientInterface == null) {
+				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
+			} else {
+				clientInterface.sendFriendshipRequestToContact(myContact);
+			}
 			// TODO da qui in poi lascia commento
 			
 //			System.err.println("Mostro finestra di richiesta amicizia");
@@ -122,7 +124,7 @@ public class FriendshipManager {
 		
 		if(result == JOptionPane.YES_OPTION) {
 			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
-			FriendshipManager.acceptFriendshipRequest(); 
+			FriendshipManager.acceptFriendshipRequest(contattoRichiedente); 
 		}
 		else if(result == JOptionPane.NO_OPTION)  {
 			if(Status.DEBUG)
@@ -154,10 +156,31 @@ public class FriendshipManager {
 	 * 
 	 * @param myContact
 	 */
-	public static void acceptFriendshipRequest() {
+	public static void acceptFriendshipRequest(Contact contattoRichiedente) {
+		
+		/* Invio ack dell'amicizia al contatto, 
+		 * per fargli sapere che può aggiungermi. */
 		Contact myContact = Status.getMyInfoIntoContact(); 
-//		ClientEngine.getClient(contattoRichiedente.getID()).sendFriendshipAck(myContact); 
-		// TODO: Aggiungi l'amico nella FriendsListGlobale
+		
+		// TODO: cosa succede se mentre rispondo al contatto, questi finisce offline? FORCE_ADD_FRIEND al SIP?
+		try {
+			ClientEngine.getClient(contattoRichiedente.getID()).sendFriendshipAckToContact(myContact);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} 
+		
+		// TODO: invio ack dell'amicizia al SIP 
+		
+		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
+		 * della tabella con la lista amici. */
+		ContactListManager.addToContactList(contattoRichiedente); 
+		LayoutReferences.getFriendsListTable().updateTable(); 
+		
+		// TODO: Problema: se il SIP è down, e torna up in un secondo momento, 
+		// io invio mia friend request, ma il contatto poi non risulta più fra i miei 
+		// amici fintanto che non accetta anche lui.
+		
+		// TODO: Se il SIP è offline, invio un FORCE_FRIEND_REQUEST
 	}
 	
 	

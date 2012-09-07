@@ -424,7 +424,11 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         		// TODO
         		contact.setGlobalIP(result.getString("publicIP"));
         		contact.setLocalIP(result.getString("localIP"));
-        		contact.setStatus(result.getString("status"));
+
+        		/* Scelto di mettere comunque il contatto Offline, di default: 
+        		 * sarà l'utente che ogni volta controllerà se è online. */
+        		contact.setStatus(ChatStatusList.OFFLINE);
+//        		contact.setStatus(result.getString("status"));
   
         	}
         

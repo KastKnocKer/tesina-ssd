@@ -57,6 +57,7 @@ public class ClientThreadTester extends Thread{
 			System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 		}
 		decrementCounter();
+		LayoutReferences.getFriendsListTable().updateTable(); 
 	}
 	
 	private void decrementCounter(){
@@ -66,7 +67,7 @@ public class ClientThreadTester extends Thread{
 			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
 			ContactListManager.writeContactsXML();
-			LayoutReferences.getFriendsListTable().updateTable(); 
+//			LayoutReferences.getFriendsListTable().updateTable(); 
 		}
 	}
 

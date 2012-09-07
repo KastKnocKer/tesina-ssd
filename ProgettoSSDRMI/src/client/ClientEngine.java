@@ -257,15 +257,18 @@ public class ClientEngine {
 				if(Status.DEBUG) System.out.println("Client - Tentativo getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
 				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
 			}
-				
-			
+		
 			client = (ClientInterface) registry.lookup("Client");
+			if(client == null){
+				System.out.println("ClientEngine.getClient() == NULL");
+				return null;
+			}
 		} catch (java.rmi.ConnectException e) {
 			//Quando sull'host non risponde l'rmiregistry
 			//Ritengo quindi che l'utente sia andato offline
 			contact.setStatus(ChatStatusList.OFFLINE);
 			System.err.println("Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE!");
-			
+			LayoutReferences.getFriendsListTable().updateTable();
 			
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());

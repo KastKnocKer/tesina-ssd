@@ -99,7 +99,7 @@ public class ConversationWindowsManager {
 			
 			/* rendo visibile la finestra di conversazione che era stata solamente nascosta */
 			default: 
-				System.out.println("Conversazione con " + contact.getNickname() + " ( " + contact.geteMail() + " ) era già stata aperta");
+				System.out.println("Conversazione con " + contact.getNickname() + " ( " + contact.getEmail() + " ) era già stata aperta");
 //				arrayList_conversationFrames.get(result).setLocationRelativeTo(null); 
 				arrayList_conversationFrames.get(result).setVisible(true); 
 				break; 

@@ -82,7 +82,7 @@ public class Client implements ClientInterface{
 			e.printStackTrace(); 
 		}
 		
-		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente.geteMail() + ".");
+		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente.getEmail() + ".");
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 
@@ -150,5 +150,12 @@ public class Client implements ClientInterface{
 //		
 //		//Se non trovo nessun contatto ritorno null
 //		return null;
+	}
+
+	@Override
+	public RMIBasicResponseMessage sendFriendshipRequestToContact(
+			Contact contattoRichiedente) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

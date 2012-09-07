@@ -74,7 +74,7 @@ public class Conversation_Frame extends JFrame {
 		
 		/* Modifico impostazioni del frame */
 		setSize(400,500); 
-		setTitle("Conversazione con " + contact.getNickname() + " ( " + contact.geteMail() + " ) "); 
+		setTitle("Conversazione con " + contact.getNickname() + " ( " + contact.getEmail() + " ) "); 
 //		setLocationRelativeTo(null);
 
 		this.setContact(contact); 

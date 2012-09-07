@@ -11,7 +11,8 @@ import client.ClientEngine;
 
 /**
  * Classe static per la gestione delle richieste d'amicizia. 
- * Il protocollo sarà descritto maggiormente nel dettaglio su un documento a parte. 
+ * Il protocollo sarà descritto maggiormente nel dettaglio 
+ * su un documento a parte. 
  * 
  * @author Fabio Pierazzi
  *
@@ -110,22 +111,22 @@ public class FriendshipManager {
 	 */
 	public static void showFriendshipRequestFrom(Contact contattoRichiedente) {
 		
-		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.geteMail() + " " +
+		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.getEmail() + " " +
 				"(IP: " + contattoRichiedente.getGlobalIP() + ")");
 		
 		int result = JOptionPane.showConfirmDialog(null, "Hai ricevuto una richiesta di amicizia da: \n" +
-				"" + contattoRichiedente.geteMail() + "\n\n" +
+				"" + contattoRichiedente.getEmail() + "\n\n" +
 						"Desideri accettare?", 
 						"Aggiungi Contatto",
                 JOptionPane.YES_NO_OPTION);
 		
 		if(result == JOptionPane.YES_OPTION) {
-			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.geteMail() + "");
+			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
 			FriendshipManager.acceptFriendshipRequest(); 
 		}
 		else if(result == JOptionPane.NO_OPTION)  {
 			if(Status.DEBUG)
-				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.geteMail() + "");
+				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
 			// TODO: Avvisa il SIP
 			// ClientEngine.getSIP().remove/refuseFriendship() (Do not notify the other client)
 		}

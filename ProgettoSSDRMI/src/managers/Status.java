@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 
 import chat.ChatStatusList;
 import chat.Contact;
-import client.ClientEngine;
 
 
 /**
@@ -68,23 +67,6 @@ public class Status {
 	public Status(){}
 	
 
-	/** 
-	 * Mediante questo metodo, il sistema carica da file di configurazione
-	 * la lista amici (senza filtri), ed essa viene mostrata all'interno
-	 * della tabella lista amici dell'interfaccia grafica.
-	 * 
-	 * @author Fabio Pierazzi
-	 */
-	// TODO da perfezionare
-	public static void loadFriendsList() {
-		
-		// TODO Controllare che esista il file CONTACTS.xml
-		// TODO Se esiste, caricare i contatti dal file altrimenti richiedere al sip
-		
-		ClientEngine.LoadContactsFromSIP();
-	}
-	
-	
 	public boolean readConfXML(){
 		try {
 			File fXmlFile = new File("CONF.xml");

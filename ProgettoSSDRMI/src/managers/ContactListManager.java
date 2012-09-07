@@ -30,7 +30,7 @@ import chat.FriendsList;
  */
 public class ContactListManager {
 
-	static ArrayList<Contact> contactList = null;
+	static ArrayList<Contact> contactList = new ArrayList<Contact>();
 	
 	/**
 	 * Metodo per impostare una nuova contactList. 

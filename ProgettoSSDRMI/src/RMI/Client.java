@@ -83,7 +83,7 @@ public class Client implements ClientInterface{
 		try {
 			System.out.println("sendFriendshipRequest: sto per mostrare le finestra al contatto ricevente.");
 			contattoRichiedente.printInfo(); 
-			FriendshipManager.showFriendshipRequestFrom(contattoRichiedente);
+			FriendshipManager.showFriendshipRequestFromContact(contattoRichiedente);
 		} catch (Exception e) {
 			System.err.println("Si è verificata un'eccezione eseguendo: FriendshipManager.showFriendshipRequestFrom(contattoRichiedente); ");
 			e.printStackTrace(); 

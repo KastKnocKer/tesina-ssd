@@ -1,4 +1,4 @@
-package client;
+package client.thread;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import chat.Message;
  * 
  * @author Fabio Pierazzi
  */
-public class ClientThreadSipRequestor extends Thread {
+public class ClientThread_SipRequestor extends Thread {
 	
 	private ArrayList<Message> requestToDeliver; 
 

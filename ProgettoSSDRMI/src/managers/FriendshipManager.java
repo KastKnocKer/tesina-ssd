@@ -67,7 +67,6 @@ public class FriendshipManager {
 					clientInterface = ClientEngine.getClient(futureFriend.getLocalIP());
 				}
 				else {
-					
 
 					if(Status.DEBUG)
 						System.err.println("Chiedo amicizia a " + futureFriend.getGlobalIP() + " fuori dalla mia Lan");

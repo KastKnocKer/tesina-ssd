@@ -15,11 +15,28 @@ public class RequestLoginMessage extends RMIBasicMessage{
 		Stato = stato;
 	}
 
-	public String getUsername() {					return Username;	}
-	public void setUsername(String username) {		Username = username;	}
-	public String getPassword() {					return Password;	}
-	public void setPassword(String password) {		Password = password;	}
-	public ChatStatusList getStato() {					return Stato;	}
-	public void setStato(ChatStatusList stato) {		Stato = stato;	}
+	public String getUsername() {					
+		return Username;	
+	}
+	
+	public void setUsername(String username) {		
+		Username = username;	
+	}
+	
+	public String getPassword() {					
+		return Password;	
+	}
+	
+	public void setPassword(String password) {		
+		Password = password;	
+	}
+	
+	public ChatStatusList getStato() {					
+		return Stato;	
+	}
+	
+	public void setStato(ChatStatusList stato) {		
+		Stato = stato;	
+	}
 
 }

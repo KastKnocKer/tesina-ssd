@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import client.thread.ClientThread_MessageSender;
+import client.thread.ClientThread_WhoisRequestor;
+
 import RMI.ClientInterface;
 import RMI.SIPInterface;
 import RMIMessages.RMIBasicMessage;
@@ -26,8 +29,8 @@ import managers.Status;
 
 public class ClientEngine {
 	
-	private static ArrayList<Message> OUTList = new ArrayList<Message>();
-	private static ArrayList<Message> INList = new ArrayList<Message>();
+	private static ArrayList<Message> OUT_ChatMessageList = new ArrayList<Message>();
+	private static ArrayList<Message> IN_ChatMessageList = new ArrayList<Message>();
 	
 	public static ResponseLoginMessage Login(String username, String password) {
 		ResponseLoginMessage response = null;
@@ -126,15 +129,15 @@ public class ClientEngine {
 	 */
 	public static synchronized boolean sendMessageToContact(Message chatMsg){
 		System.out.println("Client - Inserimento in OUTList del messaggio da:" +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
-		OUTList.add(chatMsg);
+		OUT_ChatMessageList.add(chatMsg);
 		return true;
 	}
 	/**
 	 * Riceve un messaggio da un contatto
 	 */
 	public static synchronized boolean receiveMessageFromContact(Message chatMsg){
-		INList.add(chatMsg);
-		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+INList.size());
+		IN_ChatMessageList.add(chatMsg);
+		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+IN_ChatMessageList.size());
 		
 		/* Mostro la finestra se arriva il messaggio */
 		Contact contact = ContactListManager.searchContactById(chatMsg.getFrom()); 
@@ -151,16 +154,16 @@ public class ClientEngine {
 	 */
 	public static synchronized boolean deliverAllMessages(){
 		//Se la coda è vuota ritorno subito
-		if(OUTList.size() == 0) return true;
+		if(OUT_ChatMessageList.size() == 0) return true;
 		//Altrimenti
 		int temporaryClientTarget = -1;	//Inizializzo così entra nel ciclo while almeno una volta
 		System.out.println("*************************************************************");
 		ArrayList<Message> MessagesToDeliver = null;
-		while( (temporaryClientTarget < 0) || (OUTList.size()>5) ){
+		while( (temporaryClientTarget < 0) || (OUT_ChatMessageList.size()>5) ){
 			temporaryClientTarget = -1;
 			MessagesToDeliver = new ArrayList<Message>();
-			for(int i=0; i<OUTList.size(); i++){
-				Message msg = OUTList.get(i);
+			for(int i=0; i<OUT_ChatMessageList.size(); i++){
+				Message msg = OUT_ChatMessageList.get(i);
 				if(temporaryClientTarget<0){
 					temporaryClientTarget = msg.getTo();
 					System.out.println("Servo i messaggi verso l'utente: "+temporaryClientTarget);
@@ -168,7 +171,7 @@ public class ClientEngine {
 				if(msg.getTo() == temporaryClientTarget){
 					System.out.println("In consegna: " +msg.getMessage());
 					MessagesToDeliver.add(msg);
-					OUTList.remove(msg);
+					OUT_ChatMessageList.remove(msg);
 					i--;
 				}
 					
@@ -177,10 +180,10 @@ public class ClientEngine {
 			
 			
 			
-			ClientThreadSender cts = new ClientThreadSender(MessagesToDeliver);
+			ClientThread_MessageSender cts = new ClientThread_MessageSender(MessagesToDeliver);
 			cts.start();
 			
-			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUTList.size());
+			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUT_ChatMessageList.size());
 		}
 		
 		
@@ -314,11 +317,11 @@ public class ClientEngine {
 	/**
 	 * Permette di ottenere l'IP di un contatto data l'email richiedendolo alla rete P2P
 	 */
-	public static void whoIs(String email){
+	public static void whois(String email){
 		Contact contactToSearch = ContactListManager.searchContactByEmail(email);
 		if(contactToSearch == null || contactToSearch.getStatus()==ChatStatusList.OFFLINE){
 			int randomNum = randomNum = 1+(int)(Math.random()*9999);
-			new ClientThreadWhoIsRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
+			new ClientThread_WhoisRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
 		}else{
 			//Contatto trovato e online
 			System.out.println("Client - ClientEngine.whoIs() : Contatto trovato e ONLINE.");
@@ -326,9 +329,22 @@ public class ClientEngine {
 		
 	}
 	
+	/**
+	 * Restituisce la lista dei messaggi di 
+	 * Chat in uscita. 
+	 * @return elenco messaggi chat in uscita
+	 */
+	public static ArrayList<Message> getOUTList() {	
+		return OUT_ChatMessageList;	
+	}
 	
-
-	public static ArrayList<Message> getOUTList() {		return OUTList;	}
-	public static ArrayList<Message> getINList() {		return INList;	}
+	/**
+	 * Restituisce la lista dei messaggi di 
+	 * Chat in ingresso. 
+	 * @return elenco messaggi chat in ingresso
+	 */
+	public static ArrayList<Message> getINList() {		
+		return IN_ChatMessageList;	
+	}
 
 }

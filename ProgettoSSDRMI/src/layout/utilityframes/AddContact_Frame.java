@@ -16,7 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import layout.homeframe.Home_Frame;
 import managers.ContactListManager;
 import managers.FriendshipManager;
 import managers.Status;
@@ -122,7 +124,12 @@ public class AddContact_Frame extends JFrame {
 		         public void keyTyped(KeyEvent e) {
 		           char key = e.getKeyChar(); 
 		           if (key == KeyEvent.VK_ENTER) {
-		        	   		addContact(textField_email.getText()); 
+		        	   
+			        	   SwingUtilities.invokeLater(new Runnable() {
+					            public void run() {
+					            	addContact(textField_email.getText());
+					            }
+			            	});
 		              }
 		           }
 		         }
@@ -163,7 +170,13 @@ public class AddContact_Frame extends JFrame {
 			
 			addFriendButton.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent event) {
-	            	addContact(textField_email.getText());
+	            	
+	            	SwingUtilities.invokeLater(new Runnable() {
+			            public void run() {
+			            	addContact(textField_email.getText());
+			            }
+	            	});
+	            	
 	            }
 			});
 			
@@ -218,9 +231,13 @@ public class AddContact_Frame extends JFrame {
 				return; 
 			}
 			
+			
+			/* Elimino il frame di aggiunta contatto, non ne ho più bisogno */
+			dispose(); 
+	    	
 			/* Invio richiesta di amicizia */
 			RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(email); 
-	    	
+			
 			if(answer.isSUCCESS() == true) {
 				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 			} else {

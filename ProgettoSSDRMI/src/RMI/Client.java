@@ -14,7 +14,7 @@ import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
 import client.ClientEngine;
-import client.ClientThreadWhoIsRequestor;
+import client.thread.ClientThread_WhoisRequestor;
 
 
 public class Client implements ClientInterface{
@@ -58,9 +58,14 @@ public class Client implements ClientInterface{
 	}
 	
 	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException {
-		for(Message msg : chatMsgs)ClientEngine.receiveMessageFromContact(msg);
+		
+		for(Message msg : chatMsgs)
+			ClientEngine.receiveMessageFromContact(msg);
+		
 		if(chatMsgs != null || chatMsgs.length>0){
+			
 			int senderID = chatMsgs[0].getFrom();
+			
 			for(Contact contact :  ContactListManager.getContactList() ){
 				if(contact.getID() == senderID){
 					contact.setGlobalIP(senderGlobalIP);
@@ -113,7 +118,7 @@ public class Client implements ClientInterface{
 
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException {
 		System.out.println("Ho ricevuto WHOIS() da: "+requestorUserID+ "  -  "+requestorGlobalIP);
-		new ClientThreadWhoIsRequestor(requestorUserID, requestorGlobalIP, requestorNum, TTL, emailToSearch);
+		new ClientThread_WhoisRequestor(requestorUserID, requestorGlobalIP, requestorNum, TTL, emailToSearch);
 //		Contact whoisContact;
 //		//Controllo di conoscere il contatto
 //		ArrayList<Contact> contactList = ContactListManager.getContactList();

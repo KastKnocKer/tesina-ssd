@@ -186,7 +186,7 @@ public class Home_Frame extends JFrame {
 		eMenuItem_whoisp2p.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				System.out.println("TestWHOIS biofrost88@gmail.com");
-				ClientEngine.whoIs("biofrost88@gmail.com");
+				ClientEngine.whois("biofrost88@gmail.com");
 			}
 		});
 		

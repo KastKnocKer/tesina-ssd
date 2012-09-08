@@ -1,7 +1,9 @@
-package client;
+package client.thread;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import client.ClientEngine;
 
 import managers.Status;
 
@@ -9,11 +11,11 @@ import RMI.ClientInterface;
 
 import chat.Message;
 
-public class ClientThreadSender extends Thread{
+public class ClientThread_MessageSender extends Thread{
 
 	private ArrayList<Message> MessagesToDeliver;
 	
-	public ClientThreadSender(ArrayList<Message> MessagesToDeliver){
+	public ClientThread_MessageSender(ArrayList<Message> MessagesToDeliver){
 		this.MessagesToDeliver = MessagesToDeliver;
 	}
 	

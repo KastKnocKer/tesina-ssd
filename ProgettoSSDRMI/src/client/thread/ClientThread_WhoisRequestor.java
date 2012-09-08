@@ -1,7 +1,9 @@
-package client;
+package client.thread;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import client.ClientEngine;
 
 import managers.ContactListManager;
 import managers.Status;
@@ -16,7 +18,7 @@ import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
 
-public class ClientThreadWhoIsRequestor extends Thread{
+public class ClientThread_WhoisRequestor extends Thread{
 	private static int numClientThreadTester = 0;
 	private Contact contactToTest;
 	private Contact myContact;
@@ -29,7 +31,7 @@ public class ClientThreadWhoIsRequestor extends Thread{
 	private int TTL;
 	private String emailToSearch;
 	
-	public ClientThreadWhoIsRequestor(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) {
+	public ClientThread_WhoisRequestor(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) {
 		this.requestorUserID = requestorUserID;
 		this.requestorGlobalIP = requestorGlobalIP;
 		this.requestorNum = requestorNum;

@@ -75,4 +75,16 @@ public interface SIPInterface extends Remote{
 	 */
 	ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException;
 	
+	/**
+	 * Funzione usata per rimuovere l'amicizia fra due contatti. L'amicizia
+	 * può essere rimossa arbitrariamente anche solo da uno dei due. 
+	 * 
+	 * @param idUser1 id del primo contatto che fa parte dell'amicizia da rimuovere
+	 * @param idUser2 id del secondo contatto che fa parte dell'amicizia da rimuovere
+	 * @return un messaggio di risposta, che comunica successo/fallimento della funzione
+	 * @throws RemoteException
+	 * @author Fabio Pierazzi 
+	 */
+	public RMISIPBasicResponseMessage removeFriendship(int idUser1, int idUser2) throws RemoteException;
+	
 }

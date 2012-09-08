@@ -59,7 +59,22 @@ public class FriendshipManager {
 			ClientInterface clientInterface = null;
 			
 			try {
-				clientInterface = ClientEngine.getClient(futureFriend.getID());
+				if(Status.getGlobalIP() == futureFriend.getGlobalIP()) {
+
+					if(Status.DEBUG)
+						System.err.println("Chiedo amicizia a " + futureFriend.getLocalIP() + " nella mia Lan");
+					
+					clientInterface = ClientEngine.getClient(futureFriend.getLocalIP());
+				}
+				else {
+					
+
+					if(Status.DEBUG)
+						System.err.println("Chiedo amicizia a " + futureFriend.getGlobalIP() + " fuori dalla mia Lan");
+					
+					clientInterface = ClientEngine.getClient(futureFriend.getGlobalIP()); 
+				}
+					
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

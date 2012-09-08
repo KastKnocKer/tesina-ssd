@@ -496,13 +496,14 @@ public Contact getContactByEmail(String email) {
         /* Creo il vettore risultato scorrendo tutto il ResultSet */
         while(result.next()) {   
         	contact = new Contact();
-        	contact.setID(			Integer.parseInt(result.getString(1)));
-        	contact.setNome(		result.getString(2));
-        	contact.setCognome(		result.getString(3));
-        	contact.seteMail(		result.getString(4));
-        	contact.setNickname(	result.getString(5));
-        	contact.setGlobalIP(	result.getString(8)); 
-        	contact.setLocalIP(		result.getString(9)); 
+        	
+             contact.setID(   Integer.parseInt(result.getString("idUser")));
+             contact.setNome(  result.getString("nome"));
+             contact.setCognome(  result.getString("cognome"));
+             contact.seteMail(  result.getString("email"));
+             contact.setNickname( result.getString("nickname"));
+             contact.setGlobalIP( result.getString("publicIP")); 
+             contact.setLocalIP(  result.getString("localIP")); 
         	
         	contact.printInfo(); 
         }

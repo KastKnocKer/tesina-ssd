@@ -59,7 +59,7 @@ public class ClientThread extends Thread{
 	private void checkContactList(){
 		ArrayList<Contact> contactList = ContactListManager.getContactList();
 		for(Contact contact : contactList){
-			new ClientThread_ContactStatusTester(contact).start();
+			new ClientThread_FriendsStatusTester(contact).start();
 		}
 	}
 

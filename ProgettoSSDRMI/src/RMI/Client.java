@@ -78,7 +78,7 @@ public class Client implements ClientInterface{
 	}
 
 	@Override
-	public RMIBasicResponseMessage sendFriendshipRequestToContact(
+	public RMIBasicResponseMessage receiveFriendshipRequestFromContact(
 			Contact contattoRichiedente) throws RemoteException {
 		try {
 			System.out.println("sendFriendshipRequest: sto per mostrare le finestra al contatto ricevente.");
@@ -102,7 +102,7 @@ public class Client implements ClientInterface{
 	}
 
 	@Override
-	public RMIBasicResponseMessage sendFriendshipAckToContact(
+	public RMIBasicResponseMessage receiveFriendshipAckFromContact(
 			Contact contattoRicevente) throws RemoteException {
 
 		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 

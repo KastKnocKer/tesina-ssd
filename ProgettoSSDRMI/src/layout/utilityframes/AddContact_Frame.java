@@ -238,14 +238,7 @@ public class AddContact_Frame extends JFrame {
 			/* Elimino il frame di aggiunta contatto, non ne ho più bisogno */
 			dispose(); 
 			
-			Contact contatto = new Contact(); 
-			contatto.setEmail(email); 
 			
-			ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
-					ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT, 
-					contatto); 
-			
-			thread.start(); 
 	    	
 			JOptionPane.showMessageDialog(null, "Richiesta di amicizia inviata al contatto: \n" + email + ".", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 			

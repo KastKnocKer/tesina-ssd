@@ -22,8 +22,15 @@ import client.ClientEngine;
  */
 public class ClientThread_FriendshipManager extends Thread {
 
+	/** Parametro in base al quale viene specificato il tipo di richiesta che dev'essere
+	 * eseguita dal Thread */
 	ClientThread_FriendshipManager_RequestTypes requestType = null;  
-	Contact contatto = null; 
+	/** Informazioni sul contatto che ha inviato in primo luogo la richiesta d'amicizia. 
+	 * ATTENZIONE: potrebbe non contenere informazioni complete sul contatto. */
+	Contact contattoMittente = null; 
+	/** Informazioni sul contatto destinatario della richiesta di amicizia 
+	 * ATTENZIONE: potrebbe non contenere informazioni complete sul contatto. */
+	Contact contattoDestinatario = null; 
 	
 	/**
 	 * Costruttore 
@@ -32,9 +39,11 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	public ClientThread_FriendshipManager(
 			ClientThread_FriendshipManager_RequestTypes requestType,
-			Contact contatto) {
+			Contact contattoMittente, 
+			Contact contattoDestinatario) {
 		this.requestType = requestType; 
-		this.contatto = contatto; 
+		this.contattoMittente = contattoMittente;
+		this.contattoDestinatario = contattoDestinatario; 
 	}
 	
 	/**
@@ -42,19 +51,34 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	public void run() {
 		
+		/* A seconda del parametro, specializzo */
+		
+		/*****************************
+		 * SEND FRIENDSHIP REQUEST
+		 *****************************/
 		if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT) {
 			
-			RMISIPBasicResponseMessage answer = sendFriendshipRequestToContact(contatto.getEmail());
-			
-			if(answer.isSUCCESS()) {
+				String email = contattoMittente.getEmail();
+				RMISIPBasicResponseMessage answer = sendFriendshipRequestToContact(email);
 				
-			} else {
-				
-			}
+				if(answer.isSUCCESS()) {
+					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.ERROR_MESSAGE);
+				}
 		
+		/*****************************
+		 * ACCEPT FRIENDSHIP REQUEST
+		 *****************************/
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST) {
-			acceptFriendshipRequest(contatto); 
 			
+				acceptFriendshipRequest(contattoMittente); 
+		
+		/*****************************
+		 * SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT
+		 *****************************/
+		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) {
+			showFriendshipRequestFromContact(contattoMittente); 
 		}
 		
 	}
@@ -120,7 +144,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			if(clientInterface == null) {
 				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
 			} else {
-				clientInterface.sendFriendshipRequestToContact(myContact);
+				clientInterface.receiveFriendshipRequestFromContact(myContact);
 			}
 			// TODO da qui in poi lascia commento
 			
@@ -220,10 +244,10 @@ public class ClientThread_FriendshipManager extends Thread {
 			
 			/* se sono in lan */
 			if(contattoRichiedente.getGlobalIP().equals(Status.getGlobalIP()))
-				ClientEngine.getClient(contattoRichiedente.getLocalIP()).sendFriendshipAckToContact(myContact);
+				ClientEngine.getClient(contattoRichiedente.getLocalIP()).receiveFriendshipAckFromContact(myContact);
 			/* se non sono in lan */
 			else
-				ClientEngine.getClient(contattoRichiedente.getGlobalIP()).sendFriendshipAckToContact(myContact);
+				ClientEngine.getClient(contattoRichiedente.getGlobalIP()).receiveFriendshipAckFromContact(myContact);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();

@@ -308,7 +308,7 @@ public class Status {
 		contact.setStatus(			Status.getStato());
 		contact.setNickname(		Status.getNickname());
 		contact.setAvatarURL(		Status.getAvatarURL());
-		contact.seteMail(			Status.getEmail());
+		contact.setEmail(			Status.getEmail());
 		contact.setID(				Status.getUserID());
 		contact.setClient_Port(		Status.getClient_Port());
 		return contact;

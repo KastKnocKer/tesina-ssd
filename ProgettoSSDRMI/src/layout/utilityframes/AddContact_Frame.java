@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import client.thread.ClientThread_FriendshipManager;
+import client.thread.ClientThread_FriendshipManager_RequestTypes;
+
 import layout.homeframe.Home_Frame;
 import managers.ContactListManager;
 import managers.FriendshipManager;
@@ -234,15 +237,32 @@ public class AddContact_Frame extends JFrame {
 			
 			/* Elimino il frame di aggiunta contatto, non ne ho più bisogno */
 			dispose(); 
-	    	
-			/* Invio richiesta di amicizia */
-			RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(email); 
 			
-			if(answer.isSUCCESS() == true) {
-				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
-			}
+			Contact contatto = new Contact(); 
+			contatto.setEmail(email); 
+			
+			ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
+					ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT, 
+					contatto); 
+			
+			thread.start(); 
+	    	
+			JOptionPane.showMessageDialog(null, "Richiesta di amicizia inviata al contatto: \n" + email + ".", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+			
+			/* Invio richiesta di amicizia */
+//			RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(email); 
+//			
+//			if(answer.isSUCCESS() == true) {
+//				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+//			} else {
+//				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
+//			}
+			
+			
+			
+			
+			
+			
 			
 			// TODO: spostare il codice dove deve stare
 			Contact myContact = Status.getMyInfoIntoContact(); 

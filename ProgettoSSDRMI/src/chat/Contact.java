@@ -85,7 +85,7 @@ public class Contact implements Serializable{
 		return Email;
 	}
 
-	public void seteMail(String eMail) {
+	public void setEmail(String eMail) {
 		this.Email = eMail;
 	}
 

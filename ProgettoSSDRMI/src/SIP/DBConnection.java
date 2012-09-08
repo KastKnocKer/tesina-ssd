@@ -372,7 +372,7 @@ public ResponseLoginMessage login(RequestLoginMessage rlm) {
         	contact.setID(		Integer.parseInt(result.getString(1)));
         	contact.setNome(	result.getString(2));
         	contact.setCognome(	result.getString(3));
-        	contact.seteMail(	result.getString(4));
+        	contact.setEmail(	result.getString(4));
         	contact.setNickname(result.getString(5));  
         	//TODO aggiungere private e publick key
         	
@@ -422,7 +422,7 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
         	contact.setID(		Integer.parseInt(result.getString("idUser")));
         	contact.setNome(	result.getString("nome"));
         	contact.setCognome(	result.getString("cognome"));
-        	contact.seteMail(	result.getString("email"));
+        	contact.setEmail(	result.getString("email"));
         	contact.setNickname(result.getString("nickname"));
         	contact.setAvatarURL(result.getString("avatarurl"));
         	
@@ -500,7 +500,7 @@ public Contact getContactByEmail(String email) {
              contact.setID(   Integer.parseInt(result.getString("idUser")));
              contact.setNome(  result.getString("nome"));
              contact.setCognome(  result.getString("cognome"));
-             contact.seteMail(  result.getString("email"));
+             contact.setEmail(  result.getString("email"));
              contact.setNickname( result.getString("nickname"));
              contact.setGlobalIP( result.getString("publicIP")); 
              contact.setLocalIP(  result.getString("localIP")); 

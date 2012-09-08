@@ -19,7 +19,7 @@ import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
 
-public class ClientThread_ContactStatusTester extends Thread{
+public class ClientThread_FriendsStatusTester extends Thread{
 	private static int numClientThreadTester = 0;
 	private Contact contactToTest;
 	private Contact myContact;
@@ -27,7 +27,7 @@ public class ClientThread_ContactStatusTester extends Thread{
 	private int counterNumber;
 
 	
-	public ClientThread_ContactStatusTester(Contact contactToTest){
+	public ClientThread_FriendsStatusTester(Contact contactToTest){
 		this.contactToTest = contactToTest;
 	}
 	

@@ -74,7 +74,7 @@ public class FriendshipManager {
 	public static void showFriendshipRequestFromContact(Contact contattoMittente) {
 
 		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
-				ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT, 
+				ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT, 
 				contattoMittente, 
 				null); 
 		

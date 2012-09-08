@@ -29,6 +29,7 @@ import chat.Contact;
 
 public class Status {
 	private static boolean LOGGED = false;
+	public final static boolean DEBUGINLAN = false;
 	public final static boolean DEBUG = true;
 	public final static boolean SUPER_DEBUG = true; 
 	public final static int TYPE_SIP = 			0;
@@ -288,6 +289,10 @@ public class Status {
 
 	public static void setLastLoginPassword(String lastLoginPassword) {
 		LastLoginPassword = lastLoginPassword;
+	}
+	
+	public static boolean isDebuginlan() {
+		return DEBUGINLAN;
 	}
 
 

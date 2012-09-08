@@ -201,7 +201,7 @@ public class ClientThread_FriendshipManager extends Thread {
 		
 		if(result == JOptionPane.YES_OPTION) {
 			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
-			FriendshipManager.acceptFriendshipRequest(contattoRichiedente); 
+			acceptFriendshipRequest(contattoRichiedente); 
 		}
 		else if(result == JOptionPane.NO_OPTION)  {
 			if(Status.DEBUG)

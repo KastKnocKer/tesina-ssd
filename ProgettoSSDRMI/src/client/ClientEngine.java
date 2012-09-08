@@ -227,6 +227,7 @@ public class ClientEngine {
 	}
 	
 	/**
+	 * Permette di ottenere lo stub verso un oggetto client remoto di un contatto che si ha nella propria lista contatti (quindi amico)
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClient(int ContactUserID){
@@ -271,6 +272,39 @@ public class ClientEngine {
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		}
+		return client;
+	}
+	
+	/**
+	 * Permette di ottenere lo stub verso un qualsiasi oggetto client remoto di un contatto dato l'ip
+	 * @return Riferimento al Client
+	 */
+	public static ClientInterface getClient(String IP){
+		Registry registry;
+		ClientInterface client = null;
+		try {
+			if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient(IP) Client: "+IP);
+			registry = LocateRegistry.getRegistry(IP);
+			client = (ClientInterface) registry.lookup("Client");
+			if(client == null){
+				System.out.println("Client - ClientEngine.getClient(IP) registry.lookup(\"Client\") == NULL");
+				return null;
+			}
+			
+		} catch (java.rmi.ConnectException e) {
+			System.err.println("Client - ClientEngine.getClient(IP) Contatto OFFLINE! (ConnectException)");
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient(IP) RemoteException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		} catch (NotBoundException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient(IP) NotBoundException", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		}

@@ -356,10 +356,10 @@ public ResponseLoginMessage login(RequestLoginMessage rlm) {
 		
 		
         if(result.getInt("COUNT") == 0){
-        	System.out.println("SIP - Login["+rlm.getUsername()+"] rifiutato.");
+        	System.out.println("SIP - Login["+rlm.getUsername()+"] rifiutato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
         	return new ResponseLoginMessage(false, "Login rifiutato", null);
         }else{
-        	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato.");
+        	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
         	Contact contact = new Contact();
         	contact.setID(		Integer.parseInt(result.getString(1)));
         	contact.setNome(	result.getString(2));

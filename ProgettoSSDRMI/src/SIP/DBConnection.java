@@ -7,6 +7,8 @@ package SIP;
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
 import java.awt.Toolkit;
+import java.rmi.server.RemoteServer;
+import java.rmi.server.ServerNotActiveException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -342,6 +344,12 @@ public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg
 
 @Override
 public ResponseLoginMessage login(RequestLoginMessage rlm) {
+	try {
+		System.out.println("RemoteServer.getClientHost(): "+RemoteServer.getClientHost());
+	} catch (ServerNotActiveException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	if(!connesso){
 		connetti();
 	}

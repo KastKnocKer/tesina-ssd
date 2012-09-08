@@ -67,6 +67,12 @@ public class SIP implements SIPInterface{
 		boolean success = dbConn.modifyContact(rmci.getContact());
 		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}
+	
+	public RMISIPBasicResponseMessage removeFriendship(int idUser1, int idUser2) {
+		DBConnection dbConn = new DBConnection();
+		return null;
+		
+	}
 
 	/**
 	 * Restituisce il contatto relativo all'email passata come parametro. 

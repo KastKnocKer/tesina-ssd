@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import client.ClientThread;
+import client.thread.ClientThread;
 
 import layout.homeframe.Home_Frame;
 import managers.Status;

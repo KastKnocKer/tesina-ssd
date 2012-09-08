@@ -1,7 +1,9 @@
-package client;
+package client.thread;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import client.ClientEngine;
 
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
@@ -17,7 +19,7 @@ import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
 
-public class ClientThreadTester extends Thread{
+public class ClientThread_ContactStatusTester extends Thread{
 	private static int numClientThreadTester = 0;
 	private Contact contactToTest;
 	private Contact myContact;
@@ -25,7 +27,7 @@ public class ClientThreadTester extends Thread{
 	private int counterNumber;
 
 	
-	public ClientThreadTester(Contact contactToTest){
+	public ClientThread_ContactStatusTester(Contact contactToTest){
 		this.contactToTest = contactToTest;
 	}
 	

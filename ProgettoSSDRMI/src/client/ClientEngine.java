@@ -230,17 +230,19 @@ public class ClientEngine {
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClient(int ContactUserID){
-		Contact contact = null;
-		for(Contact cont : ContactListManager.getContactList()){
-			if(cont.getID() == ContactUserID){
-				contact = cont;
-				if(cont.getStatus() == ChatStatusList.OFFLINE){
-					System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" OFFLINE!");
-					return null;
-				}
-				break;
-			}
-		}
+		Contact contact = ContactListManager.searchContactById(ContactUserID);
+//		
+//		
+//		for(Contact cont : ContactListManager.getContactList()){
+//			if(cont.getID() == ContactUserID){
+//				contact = cont;
+//				if(cont.getStatus() == ChatStatusList.OFFLINE){
+//					System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" OFFLINE!");
+//					return null;
+//				}
+//				break;
+//			}
+//		}
 		if(contact == null){
 			System.out.println("ClientInterface.getClient() - Utente "+ContactUserID+" non presente nella lista contatti!");
 			return null;

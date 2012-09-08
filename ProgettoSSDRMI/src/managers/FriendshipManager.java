@@ -59,7 +59,7 @@ public class FriendshipManager {
 			ClientInterface clientInterface = null;
 			
 			try {
-				if(Status.getGlobalIP() == futureFriend.getGlobalIP()) {
+				if(Status.getGlobalIP().equals(futureFriend.getGlobalIP())) {
 
 					if(Status.DEBUG)
 						System.err.println("Chiedo amicizia a " + futureFriend.getLocalIP() + " nella mia Lan");
@@ -179,7 +179,14 @@ public class FriendshipManager {
 		
 		// TODO: cosa succede se mentre rispondo al contatto, questi finisce offline? FORCE_ADD_FRIEND al SIP?
 		try {
-			ClientEngine.getClient(contattoRichiedente.getID()).sendFriendshipAckToContact(myContact);
+			
+			/* se sono in lan */
+			if(contattoRichiedente.getGlobalIP().equals(Status.getGlobalIP()))
+				ClientEngine.getClient(contattoRichiedente.getLocalIP()).sendFriendshipAckToContact(myContact);
+			/* se non sono in lan */
+			else
+				ClientEngine.getClient(contattoRichiedente.getGlobalIP()).sendFriendshipAckToContact(myContact);
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} 

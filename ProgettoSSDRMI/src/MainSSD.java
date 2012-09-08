@@ -48,7 +48,6 @@ public class MainSSD {
 		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
 		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
 		
-		
 		//Inizializzo la classe statica Status
 		Status status = new Status();
 		
@@ -59,7 +58,7 @@ public class MainSSD {
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
 		 * mettendo l'IP globale al posto dell'ip locale. 
 		 * NOTA: PROVOCA MALFUNZIONAMENTI IN LAN!!!	 */
-		if(!Status.isDebuginlan()) System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
+//		if(!Status.isDebuginlan()) System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
 		
 		
 		Status.setLocalIP(wimi.getLocalIPs()[0][0]);

@@ -139,6 +139,11 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	public void updateTable(){
 
 		//TODO controllare
+		if(LayoutReferences.getFriendsListTable() == null) {
+			System.err.println("Tentativo di updateTable con tabella " +
+					"non disponibile. ");
+			return; 
+		}
 		
 		/* ricarico la friendsList */
 //		if(ContactListManager.getContactList() == null || ContactListManager.getContactList().size() == 0){

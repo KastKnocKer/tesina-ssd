@@ -40,7 +40,7 @@ public interface ClientInterface extends Remote{
 	 * Invio richiesta di amicizia direttamente ad un altro client.
 	 * @param contattoRichiedente contatto di chi ha chiesto l'amicizia
 	 */
-	RMIBasicResponseMessage sendFriendshipRequestToContact(Contact contattoRichiedente) throws RemoteException;
+	RMIBasicResponseMessage receiveFriendshipRequestFromContact(Contact contattoRichiedente) throws RemoteException;
 	
 
 	/**
@@ -65,7 +65,7 @@ public interface ClientInterface extends Remote{
 	 * 
 	 *  @author Fabio Pierazzi
 	 */
-	RMIBasicResponseMessage sendFriendshipAckToContact(Contact contattoRicevente) throws RemoteException; 
+	RMIBasicResponseMessage receiveFriendshipAckFromContact(Contact contattoRicevente) throws RemoteException; 
 	
 	/**
 	 * Permette di effettuare il retrieval di un contatto in modo P2P

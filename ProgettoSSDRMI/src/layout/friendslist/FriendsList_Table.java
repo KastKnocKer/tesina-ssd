@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -15,6 +16,7 @@ import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendsListManager;
+import managers.Status;
 import chat.Contact;
 import chat.FriendsList;
 
@@ -304,14 +306,14 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		String event = actionEvent.getActionCommand();
 		
 		int contactId = (int) this.getValueAt(clickedRow, 0); 
-		
+		Contact friendContact = ContactListManager.searchContactById(contactId); 
+	
 		/* Specifico le azioni da intraprendere nel momento
 		 * in cui viene selezionata una voce del jPopUpMenu */
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
-			Contact contact = ContactListManager.searchContactById(contactId); 
-			openConversationFrame(contact); 
+			openConversationFrame(friendContact); 
 		} else if (event.equals(POPUPMENU_REMOVECONTACT)) {
-			ContactListManager.removeFromContactList(contactId);
+			ContactListManager.removeFromContactList(friendContact);
 		}
 	}
 

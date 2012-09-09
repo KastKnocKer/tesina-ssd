@@ -72,4 +72,14 @@ public interface ClientInterface extends Remote{
 	 */
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException;
 
+	
+	/**
+	 * Metodo usato per notificare che un altro amico mi ha rimosso
+	 * dalla lista contatti. Utile solo nel momento in cui entrambi
+	 * i contatti coinvolti sono online
+	 * 
+	 * @param contattoMittente di chi mi ha rimosso dalla lista amici. 
+	 * @return true, se va a buon fine
+	 */
+	public boolean receiveFriendshipRemovalNotificationFromContact(Contact contattoMittente) throws RemoteException; 
 }

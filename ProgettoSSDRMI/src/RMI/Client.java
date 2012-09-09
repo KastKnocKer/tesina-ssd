@@ -2,6 +2,8 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendshipManager;
@@ -109,6 +111,10 @@ public class Client implements ClientInterface{
 		 * della tabella con la lista amici. */
 		ContactListManager.addToContactList(contattoRicevente); 
 		LayoutReferences.getFriendsListTable().updateTable(); 
+		
+		JOptionPane.showMessageDialog(null, "Il contatto " + contattoRicevente.getNickname() + " ( " + 
+				contattoRicevente.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
+				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 		
 		// TODO: invio friendshipRequest al SIP (se è offline, devo salvarlo in una coda e ritentare periodicamente) 
 		

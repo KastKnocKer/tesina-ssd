@@ -1,14 +1,8 @@
 package managers;
 
-import java.rmi.RemoteException;
-
-import javax.swing.JOptionPane;
-
-import layout.managers.LayoutReferences;
-import RMI.ClientInterface;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
-import client.ClientEngine;
+import client.*; 
 import client.thread.ClientThread_FriendshipManager;
 import client.thread.ClientThread_FriendshipManager_RequestTypes;
 
@@ -106,9 +100,24 @@ public class FriendshipManager {
 	public static void addNewFriend(Contact newContact) {
 		
 	}
+	
+	/**
+	 * Lancio la richiesta per la rimozione 
+	 * di un amico dalla lista. 
+	 * 
+	 * @param contactToRemove
+	 */
+	public static void removeFriend(Contact contactToRemove) {
+		Contact contattoMittente = Status.getMyInfoIntoContact(); 
+				
+		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
+				ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND, 
+				contattoMittente, 
+				contactToRemove); 
+		
+		thread.start(); 
+	}
 }
-
-
 
 /************** VERSIONE PRECEDENTE *****************/
 

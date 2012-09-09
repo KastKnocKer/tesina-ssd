@@ -84,6 +84,12 @@ public class ClientThread_FriendshipManager extends Thread {
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) ) {
 			System.err.println("Thread ClientThread_FriendshipManager: SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT");
 			showFriendshipRequestFromContact(contattoMittente); 
+			
+		/*****************************
+		 * REMOVE_FRIEND
+		 *****************************/
+		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
+			removeFriend(contattoDestinatario);
 		}
 		
 		System.err.println("Thread ClientThread_FriendshipManager: ended");
@@ -286,8 +292,11 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	private void addNewFriend(Contact newContact) {
 		
-		
-		
+	}
+	
+	private void removeFriend(Contact contactToRemove) {
+		/* rimuovo il contatto */
+		ContactListManager.removeFromContactList(contactToRemove);
 	}
 	
 }

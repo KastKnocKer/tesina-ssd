@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -14,9 +13,7 @@ import javax.swing.table.TableColumn;
 
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
-import managers.ContactListManager;
-import managers.FriendsListManager;
-import managers.Status;
+import managers.*;
 import chat.Contact;
 import chat.FriendsList;
 
@@ -178,8 +175,11 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		
 		this.friendsList = fl; 
 		LayoutReferences.getFriendsListTableModel().setFriendsList(fl); 
+		LayoutReferences.getFriendsListTableModel().fireTableDataChanged();
+		
 		/* Aggiorno la GUI */
-		this.updateUI();
+//		this.updateUI();
+		
 	}
 	
 	
@@ -313,7 +313,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
 			openConversationFrame(friendContact); 
 		} else if (event.equals(POPUPMENU_REMOVECONTACT)) {
-			ContactListManager.removeFromContactList(friendContact);
+			FriendshipManager.removeFriend(friendContact); 
 		}
 	}
 

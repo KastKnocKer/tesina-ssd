@@ -250,7 +250,7 @@ public class ContactListManager {
 							
 							try {
 								/* gli notifico la rimozione */
-								client.receiveFriendshipRemovalNotificationFromContact(friendContact);
+								client.receiveFriendshipRemovalNotificationFromContact(Status.getMyInfoIntoContact());
 							} catch (RemoteException e) {
 								System.err.println("Non è stato possibile notificare il client della rimozione " +
 										"del contatto.");

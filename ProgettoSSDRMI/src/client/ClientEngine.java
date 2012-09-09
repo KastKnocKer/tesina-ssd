@@ -27,6 +27,10 @@ import layout.managers.*;
 import managers.ContactListManager;
 import managers.Status;
 
+/**
+ * Rappresenta l'insieme dei metodi richiamabili dall'applicazione per interagire con gli altri nodi della rete
+ */
+
 public class ClientEngine {
 	
 	private static ArrayList<Message> OUT_ChatMessageList = new ArrayList<Message>();

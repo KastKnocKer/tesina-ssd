@@ -18,6 +18,9 @@ import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
 
+/**
+ * Thread che si occupa dell'invio delle richieste per il whois P2P
+ */
 public class ClientThread_WhoisRequestor extends Thread{
 	private static int numClientThreadTester = 0;
 	private Contact contactToTest;
@@ -30,6 +33,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 	private int requestorNum;
 	private int TTL;
 	private String emailToSearch;
+	
 	
 	public ClientThread_WhoisRequestor(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) {
 		this.requestorUserID = requestorUserID;

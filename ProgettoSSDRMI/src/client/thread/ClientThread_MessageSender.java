@@ -10,7 +10,9 @@ import managers.Status;
 import RMI.ClientInterface;
 
 import chat.Message;
-
+/**
+ * Thread che si occupa dell'invio dei messaggi di chat agli altri nodi client
+ */
 public class ClientThread_MessageSender extends Thread{
 
 	private ArrayList<Message> MessagesToDeliver;

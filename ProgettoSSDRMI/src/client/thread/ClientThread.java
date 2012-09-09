@@ -11,6 +11,10 @@ import managers.Status;
 import chat.Contact;
 import chat.Message;
 
+/**
+ * Thread avviato per l'intera durata dell'esecuzione della chat per gestire più operazioni
+ * riguardanti lo stato locale e lo stato degli altri nodi della rete
+ */
 public class ClientThread extends Thread{
 
 	private int index;

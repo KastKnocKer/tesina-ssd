@@ -15,20 +15,18 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.Vector;
 
 import managers.Status;
-
+import RMIMessages.FriendshipRequest;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
-import chat.Contact;
-import chat.Friend;
 import chat.ChatStatusList;
+import chat.Contact;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -258,89 +256,7 @@ public boolean modifyContact(Contact contact) {
 	return completed;
 }
 
-@Override
-public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg) {
-	String fromEmail = msg.getRequestorEmail(); 
-	String toEmail	 = msg.getToEmail();
-	String[][] contacts = new String[2][2];
-	String message = "";
-	ResultSet results;
-	System.out.println("SIP - aggiunta amicizia: " + fromEmail + " -> " + toEmail);
-	
-	if(!connesso){
-		connetti();
-	}
-	
-	//Cerco l'esistenza dei due contatti
-	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ? OR email = ?;");
-		prepSt.setString(1, fromEmail);
-		prepSt.setString(2, toEmail);
-		results = prepSt.executeQuery();
-		
-		ResultSetMetaData rsmd = results.getMetaData();
-        int colonne = rsmd.getColumnCount();
-        int index = 0;
-        while(results.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
-//           record = new String[colonne];
-//           for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
-//           v.add( (String[]) record.clone() );
-        	for (int i=0; i<colonne; i++){
-        		System.out.println( results.getString(i+1) );
-        		contacts[index][i] = results.getString(i+1);
-        	}
-        	index++;
-        }
-        results.close();     // Chiudo il ResultSet
-        prepSt.close();   // Chiudo lo Statement
-		
-	} catch (SQLException e) {
-		e.printStackTrace();
-		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.");
-	}
-	
-	System.out.println("contacts[0][0] "+contacts[0][0]);
-	System.out.println("contacts[0][1] "+contacts[0][1]);
-	System.out.println("contacts[1][0] "+contacts[1][0]);
-	System.out.println("contacts[1][1] "+contacts[1][1]);
-	
-	//Controllo che esistano i 2 utenti, se non presenti abortisco l'operazione
-	if(contacts[0][0] == null || contacts[0][1] == null || contacts[1][0] == null || contacts[1][1] == null ){
-		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nUtenti non validi.");
-	}
-	
-	PreparedStatement prepSt = null;
-	boolean flagAB = Integer.parseInt(contacts[0][0]) < Integer.parseInt(contacts[1][0]);		//Indica se contacts[0][0] (A) < contacts[1][0] (B)
-	boolean flagFromEmail = contacts[0][1].equals(fromEmail);									//Indica se contacts[0][1] (A) è il contatto richiedente
-	try {
-		prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
-		if(flagAB){
-			prepSt.setString(1, contacts[0][0]);
-			prepSt.setString(2, contacts[1][0]);
-			if(flagFromEmail)
-				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
-			else
-				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
-		}else{
-			prepSt.setString(1, contacts[1][0]);
-			prepSt.setString(2, contacts[0][0]);
-			if(flagFromEmail)
-				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
-			else
-				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
-		}
-		
-		prepSt.executeUpdate();
-		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente!");
-		
-	} catch (SQLException e1) {
-		e1.printStackTrace();
-		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
-	}
-	
-	
-	
-}
+
 
 @Override
 public ResponseLoginMessage login(RequestLoginMessage rlm) {
@@ -573,13 +489,196 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 }
 
    
-   
-   
-   
+
+
+/**
+ * TODO: rimuovi metodo vecchio di Kast!!
+ */
+@Override
+public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg) {
+	String fromEmail = msg.getRequestorEmail(); 
+	String toEmail	 = msg.getToEmail();
+	String[][] contacts = new String[2][2];
+	String message = "";
+	ResultSet results;
+	System.out.println("SIP - aggiunta amicizia: " + fromEmail + " -> " + toEmail);
+	
+	if(!connesso){
+		connetti();
+	}
+	
+	/* controllo che i due contatti siano reali */
+	boolean result1 = checkContactExistence(fromEmail); 
+	boolean result2 = checkContactExistence(toEmail);
+
+	 if (result1 == false || result2 == false) 
+		 return new RMISIPBasicResponseMessage(false, "Uno dei due contatti non esiste: \n1." + fromEmail + "\n2." + toEmail);  
+	
+	 /* Inserisco la richiesta di amicizia */
+	PreparedStatement prepSt = null;
+	boolean flagAB = Integer.parseInt(contacts[0][0]) < Integer.parseInt(contacts[1][0]);		//Indica se contacts[0][0] (A) < contacts[1][0] (B)
+	boolean flagFromEmail = contacts[0][1].equals(fromEmail);									//Indica se contacts[0][1] (A) è il contatto richiedente
+	try {
+		prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
+		if(flagAB){
+			prepSt.setString(1, contacts[0][0]);
+			prepSt.setString(2, contacts[1][0]);
+			if(flagFromEmail)
+				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
+			else
+				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
+		}else{
+			prepSt.setString(1, contacts[1][0]);
+			prepSt.setString(2, contacts[0][0]);
+			if(flagFromEmail)
+				prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
+			else
+				prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
+		}
+		
+		prepSt.executeUpdate();
+		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente!");
+		
+	} catch (SQLException e1) {
+		e1.printStackTrace();
+		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
+	}
+	
+	
+	
+}
+
+
+	@Override
+	public boolean addFriendship(FriendshipRequest request) {
+		
+		
+		return true; 
+	}
    
 
+	@Override
+	public boolean removeFriendship(FriendshipRequest request) {
+		
+		if(Status.DEBUG) 
+			System.out.println("DBConnection.removeFriendship: starting...");
+		
+		if(!connesso)
+			connetti(); 
+		
+		/* Controllo l'esistenza dei due contatti */
+		String emailMittente = request.getContattoMittente().getEmail();
+		String emailDestinatario = request.getContattoDestinatario().getEmail();
+		
+		if(checkContactExistence(emailMittente) == false ||
+				checkContactExistence(emailDestinatario) == false) {
+			return false; 
+		}
+		
+		/* rimuovo l'amicizia da DB */
+		PreparedStatement prepSt = null;
+		
+		int idMittente = request.getContattoMittente().getID(); 
+		int idDestinatario = request.getContattoDestinatario().getID(); 
+		
+		if( idMittente < 0 || idDestinatario < 0 ) {
+			System.err.println("Eliminazione di amicizia: l'id di uno o più dei contatti forniti non è valido.");
+			return false; 
+		}
+			
+		try {
+			/* preparo la query */
+			prepSt = (PreparedStatement) db.prepareStatement("" +
+					"DELETE from friendship " +
+					"WHERE `idUserA` = ? AND `idUserB` = ? ;" );
+			
+			/* Poichè nel database idUserA < idUserB sempre, fra due amici,
+			 * imposto il valore a seconda di quale è il minore fra 
+			 * idMittente ed idDestinatario */
+			if( idMittente < idDestinatario ) {
+				prepSt.setInt(1, idMittente);
+				prepSt.setInt(2, idDestinatario);
+			} else {
+				prepSt.setInt(1, idDestinatario);
+				prepSt.setInt(2, idMittente);
+			}
+			
+			/* Eseguo la query */
+			prepSt.executeUpdate();
+			
+		} catch (SQLException e1) {
+			System.err.println("Errore durante l'esecuzione della query.");
+			e1.printStackTrace();
+			return false; 
+//			return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
+		}
+		
+		
+		if(Status.DEBUG) 
+			System.out.println("DBConnection.removeFriendship: ended."); 
+		
+		return true;
+	}
 	   
 	   
 
+	/**
+	 * Controllo esistenza di un contatto prima di effettuare operazioni come aggiunta
+	 * di amicizia nel database. 
+	 * 
+	 * @param email
+	 * @return
+	 */
+	private boolean checkContactExistence(String email) {
+		
+		if(!connesso)
+			connetti(); 
+		
+		ResultSet results;
+		String[][] contacts = new String[2][2];
+		
+		//Cerco l'esistenza dei due contatti
+		try {
+			PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idUser,email FROM user WHERE email = ?;");
+			prepSt.setString(1, email);
+			results = prepSt.executeQuery();
+			
+			ResultSetMetaData rsmd = results.getMetaData();
+	        int colonne = rsmd.getColumnCount();
+	        int index = 0;
+	        while(results.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+//	           record = new String[colonne];
+//	           for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
+//	           v.add( (String[]) record.clone() );
+	        	for (int i=0; i<colonne; i++){
+	        		System.out.println( results.getString(i+1) );
+	        		contacts[index][i] = results.getString(i+1);
+	        	}
+	        	index++;
+	        }
+	        results.close();     // Chiudo il ResultSet
+	        prepSt.close();   // Chiudo lo Statement
+			
+		} catch (SQLException e) {
+			System.err.println("Si è verificato un errore mentre si stava cercando l'esistenza del contatto " + email);
+			e.printStackTrace();
+			return false; 
+		}
+		
+		System.out.println("contacts[0][0] "+contacts[0][0]);
+		System.out.println("contacts[0][1] "+contacts[0][1]);
+//		System.out.println("contacts[1][0] "+contacts[1][0]);
+//		System.out.println("contacts[1][1] "+contacts[1][1]);
+		
+		//Controllo che esistano i 2 utenti, se non presenti abortisco l'operazione
+		if(contacts[0][0] == null || contacts[0][1] == null /* || contacts[1][0] == null || contacts[1][1] == null */ ){
+			System.err.println("Contatto " + email + " non valido.");
+			return false; 
+//			return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nUtenti non validi.");
+		}
+		
+		/* Il contatto esiste */
+		return true; 
+	}
 
 }

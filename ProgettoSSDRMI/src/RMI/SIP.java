@@ -6,6 +6,8 @@ package RMI;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequest_Types;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
@@ -68,10 +70,16 @@ public class SIP implements SIPInterface{
 		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}
 	
-	public RMISIPBasicResponseMessage removeFriendship(int idUser1, int idUser2) {
+	public RMISIPBasicResponseMessage removeFriendship(Contact contattoMittente, Contact contattoDestinatario) {
 		DBConnection dbConn = new DBConnection();
-		return null;
 		
+		FriendshipRequest request = new FriendshipRequest(
+				FriendshipRequest_Types.REMOVE_FRIEND, 
+				contattoMittente, 
+				contattoDestinatario);
+		
+		dbConn.removeFriendship(request); 
+		return null;
 	}
 
 	/**
@@ -81,6 +89,35 @@ public class SIP implements SIPInterface{
 	public Contact whois(String email) {
 		DBConnection dbConn = new DBConnection();
 		return dbConn.getContactByEmail(email);
+	}
+	
+	
+	/**
+	 * Metodo per aggiungere/rimuovere amicizia fra contatto mittente e contatto destinatario. 
+	 * @param contattoMittente di colui che ha richiesto l'amicizia (o la sua rimozione)
+	 * @param contattoDestinatario di colui che ha ricevuto la richiesta d'amicizia (o la sua rimozione)
+	 * @return valore booleano true\false accompagnato da un messaggio testuale che è possibile mostrare in dialog box
+	 */
+	public RMISIPBasicResponseMessage manageFriendshipRequest(FriendshipRequest request) {
+		
+		/* Controllo se è valido il tipo di richiesta */
+		if(request.getRequestType() == null) {
+			System.err.println("La richiesta di aggiunta/rimozione amicizia non è di un tipo valido.");
+			return new RMISIPBasicResponseMessage(false, "La richiesta di aggiunta/rimozione amicizia non è di un tipo valido."); 
+		}
+		
+		DBConnection dbConn = new DBConnection();
+		
+		if(request.getRequestType() == FriendshipRequest_Types.ADD_FRIEND) {
+			
+		} else if(request.getRequestType() == FriendshipRequest_Types.FORCE_ADD_FRIEND) {
+			
+		} else if(request.getRequestType() == FriendshipRequest_Types.REMOVE_FRIEND) {
+			
+		} else {
+			return null; 
+		}
+		return null; 
 	}
 
 

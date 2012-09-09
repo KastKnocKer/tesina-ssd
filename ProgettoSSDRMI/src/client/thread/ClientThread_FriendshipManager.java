@@ -52,11 +52,14 @@ public class ClientThread_FriendshipManager extends Thread {
 	public void run() {
 		
 		/* A seconda del parametro, specializzo */
+		System.err.println("Thread ClientThread_FriendshipManager: entrato");
 		
 		/*****************************
 		 * SEND FRIENDSHIP REQUEST
 		 *****************************/
 		if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT) {
+			
+			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_CONTACT");
 			
 				String email = contattoMittente.getEmail();
 				RMISIPBasicResponseMessage answer = sendFriendshipRequestToContact(email);
@@ -72,15 +75,19 @@ public class ClientThread_FriendshipManager extends Thread {
 		 *****************************/
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST) {
 			
+			System.err.println("Thread ClientThread_FriendshipManager: ACCEPT_FRIENDSHIP_REQUEST");
 				acceptFriendshipRequest(contattoMittente); 
 		
 		/*****************************
 		 * SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT
 		 *****************************/
-		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) {
+		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) ) {
+			System.err.println("Thread ClientThread_FriendshipManager: SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT");
 			showFriendshipRequestFromContact(contattoMittente); 
 		}
 		
+		System.err.println("Thread ClientThread_FriendshipManager: ended");
+				
 	}
 	
 	/**
@@ -177,8 +184,10 @@ public class ClientThread_FriendshipManager extends Thread {
 	 * 
 	 * @author Fabio Pierazzi 
 	 */
-	private void sendFriendshipRequestToSIP() {
+	private void sendFriendshipRequestToSIP(Contact contattoMittente, Contact contattoDestinatario) {
+//		ClientEngine.getSIP().
 		
+		// TODO: se il SIP è offline, aggiungo messaggi di amicizia in una coda con FORCE_ADD_FRIEND
 	}
 	
 	/**

@@ -85,6 +85,6 @@ public interface SIPInterface extends Remote{
 	 * @throws RemoteException
 	 * @author Fabio Pierazzi 
 	 */
-	public RMISIPBasicResponseMessage removeFriendship(int idUser1, int idUser2) throws RemoteException;
+	public RMISIPBasicResponseMessage removeFriendship(Contact contattoMittente, Contact contattoDestinatario) throws RemoteException;
 	
 }

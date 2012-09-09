@@ -217,7 +217,7 @@ public class AddContact_Frame extends JFrame {
 		
 			/* Controllo che il testo specificato non sia vuoto */
 			if(email.equals("")) {
-				JOptionPane.showMessageDialog(null, "E' necessario specificare una mail nel campo opportuno", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "E' necessario specificare una mail nel campo opportuno", "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
 				return; 
 			}
 				
@@ -238,10 +238,13 @@ public class AddContact_Frame extends JFrame {
 			/* Elimino il frame di aggiunta contatto, non ne ho più bisogno */
 			dispose(); 
 			
+			try {
+				FriendshipManager.sendFriendshipRequestToContact(email); 
+			} catch(Exception e) {
+				e.printStackTrace(); 
+			}
 			
 	    	
-			JOptionPane.showMessageDialog(null, "Richiesta di amicizia inviata al contatto: \n" + email + ".", "Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-			
 			/* Invio richiesta di amicizia */
 //			RMISIPBasicResponseMessage answer = FriendshipManager.sendFriendshipRequestToContact(email); 
 //			
@@ -250,11 +253,6 @@ public class AddContact_Frame extends JFrame {
 //			} else {
 //				JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Aggiungi contatto", JOptionPane.WARNING_MESSAGE);
 //			}
-			
-			
-			
-			
-			
 			
 			
 			// TODO: spostare il codice dove deve stare

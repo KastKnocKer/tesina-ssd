@@ -159,4 +159,12 @@ public class Client implements ClientInterface{
 //		//Se non trovo nessun contatto ritorno null
 //		return null;
 	}
+	
+	@Override
+	public boolean receiveFriendshipRemovalNotificationFromContact(Contact contattoMittente) {
+		
+		boolean result = ContactListManager.removeFromContactList(contattoMittente); 
+		
+		return result; 
+	}
 }

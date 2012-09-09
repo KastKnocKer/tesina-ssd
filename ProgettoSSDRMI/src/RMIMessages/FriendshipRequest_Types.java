@@ -7,7 +7,7 @@ package RMIMessages;
  * 
  * @author Fabio Pierazzi
  */
-public enum FriendshipRequestsToSIP_Types {
+public enum FriendshipRequest_Types {
 	/* Richiede l'aggiunta di un amico */
 	ADD_FRIEND,
 	/* Richiede la rimozione di un amico */

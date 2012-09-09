@@ -25,6 +25,7 @@ import RMI.ClientInterface;
 
 import client.ClientEngine;
 
+import chat.ChatStatusList;
 import chat.Contact;
 import chat.FriendsList;
 
@@ -175,7 +176,8 @@ public class ContactListManager {
 		
 		/**
 		 * Rimuove (anche graficamente) un amico dalla Lista Contatti.
-		 * TODO: rimuoverlo sul SIP.
+		 * Inoltre, lo rimuovo anche dal SIP ed avviso anche l'altro 
+		 * contatto, se non OFFLINE. 
 		 * 
 		 * @param removeId
 		 */
@@ -226,21 +228,43 @@ public class ContactListManager {
 			} 
 			
 			/* Notifico il client rimosso della rimozione, 
-			 * di modo che non mi veda più online */
-			ClientInterface client = ClientEngine.getClient(0);
-			
-			if(client!= null) {
-				try {
-					client.receiveFriendshipRemovalNotificationFromContact(friendContact);
-				} catch (RemoteException e) {
-					System.err.println("Non è stato possibile notificare il client della rimozione " +
-							"del contatto.");
-					e.printStackTrace();
-				} 
-			} else {
-				System.err.println("Problema nel reperimento del contatto.");
-				/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
-				return true; 
+			 * di modo che non mi veda più online.
+			 * Lo notifico solo se lui non è OFFLINE. */
+			if(friendContact.getStatus() != ChatStatusList.OFFLINE) {
+				
+				
+				ClientInterface client = null;
+				
+				/* se sono in LAN */
+				if(Status.getGlobalIP().equals(friendContact.getGlobalIP())) {
+					/* reperisco il client da rimuovere */
+					client = ClientEngine.getClient(friendContact.getLocalIP()); 
+				/* se invece NON sono in LAN */
+				} else {
+					/* reperisco il client da rimuovere */
+					client = ClientEngine.getClient(friendContact.getGlobalIP()); 
+				}
+				
+					/* se ho reperito un client */
+						if(client!= null) {
+							
+							try {
+								/* gli notifico la rimozione */
+								client.receiveFriendshipRemovalNotificationFromContact(friendContact);
+							} catch (RemoteException e) {
+								System.err.println("Non è stato possibile notificare il client della rimozione " +
+										"del contatto.");
+								e.printStackTrace();
+								
+								/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
+								return true;
+							} 
+						} else {
+							System.err.println("Problema nel reperimento del contatto.");
+							
+							/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
+							return true; 
+						}
 			}
 			
 			
@@ -261,12 +285,14 @@ public class ContactListManager {
 				 
 			}
 			
-			if(Status.DEBUG) 
-				System.err.println("Contact removed.");
 			
+			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
 			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 
 					friendContact.getEmail() + " )  è stato rimosso.", 
 					"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
+			
+			if(Status.DEBUG) 
+				System.err.println("Contact removed.");
 			
 			return true; 
 		}

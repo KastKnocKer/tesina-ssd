@@ -4,6 +4,7 @@ package RMI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
@@ -82,4 +83,9 @@ public interface ClientInterface extends Remote{
 	 * @return true, se va a buon fine
 	 */
 	public boolean receiveFriendshipRemovalNotificationFromContact(Contact contattoMittente) throws RemoteException; 
+	
+	/**
+	 * Comunica la volontà di uscire dal sistema
+	 */
+	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException;
 }

@@ -801,4 +801,23 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		return true; 
 	}
 
+	public boolean setContactOffline(int userID) {
+		if(!connesso)
+			connetti(); 
+		
+		PreparedStatement prepSt = null;
+		try {
+			/* preparo la query */
+			prepSt = (PreparedStatement) db.prepareStatement("DELETE FROM userstatus WHERE idUser = ?;" );
+			prepSt.setInt(1, userID);
+			/* Eseguo la query */
+			prepSt.executeUpdate();
+			return true;
+		} catch (SQLException e1) {
+			System.err.println("Errore durante l'esecuzione della query di Logout.");
+			e1.printStackTrace();
+			return false; 
+		}
+	}
+
 }

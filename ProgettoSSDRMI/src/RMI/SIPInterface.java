@@ -93,4 +93,9 @@ public interface SIPInterface extends Remote{
 	 */
 	public RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) throws RemoteException;
 	
+	/**
+	 * Comunica la volontà di uscire dal sistema
+	 */
+	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException;
+	
 }

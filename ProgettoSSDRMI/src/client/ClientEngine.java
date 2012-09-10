@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import client.thread.ClientThread_LogoutInformer;
 import client.thread.ClientThread_MessageSender;
 import client.thread.ClientThread_WhoisRequestor;
 
@@ -70,6 +71,15 @@ public class ClientEngine {
 			//e.printStackTrace();
 			return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 		}
+	}
+	
+	public static boolean Logout(){
+		new ClientThread_LogoutInformer(true, null);
+		ArrayList<Contact> contactList =  ContactListManager.getContactList();
+		for(Contact contact : contactList){
+			new ClientThread_LogoutInformer(false, contact);
+		}
+		return true;
 	}
 	
 	public static boolean RegisterNewAccount(String nome, String cognome,String email, String nickname, String password) {

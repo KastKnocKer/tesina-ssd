@@ -129,5 +129,10 @@ public class SIP implements SIPInterface{
 //		return null; 
 //	}
 
+	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

@@ -250,6 +250,8 @@ public class ClientEngine {
 		}
 		Registry registry;
 		ClientInterface client = null;
+		if(contact.getGlobalIP() == null)
+			return null;
 		try {
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){

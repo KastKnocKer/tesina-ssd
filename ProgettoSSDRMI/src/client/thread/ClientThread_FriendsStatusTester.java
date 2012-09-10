@@ -1,23 +1,18 @@
 package client.thread;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
-import client.ClientEngine;
-
+import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
-
 import utility.Counter;
-
 import RMI.ClientInterface;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
-
-import chat.Contact;
-import chat.Message;
 import chat.ChatStatusList;
+import chat.Contact;
+import client.ClientEngine;
 
 public class ClientThread_FriendsStatusTester extends Thread{
 	private static int numClientThreadTester = 0;
@@ -59,7 +54,11 @@ public class ClientThread_FriendsStatusTester extends Thread{
 			System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 		}
 		decrementCounter();
-		LayoutReferences.getFriendsListTable().updateTable(); 
+		
+		FriendsList_Table table = LayoutReferences.getFriendsListTable();
+		
+		if(table!=null) 
+			table.updateTable(); 
 	}
 	
 	private void decrementCounter(){

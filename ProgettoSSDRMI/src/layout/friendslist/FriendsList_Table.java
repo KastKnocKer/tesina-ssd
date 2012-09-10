@@ -9,12 +9,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
-import managers.*;
+import managers.ContactListManager;
+import managers.FriendsListManager;
+import managers.FriendshipManager;
+import managers.Status;
 import chat.Contact;
 import chat.FriendsList;
 
@@ -151,16 +155,32 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 //		}
 		
 		try {
-			FriendsListManager.loadFriendsList(); 
-		
-		/* re-imposto le nuove friendsList per la tabella e per il table model.
-		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
-		 * così applicare eventuali filtraggi a parte. */
-		
-			this.setFriendsList(FriendsListManager.getFriendsList());
-			LayoutReferences.getFriendsListTableModel().setFriendsList(FriendsListManager.getFriendsList());
-			LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
-			this.updateUI();
+			
+			/**
+			 * Aggiorno la tabella nel thread della GUI,
+			 * per evitare problemi quando invoco aggiornamenti
+			 * da altri thread.
+			 * 
+			 * @author Fabio Pierazzi
+			 */
+			SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	            	
+	            	FriendsListManager.loadFriendsList(); 
+	        		
+	        		/* re-imposto le nuove friendsList per la tabella e per il table model.
+	        		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
+	        		 * così applicare eventuali filtraggi a parte. */
+	        		
+        			setFriendsList(FriendsListManager.getFriendsList());
+        			LayoutReferences.getFriendsListTableModel().setFriendsList(FriendsListManager.getFriendsList());
+        			LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
+        			updateUI();
+	            	
+	            }
+	        });
+
+			
 		} catch(Exception e) {
 			System.err.println("Si è verificato un errore durante l'aggiornamento della tabella della lista amici!");
 			e.printStackTrace(); 
@@ -182,8 +202,8 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		// Status.setFriendsList(fl); 
 		
 		this.friendsList = fl; 
-		LayoutReferences.getFriendsListTableModel().setFriendsList(fl); 
-		LayoutReferences.getFriendsListTableModel().fireTableDataChanged();
+//		LayoutReferences.getFriendsListTableModel().setFriendsList(fl); 
+//		LayoutReferences.getFriendsListTableModel().fireTableDataChanged();
 		
 		/* Aggiorno la GUI */
 //		this.updateUI();

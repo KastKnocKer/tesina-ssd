@@ -41,11 +41,11 @@ public class Contact implements Serializable{
 	 */
 	public Friend getFriend(){
 		Friend friend = new Friend();
-		friend.setUserId(UserID);
-		friend.setNickname(Nickname);
-		friend.setStatus(Status);
-		friend.setEmail(Email); 
-		friend.setAvatarURL(AvatarURL); 
+		friend.setUserId(this.getID());
+		friend.setNickname(this.getNickname());
+		friend.setStatus(this.getStatus());
+		friend.setEmail(this.getEmail()); 
+		friend.setAvatarURL(this.getAvatarURL()); 
 		return friend;
 	}
 	

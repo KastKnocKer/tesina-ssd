@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 import layout.managers.LayoutReferences;
 import managers.Status;
 
+import chat.ChatStatusList;
 import chat.Friend;
 import chat.FriendsList;
 
@@ -25,7 +26,6 @@ public class FriendsList_TableModel extends AbstractTableModel {
 	public FriendsList_TableModel() {
 		super();
 		LayoutReferences.setFriendsListTableModel(this); 
-		// this.setFriendsList(Status.getFriendsList());
 	}
 	
 	/**
@@ -51,14 +51,29 @@ public class FriendsList_TableModel extends AbstractTableModel {
 	 */
 	public Object getValueAt(int row, int col) {
 		
+//		System.err.println("getValueAt(row " + row + ", col " + col + ")");
+		
 		/* Recupero un amico in base alla posizione */
 		obj = friendsList.getFriendByPosition(row); 
 		
+		int id = ((Friend) obj).getUserId(); 
+		String nickname =  ((Friend) obj).getNickname(); 
+		String status =  ((Friend) obj).getStatus().toString(); 
+		String email = ((Friend) obj).getEmail(); 
+		
+//		System.err.println("value: id [ " + id + " ]; nickname [ " + nickname + " ]; status [ " + status + " ]; email [ " + email + "]");
+		
+		if(id < 0 || nickname == null || status == null || email == null)
+			return "***"; 
+		
+		if(obj == null) 
+			return "***"; 
+		
 		switch(col){
-			case 0: return ((Friend) obj).getUserId(); //  return row+1;
-			case 1: return ((Friend) obj).getNickname(); 
-			case 2: return ((Friend) obj).getStatus();
-			case 3: return ((Friend) obj).getEmail(); 
+			case 0: return id; //  return row+1;
+			case 1: return nickname; 
+			case 2: return status;
+			case 3: return email; 
 			default: return "***";
 		}
 	}

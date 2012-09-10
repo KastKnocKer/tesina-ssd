@@ -197,18 +197,22 @@ public class ContactListManager {
 			boolean found = false; 
 			
 			for(Contact contact : contactList) {
+				
+				if(found == true) 
+					break; 
+				
 				if(contact.getID() == friendID) {
 					try{
 						contactList.remove(pos); 
 						found = true; 
+						break;
 					} catch(Exception e) {
 						System.err.println("Errore nel corso della rimozione di un contatto.");
 						e.printStackTrace(); 
 						return false; 
 					}
-					
-					break; 
 				}
+				
 				pos++; 
 			}
 			
@@ -232,7 +236,8 @@ public class ContactListManager {
 
 			/* Aggiorno la tabella */
 			try {
-				table.updateTable();
+				if(table!=null)
+					table.updateTable();
 			} catch(Exception e) {
 				System.err.println("Errore nell'aggiornamento della tabella" +
 						" a seguito della rimozione di un contatto.");

@@ -93,5 +93,10 @@ public interface DBConnection_interface {
 	 * @return true, se va a buon fine
 	 */
 	public boolean removeFriendship(FriendshipRequest request); 
+	
+	/**
+	 * Setta l'utente come offline
+	 */
+	public boolean setContactOffline(int userID);
 
 }

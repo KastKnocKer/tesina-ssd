@@ -11,7 +11,8 @@ public class StatusP2P {
 	}
 	
 	/**
-	 * 
+	 * Aggiunge la traccia di una richiesta ricevuta.
+	 * Ritorna true se riesce ad aggiungere la richiesta ricevuta altrimenti torna false
 	 */
 	public static boolean addRequest(int userid, int numquery){
 		if(!checkRequest(userid, numquery)){
@@ -25,7 +26,7 @@ public class StatusP2P {
 	}
 	
 	/**
-	 * 
+	 * Controlla se la richiesta è già presente nella lista delle richieste
 	 */
 	public static boolean checkRequest(int userid, int numquery){
 		for(int[] array : requestList){

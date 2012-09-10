@@ -240,6 +240,7 @@ public class ClientEngine {
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClientWithoutOfflineControl(int ContactUserID){
+		String IP = null;
 		//Cerco il contatto nella propria lista contatti
 		Contact contact = ContactListManager.searchContactById(ContactUserID);
 		//Se è null il contatto non è stato trovato
@@ -253,11 +254,15 @@ public class ClientEngine {
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
 				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
-				registry = LocateRegistry.getRegistry(contact.getLocalIP());
+				IP = contact.getLocalIP();
 			}else{
 				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
-				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
+				IP = contact.getGlobalIP();
 			}
+
+			if(IP == null)
+				return null;
+			registry = LocateRegistry.getRegistry(IP);
 		
 			client = (ClientInterface) registry.lookup("Client");
 			if(client == null){
@@ -292,6 +297,7 @@ public class ClientEngine {
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClient(int ContactUserID){
+		String IP = null;
 		//Cerco il contatto nella propria lista contatti
 		Contact contact = ContactListManager.searchContactById(ContactUserID);
 		//Se è null il contatto non è stato trovato
@@ -309,12 +315,14 @@ public class ClientEngine {
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
 				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
-				registry = LocateRegistry.getRegistry(contact.getLocalIP());
+				IP = contact.getLocalIP();
 			}else{
 				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
-				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
+				IP = contact.getGlobalIP();
 			}
-		
+			if(IP == null)
+				return null;
+			registry = LocateRegistry.getRegistry(IP);
 			client = (ClientInterface) registry.lookup("Client");
 			if(client == null){
 				System.out.println("Client - ClientEngine.getClient() registry.lookup(\"Client\") == NULL");
@@ -348,6 +356,8 @@ public class ClientEngine {
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClient(String IP){
+		if(IP == null || IP.length()==0)
+			return null;
 		Registry registry;
 		ClientInterface client = null;
 		try {

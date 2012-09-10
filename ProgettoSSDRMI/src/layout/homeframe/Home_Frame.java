@@ -134,8 +134,8 @@ public class Home_Frame extends JFrame {
         
         eMenuItem_logout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-            	// TODO
             	System.out.println("Premuto bottone Logout...");
+            	ClientEngine.Logout();
             }
         });
         

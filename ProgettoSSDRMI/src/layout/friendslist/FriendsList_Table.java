@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
@@ -135,7 +136,7 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 	 * 
 	 * @author Fabio Pierazzi
 	 */
-	public void updateTable(){
+	public synchronized void updateTable(){
 
 		//TODO controllare
 		if(LayoutReferences.getFriendsListTable() == null) {
@@ -149,15 +150,22 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 //			Status.loadFriendsList();
 //		}
 		
-		FriendsListManager.loadFriendsList(); 
+		try {
+			FriendsListManager.loadFriendsList(); 
 		
 		/* re-imposto le nuove friendsList per la tabella e per il table model.
 		 * Nota: vengono mantenute separate dalla friendsList globale per poter 
 		 * così applicare eventuali filtraggi a parte. */
-		this.setFriendsList(FriendsListManager.getFriendsList());
-		LayoutReferences.getFriendsListTableModel().setFriendsList(FriendsListManager.getFriendsList());
-		LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
-		this.updateUI();
+		
+			this.setFriendsList(FriendsListManager.getFriendsList());
+			LayoutReferences.getFriendsListTableModel().setFriendsList(FriendsListManager.getFriendsList());
+			LayoutReferences.getFriendsListTableModel().fireTableDataChanged(); 
+			this.updateUI();
+		} catch(Exception e) {
+			System.err.println("Si è verificato un errore durante l'aggiornamento della tabella della lista amici!");
+			e.printStackTrace(); 
+		}
+		
 //		this.revalidate();
 //		this.repaint(); 
 	}
@@ -313,7 +321,23 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 		if (event.equals(POPUPMENU_OPENCONVERSATION)) {
 			openConversationFrame(friendContact); 
 		} else if (event.equals(POPUPMENU_REMOVECONTACT)) {
-			FriendshipManager.removeFriend(friendContact); 
+			
+			int result = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler rimuovere: \n" +
+					"" + friendContact.getNickname() + " ( " + friendContact.getEmail() + " ) \n\n" +
+							"Desideri accettare?", 
+							"Aggiungi Contatto",
+	                JOptionPane.YES_NO_OPTION);
+			
+			if(result == JOptionPane.YES_OPTION) {
+				System.out.println("CONFERMATA - Rimozione contatto " + friendContact.getEmail() + "");
+				FriendshipManager.removeFriend(friendContact); 
+			}
+			else if(result == JOptionPane.NO_OPTION)  {
+				if(Status.DEBUG)
+					System.out.println("RIFIUTATA - Rimozione contatto " + friendContact.getEmail() + "");
+			}
+			
+			 
 		}
 	}
 

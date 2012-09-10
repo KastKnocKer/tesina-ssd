@@ -4,9 +4,9 @@ import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
 
+import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
-import managers.FriendshipManager;
 import managers.Status;
 import RMI.ClientInterface;
 import RMIMessages.RMISIPBasicResponseMessage;
@@ -250,6 +250,14 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	private void acceptFriendshipRequest(Contact contattoRichiedente) {
 		
+		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
+		 * della tabella con la lista amici. */
+		ContactListManager.addToContactList(contattoRichiedente); 
+		FriendsList_Table table = LayoutReferences.getFriendsListTable();
+		if(table != null) {
+			table.updateTable(); 
+		}
+		
 		/* Invio ack dell'amicizia al contatto, 
 		 * per fargli sapere che può aggiungermi. */
 		Contact myContact = Status.getMyInfoIntoContact(); 
@@ -269,11 +277,6 @@ public class ClientThread_FriendshipManager extends Thread {
 		} 
 		
 		// TODO: invio ack dell'amicizia al SIP 
-		
-		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
-		 * della tabella con la lista amici. */
-		ContactListManager.addToContactList(contattoRichiedente); 
-		LayoutReferences.getFriendsListTable().updateTable(); 
 		
 		// TODO: Problema: se il SIP è down, e torna up in un secondo momento, 
 		// io invio mia friend request, ma il contatto poi non risulta più fra i miei 
@@ -296,7 +299,13 @@ public class ClientThread_FriendshipManager extends Thread {
 	
 	private void removeFriend(Contact contactToRemove) {
 		/* rimuovo il contatto */
-		ContactListManager.removeFromContactList(contactToRemove);
+		try {
+			ContactListManager.removeFromContactList(contactToRemove);
+		} catch(Exception e) {
+			System.err.println("Errore durante la rimozione del contatto.");
+			e.printStackTrace(); 
+		}
+		
 	}
 	
 }

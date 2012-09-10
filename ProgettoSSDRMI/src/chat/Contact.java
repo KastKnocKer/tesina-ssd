@@ -176,8 +176,13 @@ public class Contact implements Serializable{
 	}
 	
 	public boolean isConnected(){
-		if(GlobalIP == null || GlobalIP.length() == 0) return false;
-		if(Status == ChatStatusList.OFFLINE) return false;
+		
+		if(GlobalIP == null || GlobalIP.length() == 0) 
+			return false;
+		
+		if(Status == ChatStatusList.OFFLINE) 
+			return false;
+		
 		return true;
 	}
 	

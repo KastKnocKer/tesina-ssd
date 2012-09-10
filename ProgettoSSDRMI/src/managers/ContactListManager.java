@@ -167,11 +167,11 @@ public class ContactListManager {
 //			friendsList.addFriend(newContact.getFriend()); 
 			
 			/* Aggiorno graficamente la tabella della lista amici */
-			try {
-				LayoutReferences.getFriendsListTable().updateTable();
-			} catch (Exception e) {
-				e.printStackTrace(); 
-			}
+//			try {
+//				LayoutReferences.getFriendsListTable().updateTable();
+//			} catch (Exception e) {
+//				e.printStackTrace(); 
+//			}
 		}
 		
 		/**
@@ -226,12 +226,33 @@ public class ContactListManager {
 				e1.printStackTrace();
 				return false; 
 			} 
+
+			/* Aggiorno graficamente la tabella con la lista amici */
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+
+			/* Aggiorno la tabella */
+			try {
+				table.updateTable();
+			} catch(Exception e) {
+				System.err.println("Errore nell'aggiornamento della tabella" +
+						" a seguito della rimozione di un contatto.");
+				return true; 
+			}
+			
+			
+			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
+			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 
+					friendContact.getEmail() + " )  è stato rimosso.", 
+					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
+			
+			if(Status.DEBUG) 
+				System.err.println("Contact removed.");
+			
 			
 			/* Notifico il client rimosso della rimozione, 
 			 * di modo che non mi veda più online.
 			 * Lo notifico solo se lui non è OFFLINE. */
 			if(friendContact.getStatus() != ChatStatusList.OFFLINE) {
-				
 				
 				ClientInterface client = null;
 				
@@ -266,33 +287,6 @@ public class ContactListManager {
 							return true; 
 						}
 			}
-			
-			
-			/* Aggiorno graficamente la tabella con la lista amici */
-			FriendsList_Table table = LayoutReferences.getFriendsListTable();
-
-			/* Se non c'è la tabella, non la aggiorno */
-			if(table == null) {
-				return true; 
-			} else {
-				try {
-					table.updateTable();
-				} catch(Exception e) {
-					System.err.println("Errore nell'aggiornamento della tabella" +
-							" a seguito della rimozione di un contatto.");
-					return true; 
-				}
-				 
-			}
-			
-			
-			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
-			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 
-					friendContact.getEmail() + " )  è stato rimosso.", 
-					"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-			
-			if(Status.DEBUG) 
-				System.err.println("Contact removed.");
 			
 			return true; 
 		}

@@ -86,7 +86,8 @@ public class ClientEngine {
 	}
 	
 	/**
-	 * Richiede al sip l'intera lista dei propri conatti, aggiornando la lista dei contatti in Status
+	 * Richiede al sip l'intera lista dei propri contatti, 
+	 * aggiornando la lista dei contatti in Status
 	 */
 	public static boolean LoadContactsFromSIP(){
 		boolean response = false;

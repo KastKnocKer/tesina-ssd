@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendshipManager;
@@ -51,9 +52,15 @@ public class Client implements ClientInterface{
 		for(Contact contact :  ContactListManager.getContactList() ){
 			if(contact.getID() == senderID){
 				//Aggiorno le informazioni ricevute
+				boolean updateTable = !contact.isConnected();
 				contact.updateInfoFromContact(senderContact);
-//				Status.getContactList().remove(contact);
-//				Status.getContactList().add(senderContact);
+				
+				//Aggiorno la tabella se il contatto era per me offline in precedenza
+				if(updateTable){
+					FriendsList_Table table = LayoutReferences.getFriendsListTable();
+					if(table!=null) 
+						table.updateTable(); 
+				}
 				break;
 			}
 		}
@@ -68,14 +75,17 @@ public class Client implements ClientInterface{
 		if(chatMsgs != null || chatMsgs.length>0){
 			
 			int senderID = chatMsgs[0].getFrom();
-			
-			for(Contact contact :  ContactListManager.getContactList() ){
-				if(contact.getID() == senderID){
-					contact.setGlobalIP(senderGlobalIP);
-					contact.setLocalIP(senderLocalIP);
-					break;
+			Contact contact = ContactListManager.searchContactById(senderID);
+				contact.setGlobalIP(senderGlobalIP);
+				contact.setLocalIP(senderLocalIP);
+				//Il contatto deve esser per forza raggiungibile se mi ha contattato quindi lo metto AWAY
+				if(!contact.isConnected()){
+					contact.setStatus(ChatStatusList.AWAY);
+					//Aggiorno la tabella
+					FriendsList_Table table = LayoutReferences.getFriendsListTable();
+					if(table!=null) 
+						table.updateTable(); 
 				}
-			}
 		}
 		return new RMIBasicResponseMessage(true, "OK");
 	}
@@ -180,6 +190,9 @@ public class Client implements ClientInterface{
 		Contact contact = ContactListManager.searchContactById(rmibm.getRequestorUserID());
 		if(contact != null){
 			contact.setStatus(ChatStatusList.OFFLINE);
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			if(table!=null) 
+				table.updateTable(); 
 			return true;
 		}
 		return false;

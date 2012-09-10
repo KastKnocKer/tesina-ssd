@@ -5,18 +5,15 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import RMIMessages.FriendshipRequest;
 import RMIMessages.RMIBasicMessage;
-import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
 import RMIMessages.ResponseModifyContactInfos;
-
 import chat.Contact;
-import chat.Message;
-import chat.ChatStatusList;
 
 /**
  * 
@@ -65,15 +62,24 @@ public interface SIPInterface extends Remote{
 	 */
 	public Contact whois(String email) throws RemoteException; 
 	
-	/**
-	 * Richiede l'amicizia di un nuovo contatto
-	 */
-	RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException;
+//	/**
+//	 * Richiede l'amicizia di un nuovo contatto
+//	 */
+//	RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException;
 	
 	/**
 	 * Aggiorna sul DB i dati dell'utente
 	 */
 	ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException;
+	
+	/**
+	 * Funzione usata per aggiungere un'amicizia all'interno del SIP. 
+	 * 
+	 * @param request richiesta di amicizia fra due contatti. Può essere di tipo ADD o FORCE_ADD. 
+	 * @return
+	 * @throws RemoteException
+	 */
+	public RMISIPBasicResponseMessage addFriendship(FriendshipRequest request) throws RemoteException;
 	
 	/**
 	 * Funzione usata per rimuovere l'amicizia fra due contatti. L'amicizia
@@ -85,6 +91,6 @@ public interface SIPInterface extends Remote{
 	 * @throws RemoteException
 	 * @author Fabio Pierazzi 
 	 */
-	public RMISIPBasicResponseMessage removeFriendship(Contact contattoMittente, Contact contattoDestinatario) throws RemoteException;
+	public RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) throws RemoteException;
 	
 }

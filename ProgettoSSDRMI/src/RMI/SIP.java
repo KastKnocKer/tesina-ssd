@@ -57,10 +57,10 @@ public class SIP implements SIPInterface{
 		return dbConn.getMyContacts(msg);
 	}
 
-	public RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException {
-		DBConnection dbConn = new DBConnection();
-		return dbConn.requestFriendship(requestFriendshipMessage);
-	}
+//	public RMISIPBasicResponseMessage askFriendship(RequestFriendshipMessage requestFriendshipMessage) throws RemoteException {
+//		DBConnection dbConn = new DBConnection();
+//		return dbConn.requestFriendship(requestFriendshipMessage);
+//	}
 	
 	
 	public ResponseModifyContactInfos modifyContactInfos(RequestModifyContactInfos rmci) throws RemoteException{
@@ -70,14 +70,23 @@ public class SIP implements SIPInterface{
 		return new ResponseModifyContactInfos(true,"OK",rmci.getContact());
 	}
 	
-	public RMISIPBasicResponseMessage removeFriendship(Contact contattoMittente, Contact contattoDestinatario) {
+	/**
+	 * Metodo per invocare l'aggiunta di un'amicizia sul DB. 
+	 * @author Fabio Pierazzi
+	 */
+	@Override
+	public RMISIPBasicResponseMessage addFriendship(FriendshipRequest request)
+			throws RemoteException {
+
 		DBConnection dbConn = new DBConnection();
+		dbConn.addFriendship(request);
+		return null; 
+	}
+	
+	
+	public RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) {
 		
-		FriendshipRequest request = new FriendshipRequest(
-				FriendshipRequest_Types.REMOVE_FRIEND, 
-				contattoMittente, 
-				contattoDestinatario);
-		
+		DBConnection dbConn = new DBConnection();
 		dbConn.removeFriendship(request); 
 		return null;
 	}
@@ -92,33 +101,33 @@ public class SIP implements SIPInterface{
 	}
 	
 	
-	/**
-	 * Metodo per aggiungere/rimuovere amicizia fra contatto mittente e contatto destinatario. 
-	 * @param contattoMittente di colui che ha richiesto l'amicizia (o la sua rimozione)
-	 * @param contattoDestinatario di colui che ha ricevuto la richiesta d'amicizia (o la sua rimozione)
-	 * @return valore booleano true\false accompagnato da un messaggio testuale che è possibile mostrare in dialog box
-	 */
-	public RMISIPBasicResponseMessage manageFriendshipRequest(FriendshipRequest request) {
-		
-		/* Controllo se è valido il tipo di richiesta */
-		if(request.getRequestType() == null) {
-			System.err.println("La richiesta di aggiunta/rimozione amicizia non è di un tipo valido.");
-			return new RMISIPBasicResponseMessage(false, "La richiesta di aggiunta/rimozione amicizia non è di un tipo valido."); 
-		}
-		
-		DBConnection dbConn = new DBConnection();
-		
-		if(request.getRequestType() == FriendshipRequest_Types.ADD_FRIEND) {
-			
-		} else if(request.getRequestType() == FriendshipRequest_Types.FORCE_ADD_FRIEND) {
-			
-		} else if(request.getRequestType() == FriendshipRequest_Types.REMOVE_FRIEND) {
-			
-		} else {
-			return null; 
-		}
-		return null; 
-	}
+//	/**
+//	 * Metodo per aggiungere/rimuovere amicizia fra contatto mittente e contatto destinatario. 
+//	 * @param contattoMittente di colui che ha richiesto l'amicizia (o la sua rimozione)
+//	 * @param contattoDestinatario di colui che ha ricevuto la richiesta d'amicizia (o la sua rimozione)
+//	 * @return valore booleano true\false accompagnato da un messaggio testuale che è possibile mostrare in dialog box
+//	 */
+//	public RMISIPBasicResponseMessage manageFriendshipRequest(FriendshipRequest request) {
+//		
+//		/* Controllo se è valido il tipo di richiesta */
+//		if(request.getRequestType() == null) {
+//			System.err.println("La richiesta di aggiunta/rimozione amicizia non è di un tipo valido.");
+//			return new RMISIPBasicResponseMessage(false, "La richiesta di aggiunta/rimozione amicizia non è di un tipo valido."); 
+//		}
+//		
+//		DBConnection dbConn = new DBConnection();
+//		
+//		if(request.getRequestType() == FriendshipRequest_Types.ADD_FRIEND) {
+//			
+//		} else if(request.getRequestType() == FriendshipRequest_Types.FORCE_ADD_FRIEND) {
+//			
+//		} else if(request.getRequestType() == FriendshipRequest_Types.REMOVE_FRIEND) {
+//			
+//		} else {
+//			return null; 
+//		}
+//		return null; 
+//	}
 
 
 }

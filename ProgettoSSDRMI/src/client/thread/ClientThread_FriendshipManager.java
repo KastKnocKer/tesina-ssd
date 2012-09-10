@@ -9,6 +9,8 @@ import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
 import RMI.ClientInterface;
+import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequest_Types;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.ClientEngine;
@@ -190,10 +192,18 @@ public class ClientThread_FriendshipManager extends Thread {
 	 * 
 	 * @author Fabio Pierazzi 
 	 */
-	private void sendFriendshipRequestToSIP(Contact contattoMittente, Contact contattoDestinatario) {
-//		ClientEngine.getSIP().
+	private void sendFriendshipRequestToSIP(FriendshipRequest request) {
 		
-		// TODO: se il SIP è offline, aggiungo messaggi di amicizia in una coda con FORCE_ADD_FRIEND
+		/* - controllo se su DB esiste già qualcosa
+		 * - 
+		 */
+//		try {
+//			ClientEngine.getSIP(); 
+//		} catch (RemoteException e) {
+//			/* TODO: se il SIP è offline, aggiungo messaggi 
+//			di amicizia in una coda con FORCE_ADD_FRIEND */
+//		}
+		
 	}
 	
 	/**
@@ -276,7 +286,13 @@ public class ClientThread_FriendshipManager extends Thread {
 			e.printStackTrace();
 		} 
 		
-		// TODO: invio ack dell'amicizia al SIP 
+
+
+		
+		
+		/** Richiedo amicizia al SIP */
+		FriendshipRequest request = new FriendshipRequest(FriendshipRequest_Types.ADD_FRIEND, myContact, contattoRichiedente);
+		sendFriendshipRequestToSIP(request); 
 		
 		// TODO: Problema: se il SIP è down, e torna up in un secondo momento, 
 		// io invio mia friend request, ma il contatto poi non risulta più fra i miei 

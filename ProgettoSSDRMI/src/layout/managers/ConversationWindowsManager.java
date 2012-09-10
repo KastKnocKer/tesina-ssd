@@ -81,12 +81,16 @@ public class ConversationWindowsManager {
 	 */
 	public static void showConversationFrame(Contact contact) {
 		
-//		int userID = contact.getID(); 
-//		String nickname = contact.getNickname(); 
-//		String email = contact.geteMail(); 
+		int result = -1;
 		
 		/* Verifico se c'è un ConversationFrame già aperto */
-		int result = searchConversationWindow(contact.getID());
+		try {
+			result = searchConversationWindow(contact.getID());
+		} catch(Exception e) {
+			System.err.println("Errore durante l'apertura della finestra di conversazione.");
+			return; 
+		}
+		 
 
 		switch(result) {
 			/* apro una nuova finestra di conversazione */

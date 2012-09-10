@@ -22,6 +22,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import RMI.ClientInterface;
+import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequest_Types;
 
 import client.ClientEngine;
 
@@ -224,7 +226,14 @@ public class ContactListManager {
 			
 			/* Rimuovo l'amico sul SIP */
 			try {
-				ClientEngine.getSIP().removeFriendship(myContact, friendContact);
+
+				FriendshipRequest request = new FriendshipRequest(
+						FriendshipRequest_Types.REMOVE_FRIEND, 
+						myContact, 
+						friendContact);
+				
+				ClientEngine.getSIP().removeFriendship(request);
+				
 			} catch (RemoteException e1) {
 				System.err.println("Errore durante la richiesta al SIP.");
 				e1.printStackTrace();

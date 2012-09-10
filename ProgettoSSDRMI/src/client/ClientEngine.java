@@ -107,27 +107,25 @@ public class ClientEngine {
 		return response;
 	}
 	
-	/**
-	 * Richiede l'amicizia ad un altro contatto
-	 */
-	public static RMISIPBasicResponseMessage RequestFriendship(String email){
-		try {
-			
-			/* 1. whois email? ask SIP and p2p network */
-			
-			/* 2. send friendship request (try client, then eventually SIP) */
-			
-			
-			
-			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: " + email);
-			return getSIP().askFriendship(new RequestFriendshipMessage(email));
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.Login() exception: " + e.toString());
-			//e.printStackTrace();
-			return new RMISIPBasicResponseMessage(false, "ClientEngine.RequestFriendship() exception");
-		}
-	}
+//	/**
+//	 * Richiede l'amicizia ad un altro contatto
+//	 */
+//	public static RMISIPBasicResponseMessage RequestFriendship(String email){
+//		try {
+//			
+//			/* 1. whois email? ask SIP and p2p network */
+//			
+//			/* 2. send friendship request (try client, then eventually SIP) */
+//			
+//			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: " + email);
+//			return getSIP().askFriendship(new RequestFriendshipMessage(email));
+//		} catch (RemoteException e) {
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
+//			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+//			//e.printStackTrace();
+//			return new RMISIPBasicResponseMessage(false, "ClientEngine.RequestFriendship() exception");
+//		}
+//	}
 	
 	/**
 	 * Invia un messaggio ad un contatto

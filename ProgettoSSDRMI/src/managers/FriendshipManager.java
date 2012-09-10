@@ -45,18 +45,18 @@ public class FriendshipManager {
 		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia verso " + email_destinatario + " inviata con successo."); 
 	}
 	
-	/** 
-	 * La richiesta d'amicizia effettiva viene inviata al SIP solo in due casi: 
-	 * 1) il client con cui voglio stringere direttamente amicizia è offline (quindi il metodo sendFriendshipRequestToContact è fallito)
-	 * 2) come "acknoledgment" di amicizia stretta: i due client, se riescono a stringere amicizia in maniera esclusivamente p2p, 
-	 * poi mandano entrambi una friendship-request al SIP, per notificargli l'avvenuta amicizia. Vedendo due friendship requests dai due
-	 * client, il SIP capirà che hanno stretto amicizia. 
-	 * 
-	 * @author Fabio Pierazzi 
-	 */
-	public static void sendFriendshipRequestToSIP() {
-		
-	}
+//	/** 
+//	 * La richiesta d'amicizia effettiva viene inviata al SIP solo in due casi: 
+//	 * 1) il client con cui voglio stringere direttamente amicizia è offline (quindi il metodo sendFriendshipRequestToContact è fallito)
+//	 * 2) come "acknoledgment" di amicizia stretta: i due client, se riescono a stringere amicizia in maniera esclusivamente p2p, 
+//	 * poi mandano entrambi una friendship-request al SIP, per notificargli l'avvenuta amicizia. Vedendo due friendship requests dai due
+//	 * client, il SIP capirà che hanno stretto amicizia. 
+//	 * 
+//	 * @author Fabio Pierazzi 
+//	 */
+//	public static void sendFriendshipRequestToSIP() {
+//		
+//	}
 	
 	/**
 	 * Metodo per mostrare la richiesta di amicizia inviata dal contatto

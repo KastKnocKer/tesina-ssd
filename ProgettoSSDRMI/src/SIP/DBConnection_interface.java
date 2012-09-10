@@ -16,7 +16,7 @@ import chat.ChatStatusList;
  * @autor Andrea Castelli
  *
  */
-public interface DBEngine {
+public interface DBConnection_interface {
 	
 	/**
 	 * Usata in fase di registrazione di un nuovo utente. 
@@ -48,15 +48,15 @@ public interface DBEngine {
 	 */
 	public boolean updateContactConnectionStatus(int UserID, String PublicIP, String LocalIP, int rmiregistryPort, int clientport, ChatStatusList status);		
 
-	/**
-	 * TODO: REMOVE.
-	 * 
-	 * Richiesta d'amicizia senza conferma. 
-	 * 
-	 * @param msg
-	 * @return
-	 */
-	public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg);
+//	/**
+//	 * TODO: REMOVE.
+//	 * 
+//	 * Richiesta d'amicizia senza conferma. 
+//	 * 
+//	 * @param msg
+//	 * @return
+//	 */
+//	public RMISIPBasicResponseMessage requestFriendship(RequestFriendshipMessage msg);
 	
 	/**
 	 * Gestisce il login. 

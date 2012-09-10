@@ -20,7 +20,7 @@ import RMI.SIPInterface;
 /**
  * Main dell'applicazione 
  * 
- * @author Fabio Pierazzi, Andrea Castelli
+ * @author Andrea Castelli, Fabio Pierazzi
  *
  */
 public class MainSSD {

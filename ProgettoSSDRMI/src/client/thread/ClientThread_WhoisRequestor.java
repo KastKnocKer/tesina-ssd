@@ -52,6 +52,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 			contactToSearch = ContactListManager.searchContactByEmail(emailToSearch);
 			if(contactToSearch != null && contactToSearch.getStatus() != ChatStatusList.OFFLINE){
 				//Se ho trovato il contatto ed è online rispondo al richiedente
+				System.out.println("[Whois P2P] Contatto trovato!!");
 				sendResponseToRequestor(contactToSearch);
 				return;
 			}

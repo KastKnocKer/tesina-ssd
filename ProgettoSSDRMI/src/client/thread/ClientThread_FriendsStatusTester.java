@@ -32,7 +32,7 @@ public class ClientThread_FriendsStatusTester extends Thread{
 		System.err.println("Start to Test to: "+contactToTest.getNickname());
 		
 		try {
-			ClientInterface client = ClientEngine.getClient(contactToTest.getID());
+			ClientInterface client = ClientEngine.getClientWithoutOfflineControl(contactToTest.getID());
 			if(client == null){
 				System.err.println("Utente non raggiunto.");
 				contactToTest.setStatus(ChatStatusList.OFFLINE);

@@ -236,6 +236,59 @@ public class ClientEngine {
 	
 	/**
 	 * Permette di ottenere lo stub verso un oggetto client remoto di un contatto che si ha nella propria lista contatti (quindi amico)
+	 * senza controllarne la variabile di stato della connessione
+	 * @return Riferimento al Client
+	 */
+	public static ClientInterface getClientWithoutOfflineControl(int ContactUserID){
+		//Cerco il contatto nella propria lista contatti
+		Contact contact = ContactListManager.searchContactById(ContactUserID);
+		//Se è null il contatto non è stato trovato
+		if(contact == null){
+			System.out.println("Client - ClientInterface.getClientWithoutOfflineControl() - Utente "+ContactUserID+" non presente nella lista contatti!");
+			return null;
+		}
+		Registry registry;
+		ClientInterface client = null;
+		try {
+			
+			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
+				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
+				registry = LocateRegistry.getRegistry(contact.getLocalIP());
+			}else{
+				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
+				registry = LocateRegistry.getRegistry(contact.getGlobalIP());
+			}
+		
+			client = (ClientInterface) registry.lookup("Client");
+			if(client == null){
+				System.out.println("Client - ClientEngine.getClientWithoutOfflineControl() registry.lookup(\"Client\") == NULL");
+				return null;
+			}
+			
+		} catch (java.rmi.ConnectException e) {
+			//Quando sull'host non risponde l'rmiregistry
+			//Ritengo quindi che l'utente sia andato offline
+			contact.setStatus(ChatStatusList.OFFLINE);
+			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
+			LayoutReferences.getFriendsListTable().updateTable();
+			
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		} catch (NotBoundException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		}
+		return client;
+	}
+	
+	/**
+	 * Permette di ottenere lo stub verso un oggetto client remoto di un contatto che si ha nella propria lista contatti (quindi amico)
 	 * @return Riferimento al Client
 	 */
 	public static ClientInterface getClient(int ContactUserID){
@@ -244,6 +297,10 @@ public class ClientEngine {
 		//Se è null il contatto non è stato trovato
 		if(contact == null){
 			System.out.println("Client - ClientInterface.getClient() - Utente "+ContactUserID+" non presente nella lista contatti!");
+			return null;
+		}
+		if(!contact.isConnected()){
+			System.out.println("Il contatto "+contact.getNickname()+" è OFFLINE non lo contatterò");
 			return null;
 		}
 		Registry registry;

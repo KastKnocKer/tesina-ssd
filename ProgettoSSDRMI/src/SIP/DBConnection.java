@@ -577,7 +577,46 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 //		}
 		
 		
+//		/* Controllo se esiste già l'amicizia tra i due contatti */
+//		ResultSet result;
+//		
+//		try {
+//			PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT *,COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
+//			prepSt.setString(1, rlm.getUsername());
+//			prepSt.setString(2, rlm.getPassword());
+//			result = prepSt.executeQuery();
+//			result.next();
+//			
+//			
+//	        if(result.getInt("COUNT") == 0){
+//	        	System.out.println("SIP - Login["+rlm.getUsername()+"] rifiutato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
+//	        	return new ResponseLoginMessage(false, "Login rifiutato", null);
+//	        }else{
+//	        	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
+//	        	Contact contact = new Contact();
+//	        	contact.setID(		Integer.parseInt(result.getString(1)));
+//	        	contact.setNome(	result.getString(2));
+//	        	contact.setCognome(	result.getString(3));
+//	        	contact.setEmail(	result.getString(4));
+//	        	contact.setNickname(result.getString(5));  
+//	        	//TODO aggiungere private e publick key
+//	        	
+//	        	
+//	        	
+//	        	//AGGIORNO I DATI DELLO STATO DI CONNESSIONE DELL'UTENTE
+//	        	System.out.println("ESITO AGGIORNAMENTO: "+this.updateContactConnectionStatus(Integer.parseInt(result.getString(1)), rlm.getRequestorGlobalIP(), rlm.getRequestorLocalIP(), rlm.getRMIRegistryPort(), rlm.getRequestorClientPort(), rlm.getStato()));
+//	        	
+//	        	
+//	        	return new ResponseLoginMessage(true, "Login permesso", contact);
+//	        }
+//		} catch (SQLException e) {
+//			//e.printStackTrace();
+//			System.err.println("SIP - login() exception");
+//			return new ResponseLoginMessage(false, "Login exception", null);
+//		}
 		
+		
+		/* inserisco l'amicizia */
 		try {
 			prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
 			

@@ -5,10 +5,14 @@ import java.util.ArrayList;
 
 import client.ClientEngine;
 
+import layout.friendslist.FriendsList_Table;
+import layout.managers.LayoutReferences;
+import managers.ContactListManager;
 import managers.Status;
 
 import RMI.ClientInterface;
 
+import chat.ChatStatusList;
 import chat.Message;
 /**
  * Thread che si occupa dell'invio dei messaggi di chat agli altri nodi client
@@ -36,8 +40,12 @@ public class ClientThread_MessageSender extends Thread{
 			}
 			client.sendMessageToContact(messagesToDeliver,Status.getGlobalIP(),Status.getLocalIP());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("ClientThread_MessageSender.run() - Il contatto "+messagesToDeliver[0].getTo()+" è OFFLINE");
+			//e.printStackTrace();
+			ContactListManager.searchContactById(messagesToDeliver[0].getTo()).setStatus(ChatStatusList.OFFLINE);
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			if(table!=null) 
+				table.updateTable(); 
 		}
 	}
 

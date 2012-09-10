@@ -56,7 +56,6 @@ public class ClientThread_FriendsStatusTester extends Thread{
 		decrementCounter();
 		
 		FriendsList_Table table = LayoutReferences.getFriendsListTable();
-		
 		if(table!=null) 
 			table.updateTable(); 
 	}

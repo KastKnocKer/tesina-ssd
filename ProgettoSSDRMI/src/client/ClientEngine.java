@@ -15,8 +15,6 @@ import client.thread.ClientThread_WhoisRequestor;
 import RMI.ClientInterface;
 import RMI.SIPInterface;
 import RMIMessages.RMIBasicMessage;
-import RMIMessages.RMISIPBasicResponseMessage;
-import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
@@ -24,6 +22,7 @@ import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
 
+import layout.friendslist.FriendsList_Table;
 import layout.managers.*;
 import managers.ContactListManager;
 import managers.Status;
@@ -285,7 +284,10 @@ public class ClientEngine {
 			//Ritengo quindi che l'utente sia andato offline
 			contact.setStatus(ChatStatusList.OFFLINE);
 			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
-			LayoutReferences.getFriendsListTable().updateTable();
+			//Aggiorno la tabella
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			if(table!=null) 
+				table.updateTable(); 
 			
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
@@ -344,7 +346,10 @@ public class ClientEngine {
 			//Ritengo quindi che l'utente sia andato offline
 			contact.setStatus(ChatStatusList.OFFLINE);
 			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
-			LayoutReferences.getFriendsListTable().updateTable();
+			//Aggiorno la tabella
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			if(table!=null) 
+				table.updateTable(); 
 			
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
@@ -355,6 +360,10 @@ public class ClientEngine {
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+			//e.printStackTrace();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		}

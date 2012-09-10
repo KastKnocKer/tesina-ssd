@@ -130,8 +130,8 @@ public class SIP implements SIPInterface{
 //	}
 
 	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		DBConnection dbConn = new DBConnection();
+		return dbConn.setContactOffline(rmibm.getRequestorUserID());
 	}
 
 

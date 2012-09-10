@@ -156,9 +156,15 @@ public class Contact implements Serializable{
 		LocalIP = localIP;
 	}
 
+	/**
+	 * Aggiorna alcune delle variabili del contatto
+	 */
 	public void updateInfoFromContact(Contact contact){
 		if(UserID != contact.getID()){
 			System.out.println("Si sta aggiornando un contatto sbagliato.");
+			//Se ho contattato il contatto sbagliato l'IP non è piu valido!
+			LocalIP = null;
+			GlobalIP = null;
 			return;
 		}
 		GlobalIP 	= 	contact.getGlobalIP();

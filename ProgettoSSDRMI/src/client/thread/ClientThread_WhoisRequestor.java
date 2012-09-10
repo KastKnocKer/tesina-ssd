@@ -17,6 +17,7 @@ import RMIMessages.ResponseHowAreYou;
 import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
+import chat.StatusP2P;
 
 /**
  * Thread che si occupa dell'invio delle richieste per il whois P2P
@@ -47,6 +48,14 @@ public class ClientThread_WhoisRequestor extends Thread{
 
 	public void run() {
 		Contact contactToSearch = null;
+		
+		//Controllo di non avere già ricevuto la richiesta
+		if(!StatusP2P.addRequest(requestorUserID, requestorNum)){
+			//Ho già ricevuto la richiesta quindi ritorno
+			if(Status.SUPER_DEBUG) System.out.println("Client - ClientThread_WhoisRequestor: Richiesta già ricevuta!!");
+			return;
+		}
+		
 		if( !requestorGlobalIP.equals(Status.getGlobalIP()) ){
 			//Se non sono il richiedente originario controllo di avere il contatto nella mia lista contatti
 			contactToSearch = ContactListManager.searchContactByEmail(emailToSearch);

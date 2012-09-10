@@ -98,6 +98,7 @@ public class Contact implements Serializable{
 	}
 
 	public String getGlobalIP() {
+		if(GlobalIP == null || GlobalIP.length() == 0) return null;
 		return GlobalIP;
 	}
 
@@ -149,6 +150,7 @@ public class Contact implements Serializable{
 	}
 
 	public String getLocalIP() {
+		if(LocalIP == null || LocalIP.length() == 0) return null;
 		return LocalIP;
 	}
 

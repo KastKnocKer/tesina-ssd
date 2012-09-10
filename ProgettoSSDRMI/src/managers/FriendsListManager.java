@@ -39,7 +39,7 @@ public class FriendsListManager {
 		 * @author Fabio Pierazzi
 		 */
 		// TODO da perfezionare
-		public static void loadFriendsList() {
+		public static synchronized void loadFriendsList() {
 			
 			// TODO Controllare che esista il file CONTACTS.xml
 			// TODO Se esiste, caricare i contatti dal file altrimenti richiedere al sip

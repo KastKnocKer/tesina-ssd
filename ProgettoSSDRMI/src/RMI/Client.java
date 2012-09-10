@@ -9,6 +9,7 @@ import managers.ContactListManager;
 import managers.FriendshipManager;
 import managers.Status;
 
+import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
@@ -172,5 +173,15 @@ public class Client implements ClientInterface{
 		boolean result = ContactListManager.removeFromContactList(contattoMittente); 
 		
 		return result; 
+	}
+
+	
+	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException {
+		Contact contact = ContactListManager.searchContactById(rmibm.getRequestorUserID());
+		if(contact != null){
+			contact.setStatus(ChatStatusList.OFFLINE);
+			return true;
+		}
+		return false;
 	}
 }

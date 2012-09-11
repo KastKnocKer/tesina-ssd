@@ -17,6 +17,7 @@ import RMIMessages.ResponseHowAreYou;
 import chat.Contact;
 import chat.Message;
 import chat.ChatStatusList;
+import chat.StatusP2P;
 import client.ClientEngine;
 import client.thread.ClientThread_WhoisRequestor;
 
@@ -177,6 +178,10 @@ public class Client implements ClientInterface{
 //		return null;
 	}
 	
+	public void whoisResponse(int requestorUserID, int responseFromID, int requestorNum, Contact contact) throws RemoteException {
+		StatusP2P.addWhoisResponse(requestorUserID, requestorNum, responseFromID, contact);
+	}
+	
 	@Override
 	public boolean receiveFriendshipRemovalNotificationFromContact(Contact contattoMittente) {
 		
@@ -197,4 +202,6 @@ public class Client implements ClientInterface{
 		}
 		return false;
 	}
+
+	
 }

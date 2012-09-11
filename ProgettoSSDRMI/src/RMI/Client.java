@@ -79,9 +79,9 @@ public class Client implements ClientInterface{
 			Contact contact = ContactListManager.searchContactById(senderID);
 				contact.setGlobalIP(senderGlobalIP);
 				contact.setLocalIP(senderLocalIP);
-				//Il contatto deve esser per forza raggiungibile se mi ha contattato quindi lo metto AWAY
+				//Il contatto deve esser per forza raggiungibile se mi ha contattato quindi lo metto ONLINE
 				if(!contact.isConnected()){
-					contact.setStatus(ChatStatusList.AWAY);
+					contact.setStatus(ChatStatusList.ONLINE);
 					//Aggiorno la tabella
 					FriendsList_Table table = LayoutReferences.getFriendsListTable();
 					if(table!=null) 

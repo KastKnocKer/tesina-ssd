@@ -58,12 +58,17 @@ public class MainSSD {
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
 		 * mettendo l'IP globale al posto dell'ip locale. 
 		 * NOTA: PROVOCA MALFUNZIONAMENTI IN LAN!!!	 */
-		if(!Status.isDebuginlan()) System.setProperty("java.rmi.server.hostname", wimi.getGlobalIP());
+		if(!Status.isDebuginlan()){
+			String globalIP = Status.getGlobalIP();
+			if(globalIP != null){
+				System.setProperty("java.rmi.server.hostname", globalIP);
+			}
+		}
 		
 		
 		Status.setLocalIP(wimi.getLocalIPs()[0][0]);
 		if(Status.SUPER_DEBUG){
-			System.out.println("My GLOBAL IP: "+wimi.getGlobalIP());
+			System.out.println("My GLOBAL IP: "+Status.getGlobalIP());
 			String[][] localIPs = wimi.getLocalIPs();
 			for(int i=0; i<localIPs.length; i++){
 				System.out.println("My LOCAL IP: "+wimi.getLocalIPs()[i][0]);

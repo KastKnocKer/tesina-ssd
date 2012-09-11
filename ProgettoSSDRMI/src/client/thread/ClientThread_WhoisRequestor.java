@@ -62,7 +62,13 @@ public class ClientThread_WhoisRequestor extends Thread{
 			if(contactToSearch != null && contactToSearch.getStatus() != ChatStatusList.OFFLINE){
 				//Se ho trovato il contatto ed è online rispondo al richiedente
 				System.out.println("[Whois P2P] Contatto trovato!!");
-				sendResponseToRequestor(contactToSearch);
+				ClientInterface client = ClientEngine.getClient(requestorGlobalIP);
+				try {
+					client.whoisResponse(requestorUserID, Status.getUserID(), requestorNum, contactToSearch);
+				} catch (RemoteException e) {
+					System.err.println("Client - ClientThread_WhoisRequestor.run()");
+					e.printStackTrace();
+				}
 				return;
 			}
 		}
@@ -116,9 +122,5 @@ public class ClientThread_WhoisRequestor extends Thread{
 //		decrementCounter();
 	}
 	
-	private void sendResponseToRequestor(Contact contactToSearch){
-		System.out.println("----->     MAGIA: RISPONDO AL RICHIEDENTE     <-----");
-	}
-
 
 }

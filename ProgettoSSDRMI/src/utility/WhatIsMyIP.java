@@ -20,14 +20,13 @@ package utility;
  */
 
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+
 
 /**
  * Contains function to find out what IP the user is having.
@@ -82,7 +81,11 @@ public class WhatIsMyIP {
          * for the same time.
          */
         public String getGlobalIP() {
-                String webPage = getWebPage("www.whatismyip.se", 80);
+        	
+        	String ip = getGlobalIPFromWhatIsMyIPCom();
+        	if(ip != null) return ip;
+        	
+        	String webPage = getWebPage("www.whatismyip.se", 80);
                 if(webPage != null && !webPage.equals("")) {
                         String ipStr = parseWhatIsMyIPSe(webPage);
                         if(isRealIP(ipStr)) {
@@ -90,7 +93,7 @@ public class WhatIsMyIP {
                         }
                 }
 
-                String webPage2 = getWebPage("www.whatismyip.org", 80);
+            String webPage2 = getWebPage("www.whatismyip.org", 80);
                 if(webPage2 != null && !webPage2.equals("")) {
                         String ipStr = parseWhatIsMyIPOrg(webPage2);
                         if(isRealIP(ipStr)) {
@@ -100,8 +103,54 @@ public class WhatIsMyIP {
 
                 return null;
         }
+        
+        public String getGlobalIPFromWhatIsMyIPCom(){
+        	try {
+                java.net.URL url = new java.net.URL("http://automation.whatismyip.com/n09230945.asp");
+                java.net.HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+                java.io.InputStream stream = con.getInputStream();
+                java.io.InputStreamReader reader = new java.io.InputStreamReader(stream);
+                java.io.BufferedReader bReader = new java.io.BufferedReader(reader);
+                String GlobalIP = bReader.readLine();
+                return GlobalIP;
 
-        /**
+            } catch (Exception e) {
+                return null;
+            }
+
+        	
+        	
+        	
+//        	URL dotcom;
+//			try {
+//				dotcom = new URL("automation.whatismyip.com/n09230945.asp");
+//				URLConnection yc = (URLConnection) dotcom.openConnection();
+//	        	BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+//	        	String inputLine;
+//	        	while ((inputLine = in.readLine()) != null) 
+//	        	            System.out.println(inputLine);
+//	        	in.close();
+//			} catch (MalformedURLException e) {			e.printStackTrace();
+//			} catch (IOException e) {					e.printStackTrace();}
+        	
+        }
+        
+        public BufferedReader read(String url) throws Exception{
+    		return new BufferedReader(
+    			new InputStreamReader(
+    				new URL(url).openStream()));
+    	}
+
+        private String parseWhatIsMyIPCom(String webPage0) {
+			System.out.println(webPage0);
+			int start = 6 + webPage0.indexOf("<body>");
+			int stop = webPage0.indexOf("</body>");
+			return webPage0.substring(start,stop);
+		}
+
+
+		/**
          * Retrieves a web page as a String. Checks that the return code of the web page is 200 OK.
          * @param host the host address.
          * @param port the host port.

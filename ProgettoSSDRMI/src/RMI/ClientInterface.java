@@ -73,6 +73,11 @@ public interface ClientInterface extends Remote{
 	 */
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException;
 
+	/**
+	 * Risponde alla richiesta whoisP2P
+	 */
+	public void whoisResponse(int requestorUserID, int responseFromID, int requestorNum, Contact contact) throws RemoteException;
+
 	
 	/**
 	 * Metodo usato per notificare che un altro amico mi ha rimosso

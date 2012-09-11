@@ -325,6 +325,9 @@ public class Conversation_Frame extends JFrame {
 		
 		/* Versione TextArea */
 		String msg = textAreaSendMessage.getText(); 
+		//Se il messaggio è nullo aborto
+		if(msg == null || msg.length() == 0) return;
+		
 		textAreaProvaShowMessage.append("[" + DateUtils.now_time() + "] " + Status.getNickname() + ": " +  msg + "\n"); 
 		textAreaSendMessage.setText("");
 		

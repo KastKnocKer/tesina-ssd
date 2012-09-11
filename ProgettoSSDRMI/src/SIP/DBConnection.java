@@ -286,11 +286,12 @@ public ResponseLoginMessage login(RequestLoginMessage rlm) {
         }else{
         	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
         	Contact contact = new Contact();
-        	contact.setID(		Integer.parseInt(result.getString(1)));
-        	contact.setNome(	result.getString(2));
-        	contact.setCognome(	result.getString(3));
-        	contact.setEmail(	result.getString(4));
-        	contact.setNickname(result.getString(5));  
+        	contact.setID(		Integer.parseInt(result.getString("idUser")));
+        	contact.setNome(	result.getString("nome"));
+        	contact.setCognome(	result.getString("cognome"));
+        	contact.setEmail(	result.getString("email"));
+        	contact.setNickname(result.getString("nickname"));
+        	contact.setAvatarURL(result.getString("avatarurl"));
         	//TODO aggiungere private e publick key
         	
         	

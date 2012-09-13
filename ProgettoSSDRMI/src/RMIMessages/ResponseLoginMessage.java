@@ -3,7 +3,6 @@ package RMIMessages;
 import java.util.ArrayList;
 
 import chat.Contact;
-import utility.RMIResponse;
 
 public class ResponseLoginMessage extends RMISIPBasicResponseMessage{
 

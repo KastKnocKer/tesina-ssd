@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
+import managers.FileContactsManager;
 import managers.Status;
 import utility.Counter;
 import RMI.ClientInterface;
@@ -66,7 +67,7 @@ public class ClientThread_FriendsStatusTester extends Thread{
 			//TODO x Fabio -> AGGIORNARE TABELLA LISTA CONTATTI
 			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
-			ContactListManager.writeContactsXML();
+			FileContactsManager.writeContactsXML();
 //			LayoutReferences.getFriendsListTable().updateTable(); 
 		}
 	}

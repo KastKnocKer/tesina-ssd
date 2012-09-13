@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import client.thread.ClientThread;
 
 import layout.homeframe.Home_Frame;
+import managers.FileConfManager;
 import managers.Status;
 import utility.WhatIsMyIP;
 import RMI.Client;
@@ -77,7 +78,7 @@ public class MainSSD {
 		
 		
 		//	Carico i dati locali
-		status.readConfXML();	//File locale di configurazione
+		FileConfManager.readConfXML();	//File locale di configurazione
 		
 		System.err.println("CLIENT TYPE: "+Status.getType());
 		

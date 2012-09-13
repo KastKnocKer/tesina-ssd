@@ -25,6 +25,7 @@ public class FriendsList_TableModel extends AbstractTableModel {
 	 */
 	public FriendsList_TableModel() {
 		super();
+		friendsList = new FriendsList();
 		LayoutReferences.setFriendsListTableModel(this); 
 	}
 	

@@ -197,12 +197,18 @@ public class ClientThread_FriendshipManager extends Thread {
 		/* - controllo se su DB esiste già qualcosa
 		 * - 
 		 */
-//		try {
-//			ClientEngine.getSIP(); 
-//		} catch (RemoteException e) {
-//			/* TODO: se il SIP è offline, aggiungo messaggi 
-//			di amicizia in una coda con FORCE_ADD_FRIEND */
-//		}
+		try {
+			if(request.getRequestType() == FriendshipRequest_Types.ADD_FRIEND ||
+					request.getRequestType() == FriendshipRequest_Types.FORCE_ADD_FRIEND ) {
+				ClientEngine.getSIP().addFriendship(request);
+			} else if(request.getRequestType() == FriendshipRequest_Types.REMOVE_FRIEND) {
+				ClientEngine.getSIP().removeFriendship(request);
+			}
+			
+		} catch (RemoteException e) {
+			/* TODO: se il SIP è offline, aggiungo messaggi 
+			di amicizia in una coda con FORCE_ADD_FRIEND */
+		}
 		
 	}
 	
@@ -291,6 +297,7 @@ public class ClientThread_FriendshipManager extends Thread {
 		
 		
 		/** Richiedo amicizia al SIP */
+		System.err.println("Adesso richiedo amicizia al SIP");
 		FriendshipRequest request = new FriendshipRequest(FriendshipRequest_Types.ADD_FRIEND, myContact, contattoRichiedente);
 		sendFriendshipRequestToSIP(request); 
 		

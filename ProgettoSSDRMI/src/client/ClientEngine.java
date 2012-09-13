@@ -25,6 +25,8 @@ import chat.ChatStatusList;
 import layout.friendslist.FriendsList_Table;
 import layout.managers.*;
 import managers.ContactListManager;
+import managers.FileConfManager;
+import managers.FileContactsManager;
 import managers.Status;
 
 /**
@@ -39,37 +41,97 @@ public class ClientEngine {
 	public static ResponseLoginMessage Login(String username, String password) {
 		ResponseLoginMessage response = null;
 		//Login mediante server SIP
+		if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
+		
+		SIPInterface SIP = getSIP();
+		if(SIP == null){
+			System.err.println("IL SIP e' OFFLINE!!! Procedo con la procedura di login P2P (SIP == null)");
+			return LoginP2P(username, password);
+		}
+		
+		System.out.println(SIP.toString());
+		
 		try {
-			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
-			response = getSIP().login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
-			if(response.isSUCCESS()){
-				//Aggiorno i dati personali
-				Status.setUserID(response.getLoggedContact().getID());
-				Status.setEmail(response.getLoggedContact().getEmail());
-				Status.setNome(response.getLoggedContact().getNome());
-				Status.setCognome(response.getLoggedContact().getCognome());
-				Status.setNickname(response.getLoggedContact().getNickname());
-				Status.setLOGGED(true);
-				
-				//Controllo se è stata inviata anche la lista dei contatti
-				ArrayList<Contact> contactList = response.getContactList();
-				if(contactList != null){
-					System.out.println("Contact list caricata dal Login: " +contactList.size());
-					ContactListManager.setContactList(contactList);
-				}
-				
-				//Aggiorno i dati del LastLogin su Status
-				Status.setLastLoginUsername(username);
-				Status.setLastLoginPassword(password);
-				Status.writeConfXML();
-			}
-			return response;
+			response = SIP.login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
+			//System.err.println("login remoteexception");
 			//System.err.println("ClientEngine.Login() exception: " + e.toString());
 			//e.printStackTrace();
-			return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
+			//return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
+			System.err.println("IL SIP e' OFFLINE!!! Procedo con la procedura di login P2P (RemoteException)");
+			return LoginP2P(username, password);
 		}
+		
+		if(response.isSUCCESS()){
+			//Aggiorno i dati personali
+			Status.setUserID(response.getLoggedContact().getID());
+			Status.setEmail(response.getLoggedContact().getEmail());
+			Status.setNome(response.getLoggedContact().getNome());
+			Status.setCognome(response.getLoggedContact().getCognome());
+			Status.setNickname(response.getLoggedContact().getNickname());
+			Status.setLOGGED(true);
+			
+			//Controllo se è stata inviata anche la lista dei contatti
+			ArrayList<Contact> contactList = response.getContactList();
+			if(contactList != null){
+				System.out.println("Contact list caricata dal Login: " +contactList.size());
+				ContactListManager.setContactList(contactList);
+			}
+			
+			//Aggiorno i dati del LastLogin su Status
+			Status.setLastLoginUsername(username);
+			Status.setLastLoginPassword(password);
+			FileConfManager.writeConfXML();
+		}
+		return response;
+	}
+	
+	/**
+	 * Permette, se possibile, di fare il login al sistema senza passare per il SIP
+	 */
+	public static ResponseLoginMessage LoginP2P(String username, String password) {
+		Status.setLastLoginUsername(username);
+		Status.setLastLoginPassword(password);
+		ResponseLoginMessage response = null;
+		
+		if(FileContactsManager.readContactsXML()){
+			Status.setLOGGED(true);
+			Status.setLOGGEDP2P(true);
+		}
+		//Login mediante server SIP
+//		try {
+//			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
+//			response = getSIP().login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
+//			if(response.isSUCCESS()){
+//				//Aggiorno i dati personali
+//				Status.setUserID(response.getLoggedContact().getID());
+//				Status.setEmail(response.getLoggedContact().getEmail());
+//				Status.setNome(response.getLoggedContact().getNome());
+//				Status.setCognome(response.getLoggedContact().getCognome());
+//				Status.setNickname(response.getLoggedContact().getNickname());
+//				Status.setLOGGED(true);
+//				
+//				//Controllo se è stata inviata anche la lista dei contatti
+//				ArrayList<Contact> contactList = response.getContactList();
+//				if(contactList != null){
+//					System.out.println("Contact list caricata dal Login: " +contactList.size());
+//					ContactListManager.setContactList(contactList);
+//				}
+//				
+//				//Aggiorno i dati del LastLogin su Status
+//				Status.setLastLoginUsername(username);
+//				Status.setLastLoginPassword(password);
+//				Status.writeConfXML();
+//			}
+//			return response;
+//		} catch (RemoteException e) {
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
+//			//System.err.println("ClientEngine.Login() exception: " + e.toString());
+//			//e.printStackTrace();
+//			return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
+//		}
+		return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
 	}
 	
 	public static boolean Logout(){
@@ -229,15 +291,24 @@ public class ClientEngine {
 			if(Status.DEBUG) System.out.println("Client - Tentativo getSIP() SIP: "+Status.getSIPAddress()+":"+Status.getSIP_Port());
 			registry = LocateRegistry.getRegistry(Status.getSIPAddress());
 			sip = (SIPInterface) registry.lookup("SIP");
+			if(sip == null)
+				Status.setSIPStatusOnline(false);
+			else
+				Status.setSIPStatusOnline(true);
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
+			System.out.println("ClientEngine.getSIP() : RemoteException");
+			Status.setSIPStatusOnline(false);
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
+			System.out.println("ClientEngine.getSIP() : NotBoundException");
+			Status.setSIPStatusOnline(false);
+			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		}
+		
 		return sip;
 	}
 	

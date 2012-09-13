@@ -617,7 +617,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 //		}
 		
 		
-		/* inserisco l'amicizia */
+		/* Inserisco l'amicizia */
 		try {
 			prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
 			

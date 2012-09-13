@@ -133,7 +133,6 @@ public class Client implements ClientInterface{
 		return new RMIBasicResponseMessage(true, "L'amicizia è stata confermata correttamente all'utente " + Status.getEmail() + ".");
 	}
 
-
 	public void whois(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) throws RemoteException {
 		System.out.println("Ho ricevuto WHOIS() da: "+requestorUserID+ "  -  "+requestorGlobalIP+" - TTL: "+TTL);
 		new ClientThread_WhoisRequestor(requestorUserID, requestorGlobalIP, requestorNum, TTL, emailToSearch);

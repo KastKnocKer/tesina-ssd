@@ -545,6 +545,18 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 	@Override
 	public boolean addFriendship(FriendshipRequest request) {
 		
+		if(!connesso)
+			connetti(); 
+		
+		/* Inizio transazione */
+		try {
+			System.err.println("*** INIZIO TRANSAZIONE DB ***");
+			db.setAutoCommit(false);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		if(Status.DEBUG) 
 			System.err.println("DBConnection.addFriendship: starting...");
 		
@@ -639,6 +651,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			
 			/* Se su DB non era presente nessuna richiesta di amicizia... */
 			if(actualFriendshipType == null) {
+				System.err.println("Preparo query INSERT...");
 				prepSt = (PreparedStatement) db.prepareStatement("" +
 						"INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) " +
 						"VALUES (?, ?, ?);");
@@ -659,6 +672,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			/* se invece su DB era presente già uno stato dell'amicizia, allora
 			 * devo solamente eseguirne l'update */
 			else if (actualFriendshipType != null) {
+				System.err.println("Preparo query UPDATE...");
 				prepSt = (PreparedStatement) db.prepareStatement("" +
 						"UPDATE friendship " +
 						"SET linkType = ? " +
@@ -682,6 +696,10 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			
 		/* Eseguo l'update, che sia INSERT od UPDATE */
 		prepSt.executeUpdate();
+		
+		/* Finisco la transazione */
+		System.err.println("*** TERMINO TRANSAZIONE DB ***");
+		db.commit(); 
 		
 		prepSt.close(); 
 		

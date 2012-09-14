@@ -636,7 +636,13 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			
 		}
 		
-		System.err.println("actualFriendshipType: " + actualFriendshipType.toString() + "; " +
+		
+		String actualFriendshipType_string = ""; 
+		if(actualFriendshipType != null) {
+			actualFriendshipType_string = actualFriendshipType.toString(); 
+		}
+		System.err.println("actualFriendshipType: " + 
+				actualFriendshipType_string + "; " +
 				"requestedFriendshipType: " + requestedFriendshipType.toString());
 		
 		/* se per caso arrivati a questo punto è ancora null, 

@@ -98,9 +98,9 @@ public class ClientThread_FriendshipManager extends Thread {
 		/*****************************
 		 * SEND FRIENDSHIP REQUEST TO SIP
 		 *****************************/
-		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT) {
+		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_SIP) {
 			
-			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_CONTACT");
+			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_SIP");
 			
 			sendFriendshipRequestToSIP(friendshipRequest); 
 			

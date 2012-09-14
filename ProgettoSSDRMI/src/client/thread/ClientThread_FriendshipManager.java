@@ -310,17 +310,19 @@ public class ClientThread_FriendshipManager extends Thread {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} 
-		
-
 
 		
 		
 		/** Richiedo amicizia al SIP */
+		/** NOTA: CHIEDO ESPLICITAMENTE L'AMICIZIA NEL VERSO OPPOSTO: 
+		 * da me destinatario verso di lui mittente!!! 
+		 * (Motivo: il mittente la richiederà al SIP nel verso opposto, 
+		 * e saprà che l'amicizia è autentica e confermata )*/
 		System.err.println("Adesso richiedo amicizia al SIP");
 		FriendshipRequest request = new FriendshipRequest(
 				FriendshipRequestType.ADD_FRIEND, 
-				contattoMittente, 
-				myContact);
+				myContact, 
+				contattoMittente);
 		
 		sendFriendshipRequestToSIP(request); 
 		

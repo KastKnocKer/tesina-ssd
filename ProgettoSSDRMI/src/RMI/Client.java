@@ -129,7 +129,6 @@ public class Client implements ClientInterface{
 				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 		
 		// TODO: invio friendshipRequest al SIP (se è offline, devo salvarlo in una coda e ritentare periodicamente) 
-		
 		try {
 			FriendshipRequest request = new FriendshipRequest(
 					FriendshipRequestType.ADD_FRIEND, 

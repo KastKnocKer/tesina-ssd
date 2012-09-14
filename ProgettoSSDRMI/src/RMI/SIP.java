@@ -75,7 +75,7 @@ public class SIP implements SIPInterface{
 	 * @author Fabio Pierazzi
 	 */
 	@Override
-	public RMISIPBasicResponseMessage addFriendship(FriendshipRequest request)
+	public synchronized RMISIPBasicResponseMessage addFriendship(FriendshipRequest request)
 			throws RemoteException {
 
 		DBConnection dbConn = new DBConnection();
@@ -84,7 +84,7 @@ public class SIP implements SIPInterface{
 	}
 	
 	
-	public RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) {
+	public synchronized RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) {
 		
 		DBConnection dbConn = new DBConnection();
 		dbConn.removeFriendship(request); 

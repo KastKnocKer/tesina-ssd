@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import RMIMessages.FriendshipRequest;
-import RMIMessages.FriendshipRequest_Types;
+import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestFriendshipMessage;

@@ -1,6 +1,6 @@
 package SIP;
 
-public enum FriendshipList {
+public enum FriendshipType {
 	RICHIESTA_AB, 
 	RICHIESTA_BA,
 	ATTIVA

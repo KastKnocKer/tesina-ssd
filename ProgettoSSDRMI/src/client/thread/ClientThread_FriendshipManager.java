@@ -10,7 +10,7 @@ import managers.ContactListManager;
 import managers.Status;
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
-import RMIMessages.FriendshipRequest_Types;
+import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.ClientEngine;
@@ -133,7 +133,6 @@ public class ClientThread_FriendshipManager extends Thread {
 				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto " + email + " non valido"); 
 			
 			
-			// TODO scommenta
 			ClientInterface clientInterface = null;
 			
 			try {
@@ -161,7 +160,6 @@ public class ClientThread_FriendshipManager extends Thread {
 			} else {
 				clientInterface.receiveFriendshipRequestFromContact(myContact);
 			}
-			// TODO da qui in poi lascia commento
 			
 //			System.err.println("Mostro finestra di richiesta amicizia");
 //			FriendshipManager.showFriendshipRequestFrom(myContact);
@@ -198,16 +196,17 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * - 
 		 */
 		try {
-			if(request.getRequestType() == FriendshipRequest_Types.ADD_FRIEND ||
-					request.getRequestType() == FriendshipRequest_Types.FORCE_ADD_FRIEND ) {
+			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND ||
+					request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND ) {
 				ClientEngine.getSIP().addFriendship(request);
-			} else if(request.getRequestType() == FriendshipRequest_Types.REMOVE_FRIEND) {
+			} else if(request.getRequestType() == FriendshipRequestType.REMOVE_FRIEND) {
 				ClientEngine.getSIP().removeFriendship(request);
 			}
 			
 		} catch (RemoteException e) {
 			/* TODO: se il SIP è offline, aggiungo messaggi 
 			di amicizia in una coda con FORCE_ADD_FRIEND */
+			System.err.println("ClientThread_FriendshipManager.sendFriendshipRequestToSIP(): errore durante l'esecuzione del metodo.");
 		}
 		
 	}
@@ -298,7 +297,11 @@ public class ClientThread_FriendshipManager extends Thread {
 		
 		/** Richiedo amicizia al SIP */
 		System.err.println("Adesso richiedo amicizia al SIP");
-		FriendshipRequest request = new FriendshipRequest(FriendshipRequest_Types.ADD_FRIEND, myContact, contattoRichiedente);
+		FriendshipRequest request = new FriendshipRequest(
+				FriendshipRequestType.ADD_FRIEND, 
+				myContact, 
+				contattoRichiedente);
+		
 		sendFriendshipRequestToSIP(request); 
 		
 		// TODO: Problema: se il SIP è down, e torna up in un secondo momento, 
@@ -309,16 +312,16 @@ public class ClientThread_FriendshipManager extends Thread {
 	}
 	
 	
-	/**
-	 * Funzione per aggiungere un nuovo amico all'interno della propria 
-     * lista contatti. Il contatto viene aggiunto, e viene aggiornata la
-     * tabella contenente la lista amici. 
-     *  
-	 * @param newContact, nuovo contatto da aggiungere alla propria friendsList. 
-	 */
-	private void addNewFriend(Contact newContact) {
-		
-	}
+//	/**
+//	 * Funzione per aggiungere un nuovo amico all'interno della propria 
+//     * lista contatti. Il contatto viene aggiunto, e viene aggiornata la
+//     * tabella contenente la lista amici. 
+//     *  
+//	 * @param newContact, nuovo contatto da aggiungere alla propria friendsList. 
+//	 */
+//	private void addNewFriend(Contact newContact) {
+//		
+//	}
 	
 	private void removeFriend(Contact contactToRemove) {
 		/* rimuovo il contatto */

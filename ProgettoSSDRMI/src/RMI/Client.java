@@ -1,6 +1,5 @@
 package RMI;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -9,14 +8,13 @@ import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendshipManager;
 import managers.Status;
-
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
 import RMIMessages.ResponseHowAreYou;
+import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
-import chat.ChatStatusList;
 import chat.StatusP2P;
 import client.ClientEngine;
 import client.thread.ClientThread_WhoisRequestor;
@@ -107,13 +105,13 @@ public class Client implements ClientInterface{
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 
-	@Override
-	public RMIBasicResponseMessage sendFriendshipRequestToSIP(
-			Contact contattoRichiedente, Contact contattoRicevente)
-			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public RMIBasicResponseMessage sendFriendshipRequestToSIP(
+//			Contact contattoRichiedente, Contact contattoRicevente)
+//			throws RemoteException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public RMIBasicResponseMessage receiveFriendshipAckFromContact(

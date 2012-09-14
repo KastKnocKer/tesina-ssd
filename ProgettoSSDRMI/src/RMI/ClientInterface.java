@@ -44,17 +44,17 @@ public interface ClientInterface extends Remote{
 	RMIBasicResponseMessage receiveFriendshipRequestFromContact(Contact contattoRichiedente) throws RemoteException;
 	
 
-	/**
-	 * Invio richiesta di amicizia per un altro contatto al SIP.
-	 *
-	 * @param contattoRichiedente contatto di chi ha richiesto l'amicizia
-	 * @param contattoRicevente contatto di chi ha ricevuto la richiesta di amicizia
-	 * @return messaggio di risposta al client per comunicare eventuali errori 
-	 * @throws RemoteException
-	 * 
-	 * @author Fabio Pierazzi
-	 */
-	RMIBasicResponseMessage sendFriendshipRequestToSIP(Contact contattoRichiedente, Contact contattoRicevente) throws RemoteException; 
+//	/**
+//	 * Invio richiesta di amicizia per un altro contatto al SIP.
+//	 *
+//	 * @param contattoRichiedente contatto di chi ha richiesto l'amicizia
+//	 * @param contattoRicevente contatto di chi ha ricevuto la richiesta di amicizia
+//	 * @return messaggio di risposta al client per comunicare eventuali errori 
+//	 * @throws RemoteException
+//	 * 
+//	 * @author Fabio Pierazzi
+//	 */
+//	RMIBasicResponseMessage sendFriendshipRequestToSIP(Contact contattoRichiedente, Contact contattoRicevente) throws RemoteException; 
 	
 	/**
 	 * Invio conferma per la richiesta di amicizia direttamente ad un altro

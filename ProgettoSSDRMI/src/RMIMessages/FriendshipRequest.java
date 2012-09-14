@@ -12,7 +12,7 @@ import chat.Contact;
 public class FriendshipRequest extends RMIBasicMessage {
 
 	/** Il tipo della richiesta che voglio inviare al SIP */
-	private FriendshipRequest_Types requestType = null;
+	private FriendshipRequestType requestType = null;
 	/** Mittente della richiesta al SIP */
 	private Contact contattoMittente;  
 	/** Contatto a cui è riferito il messaggio (chi voglio aggiungere/rimuovere) */
@@ -26,7 +26,7 @@ public class FriendshipRequest extends RMIBasicMessage {
 	 * @param contattoDestinatario di colui che ha ricevuto ola richiesta di amicizia
 	 */
 	public FriendshipRequest(
-			FriendshipRequest_Types requestType,
+			FriendshipRequestType requestType,
 			Contact contattoMittente, 
 			Contact contattoDestinatario) {
 		
@@ -38,11 +38,11 @@ public class FriendshipRequest extends RMIBasicMessage {
 		
 	}
 
-	public FriendshipRequest_Types getRequestType() {
+	public FriendshipRequestType getRequestType() {
 		return requestType;
 	}
 
-	public void setRequestType(FriendshipRequest_Types requestType) {
+	public void setRequestType(FriendshipRequestType requestType) {
 		this.requestType = requestType;
 	}
 

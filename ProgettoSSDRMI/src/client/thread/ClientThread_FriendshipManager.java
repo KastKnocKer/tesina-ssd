@@ -283,11 +283,11 @@ public class ClientThread_FriendshipManager extends Thread {
 	 * 
 	 * @param myContact
 	 */
-	private void acceptFriendshipRequest(Contact contattoRichiedente) {
+	private void acceptFriendshipRequest(Contact contattoMittente) {
 		
 		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
 		 * della tabella con la lista amici. */
-		ContactListManager.addToContactList(contattoRichiedente); 
+		ContactListManager.addToContactList(contattoMittente); 
 		FriendsList_Table table = LayoutReferences.getFriendsListTable();
 		if(table != null) {
 			table.updateTable(); 
@@ -301,11 +301,11 @@ public class ClientThread_FriendshipManager extends Thread {
 		try {
 			
 			/* se sono in lan */
-			if(contattoRichiedente.getGlobalIP().equals(Status.getGlobalIP()))
-				ClientEngine.getClient(contattoRichiedente.getLocalIP()).receiveFriendshipAckFromContact(myContact);
+			if(contattoMittente.getGlobalIP().equals(Status.getGlobalIP()))
+				ClientEngine.getClient(contattoMittente.getLocalIP()).receiveFriendshipAckFromContact(myContact);
 			/* se non sono in lan */
 			else
-				ClientEngine.getClient(contattoRichiedente.getGlobalIP()).receiveFriendshipAckFromContact(myContact);
+				ClientEngine.getClient(contattoMittente.getGlobalIP()).receiveFriendshipAckFromContact(myContact);
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -319,8 +319,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		System.err.println("Adesso richiedo amicizia al SIP");
 		FriendshipRequest request = new FriendshipRequest(
 				FriendshipRequestType.ADD_FRIEND, 
-				myContact, 
-				contattoRichiedente);
+				contattoMittente, 
+				myContact);
 		
 		sendFriendshipRequestToSIP(request); 
 		

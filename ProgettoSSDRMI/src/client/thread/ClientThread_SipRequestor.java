@@ -1,7 +1,18 @@
 package client.thread;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import layout.friendslist.FriendsList_Table;
+import layout.managers.LayoutReferences;
+import managers.ContactListManager;
+import managers.Status;
+import RMI.ClientInterface;
+import client.ClientEngine;
+import client.OUTChatMessageListManager;
+import client.requesttosip.RequestToSIPListManager;
+
+import chat.ChatStatusList;
 import chat.Message;
 
 /**
@@ -11,8 +22,35 @@ import chat.Message;
  * @author Fabio Pierazzi
  */
 public class ClientThread_SipRequestor extends Thread {
+	private int index;
 	
-	private ArrayList<Message> requestToDeliver; 
+	public ClientThread_SipRequestor(){
+		
+	}
+	
+	
+	public void run() {
+		index = 0;
+		while(true){
+			
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {	
+				e.printStackTrace(); System.out.println("ClientThread Exception");
+			}
+			
+			//Se non sono loggato skippo
+			if(!Status.isLOGGED()) 
+				continue;	
+
+			//Invio le richieste al SIP
+			if(index%1 == 0)		
+				RequestToSIPListManager.sendRequests();
+			
+			index++;
+			
+		}
+	}
 
 }
 

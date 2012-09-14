@@ -1,6 +1,5 @@
 //TODO
-LOGIN P2P
-REGISTRAZIONE P2P
+REGISTRAZIONE P2P	<--- ANNULLARE COME LA PESTE
 
 CRUD - Stato di connessione lato SIP
 
@@ -12,15 +11,19 @@ GUI - Login
 GUI - Registrazione
 GUI - Finestra elenco contatti
 GUI - Finestra\Popup\Quel che vuoi per l'aggiunta di contatti
-
+CRUD - Amicizie lato SIP
 
 
 // DOING (KKK)
-CRUD - Utenti lato SIP
-CRUD - Amicizie lato SIP
+
 
 
 //DONE (KKK)
 LOGIN con SIP OTTIMIZZATO
+LOGIN P2P
 REGISTRAZIONE con SIP
 RICHIESTA DEI PROPRI CONTATTI DEL CLIENT PRESSO IL SIP
+GESTIONE INVIO MESSAGGI VERSO CONTATTO OFFLINE
+LOGOUT
+CRUD - Utenti lato SIP
+

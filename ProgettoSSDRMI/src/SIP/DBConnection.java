@@ -636,6 +636,9 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			
 		}
 		
+		System.err.println("actualFriendshipType: " + actualFriendshipType.toString() + "; " +
+				"requestedFriendshipType: " + requestedFriendshipType.toString());
+		
 		/* se per caso arrivati a questo punto è ancora null, 
 		 * significa che si è verificato qualche problema nella verifica delle condizioni
 		 */
@@ -714,39 +717,39 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 	} catch (SQLException e1) {
 		
-		/******************************************************************************
-		 * INIZIO PROVA
-		 * ***************************************************************************/
-		try {
-			if (actualFriendshipType != null) {
-				System.err.println("Preparo query UPDATE...");
-				prepSt = (PreparedStatement) db.prepareStatement("" +
-						"UPDATE friendship " +
-						"SET linkType = ? " +
-						"WHERE idUserA = ? " +
-						"AND idUserB = ? ; "); 
-				
-				/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
-				if(idMittente < idDestinatario) {
-					prepSt.setString(1, requestedFriendshipType.toString()); 
-					prepSt.setInt(2, idMittente);
-					prepSt.setInt(3, idDestinatario);
-					
-				/* se idMittente > idDestinatario */
-				} else {
-					prepSt.setString(1, requestedFriendshipType.toString()); 	
-					prepSt.setInt(2, idDestinatario);
-					prepSt.setInt(3, idMittente);
-				}
-			}	
-		} catch (SQLException e) {
-			System.err.println("Errore di nuovo eseguendo l'update nel try-catch!");
-			e.printStackTrace(); 
-		}
-		
-		/******************************************************************************
-		 * FINE PROVA
-		 * ***************************************************************************/
+//		/******************************************************************************
+//		 * INIZIO PROVA
+//		 * ***************************************************************************/
+//		try {
+//			if (actualFriendshipType != null) {
+//				System.err.println("Preparo query UPDATE...");
+//				prepSt = (PreparedStatement) db.prepareStatement("" +
+//						"UPDATE friendship " +
+//						"SET linkType = ? " +
+//						"WHERE idUserA = ? " +
+//						"AND idUserB = ? ; "); 
+//				
+//				/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
+//				if(idMittente < idDestinatario) {
+//					prepSt.setString(1, requestedFriendshipType.toString()); 
+//					prepSt.setInt(2, idMittente);
+//					prepSt.setInt(3, idDestinatario);
+//					
+//				/* se idMittente > idDestinatario */
+//				} else {
+//					prepSt.setString(1, requestedFriendshipType.toString()); 	
+//					prepSt.setInt(2, idDestinatario);
+//					prepSt.setInt(3, idMittente);
+//				}
+//			}	
+//		} catch (SQLException e) {
+//			System.err.println("Errore di nuovo eseguendo l'update nel try-catch!");
+//			e.printStackTrace(); 
+//		}
+//		
+//		/******************************************************************************
+//		 * FINE PROVA
+//		 * ***************************************************************************/
 		
 		System.err.println("Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
 		e1.printStackTrace();

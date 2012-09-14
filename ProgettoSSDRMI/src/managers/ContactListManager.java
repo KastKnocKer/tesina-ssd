@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
 
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
-import RMIMessages.FriendshipRequest_Types;
+import RMIMessages.FriendshipRequestType;
 
 import client.ClientEngine;
 
@@ -228,7 +228,7 @@ public class ContactListManager {
 			try {
 
 				FriendshipRequest request = new FriendshipRequest(
-						FriendshipRequest_Types.REMOVE_FRIEND, 
+						FriendshipRequestType.REMOVE_FRIEND, 
 						myContact, 
 						friendContact);
 				

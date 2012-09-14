@@ -20,10 +20,8 @@ import java.util.Vector;
 
 import managers.Status;
 import RMIMessages.FriendshipRequest;
-import RMIMessages.FriendshipRequest_Types;
+import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMIBasicMessage;
-import RMIMessages.RMISIPBasicResponseMessage;
-import RMIMessages.RequestFriendshipMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 import chat.ChatStatusList;
@@ -548,7 +546,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 	public boolean addFriendship(FriendshipRequest request) {
 		
 		if(Status.DEBUG) 
-			System.out.println("DBConnection.addFriendship: starting...");
+			System.err.println("DBConnection.addFriendship: starting...");
 		
 		/* Controllo l'esistenza dei due contatti */
 		String emailMittente = request.getContattoMittente().getEmail();
@@ -556,103 +554,138 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 		if(checkContactExistence(emailMittente) == false ||
 				checkContactExistence(emailDestinatario) == false) {
+			System.err.println("DBConnection.addFriendship: uno dei due contatti non esiste.");
 			return false; 
 		}
 		
 		// TODO distingui ADD e FORCE_ADD
 		
-		FriendshipRequest_Types requestType = request.getRequestType(); 
+		FriendshipRequestType requestType = request.getRequestType(); 
 
 		int idMittente = request.getContattoMittente().getID(); 
 		int idDestinatario = request.getContattoDestinatario().getID(); 
 		
 		PreparedStatement prepSt = null;
 
-//		/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
-//		if(idMittente < idDestinatario) {
-//			Contact contattoA = request.getContattoMittente(); 
-//			Contact contattoB = request.getContattoDestinatario();
-//		} else {
-//			Contact contattoA = request.getContattoDestinatario();
-//			Contact contattoB = request.getContattoMittente(); 
-//		}
+
+		/* Recupero da DB lo stato attuale della richiesta di amicizia 
+		 * (potrebbe anche essere null, se non hanno alcun tipo di relazione. */
+		FriendshipType actualFriendshipType = getFriendshipTypeBetweenContacts_FromDB(request); 
 		
+		/* Considero il tipo di richiesta da aggiungere sul DB */
+		FriendshipType requestedFriendshipType = null;
 		
-//		/* Controllo se esiste già l'amicizia tra i due contatti */
-//		ResultSet result;
-//		
-//		try {
-//			PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT *,COUNT(*) AS COUNT FROM user WHERE email = ? AND password = ?");
-//			prepSt.setString(1, rlm.getUsername());
-//			prepSt.setString(2, rlm.getPassword());
-//			result = prepSt.executeQuery();
-//			result.next();
-//			
-//			
-//	        if(result.getInt("COUNT") == 0){
-//	        	System.out.println("SIP - Login["+rlm.getUsername()+"] rifiutato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
-//	        	return new ResponseLoginMessage(false, "Login rifiutato", null);
-//	        }else{
-//	        	System.out.println("SIP - Login["+rlm.getUsername()+"] effettuato. [PublicIP: "+rlm.getRequestorGlobalIP()+" LocalIP: "+rlm.getRequestorLocalIP()+"]");
-//	        	Contact contact = new Contact();
-//	        	contact.setID(		Integer.parseInt(result.getString(1)));
-//	        	contact.setNome(	result.getString(2));
-//	        	contact.setCognome(	result.getString(3));
-//	        	contact.setEmail(	result.getString(4));
-//	        	contact.setNickname(result.getString(5));  
-//	        	//TODO aggiungere private e publick key
-//	        	
-//	        	
-//	        	
-//	        	//AGGIORNO I DATI DELLO STATO DI CONNESSIONE DELL'UTENTE
-//	        	System.out.println("ESITO AGGIORNAMENTO: "+this.updateContactConnectionStatus(Integer.parseInt(result.getString(1)), rlm.getRequestorGlobalIP(), rlm.getRequestorLocalIP(), rlm.getRMIRegistryPort(), rlm.getRequestorClientPort(), rlm.getStato()));
-//	        	
-//	        	
-//	        	return new ResponseLoginMessage(true, "Login permesso", contact);
-//	        }
-//		} catch (SQLException e) {
-//			//e.printStackTrace();
-//			System.err.println("SIP - login() exception");
-//			return new ResponseLoginMessage(false, "Login exception", null);
-//		}
+		/* Se su DB non hanno alcuna relazione, allora applico "brutalmente" la 
+		 * richiesta come è stata richiesta, tenendo però conto dell'ordine di id 
+		 * (idUserA < idUserB deve valere sempre) */
+		if(actualFriendshipType == null) {
+			
+			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND) {
+				
+				if(idMittente < idDestinatario) 
+					requestedFriendshipType = FriendshipType.RICHIESTA_AB; 
+				else if(idDestinatario < idMittente) 
+					requestedFriendshipType = FriendshipType.RICHIESTA_BA; 
+				
+			} else if(request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
+				
+					requestedFriendshipType = FriendshipType.ATTIVA; 
+			}
+			
+		/* Se invece fra i due contatti esiste una relazione */
+		} else if(actualFriendshipType != null) {
+			
+			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND) {
+				
+				if(idMittente < idDestinatario) 
+					requestedFriendshipType = FriendshipType.RICHIESTA_AB; 
+				else if(idDestinatario < idMittente) 
+					requestedFriendshipType = FriendshipType.RICHIESTA_BA; 
+				
+				/* Controllo se si verifica una richiesta doppia in entrambi i 
+				 * sensi (AB su DB e BA richiesta, o viceversa).
+				 * Nel caso, attivo l'amicizia.*/
+				if(
+					(actualFriendshipType == FriendshipType.RICHIESTA_AB 
+					&& requestedFriendshipType == FriendshipType.RICHIESTA_BA) 
+					
+					|| 
+					
+					(actualFriendshipType == FriendshipType.RICHIESTA_BA 
+					&& requestedFriendshipType == FriendshipType.RICHIESTA_AB) ) 
+				{
+					requestedFriendshipType = FriendshipType.ATTIVA; 
+				}
+				
+			} else if(request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
+				
+					requestedFriendshipType = FriendshipType.ATTIVA; 
+			}
+			
+		}
+		
+		/* se per caso arrivati a questo punto è ancora null, 
+		 * significa che si è verificato qualche problema nella verifica delle condizioni
+		 */
+		if(requestedFriendshipType == null) {
+			
+			return false; 
+		}
+		
 		
 		
 		/* Inserisco l'amicizia */
 		try {
-			prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) VALUES (?, ?, ?);");
 			
-			/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
-			if(idMittente < idDestinatario) {
-				prepSt.setInt(1, idMittente);
-				prepSt.setInt(2, idDestinatario);
+			/* Se su DB non era presente nessuna richiesta di amicizia... */
+			if(actualFriendshipType == null) {
+				prepSt = (PreparedStatement) db.prepareStatement("" +
+						"INSERT INTO friendship (`idUserA`, `idUserB`, `linkType`) " +
+						"VALUES (?, ?, ?);");
 				
-					/* se è una richiesta di amicizia che attende la conferma dell'altro */
-					if(requestType == FriendshipRequest_Types.ADD_FRIEND) {
-						prepSt.setString(3, FriendshipList.RICHIESTA_AB.toString());
-					/* se è una richiesta di amicizia che viene aggiunta a forza */
-					} else if(requestType == FriendshipRequest_Types.FORCE_ADD_FRIEND) {
-						prepSt.setString(3, FriendshipList.ATTIVA.toString()); 
-					}
-				
-		/* se idMittente > idDestinatario */
-		} else {
-			prepSt.setInt(1, idDestinatario);
-			prepSt.setInt(2, idMittente);
-				
-				/* se è una richiesta di amicizia che attende la conferma dell'altro */
-				if(requestType == FriendshipRequest_Types.ADD_FRIEND) {
-					prepSt.setString(3, FriendshipList.RICHIESTA_BA.toString());
-				/* se è una richiesta di amicizia che viene aggiunta a forza */
-				} else if(requestType == FriendshipRequest_Types.FORCE_ADD_FRIEND) {
-					prepSt.setString(3, FriendshipList.ATTIVA.toString()); 
+				/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
+				if(idMittente < idDestinatario) {
+					prepSt.setInt(1, idMittente);
+					prepSt.setInt(2, idDestinatario);
+					prepSt.setString(3, requestedFriendshipType.toString()); 
+					
+				/* se idMittente > idDestinatario */
+				} else {
+					prepSt.setInt(1, idDestinatario);
+					prepSt.setInt(2, idMittente);
+					prepSt.setString(3, requestedFriendshipType.toString()); 	
 				}
-		}
+			}
+			/* se invece su DB era presente già uno stato dell'amicizia, allora
+			 * devo solamente eseguirne l'update */
+			else if (actualFriendshipType != null) {
+				prepSt = (PreparedStatement) db.prepareStatement("" +
+						"UPDATE friendship " +
+						"SET linkType = ? " +
+						"WHERE idUserA = ? " +
+						"AND idUserB = ? ; "); 
+				
+				/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
+				if(idMittente < idDestinatario) {
+					prepSt.setString(1, requestedFriendshipType.toString()); 
+					prepSt.setInt(2, idMittente);
+					prepSt.setInt(3, idDestinatario);
+					
+				/* se idMittente > idDestinatario */
+				} else {
+					prepSt.setString(1, requestedFriendshipType.toString()); 	
+					prepSt.setInt(2, idDestinatario);
+					prepSt.setInt(3, idMittente);
+				}
+			}
 			
+			
+		/* Eseguo l'update, che sia INSERT od UPDATE */
 		prepSt.executeUpdate();
 		
 		prepSt.close(); 
 		
-		System.err.println("Richiesta di amicizia effettuata correttamente!");
+		System.err.println("Richiesta di amicizia da " + request.getContattoMittente().getEmail() + " verso " + request.getContattoDestinatario().getEmail() + " effettuata correttamente!");
 //		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia effettuata correttamente!");
 		
 		if(Status.DEBUG) 
@@ -666,7 +699,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		e1.printStackTrace();
 		
 		if(Status.DEBUG) 
-			System.out.println("DBConnection.addFriendship: ended.");
+			System.err.println("DBConnection.addFriendship: ended.");
 		
 //		return new RMISIPBasicResponseMessage(false, "Richiesta di amicizia fallita.\nLa richiesta potrebbe già esser stata effettuata in passato.");
 		return false; 
@@ -820,5 +853,77 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			return false; 
 		}
 	}
-
+	
+	
+	/**
+	 * Funzione che interroga il database per ottenere il tipo di amicizia
+	 * fra due contatti. 
+	 * 
+	 * @param request richiesta di amicizia per esaminare i due contatti coinvolti. 
+	 * @return null, se non vi è alcuna relazione; istanza della classe FriendshipRequest_Types se vi è. 
+	 */
+	private FriendshipType getFriendshipTypeBetweenContacts_FromDB(FriendshipRequest request) {
+		
+		if(!connesso)
+			connetti(); 
+		
+		int idMittente = request.getContattoMittente().getID(); 
+		int idDestinatario = request.getContattoDestinatario().getID(); 
+		
+		Contact contattoA; 
+		Contact contattoB; 
+		/* Devo tenere conto che su DB l'inserimento va sempre fatto con idUserA < idUserB */
+		if(idMittente < idDestinatario) {
+			contattoA = request.getContattoMittente(); 
+			contattoB = request.getContattoDestinatario();
+		} else {
+			contattoA = request.getContattoDestinatario();
+			contattoB = request.getContattoMittente(); 
+		}
+		
+		/* Controllo se esiste già l'amicizia tra i due contatti */
+		ResultSet result;
+		
+		try {
+				PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("" +
+						"SELECT * FROM friendship " +
+						"WHERE idUserA = ? AND idUserB = ? ;");
+				prepSt.setInt(1, contattoA.getID());
+				prepSt.setInt(2, contattoB.getID());
+				
+				result = prepSt.executeQuery();
+				
+				/* Apro il primo risultato tramite result.next()
+				 * Se restituisce false, significa che non ho trovato alcuna
+				 * relazione fra i due contatti, e quindi col metodo restituisco null
+				 */
+				if(result.next() == false) {
+					System.err.println("Non è stata trovata alcuna relazione fra i contatti " + contattoA.getEmail() + " e " + contattoB.getEmail());
+					return null; 
+				}
+				
+				/* Se sono arrivato fin qui, significa che qualche relazione è stata trovata */
+				String linkType = result.getString("linkType"); 
+				
+				prepSt.close(); 
+				result.close(); 
+				
+				if(linkType.equals("ATTIVA")) {
+					return FriendshipType.ATTIVA; 
+				} else if (linkType.equals("RICHIESTA_AB")) {
+					return FriendshipType.RICHIESTA_AB;
+				} else if (linkType.equals("RICHIESTA_BA")) {
+					return FriendshipType.RICHIESTA_BA; 
+				}
+				
+				/* Se sono arrivato fin qua, qualcosa è andato storto */
+				return null; 	
+		}catch(SQLException e) {
+			System.err.println("SQLException durante SELECT * FROM friendship");
+			e.printStackTrace(); 
+		}
+		
+		/* Se per qualche motivo dovessi arrivare qua...*/
+		return null; 
+	}
 }

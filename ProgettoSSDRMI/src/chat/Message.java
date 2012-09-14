@@ -7,6 +7,7 @@ public class Message implements Serializable {
 	private int From = -1;
 	private int To = -1;
 	private String Message = "";
+	private int progressiveNum = -1;
 	
 	public Message(int FromUserId, int ToUserId, String message){
 		From = FromUserId;
@@ -36,6 +37,14 @@ public class Message implements Serializable {
 
 	public void setMessage(String message) {
 		Message = message;
+	}
+
+	public int getProgressiveNum() {
+		return progressiveNum;
+	}
+
+	public void setProgressiveNum(int progressiveNum) {
+		this.progressiveNum = progressiveNum;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import client.ClientEngine;
+import client.OUTChatMessageListManager;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
@@ -32,13 +33,19 @@ public class ClientThread_MessageSender extends Thread{
 		for(int i=0; i<MessagesToDeliver.size(); i++){
 			messagesToDeliver[i] = MessagesToDeliver.get(i);
 		}
+		
 		try {
+			
 			ClientInterface client = ClientEngine.getClient(messagesToDeliver[0].getTo());
 			if(client == null){
 				System.err.println("Messaggi non consegnati - (getClient() == null)");
 				return;
 			}
 			client.sendMessageToContact(messagesToDeliver,Status.getGlobalIP(),Status.getLocalIP());
+		
+			//Se arrivo qua i messaggi sono stati inviati
+			OUTChatMessageListManager.removeSendedMsgs(MessagesToDeliver);
+			
 		} catch (RemoteException e) {
 			System.err.println("ClientThread_MessageSender.run() - Il contatto "+messagesToDeliver[0].getTo()+" è OFFLINE");
 			//e.printStackTrace();

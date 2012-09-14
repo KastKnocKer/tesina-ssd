@@ -5,8 +5,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JOptionPane;
+
 
 import client.thread.ClientThread_LogoutInformer;
 import client.thread.ClientThread_MessageSender;
@@ -34,9 +37,6 @@ import managers.Status;
  */
 
 public class ClientEngine {
-	
-	private static ArrayList<Message> OUT_ChatMessageList = new ArrayList<Message>();
-	private static ArrayList<Message> IN_ChatMessageList = new ArrayList<Message>();
 	
 	public static ResponseLoginMessage Login(String username, String password) {
 		ResponseLoginMessage response = null;
@@ -201,17 +201,17 @@ public class ClientEngine {
 	/**
 	 * Invia un messaggio ad un contatto
 	 */
-	public static synchronized boolean sendMessageToContact(Message chatMsg){
-		System.out.println("Client - Inserimento in OUTList del messaggio da:" +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
-		OUT_ChatMessageList.add(chatMsg);
+	public static boolean sendMessageToContact(Message chatMsg){
+		if(Status.SUPER_DEBUG) System.out.println("Client - Inserimento in OUTList del messaggio da:" +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
+		OUTChatMessageListManager.addMsgToSend(chatMsg);
 		return true;
 	}
 	/**
 	 * Riceve un messaggio da un contatto
 	 */
-	public static synchronized boolean receiveMessageFromContact(Message chatMsg){
-		IN_ChatMessageList.add(chatMsg);
-		System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage()+" Messaggi INLIST: "+IN_ChatMessageList.size());
+	public static boolean receiveMessageFromContact(Message chatMsg){
+		if(Status.SUPER_DEBUG) System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
+		INChatMessageListManager.addReceivedMsg(chatMsg);
 		
 		/* Mostro la finestra se arriva il messaggio */
 		Contact contact = ContactListManager.searchContactById(chatMsg.getFrom()); 
@@ -226,42 +226,44 @@ public class ClientEngine {
 	/**
 	 * Consegna tutti i messaggi in coda al client di destinazione
 	 */
-	public static synchronized boolean deliverAllMessages(){
-		//Se la coda è vuota ritorno subito
-		if(OUT_ChatMessageList.size() == 0) return true;
-		//Altrimenti
-		int temporaryClientTarget = -1;	//Inizializzo così entra nel ciclo while almeno una volta
-		System.out.println("*************************************************************");
-		ArrayList<Message> MessagesToDeliver = null;
-		while( (temporaryClientTarget < 0) || (OUT_ChatMessageList.size()>5) ){
-			temporaryClientTarget = -1;
-			MessagesToDeliver = new ArrayList<Message>();
-			for(int i=0; i<OUT_ChatMessageList.size(); i++){
-				Message msg = OUT_ChatMessageList.get(i);
-				if(temporaryClientTarget<0){
-					temporaryClientTarget = msg.getTo();
-					System.out.println("Servo i messaggi verso l'utente: "+temporaryClientTarget);
-				}
-				if(msg.getTo() == temporaryClientTarget){
-					System.out.println("In consegna: " +msg.getMessage());
-					MessagesToDeliver.add(msg);
-					OUT_ChatMessageList.remove(msg);
-					i--;
-				}
-					
-				System.out.println("Deliver message - " + msg.getMessage());
-			}
-			
-			
-			
-			ClientThread_MessageSender cts = new ClientThread_MessageSender(MessagesToDeliver);
-			cts.start();
-			
-			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUT_ChatMessageList.size());
-		}
-		
-		
-		return true;
+	public static boolean deliverAllMessages(){
+		return OUTChatMessageListManager.deliverAllMessages();
+//		//Se la coda è vuota ritorno subito
+//		if(OUT_ChatMessageList.size() == 0) return true;
+//		//Altrimenti
+//		int temporaryClientTarget = -1;	//Inizializzo così entra nel ciclo while almeno una volta
+//		System.out.println("*************************************************************");
+//		ArrayList<Message> MessagesToDeliver = null;
+//		Collections.sort(OUT_ChatMessageList, new Comparator<? super Message>());
+//		while( (temporaryClientTarget < 0) || (OUT_ChatMessageList.size()>5) ){
+//			temporaryClientTarget = -1;
+//			MessagesToDeliver = new ArrayList<Message>();
+//			for(int i=0; i<OUT_ChatMessageList.size(); i++){
+//				Message msg = OUT_ChatMessageList.get(i);
+//				if(temporaryClientTarget<0){
+//					temporaryClientTarget = msg.getTo();
+//					System.out.println("Servo i messaggi verso l'utente: "+temporaryClientTarget);
+//				}
+//				if(msg.getTo() == temporaryClientTarget){
+//					System.out.println("In consegna: " +msg.getMessage());
+//					MessagesToDeliver.add(msg);
+//					OUT_ChatMessageList.remove(msg);
+//					i--;
+//				}
+//					
+//				System.out.println("Deliver message - " + msg.getMessage());
+//			}
+//			
+//			
+//			
+//			ClientThread_MessageSender cts = new ClientThread_MessageSender(MessagesToDeliver);
+//			cts.start();
+//			
+//			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUT_ChatMessageList.size());
+//		}
+//		
+//		
+//		return true;
 	}
 	
 	
@@ -491,22 +493,24 @@ public class ClientEngine {
 		
 	}
 	
-	/**
-	 * Restituisce la lista dei messaggi di 
-	 * Chat in uscita. 
-	 * @return elenco messaggi chat in uscita
-	 */
-	public static ArrayList<Message> getOUTList() {	
-		return OUT_ChatMessageList;	
-	}
-	
-	/**
-	 * Restituisce la lista dei messaggi di 
-	 * Chat in ingresso. 
-	 * @return elenco messaggi chat in ingresso
-	 */
-	public static ArrayList<Message> getINList() {		
-		return IN_ChatMessageList;	
-	}
+//	/**
+//	 * Restituisce la lista dei messaggi di 
+//	 * Chat in uscita. 
+//	 * @return elenco messaggi chat in uscita
+//	 */
+//	public static ArrayList<Message> getOUTList() {	
+//		return OUT_ChatMessageList;	
+//	}
+//	
+//	/**
+//	 * Restituisce la lista dei messaggi di 
+//	 * Chat in ingresso. 
+//	 * @return elenco messaggi chat in ingresso
+//	 */
+//	public static ArrayList<Message> getINList() {		
+//		return IN_ChatMessageList;	
+//	}
 
 }
+
+

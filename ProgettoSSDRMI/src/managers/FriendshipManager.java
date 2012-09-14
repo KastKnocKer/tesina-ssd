@@ -1,8 +1,8 @@
 package managers;
 
+import RMIMessages.FriendshipRequest;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
-import client.*; 
 import client.thread.ClientThread_FriendshipManager;
 import client.thread.ClientThread_FriendshipManager_RequestTypes;
 
@@ -34,10 +34,16 @@ public class FriendshipManager {
 		Contact contatto = new Contact(); 
 		contatto.setEmail(email_destinatario); 
 		
+//		Contact contattoMittente = Status.getMyInfoIntoContact(); 
+//		
+		FriendshipRequest friendshipRequest = new FriendshipRequest(
+				null, 
+				contatto, 
+				null);
+		
 		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
 				ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT, 
-				contatto, 
-				null); 
+				friendshipRequest); 
 		
 		thread.start(); 
 		
@@ -45,18 +51,23 @@ public class FriendshipManager {
 		return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia verso " + email_destinatario + " inviata con successo."); 
 	}
 	
-//	/** 
-//	 * La richiesta d'amicizia effettiva viene inviata al SIP solo in due casi: 
-//	 * 1) il client con cui voglio stringere direttamente amicizia è offline (quindi il metodo sendFriendshipRequestToContact è fallito)
-//	 * 2) come "acknoledgment" di amicizia stretta: i due client, se riescono a stringere amicizia in maniera esclusivamente p2p, 
-//	 * poi mandano entrambi una friendship-request al SIP, per notificargli l'avvenuta amicizia. Vedendo due friendship requests dai due
-//	 * client, il SIP capirà che hanno stretto amicizia. 
-//	 * 
-//	 * @author Fabio Pierazzi 
-//	 */
-//	public static void sendFriendshipRequestToSIP() {
-//		
-//	}
+	/** 
+	 * La richiesta d'amicizia effettiva viene inviata al SIP solo in due casi: 
+	 * 1) il client con cui voglio stringere direttamente amicizia è offline (quindi il metodo sendFriendshipRequestToContact è fallito)
+	 * 2) come "acknoledgment" di amicizia stretta: i due client, se riescono a stringere amicizia in maniera esclusivamente p2p, 
+	 * poi mandano entrambi una friendship-request al SIP, per notificargli l'avvenuta amicizia. Vedendo due friendship requests dai due
+	 * client, il SIP capirà che hanno stretto amicizia. 
+	 * 
+	 * @author Fabio Pierazzi 
+	 */
+	public static void sendFriendshipRequestToSIP(FriendshipRequest request) {
+		
+		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
+				ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_SIP, 
+				request); 
+		
+		thread.start(); 
+	}
 	
 	/**
 	 * Metodo per mostrare la richiesta di amicizia inviata dal contatto
@@ -67,10 +78,14 @@ public class FriendshipManager {
 	 */
 	public static void showFriendshipRequestFromContact(Contact contattoMittente) {
 
+		FriendshipRequest friendshipRequest = new FriendshipRequest(
+				null, 
+				contattoMittente, 
+				Status.getMyInfoIntoContact());
+
 		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
 				ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT, 
-				contattoMittente, 
-				null); 
+				friendshipRequest); 
 		
 		thread.start(); 
 	}
@@ -81,14 +96,17 @@ public class FriendshipManager {
 	 */
 	public static void acceptFriendshipRequest(Contact contattoMittente) {
 		
+		FriendshipRequest friendshipRequest = new FriendshipRequest(
+				null, 
+				contattoMittente, 
+				Status.getMyInfoIntoContact());
+		
 		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
 				ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST, 
-				contattoMittente, 
-				null); 
+				friendshipRequest); 
 		
 		thread.start(); 
 	}
-	
 	
 	/**
 	 * Funzione per aggiungere un nuovo amico all'interno della propria 
@@ -108,12 +126,17 @@ public class FriendshipManager {
 	 * @param contactToRemove
 	 */
 	public static void removeFriend(Contact contactToRemove) {
+		
 		Contact contattoMittente = Status.getMyInfoIntoContact(); 
-				
+		
+		FriendshipRequest friendshipRequest = new FriendshipRequest(
+				null, 
+				contattoMittente, 
+				contactToRemove);
+		
 		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
 				ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND, 
-				contattoMittente, 
-				contactToRemove); 
+				friendshipRequest); 
 		
 		thread.start(); 
 	}

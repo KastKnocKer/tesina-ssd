@@ -33,6 +33,8 @@ public class ClientThread_FriendshipManager extends Thread {
 	/** Informazioni sul contatto destinatario della richiesta di amicizia 
 	 * ATTENZIONE: potrebbe non contenere informazioni complete sul contatto. */
 	Contact contattoDestinatario = null; 
+	/** Richiesta di amicizia */
+	FriendshipRequest friendshipRequest  = null; 
 	
 	/**
 	 * Costruttore 
@@ -41,11 +43,11 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	public ClientThread_FriendshipManager(
 			ClientThread_FriendshipManager_RequestTypes requestType,
-			Contact contattoMittente, 
-			Contact contattoDestinatario) {
+			FriendshipRequest friendshipRequest) {
 		this.requestType = requestType; 
-		this.contattoMittente = contattoMittente;
-		this.contattoDestinatario = contattoDestinatario; 
+		this.friendshipRequest = friendshipRequest; 
+		this.contattoMittente = friendshipRequest.getContattoMittente();
+		this.contattoDestinatario = friendshipRequest.getContattoDestinatario(); 
 	}
 	
 	/**
@@ -92,6 +94,24 @@ public class ClientThread_FriendshipManager extends Thread {
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
 			removeFriend(contattoDestinatario);
+		
+		/*****************************
+		 * SEND FRIENDSHIP REQUEST TO SIP
+		 *****************************/
+		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_CONTACT) {
+			
+			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_CONTACT");
+			
+			sendFriendshipRequestToSIP(friendshipRequest); 
+			
+//				String email = contattoMittente.getEmail();
+//				RMISIPBasicResponseMessage answer = sendFriendshipRequestToContact(email);
+				
+//				if(answer.isSUCCESS()) {
+//					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.INFORMATION_MESSAGE);
+//				} else {
+//					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.ERROR_MESSAGE);
+//				}
 		}
 		
 		System.err.println("Thread ClientThread_FriendshipManager: ended");

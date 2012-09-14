@@ -8,6 +8,8 @@ import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendshipManager;
 import managers.Status;
+import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RequestHowAreYou;
@@ -115,18 +117,32 @@ public class Client implements ClientInterface{
 
 	@Override
 	public RMIBasicResponseMessage receiveFriendshipAckFromContact(
-			Contact contattoRicevente) throws RemoteException {
+			Contact contattoDestinatario) throws RemoteException {
 
 		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
 		 * della tabella con la lista amici. */
-		ContactListManager.addToContactList(contattoRicevente); 
+		ContactListManager.addToContactList(contattoDestinatario); 
 		LayoutReferences.getFriendsListTable().updateTable(); 
 		
-		JOptionPane.showMessageDialog(null, "Il contatto " + contattoRicevente.getNickname() + " ( " + 
-				contattoRicevente.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
+		JOptionPane.showMessageDialog(null, "Il contatto " + contattoDestinatario.getNickname() + " ( " + 
+				contattoDestinatario.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
 				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 		
 		// TODO: invio friendshipRequest al SIP (se è offline, devo salvarlo in una coda e ritentare periodicamente) 
+		
+		try {
+			FriendshipRequest request = new FriendshipRequest(
+					FriendshipRequestType.ADD_FRIEND, 
+					Status.getMyInfoIntoContact(),
+					contattoDestinatario
+					);
+			FriendshipManager.sendFriendshipRequestToSIP(request); 
+		} catch (Exception e) {
+			System.err.println("Client.receiveFriendshipAckFromContact(): error while " +
+					"executing 'FriendshipManager.sendFriendshipRequestToSIP(request)' ");
+			e.printStackTrace(); 
+		}
+		
 		
 		return new RMIBasicResponseMessage(true, "L'amicizia è stata confermata correttamente all'utente " + Status.getEmail() + ".");
 	}

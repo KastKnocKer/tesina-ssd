@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import client.thread.ClientThread;
+import client.thread.ClientThread_SipRequestor;
 
 import layout.homeframe.Home_Frame;
 import managers.FileConfManager;
@@ -160,6 +161,9 @@ public class MainSSD {
 				});
 		ClientThread ct = new ClientThread();
 		ct.start();
+		ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
+		ctsr.start();
+		
 		return true;
 	}
 }

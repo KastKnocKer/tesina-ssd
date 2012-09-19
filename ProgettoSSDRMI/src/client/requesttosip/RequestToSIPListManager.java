@@ -3,6 +3,8 @@ package client.requesttosip;
 import java.util.ArrayList;
 
 import RMI.SIPInterface;
+import RMIMessages.FriendshipRequest;
+import RMIMessages.RequestLoginMessage;
 
 import client.ClientEngine;
 
@@ -45,14 +47,14 @@ public class RequestToSIPListManager {
 		for(RequestToSIP req : RequestsToSIP){
 			
 			try{
-				if(req.getRequestType() == RequestToSIPTypeList.ATTIVA){
-					
-				} else if(req.getRequestType() == RequestToSIPTypeList.ATTIVA){
-					
-				} else if(req.getRequestType() == RequestToSIPTypeList.ATTIVA){
-					
-				} else if(req.getRequestType() == RequestToSIPTypeList.ATTIVA){
-					
+				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
+					sip.login(	(RequestLoginMessage) req.getRequestMessage()	);
+				} else if(req.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
+					sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
+				} else if(req.getRequestType() == RequestToSIPTypeList.YYY){
+					//TODO rimuovere se non serve
+				} else if(req.getRequestType() == RequestToSIPTypeList.ZZZ){
+					//TODO rimuovere se non serve
 				} 
 				
 				

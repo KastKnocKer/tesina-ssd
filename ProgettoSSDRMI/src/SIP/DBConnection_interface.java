@@ -98,5 +98,10 @@ public interface DBConnection_interface {
 	 * Setta l'utente come offline
 	 */
 	public boolean setContactOffline(int userID);
+	
+	/**
+	 * Ritorna le amicizie in attesa di accettazione di un utente dato l'id
+	 */
+	public ArrayList<FriendshipRequest> getPendingFriendships(int userID);
 
 }

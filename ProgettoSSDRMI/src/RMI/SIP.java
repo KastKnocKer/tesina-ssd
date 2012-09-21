@@ -49,6 +49,8 @@ public class SIP implements SIPInterface{
 		//aggiorno l'userid in rlm per permettere il recupero della contact list
 		rlm.setUserID(resplm.getLoggedContact().getID());
 		resplm.setContactList(this.getMyContacts(rlm));
+		//aggiungo le possibili richieste di amicizia pendenti
+		resplm.setFriendshipRequestList(dbConn.getPendingFriendships(resplm.getLoggedContact().getID()));
 		return resplm;
 	}
 

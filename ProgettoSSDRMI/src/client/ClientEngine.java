@@ -84,6 +84,8 @@ public class ClientEngine {
 			Status.setLastLoginPassword(password);
 			FileConfManager.writeConfXML();
 		}
+		Status.setLOGGED(true);
+		Status.setLOGGEDP2P(false);
 		return response;
 	}
 	

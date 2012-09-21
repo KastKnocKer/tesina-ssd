@@ -988,4 +988,68 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		/* Se per qualche motivo dovessi arrivare qua...*/
 		return null; 
 	}
+
+	public ArrayList<FriendshipRequest> getPendingFriendships(int userID) {
+		if(!connesso)
+			connetti();
+		
+		Contact contact = new Contact();
+		contact.setID(userID);
+		
+		ArrayList<FriendshipRequest> friendShipList = new ArrayList<FriendshipRequest>();
+		
+		PreparedStatement prepSt;
+		try {
+			prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE idUser IN (SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'RICHIESTA_AB' UNION SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'RICHIESTA_BA');");
+			
+			prepSt.setInt(1, userID);
+			prepSt.setInt(2, userID);
+			
+			ResultSet results;
+			results = prepSt.executeQuery();
+			
+			ResultSetMetaData rsmd = results.getMetaData();
+	        int colonne = rsmd.getColumnCount();
+	        int index = 0;
+	        
+	        
+	        
+	        while(results.next()) {
+	        	Contact tmpContact = new Contact();
+	        	
+	        	try {
+	        		tmpContact.setID(results.getInt("idUser"));
+					tmpContact.setNome(results.getString("nome"));
+					tmpContact.setCognome(results.getString("cognome"));
+					tmpContact.setNickname(results.getString("nickname"));
+					tmpContact.setEmail(results.getString("email"));
+					FriendshipRequest frreq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND, tmpContact, contact);
+					friendShipList.add(frreq);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+	        	
+	        	
+	        	
+	        	index++;
+	        }
+	        results.close();     // Chiudo il ResultSet
+	        prepSt.close();   // Chiudo lo Statement
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if(	friendShipList.size() == 0	){
+			return null;
+		}else{
+			return friendShipList;
+		}
+		
+		
+	}
+	
+	
+	
 }

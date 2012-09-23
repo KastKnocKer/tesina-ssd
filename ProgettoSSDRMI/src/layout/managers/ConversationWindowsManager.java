@@ -2,7 +2,10 @@ package layout.managers;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import layout.conversationframe.Conversation_Frame;
+import chat.ChatStatusList;
 import chat.Contact;
 
 /**
@@ -109,6 +112,20 @@ public class ConversationWindowsManager {
 				break; 
 		}
 		
+		
+		/* Se il contatto è offline, avverto l'utente con una finestra di dialogo. */
+		if(contact.getStatus() == ChatStatusList.OFFLINE) {
+			JOptionPane.showMessageDialog(
+					null, 
+					"Attenzione!\n\n" +
+					"Il contatto: \n" +
+					"" + contact.getEmail() + "\n" +
+							"al momento è offline. \n\n" +
+							"I messaggi gli verranno recapitati\n" +
+							"non appena tornerà online.", 
+					"Conversazione con " + contact.getNickname(),
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	/**

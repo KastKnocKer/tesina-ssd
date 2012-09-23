@@ -138,7 +138,7 @@ public class Contact implements Serializable{
 	}
 
 	public void setAvatarURL(String avatarURL) {
-		avatarURL = avatarURL;
+		this.AvatarURL = avatarURL;
 	}
 
 	public int getClient_Port() {

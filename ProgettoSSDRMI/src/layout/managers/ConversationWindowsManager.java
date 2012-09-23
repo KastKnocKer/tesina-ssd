@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import layout.conversationframe.Conversation_Frame;
+import managers.ContactListManager;
 import chat.ChatStatusList;
 import chat.Contact;
 
@@ -86,6 +87,10 @@ public class ConversationWindowsManager {
 		
 		int result = -1;
 		
+		/* recupero tutte le informazioni sul contatto in base all'id */
+		Contact completeContact = ContactListManager.searchContactById(contact.getID());
+		contact = completeContact; 
+		
 		/* Verifico se c'è un ConversationFrame già aperto */
 		try {
 			result = searchConversationWindow(contact.getID());
@@ -93,7 +98,6 @@ public class ConversationWindowsManager {
 			System.err.println("Errore durante l'apertura della finestra di conversazione.");
 			return; 
 		}
-		 
 
 		switch(result) {
 			/* apro una nuova finestra di conversazione */
@@ -170,5 +174,43 @@ public class ConversationWindowsManager {
 				arrayList_conversationFrames.get(result).writeChatMsgInConversationWindow(msg);  
 				break; 
 		}
+	}
+	
+	
+	/**
+	 * Metodo che aggiorna graficamente nickname, stato ed avatar
+	 * in TUTTE le finestre di conversazione.
+	 * Utile quando modifico i miei dati personali. 
+	 */
+	public static void updateMyContactInfos() {
+		
+		if(arrayList_conversationFrames == null) {
+			arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
+			return; 
+		}
+		
+		for(Conversation_Frame frame : arrayList_conversationFrames) {
+			frame.updateMyContactInfos(); 
+		}
+	}
+	
+	/**
+	 * Metodo che aggiorna graficamente nickname, stato ed avatar di 
+	 * TUTTI gli amici con cui ho aperto una finestra di conversazione. 
+	 */
+	public static void updateAllContactInfos() {
+		for(Conversation_Frame frame : arrayList_conversationFrames) {
+//			frame.updateHisContactInfos(Contact contact); 
+		}
+	}
+	
+	/**
+	 * Metodo che aggiorna graficamente nickname, stato ed avatar di UN
+	 * amico con cui ho aperto finestra di conversazione. 
+	 * 
+	 * @param contact
+	 */
+	public static void updateOneContactInfos(Contact contact) {
+//		ConversationWindowsManager.searchConversationWindow(contact.getID()); 
 	}
 }

@@ -48,6 +48,16 @@ public class Status {
 	
 	// private static String SIP_Address = "192.168.1.113";
 
+	/**
+	 * Metodo per restituire un avatar di Default nel caso 
+	 * in cui non sia disponibile l'avatar di Default.
+	 * 
+	 * @return URL dell'avatar di default da utilizzare quando 
+	 * un altro avatar è disponibile. 
+	 */
+	public static String getDefaultAvatarURL() {
+		return "images/avatars/default.jpg"; 
+	}
 	
 	public static String getAvatarURL() {				return AvatarURL;	}
 	public static int getClient_Port() {				return Client_Port;	}

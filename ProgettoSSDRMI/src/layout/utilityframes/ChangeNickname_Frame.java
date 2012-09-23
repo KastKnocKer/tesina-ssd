@@ -15,13 +15,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import client.ClientEngine;
-
 import layout.managers.LayoutReferences;
 import managers.Status;
-
+import chat.ChatStatusList;
 import chat.Contact;
-import chat.ChatStatusList; 
+import client.ClientEngine;
+
+import layout.managers.*; 
 
 /**
  * Frame usato dall'utene per cambiare i propri nickname
@@ -233,16 +233,16 @@ public class ChangeNickname_Frame extends JFrame {
             	
             	switch(combobox_newStato.getSelectedIndex()) {
             		case 0: Status.setStato(ChatStatusList.ONLINE);
-            				System.out.println("ComboBox: Selezionato online");
+            				System.out.println("ComboBox: Selezionato stato online");
             				break;
             		case 1: Status.setStato(ChatStatusList.BUSY); 
-            				System.out.println("ComboBox: Selezionato busy");
+            				System.out.println("ComboBox: Selezionato stato busy");
             				break; 
             		case 2: Status.setStato(ChatStatusList.AWAY); 
-            				System.out.println("ComboBox: Selezionato away");
+            				System.out.println("ComboBox: Selezionato stato away");
             				break; 
             		default: 
-            				System.out.println("Errore: nessuno stato selezionato."); 
+            				System.err.println("Errore: nessuno stato selezionato."); 
             				break; 
             	}
 
@@ -257,6 +257,11 @@ public class ChangeNickname_Frame extends JFrame {
             	
             	LayoutReferences.getFriendsListPanel().refreshPanel();
             	
+            	/* Invoco un metodo che aggiorna graficamente il mio stato
+            	 * all'interno delle finestre di conversazione */
+//            	ConversationWindowsManager.updateMyContactInfos(); 
+            	
+            	/* Chiudo la finestra */
             	dispose(); 
             }
         });

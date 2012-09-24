@@ -3,6 +3,7 @@ package client.thread;
 import java.rmi.RemoteException;
 
 import layout.friendslist.FriendsList_Table;
+import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FileContactsManager;
@@ -45,6 +46,7 @@ public class ClientThread_FriendsStatusTester extends Thread{
 			if(rhay.isSuccess()){
 				//Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
 				contactToTest.updateInfoFromContact(rhay.getResponseContact());
+				ConversationWindowsManager.updateOneContactInfos(contactToTest);
 				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 			}
 			

@@ -250,6 +250,7 @@ public class ChangeNickname_Frame extends JFrame {
             	
             	//Modifica dei parametri
             	Contact myContact = new Contact();
+            	myContact.setID(Status.getUserID());
             	myContact.setNickname(Status.getNickname());
             	myContact.setAvatarURL(Status.getAvatarURL());
             	myContact.setStatus(Status.getStato());

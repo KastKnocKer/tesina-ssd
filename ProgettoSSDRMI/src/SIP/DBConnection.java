@@ -240,13 +240,21 @@ public boolean modifyContact(Contact contact) {
 	}
 	boolean completed = false;
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("INSERT INTO user (nome,cognome,email,nickname,password) VALUES (?,?,?,?,?)");
+		System.out.println("MODIFYCONTACT");
+		//String query = "INSERT INTO userstatus (idUser, publicIP, localIP, rmiregistryPort, clientPort, lastConnection, status) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?) ON DUPLICATE KEY UPDATE idUser=?, publicIP=?, localIP=?, rmiregistryPort=?, clientPort=?, lastConnection=CURRENT_TIMESTAMP, status=?;";
+		
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("UPDATE user SET nickname = ?, avatarurl = ? WHERE idUser = ?;");
+		prepSt.setString(1, contact.getNickname());
+		prepSt.setString(2, contact.getAvatarURL());
+		prepSt.setString(3, Integer.toString(contact.getID()));
+		prepSt.execute();
+		/*
 		prepSt.setString(1, contact.getNome());
 		prepSt.setString(2, contact.getCognome());
 		prepSt.setString(3, contact.getEmail());
-		prepSt.setString(4, contact.getNickname());
 		prepSt.setString(5, contact.getPassword());
-		prepSt.execute();
+		 */
+		
 		return true;
 	} catch (SQLException e) {
 		e.printStackTrace();

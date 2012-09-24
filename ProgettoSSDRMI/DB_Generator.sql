@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS USER(
 	email varchar(250) not null,
 	nickname varchar(50) not null,
 	password varchar(50) not null,
-	avatarurl varchar(1024) not null default 'images/avatars/tn_tate.jpg',
+	avatarurl varchar(1024) not null default 'images/avatars/default.jpg',
 	
 	primary key (idUser),
 	unique (email)
@@ -48,3 +48,7 @@ INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'D@gmail.com', 'D', 'asd');
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'E@gmail.com', 'E', 'asd');
 INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Marco', 'Guerri', 'F@gmail.com', 'F', 'asd');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Mojo', 'One', 'mojoone@gmail.com', 'Mojo_One', 'mojo');
+INSERT INTO `sip_db`.`user` (`idUser`, `nome`, `cognome`, `email`, `nickname`, `password`) VALUES (NULL, 'Anna', 'Anna', 'anna@gmail.com', 'Anna', 'anna');
+
+ INSERT INTO `sip_db`.`friendship` (`idUserA` ,`idUserB` ,`linkType`)VALUES ('1', '2', 'ATTIVA');

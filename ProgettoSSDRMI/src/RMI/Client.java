@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import javax.swing.JOptionPane;
 
 import layout.friendslist.FriendsList_Table;
+import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.FriendshipManager;
@@ -55,6 +56,7 @@ public class Client implements ClientInterface{
 				//Aggiorno le informazioni ricevute
 				boolean updateTable = !contact.isConnected();
 				contact.updateInfoFromContact(senderContact);
+				ConversationWindowsManager.updateOneContactInfos(contact);
 				
 				//Aggiorno la tabella se il contatto era per me offline in precedenza
 				if(updateTable){

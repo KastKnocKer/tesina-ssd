@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import RMI.SIPInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.RequestLoginMessage;
+import RMIMessages.ResponseLoginMessage;
 
 import client.ClientEngine;
 
@@ -36,7 +37,7 @@ public class RequestToSIPListManager {
 	 * Risolve le richieste destinate al SIP
 	 */
 	public static synchronized void sendRequests(){
-		if(Status.SUPER_DEBUG) System.out.println("Tentativo richieste al SIP");
+		if(Status.SUPER_DEBUG) System.out.println("Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
 		
 		//Se la lista delle richieste è nulla ritorno
 		if( RequestsToSIP.size() == 0)
@@ -48,9 +49,15 @@ public class RequestToSIPListManager {
 			
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
-					sip.login(	(RequestLoginMessage) req.getRequestMessage()	);
+					RequestLoginMessage rlm = (RequestLoginMessage) req.getRequestMessage();
+					ResponseLoginMessage resplm = ClientEngine.Login(rlm.getUsername(), rlm.getPassword());
+					if(resplm != null && resplm.isSUCCESS()){
+						RequestsToSIP.remove(rlm);
+					}
+					
 				} else if(req.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
 					sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
+					
 				} else if(req.getRequestType() == RequestToSIPTypeList.YYY){
 					//TODO rimuovere se non serve
 				} else if(req.getRequestType() == RequestToSIPTypeList.ZZZ){

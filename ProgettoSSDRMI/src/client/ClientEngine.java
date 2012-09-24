@@ -11,6 +11,9 @@ import java.util.Comparator;
 import javax.swing.JOptionPane;
 
 
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
 import client.thread.ClientThread_LogoutInformer;
 import client.thread.ClientThread_MessageSender;
 import client.thread.ClientThread_WhoisRequestor;
@@ -100,6 +103,8 @@ public class ClientEngine {
 		if(FileContactsManager.readContactsXML()){
 			Status.setLOGGED(true);
 			Status.setLOGGEDP2P(true);
+			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
+			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
 		}
 		//Login mediante server SIP
 //		try {

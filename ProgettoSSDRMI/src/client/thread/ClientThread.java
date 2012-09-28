@@ -10,6 +10,7 @@ import managers.Status;
 
 import chat.Contact;
 import chat.Message;
+import chat.StatusP2P;
 
 /**
  * Thread avviato per l'intera durata dell'esecuzione della chat per gestire più operazioni
@@ -54,9 +55,15 @@ public class ClientThread extends Thread{
 			//Se non sono loggato skippo
 			if(!Status.isLOGGED()) 
 				continue;	
+			
+			
 
 			//Controllo dello stato di connessione dei propri contatti amici
 			if(index%CheckContactListTime == 0 || modifiedInfos){
+				//Se sono loggato in modalità P2P prima di contattare i miei contatti provo a verificare le risposte del whois
+				if(Status.isLOGGEDP2P()){
+					StatusP2P.checkResponsesAboutMyContacts();
+				}
 				modifiedInfos=false;
 				checkContactList();
 			}

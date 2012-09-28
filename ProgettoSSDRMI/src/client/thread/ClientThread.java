@@ -18,8 +18,17 @@ import chat.Message;
 public class ClientThread extends Thread{
 
 	private int index;
+	private static boolean modifiedInfos = false;	//in seguito ad un aggiornamento delle informazioni permette di comunicare immediatamente le modifiche agli altri utenti
 	
 	/* Costanti che indicano ogni quanto eseguire certe funzioni */
+
+	public static boolean isModifiedInfos() {
+		return modifiedInfos;
+	}
+
+	public static void setModifiedInfos(boolean modifiedInfos) {
+		ClientThread.modifiedInfos = modifiedInfos;
+	}
 
 	/** Ogni quanto tempo aggiornare la lista contatti. 
 	 * NOTA: Questo valore dev'essere superiore a quello di timeout (30 secondi). */
@@ -47,8 +56,13 @@ public class ClientThread extends Thread{
 				continue;	
 
 			//Controllo dello stato di connessione dei propri contatti amici
-			if(index%CheckContactListTime == 0)		
+			if(index%CheckContactListTime == 0 || modifiedInfos){
+				modifiedInfos=false;
 				checkContactList();
+			}
+				
+			
+			
 			
 			//Consegna dei messaggi
 			if(index%DeliveryAllMessagesTime == 0)	

@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import managers.ContactListManager;
+
 public class StatusP2P {
 	private static final int NUM_MAX_REQUEST_LIST = 30;
 	private static ArrayList<int[]> requestList = new ArrayList<int[]>();
@@ -18,7 +20,7 @@ public class StatusP2P {
 	 * Aggiunge la traccia di una richiesta ricevuta.
 	 * Ritorna true se riesce ad aggiungere la richiesta ricevuta altrimenti torna false
 	 */
-	public static boolean addRequest(int userid, int numquery){
+	public static synchronized boolean addRequest(int userid, int numquery){
 		if(!checkRequest(userid, numquery)){
 			requestList.add(new int[]{userid,numquery});
 			if(requestList.size()>NUM_MAX_REQUEST_LIST)
@@ -32,7 +34,7 @@ public class StatusP2P {
 	/**
 	 * Controlla se la richiesta è già presente nella lista delle richieste
 	 */
-	public static boolean checkRequest(int userid, int numquery){
+	public static synchronized boolean checkRequest(int userid, int numquery){
 		for(int[] array : requestList){
 			if( (array[0] == userid) && (array[1] == numquery) ){
 				//Query già ricevuta
@@ -46,7 +48,7 @@ public class StatusP2P {
 	/**
 	 * Aggiunge alla lista una risposta ricevuta dal whois
 	 */
-	public static boolean addWhoisResponse(int RequestFromID, int RandomNum, int ResponseFromID, Contact contact){
+	public static synchronized boolean addWhoisResponse(int RequestFromID, int RandomNum, int ResponseFromID, Contact contact){
 		whoisResponsesList.add(new WhoisResponse(RequestFromID, RandomNum, ResponseFromID, contact));
 		return true;
 	}
@@ -54,7 +56,7 @@ public class StatusP2P {
 	/**
 	 * Ritorna in modo sicuro il contatto
 	 */
-	public static Contact getWhoisResponse(int RequestFromID, int RandomNum){
+	public static synchronized Contact getWhoisResponse(int RequestFromID, int RandomNum){
 		Contact contact = null;
 		for(WhoisResponse whoisResp : whoisResponsesList){
 			if(whoisResp.getRequestFromID() == RequestFromID && whoisResp.getRandomNum() == RandomNum){
@@ -83,7 +85,7 @@ public class StatusP2P {
 	/**
 	 * Rimuove tutte le risposte di una determinata richiesta
 	 */
-	public static void removeWhoisResponse(int RequestFromID, int RandomNum){
+	public static synchronized void removeWhoisResponse(int RequestFromID, int RandomNum){
 		for(WhoisResponse whoisResp : whoisResponsesList){
 			if(whoisResp.getRequestFromID() == RequestFromID && whoisResp.getRandomNum() == RandomNum){
 				whoisResponsesList.remove(whoisResp);
@@ -92,4 +94,19 @@ public class StatusP2P {
 		return;
 	}
 
+	/**
+	 * Controlla le risposte ricevute e valuta solo quelle riguardanti gli utenti presenti nella propria lista contatti
+	 */
+	public static synchronized void checkResponsesAboutMyContacts(){
+		Contact contact;
+		Contact tmpContact;
+		for(WhoisResponse whoisResp : whoisResponsesList){
+			contact = whoisResp.getContact();
+			tmpContact = ContactListManager.searchContactById(contact.getID());
+			if(tmpContact == null)
+				continue;
+			tmpContact.setGlobalIP(contact.getGlobalIP());
+			whoisResponsesList.remove(whoisResp);
+		}
+	}
 }

@@ -96,6 +96,9 @@ public class ClientEngine {
 	 * Permette, se possibile, di fare il login al sistema senza passare per il SIP
 	 */
 	public static ResponseLoginMessage LoginP2P(String username, String password) {
+		//Se sono già loggato in modalità P2P: per non causare un ciclo di invocazioni ritorno null
+		if(Status.isLOGGEDP2P()) return null;
+		
 		Status.setLastLoginUsername(username);
 		Status.setLastLoginPassword(password);
 		ResponseLoginMessage response = null;

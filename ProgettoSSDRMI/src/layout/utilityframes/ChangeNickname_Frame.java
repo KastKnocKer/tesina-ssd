@@ -16,10 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import layout.managers.LayoutReferences;
+import managers.FileContactsManager;
 import managers.Status;
 import chat.ChatStatusList;
 import chat.Contact;
 import client.ClientEngine;
+import client.thread.ClientThread;
 
 import layout.managers.*; 
 
@@ -255,7 +257,8 @@ public class ChangeNickname_Frame extends JFrame {
             	myContact.setAvatarURL(Status.getAvatarURL());
             	myContact.setStatus(Status.getStato());
             	ClientEngine.ModifyMyInfos(myContact);
-            	
+            	FileContactsManager.writeContactsXML();
+            	ClientThread.setModifiedInfos(true);
             	LayoutReferences.getFriendsListPanel().refreshPanel();
             	
             	/* Invoco un metodo che aggiorna graficamente il mio stato

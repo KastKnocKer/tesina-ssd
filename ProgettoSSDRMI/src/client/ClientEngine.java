@@ -106,38 +106,6 @@ public class ClientEngine {
 			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
 			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
 		}
-		//Login mediante server SIP
-//		try {
-//			if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
-//			response = getSIP().login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
-//			if(response.isSUCCESS()){
-//				//Aggiorno i dati personali
-//				Status.setUserID(response.getLoggedContact().getID());
-//				Status.setEmail(response.getLoggedContact().getEmail());
-//				Status.setNome(response.getLoggedContact().getNome());
-//				Status.setCognome(response.getLoggedContact().getCognome());
-//				Status.setNickname(response.getLoggedContact().getNickname());
-//				Status.setLOGGED(true);
-//				
-//				//Controllo se è stata inviata anche la lista dei contatti
-//				ArrayList<Contact> contactList = response.getContactList();
-//				if(contactList != null){
-//					System.out.println("Contact list caricata dal Login: " +contactList.size());
-//					ContactListManager.setContactList(contactList);
-//				}
-//				
-//				//Aggiorno i dati del LastLogin su Status
-//				Status.setLastLoginUsername(username);
-//				Status.setLastLoginPassword(password);
-//				Status.writeConfXML();
-//			}
-//			return response;
-//		} catch (RemoteException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
-//			//System.err.println("ClientEngine.Login() exception: " + e.toString());
-//			//e.printStackTrace();
-//			return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
-//		}
 		return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
 	}
 	

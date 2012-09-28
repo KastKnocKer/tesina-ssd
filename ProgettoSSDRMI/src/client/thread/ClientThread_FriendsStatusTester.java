@@ -66,11 +66,21 @@ public class ClientThread_FriendsStatusTester extends Thread{
 	private void decrementCounter(){
 		counterNumber = counter.decr();
 		if(counterNumber == 0){
+			ConversationWindowsManager.updateAllContactInfos();
 			//TODO x Fabio -> AGGIORNARE TABELLA LISTA CONTATTI
 			//System.out.println("AGGIORNAMENTO TABELLA - Ti prego fabio sistemami :(");
 			//Salvo lo stato dei miei contatti
 			FileContactsManager.writeContactsXML();
 //			LayoutReferences.getFriendsListTable().updateTable(); 
+		}
+		
+		//Se sono loggato mediante il Login P2P provo a contattare con whois i miei contatti
+		if(Status.isLOGGEDP2P()){
+			for(Contact contact : ContactListManager.getContactList()){
+				if(!contact.isConnected()){
+					ClientEngine.whois(contact.getEmail());
+				}
+			}
 		}
 	}
 

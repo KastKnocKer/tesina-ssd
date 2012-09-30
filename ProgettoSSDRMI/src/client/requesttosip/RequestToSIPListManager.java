@@ -43,8 +43,19 @@ public class RequestToSIPListManager {
 		if( RequestsToSIP.size() == 0)
 			return;
 		
-		SIPInterface sip = ClientEngine.getSIP();
-
+		/* Reperisco l'interfaccia del SIP */
+		SIPInterface sip = null; 
+		
+		try {
+			sip = ClientEngine.getSIP();
+		} catch (Exception e) {
+			System.err.println("RequestToSIPListManager: ClientEngine.getSIP() timeout");
+			return; 
+		}
+		
+		if(sip == null) 
+			return; 
+		
 		for(RequestToSIP req : RequestsToSIP){
 			
 			try{
@@ -66,14 +77,8 @@ public class RequestToSIPListManager {
 				
 				
 			}catch(Exception e){
-				
+				e.printStackTrace(); 
 			}
-			
-			
-			
-			
-			
-			
 			
 			
 		}

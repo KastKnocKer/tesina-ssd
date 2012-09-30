@@ -169,14 +169,27 @@ public class ClientThread_FriendshipManager extends Thread {
 //				
 //			}
 			
-			// TODO: remove whois sip senza p2p
-			futureFriend = ClientEngine.getSIP().whois(email);
+			// TODO: se non riesco ad ottenere le info con i whois, devo tornare errore
+			
+			// TODO: remove da qui... (inizio remove)
+			try {
+				futureFriend = ClientEngine.getSIP().whois(email);
+			} catch (Exception e) {
+				System.err.println("whois '" + email + "': SIP offline!");
+				
+				// DEBUG!! RIMUOVERE!!
+				futureFriend.setGlobalIP("192.168.1.103");
+			}
+			// TODO: ... a qui (fine remove)
 			
 			if(Status.DEBUG) {
 				System.out.println("Client - [whois] - risultato: ");
 				futureFriend.printInfo(); 
 			}
 			
+			/* Se non sono riuscito ad ottenere l'IP del contatto, 
+			 * restituisco errore perché non posso inviargli la richiesta di amicizia */
+			// TODO: provo ad inviare la richiesta al SIP, anziché uscire con fallimento
 			if(futureFriend.getGlobalIP() == null || futureFriend.getGlobalIP().equals("")) {
 				return new RMISIPBasicResponseMessage(false, "Siamo spiacenti; non è stato possibile reperire il contatto avente email:\n" + email); 
 			}
@@ -280,10 +293,10 @@ public class ClientThread_FriendshipManager extends Thread {
 //			return ClientEngine.getSIP().askFriendship(new RequestFriendshipMessage(email));
 			return new RMISIPBasicResponseMessage(true, "Richiesta inviata correttamente"); 
 
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace(); 
-			return new RMISIPBasicResponseMessage(false, "ClientEngine.RequestFriendship() exception");
+//		} catch (RemoteException e) {
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
+//			e.printStackTrace(); 
+//			return new RMISIPBasicResponseMessage(false, "ClientEngine.RequestFriendship() exception");
 		} catch (Exception e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace(); 

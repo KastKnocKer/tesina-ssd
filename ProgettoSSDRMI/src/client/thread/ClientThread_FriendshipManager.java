@@ -179,6 +179,7 @@ public class ClientThread_FriendshipManager extends Thread {
 				
 				// DEBUG!! RIMUOVERE!!
 				futureFriend.setGlobalIP("192.168.1.103");
+				futureFriend.setID(1); 
 			}
 			// TODO: ... a qui (fine remove)
 			

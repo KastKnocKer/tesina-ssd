@@ -264,4 +264,25 @@ public class ConversationWindowsManager {
 		
 		System.err.println("updateOneContactInfos()");
 	}
+	
+	/**
+	 * Metodo per chiudere tutte le finestre di conversazione.
+	 * Utile in caso di Logout. 
+	 */
+	public static void closeAllContactFrames() {
+		if(arrayList_conversationFrames == null) {
+			arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
+			return; 
+		}
+		
+
+		/* li chiudo tutti */
+		for(Conversation_Frame frame: arrayList_conversationFrames) {
+			frame.setVisible(false); 
+		}
+		
+		/* azzero la lista */
+		arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
+		
+	}
 }

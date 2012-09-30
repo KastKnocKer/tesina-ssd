@@ -77,6 +77,30 @@ public class ConversationWindowsManager {
 	}
 	
 	/**
+	 * Metodo che restituisce l'istanza del Conversation_Frame 
+	 * della conversazione con un contatto dato l'id del contatto
+	 * relativo a quella conversazione. 
+	 * 
+	 * @param userID
+	 * @return Conversation_Frame, se lo trova; null, altrimenti. 
+	 */
+	public static Conversation_Frame getConversationFrame(int userID) {
+		
+		/* controllo che ci sia */
+		if(arrayList_conversationFrames == null) {
+			arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
+			return null;
+		}
+		
+		int result = searchConversationWindow(userID); 
+		
+		if(result == -1) 
+			return null; 
+		
+		return arrayList_conversationFrames.get(result); 
+	}
+	
+	/**
 	 * Apro la finestra di conversazione con un certo utente. 
 	 * Se la finestra non è ancora stata aperta, la inizializzo; 
 	 * altrimenti, la rendo nuovamente visibile. 
@@ -184,14 +208,20 @@ public class ConversationWindowsManager {
 	 */
 	public static void updateMyContactInfos() {
 		
+		/* controllo che la lista non sia nulla */
 		if(arrayList_conversationFrames == null) {
 			arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
 			return; 
 		}
 		
+		/* scorro tutta la lista, ... */
 		for(Conversation_Frame frame : arrayList_conversationFrames) {
+			/* aggiorno le MIE informazioni all'interno di tutti i frame */
 			frame.updateMyContactInfos(); 
 		}
+		
+		System.err.println("updateMyContactInfos()");
+		
 	}
 	
 	/**
@@ -199,9 +229,21 @@ public class ConversationWindowsManager {
 	 * TUTTI gli amici con cui ho aperto una finestra di conversazione. 
 	 */
 	public static void updateAllContactInfos() {
-		for(Conversation_Frame frame : arrayList_conversationFrames) {
-//			frame.updateHisContactInfos(Contact contact); 
+		
+		/* controllo che la lista non sia nulla */
+		if(arrayList_conversationFrames == null) {
+			arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
+			return; 
 		}
+
+		/* per ogni frame all'interno dell'array,... */
+		for(Conversation_Frame frame : arrayList_conversationFrames) {
+			/* recupero la nuova versione del relativo contatto */
+			Contact newContact = ContactListManager.searchContactById(frame.getContact().getID());  
+			frame.updateHisContactInfos(newContact); 
+		}
+		
+		System.err.println("updateAllContactInfos()");
 	}
 	
 	/**
@@ -211,6 +253,15 @@ public class ConversationWindowsManager {
 	 * @param contact
 	 */
 	public static void updateOneContactInfos(Contact contact) {
-//		ConversationWindowsManager.searchConversationWindow(contact.getID()); 
+		Conversation_Frame frame = ConversationWindowsManager.getConversationFrame(contact.getID());
+		
+		if(frame == null) {
+			System.err.println("updateOneContactInfos: frame not found");
+			return;
+		}
+			
+		frame.updateHisContactInfos(contact); 
+		
+		System.err.println("updateOneContactInfos()");
 	}
 }

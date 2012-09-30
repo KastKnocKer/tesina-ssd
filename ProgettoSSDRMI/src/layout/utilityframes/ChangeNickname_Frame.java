@@ -49,7 +49,7 @@ public class ChangeNickname_Frame extends JFrame {
 	private JLabel label_newAvatar; 
 	private JTextField textfield_newAvatar; 
 	
-	private JButton addFriendButton; 
+	private JButton updateInfosButton; 
 	private JButton quitButton; 
 	
 	
@@ -211,13 +211,8 @@ public class ChangeNickname_Frame extends JFrame {
 		changeNickname_Panel.add(textfield_newAvatar, constraints);
 		
 		
-		
-		
-		
-		
-		
-		/* Bottone per aggiungere amico */
-		addFriendButton = new JButton("Applica Modifiche"); 
+		/* Bottone per confermare le modifiche */
+		updateInfosButton = new JButton("Applica Modifiche"); 
 		
 		constraints = new GridBagConstraints(); 
 		constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -227,9 +222,9 @@ public class ChangeNickname_Frame extends JFrame {
 		constraints.gridheight = 1; 
 		constraints.insets = new Insets(10, 5, 2, 5); 
 		
-		addFriendButton.addActionListener(new ActionListener() {
+		updateInfosButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-            	// TODO ? 
+
             	Status.setNickname(textfield_newNickname.getText()); 
             	
             	
@@ -263,14 +258,14 @@ public class ChangeNickname_Frame extends JFrame {
             	
             	/* Invoco un metodo che aggiorna graficamente il mio stato
             	 * all'interno delle finestre di conversazione */
-//            	ConversationWindowsManager.updateMyContactInfos(); 
+            	ConversationWindowsManager.updateMyContactInfos(); 
             	
             	/* Chiudo la finestra */
             	dispose(); 
             }
         });
 		
-		changeNickname_Panel.add(addFriendButton, constraints);
+		changeNickname_Panel.add(updateInfosButton, constraints);
 		
 		
 		/* Bottone per chiudere la finestra */

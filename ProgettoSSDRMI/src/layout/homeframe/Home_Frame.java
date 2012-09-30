@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import client.ClientEngine;
@@ -22,6 +23,7 @@ import RMI.ClientInterface;
 import chat.Contact;
 import managers.Status;
 
+import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import layout.utilityframes.*;
 
@@ -135,7 +137,32 @@ public class Home_Frame extends JFrame {
         eMenuItem_logout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             	System.out.println("Premuto bottone Logout...");
-            	ClientEngine.Logout();
+            	
+            	/* Eseguo controllo con bottone */
+            	
+            	int result = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler effettuare Logout?", 
+        						"Logout",
+                        JOptionPane.YES_NO_OPTION);
+        		
+        		if(result == JOptionPane.YES_OPTION) {
+        			System.err.println("Richiesta di Logout");
+        			
+        			//TODO: chiedi a kast
+                	boolean logout_result = ClientEngine.Logout();
+                	if(logout_result == true) {
+                		/* chiudo tutte le finestre di conversazione */
+                		ConversationWindowsManager.closeAllContactFrames(); 
+                		/* rimostro la schermata di login */
+     	        	   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
+     	        	   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "Login"); 
+     	        	   /* informo l'utente che la cosa è avvenuta con successo */
+     	        	   JOptionPane.showMessageDialog(null, "Logout avvenuto con successo!", "Logout", JOptionPane.INFORMATION_MESSAGE);
+                	}
+        		}
+        		else if(result == JOptionPane.NO_OPTION)  {
+        			System.err.println("Ripensamento sul logout");
+        		}
+            		
             }
         });
         

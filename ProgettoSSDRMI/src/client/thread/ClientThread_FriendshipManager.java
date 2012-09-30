@@ -14,6 +14,7 @@ import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.ClientEngine;
+import client.requesttosip.*;
 
 /**
  * Thread usato per l'invio e la gestione delle
@@ -128,11 +129,48 @@ public class ClientThread_FriendshipManager extends Thread {
 			/* **********************************************
 			 * 1. whois email? ask SIP and p2p network 
 			 * **********************************************/
+			
 			if(Status.DEBUG) 
 				System.out.println("Client - [whois] - Richiesta a SIP del contatto avente mail: " + email);
 			
-			/* Voglio ottenere dal Server SIP l'IP di un contatto data la sua Email. */
-			Contact futureFriend = ClientEngine.getSIP().whois(email); 
+			Contact futureFriend = new Contact(); 
+			
+			// TODO: whois p2p
+			
+//			/* WHOIS p2p */
+//			try {
+//				
+//				if(Status.DEBUG)
+//					System.err.println("Inizio whois p2p per: " + email);
+//				
+//				/* Voglio ottenere dalla rete p2p 
+//				 * l'IP di un contatto data la sua Email. */
+//				ClientEngine.whois(email);
+//			} catch (Exception e) {
+//				
+//				if(Status.DEBUG)
+//					System.err.println("Timeout whois p2p per: " + email);
+//				
+//				e.printStackTrace(); 
+//				
+//				/* WHOIS SIP */
+//				try {
+//					if(Status.DEBUG)
+//						System.err.println("Inizio whois SIP per: " + email);
+//					/* Se si verifica un timeout nella richiesta alla rete p2p, voglio ottenere 
+//					 * dal Server SIP l'IP di un contatto data la sua Email. */
+//					futureFriend = ClientEngine.getSIP().whois(email); 
+//				} catch (Exception e1) {
+//					if(Status.DEBUG)
+//						System.err.println("Timeout whois SIP per: " + email);
+//					
+//					e.printStackTrace(); 
+//				}
+//				
+//			}
+			
+			// TODO: remove whois sip senza p2p
+			futureFriend = ClientEngine.getSIP().whois(email);
 			
 			if(Status.DEBUG) {
 				System.out.println("Client - [whois] - risultato: ");
@@ -156,6 +194,8 @@ public class ClientThread_FriendshipManager extends Thread {
 			ClientInterface clientInterface = null;
 			
 			try {
+				
+				/* Recupero lo stub del client */
 				if(Status.getGlobalIP().equals(futureFriend.getGlobalIP())) {
 
 					if(Status.DEBUG)
@@ -170,16 +210,66 @@ public class ClientThread_FriendshipManager extends Thread {
 					
 					clientInterface = ClientEngine.getClient(futureFriend.getGlobalIP()); 
 				}
+				
+				/* Invio la richiesta di amicizia */
+				if(clientInterface == null) {
+					return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
+				} else {
+					clientInterface.receiveFriendshipRequestFromContact(myContact);
+				}
 					
+			/* se il client non ha ricevuto la richiesta di amicizia (timeout), 
+			 provo a mandarla al SIP */
 			} catch(Exception e) {
+				
+				if(Status.DEBUG) 
+					System.err.println("ATTENZIONE [FriendshipRequest]: il contatto avente email '" + email + "' non è online. La richiesta richiesta di amicizia verrà inviata al SIP.");
+
 				e.printStackTrace();
+				
+				/* Dato che non sono riuscito a raggiungere il client, 
+				 * invio la richiesta di amicizia al SIP */
+				try {
+					
+					Contact contattoMittente = Status.getMyInfoIntoContact();
+					Contact contattoDestinatario = futureFriend; 
+					
+					FriendshipRequest request = new FriendshipRequest(
+							FriendshipRequestType.ADD_FRIEND, 
+							contattoMittente, 
+							contattoDestinatario);
+					
+					ClientEngine.getSIP().addFriendship(request); 
+					
+				} catch (Exception e1) {
+					/* Se anche il SIP è offline, mi salvo la richiesta in coda, e gliela invio periodicamente. */
+					if(Status.DEBUG) 
+						System.err.println("ATTENZIONE [FriendshipRequest]: il SIP è offline; il SIP era stato " +
+								"contattato dopo che il contatto '" + email + "' era stato trovato offline.");
+					
+					/* Riformulo richiesta di amicizia */
+					Contact contattoMittente = Status.getMyInfoIntoContact();
+					Contact contattoDestinatario = futureFriend; 
+					
+					FriendshipRequest request = new FriendshipRequest(
+							FriendshipRequestType.ADD_FRIEND, 
+							contattoMittente, 
+							contattoDestinatario);
+					
+					/* Aggiungo una richiesta alla coda di invio per il SIP */
+					RequestToSIP requestToSip  = new RequestToSIP(
+							RequestToSIPTypeList.FRIENDSHIP_REQUEST, 
+							request);
+					
+					 RequestToSIPListManager.addRequest(requestToSip);
+				}
+				
+				return new RMISIPBasicResponseMessage(true, "Richiesta di amicizia inviata al SIP (il contatto era offline)."); 
+				
 			}
 			
-			if(clientInterface == null) {
-				return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
-			} else {
-				clientInterface.receiveFriendshipRequestFromContact(myContact);
-			}
+			/* Se sono arrivato qua, significa che è andato "tutto" bene, e la richiesta è arrivata
+			 * direttamente all'altro contatto */
 			
 //			System.err.println("Mostro finestra di richiesta amicizia");
 //			FriendshipManager.showFriendshipRequestFrom(myContact);

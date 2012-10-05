@@ -183,8 +183,10 @@ public class ClientThread_FriendshipManager extends Thread {
 
 				/* Se sono uscito e friendContact è null, significa che non 
 				 * ho ottenuto quel che volevo */
-				if(friendContact == null) 
+				if(friendContact == null) {
+					System.err.println("Lancio eccezione gestita per passare al 'whois SIP'");
 					throw new Exception();
+				}
 				
 			} catch (Exception e) {
 				

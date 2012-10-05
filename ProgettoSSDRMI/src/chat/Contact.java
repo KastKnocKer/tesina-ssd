@@ -115,7 +115,7 @@ public class Contact implements Serializable{
 	}
 
 	public void printInfo(){
-		System.out.println("Contact Info: " + UserID +" - "+ Email+ " - "+ Nickname +" - "+ GlobalIP);
+		System.out.println("Contact Info: " + UserID +" - "+ Email + " - "+ Nickname +" - "+ GlobalIP + " - " + LocalIP) ;
 	}
 	public ChatStatusList getStatus() {		
 		return Status;	

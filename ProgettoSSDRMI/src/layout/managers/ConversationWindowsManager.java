@@ -60,15 +60,26 @@ public class ConversationWindowsManager {
 		 * già uno aperto relativo all'userID passato come parametro in ingresso */
 		
 		int pos = 0; 
-		
-		for(Conversation_Frame conversationFrame : arrayList_conversationFrames) {
-			
-			int temp_userID = conversationFrame.getContact().getID(); 
-			System.out.println("Temp: " + temp_userID + "; userID: " + userID);
-			if( temp_userID == userID)
-				return pos; 
-						
-			pos++; 
+		try {
+			for(Conversation_Frame conversationFrame : arrayList_conversationFrames) {
+				
+				
+				if(conversationFrame == null) 
+					continue; 
+				
+				if(conversationFrame.getContact() == null) 
+					continue; 
+				
+				int temp_userID = conversationFrame.getContact().getID(); 
+				System.out.println("Temp: " + temp_userID + "; userID: " + userID);
+				if( temp_userID == userID)
+					return pos; 
+							
+				pos++; 
+			}
+		} catch(Exception e) {
+			System.err.println("Eccezione gestita per la ricerca di una finestra di conversazione.");
+			e.printStackTrace(); 
 		}
 		
 		/* Se arrivo in fondo, significa che non ho trovato

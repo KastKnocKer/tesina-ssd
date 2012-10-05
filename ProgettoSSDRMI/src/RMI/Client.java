@@ -52,23 +52,45 @@ public class Client implements ClientInterface{
 		Contact senderContact = rhay.getSenderContact();
 		int senderID = senderContact.getID();
 		
-		for(Contact contact :  ContactListManager.getContactList() ){
-			if(contact.getID() == senderID){
-				//Aggiorno le informazioni ricevute
-				boolean updateTable = !contact.isConnected();
-				contact.updateInfoFromContact(senderContact);
-				ConversationWindowsManager.updateOneContactInfos(contact);
-				
-				//Aggiorno la tabella se il contatto era per me offline in precedenza
-				if(updateTable){
-					FriendsList_Table table = LayoutReferences.getFriendsListTable();
-					if(table!=null) 
-						table.updateTable(); 
-				}
-				break;
+		//Cerco il mittente nella mia lista contatti
+		Contact localSenderContact = ContactListManager.searchContactById(senderID);
+		//Se lo trovo aggiorno le informazioni che mi ha comunicato
+		if(localSenderContact != null){
+			//Aggiorno le informazioni ricevute
+			boolean updateTable = !localSenderContact.isConnected();
+			localSenderContact.updateInfoFromContact(senderContact);
+			ConversationWindowsManager.updateOneContactInfos(localSenderContact);
+			
+			//Aggiorno la tabella se il contatto era per me offline in precedenza
+			if(updateTable){
+				FriendsList_Table table = LayoutReferences.getFriendsListTable();
+				if(table!=null) 
+					table.updateTable(); 
 			}
+			System.err.println("ResponseHowAreYou - we ARE friends");		
+			return new ResponseHowAreYou(true, Status.getMyInfoIntoContact(),true);
+		}else{
+			System.err.println("ResponseHowAreYou - we are NOT friends");
+			return new ResponseHowAreYou(true, Status.getMyInfoIntoContact(),false);
 		}
-		return new ResponseHowAreYou(true, Status.getMyInfoIntoContact());
+		
+//		for(Contact contact :  ContactListManager.getContactList() ){
+//			if(contact.getID() == senderID){
+//				//Aggiorno le informazioni ricevute
+////				boolean updateTable = !contact.isConnected();
+////				contact.updateInfoFromContact(senderContact);
+////				ConversationWindowsManager.updateOneContactInfos(contact);
+//				
+//				//Aggiorno la tabella se il contatto era per me offline in precedenza
+////				if(updateTable){
+////					FriendsList_Table table = LayoutReferences.getFriendsListTable();
+////					if(table!=null) 
+////						table.updateTable(); 
+////				}
+////				break;
+//			}
+//		}
+//		return new ResponseHowAreYou(true, Status.getMyInfoIntoContact());
 	}
 	
 	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException {

@@ -123,8 +123,9 @@ public class ClientEngine {
 			Status.setLOGGEDP2P(true);
 			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
 			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
+			return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
 		}
-		return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
+		return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 	}
 	
 	public static boolean Logout(){

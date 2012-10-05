@@ -126,10 +126,18 @@ public class FileContactsManager {
 					Element IDMittente = doc.createElement("IDMittente");
 					IDMittente.setTextContent(	Integer.toString(fr.getContattoMittente().getID())	);
 						friendshipElement.appendChild(IDMittente);
+					
+					Element eMailMittente = doc.createElement("eMailMittente");
+					eMailMittente.setTextContent(	fr.getContattoMittente().getEmail()	);
+						friendshipElement.appendChild(eMailMittente);
 						
 					Element IDDestinatario = doc.createElement("IDDestinatario");
 					IDDestinatario.setTextContent(	Integer.toString(fr.getContattoDestinatario().getID())	);
 						friendshipElement.appendChild(IDDestinatario);
+						
+					Element eMailDestinatario = doc.createElement("eMailDestinatario");
+					eMailDestinatario.setTextContent(	fr.getContattoDestinatario().getEmail()	);
+						friendshipElement.appendChild(eMailDestinatario);
 						
 						
 						
@@ -227,6 +235,8 @@ public class FileContactsManager {
 							dest = new Contact();
 							mitt.setID(Integer.parseInt(getTagValue("IDMittente", eElement)));
 							dest.setID(Integer.parseInt(getTagValue("IDDestinatario", eElement)));
+							mitt.setEmail(getTagValue("eMailMittente", eElement));
+							dest.setEmail(getTagValue("eMailDestinatario", eElement));
 						} catch (Exception e) {}
 						
 						if( mitt != null && dest != null){

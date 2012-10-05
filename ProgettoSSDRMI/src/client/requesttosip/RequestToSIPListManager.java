@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import RMI.SIPInterface;
 import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequestType;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
 
@@ -60,6 +61,7 @@ public class RequestToSIPListManager {
 			
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
+					
 					RequestLoginMessage rlm = (RequestLoginMessage) req.getRequestMessage();
 					ResponseLoginMessage resplm = ClientEngine.Login(rlm.getUsername(), rlm.getPassword());
 					if(resplm != null && resplm.isSUCCESS()){
@@ -67,7 +69,17 @@ public class RequestToSIPListManager {
 					}
 					
 				} else if(req.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
-					sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
+					
+					if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.REMOVE_FRIEND) {
+						System.out.println("Invio richieste al SIP offline: tentativo di rimozione amicizia");
+						sip.removeFriendship( (FriendshipRequest) req.getRequestMessage() );
+					} else if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.ADD_FRIEND ||
+							((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
+						System.out.println("Invio richieste al SIP offline: tentativo di aggiunta amicizia");
+						sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
+					}
+					
+					
 					
 				} else if(req.getRequestType() == RequestToSIPTypeList.YYY){
 					//TODO rimuovere se non serve
@@ -77,6 +89,7 @@ public class RequestToSIPListManager {
 				
 				
 			}catch(Exception e){
+				System.err.println("Eccezione gestita: TENTATIVO INVIO RICHIESTE AL SIP OFFLINE");
 				e.printStackTrace(); 
 			}
 			

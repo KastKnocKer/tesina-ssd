@@ -43,10 +43,6 @@ public class ClientEngine {
 		//Login mediante server SIP
 		if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 		
-		//Carico eventuali richieste al primo tentativo di login verso il SIP
-		if(!Status.isLOGGEDP2P())
-			FileContactsManager.readContactsXML();
-		//TODO potrebbe creare problemi 
 		
 		SIPInterface SIP = getSIP();
 		if(SIP == null){
@@ -79,6 +75,10 @@ public class ClientEngine {
 			Status.setCognome(response.getLoggedContact().getCognome());
 			Status.setNickname(response.getLoggedContact().getNickname());
 			Status.setLOGGED(true);
+			
+			//Carico eventuali richieste al primo tentativo di login verso il SIP
+			if(!Status.isLOGGEDP2P())
+				FileContactsManager.readContactsXML();
 			
 			//Controllo se è stata inviata anche la lista dei contatti
 			ArrayList<Contact> contactList = response.getContactList();

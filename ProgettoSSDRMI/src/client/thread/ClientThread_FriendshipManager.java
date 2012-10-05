@@ -207,7 +207,9 @@ public class ClientThread_FriendshipManager extends Thread {
 						System.err.println("Inizio whois SIP per: " + email);
 					/* Se si verifica un timeout nella richiesta alla rete p2p, voglio ottenere 
 					 * dal Server SIP l'IP di un contatto data la sua Email. */
+					
 					futureFriend = ClientEngine.getSIP().whois(email); 
+					System.err.println("Fine (1) whois p2p al SIP");
 				} catch (Exception e1) {
 					if(Status.DEBUG)
 						System.err.println("Timeout whois SIP per: " + email);
@@ -215,6 +217,7 @@ public class ClientThread_FriendshipManager extends Thread {
 					e.printStackTrace(); 
 				}
 				
+				System.err.println("Fine (2) whois p2p al SIP");
 			}
 			// TODO: fine whois p2p
 			
@@ -292,6 +295,7 @@ public class ClientThread_FriendshipManager extends Thread {
 				if(Status.DEBUG) 
 					System.err.println("ATTENZIONE [FriendshipRequest]: il contatto avente email '" + email + "' non è online. La richiesta richiesta di amicizia verrà inviata al SIP.");
 
+				System.err.println("Eccezione gestita");
 				e.printStackTrace();
 				
 				/* Dato che non sono riuscito a raggiungere il client, 

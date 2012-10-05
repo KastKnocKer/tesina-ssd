@@ -431,16 +431,16 @@ public class ClientEngine {
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Client - ClientEngine.getClient() RemoteException: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Client - ClientEngine.getClient() NotBoundException: " + e.toString());
 			//e.printStackTrace();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Client - ClientEngine.getClient() Exception: " + e.toString());
 			//e.printStackTrace();
 		}
 		return client;

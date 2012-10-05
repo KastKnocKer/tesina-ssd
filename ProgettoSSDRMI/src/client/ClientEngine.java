@@ -43,6 +43,11 @@ public class ClientEngine {
 		//Login mediante server SIP
 		if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
 		
+		//Carico eventuali richieste al primo tentativo di login verso il SIP
+		if(!Status.isLOGGEDP2P())
+			FileContactsManager.readContactsXML();
+		//TODO potrebbe creare problemi 
+		
 		SIPInterface SIP = getSIP();
 		if(SIP == null){
 			System.err.println("IL SIP e' OFFLINE!!! Procedo con la procedura di login P2P (SIP == null)");

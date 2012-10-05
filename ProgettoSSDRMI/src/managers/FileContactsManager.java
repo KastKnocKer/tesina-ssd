@@ -217,6 +217,7 @@ public class FileContactsManager {
 					
 					
 					}else if(eElement.getNodeName().equals("FriendshipRequest")){
+						System.out.println("Carico richiesta di amicizia da effettuare verso il SIP");
 						//Aggiungo alla lista delle richieste del sip la richiesta di amicizia
 						FriendshipRequest friendReq = null;
 						Contact mitt = null;

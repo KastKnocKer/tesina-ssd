@@ -128,10 +128,10 @@ public class MainSSD {
 		if( Status.getType() == Status.TYPE_SIP ){
 			StarterSIP();
 		}else if( Status.getType() == Status.TYPE_CLIENT ){
-			StarterClient();
+			Status.startClient();
 		}else if( Status.getType() == Status.TYPE_SIPCLIENT ){
 			StarterSIP();
-			StarterClient();
+			Status.startClient();
 		}
 			
 			
@@ -164,48 +164,48 @@ public class MainSSD {
 		return true;
 	}
 	
-	private static boolean StarterClient(){
-		System.out.println("*** Client is starting ***");
-		
-		try {
-            Client client = new Client();
-            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-            // Registro il SIP nel RMIREGISTRY
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("Client", stub);
-            System.out.println("*** Client obj ready ***");
-		} catch (Exception e) {
-            System.out.println("Client obj exception:\n" + e.toString());
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
-            System.out.println("EXIT FORZATO");
-            System.exit(0);
-		}
-		// imposto visualizzazione con look and feel del sistema operativo in uso 
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (Exception ex) {
-					System.err.println("Impossibile impostare L&F di sistema");
-				}
-				
-				
-				/**
-				 * Mostro l'Home Frame
-				 * @author Fabio Pierazzi 
-				 */
-				// places the application on the Swing Event Queue 
-				SwingUtilities.invokeLater(new Runnable() {
-			            public void run() {
-			            	
-			            	Home_Frame hf = new Home_Frame(); 
-			            	hf.setVisible(true);
-			            }
-				});
-		ClientThread ct = new ClientThread();
-		ct.start();
-		ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
-		ctsr.start();
-		
-		return true;
-	}
+//	private static boolean StarterClient(){
+//		System.out.println("*** Client is starting ***");
+//		
+//		try {
+//            Client client = new Client();
+//            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+//            // Registro il SIP nel RMIREGISTRY
+//            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+//            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+//            registry.rebind("Client", stub);
+//            System.out.println("*** Client obj ready ***");
+//		} catch (Exception e) {
+//            System.out.println("Client obj exception:\n" + e.toString());
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
+//            System.out.println("EXIT FORZATO");
+//            System.exit(0);
+//		}
+//		// imposto visualizzazione con look and feel del sistema operativo in uso 
+//				try {
+//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//				} catch (Exception ex) {
+//					System.err.println("Impossibile impostare L&F di sistema");
+//				}
+//				
+//				
+//				/**
+//				 * Mostro l'Home Frame
+//				 * @author Fabio Pierazzi 
+//				 */
+//				// places the application on the Swing Event Queue 
+//				SwingUtilities.invokeLater(new Runnable() {
+//			            public void run() {
+//			            	
+//			            	Home_Frame hf = new Home_Frame(); 
+//			            	hf.setVisible(true);
+//			            }
+//				});
+//		ClientThread ct = new ClientThread();
+//		ct.start();
+//		ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
+//		ctsr.start();
+//		
+//		return true;
+//	}
 }

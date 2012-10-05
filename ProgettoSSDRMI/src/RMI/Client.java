@@ -20,6 +20,7 @@ import chat.Contact;
 import chat.Message;
 import chat.StatusP2P;
 import client.ClientEngine;
+import client.thread.ClientThread;
 import client.thread.ClientThread_WhoisRequestor;
 
 
@@ -134,7 +135,13 @@ public class Client implements ClientInterface{
 				contattoDestinatario.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
 				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 		
-		// TODO: invio friendshipRequest al SIP (se è offline, devo salvarlo in una coda e ritentare periodicamente) 
+		/* Lancio un howAreYou sfruttando il ClienThread */
+		ClientThread.setModifiedInfos(true); 
+		
+		// TODO Verifica se rimanda periodicamente al SIP 
+		
+		/* Invio friendshipRequest al SIP (se è offline, 
+		 * devo salvarlo in una coda e ritentare periodicamente) */
 		try {
 			FriendshipRequest request = new FriendshipRequest(
 					FriendshipRequestType.ADD_FRIEND, 

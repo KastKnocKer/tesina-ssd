@@ -13,6 +13,7 @@ import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
+import chat.StatusP2P;
 import client.ClientEngine;
 import client.requesttosip.*;
 
@@ -133,55 +134,99 @@ public class ClientThread_FriendshipManager extends Thread {
 			if(Status.DEBUG) 
 				System.out.println("Client - [whois] - Richiesta a SIP del contatto avente mail: " + email);
 			
-			Contact futureFriend = new Contact(); 
+			Contact futureFriend = null; 
 			
 			// TODO: whois p2p
 			
-//			/* WHOIS p2p */
-//			try {
-//				
-//				if(Status.DEBUG)
-//					System.err.println("Inizio whois p2p per: " + email);
-//				
-//				/* Voglio ottenere dalla rete p2p 
-//				 * l'IP di un contatto data la sua Email. */
-//				ClientEngine.whois(email);
-//			} catch (Exception e) {
-//				
-//				if(Status.DEBUG)
-//					System.err.println("Timeout whois p2p per: " + email);
-//				
-//				e.printStackTrace(); 
-//				
-//				/* WHOIS SIP */
-//				try {
-//					if(Status.DEBUG)
-//						System.err.println("Inizio whois SIP per: " + email);
-//					/* Se si verifica un timeout nella richiesta alla rete p2p, voglio ottenere 
-//					 * dal Server SIP l'IP di un contatto data la sua Email. */
-//					futureFriend = ClientEngine.getSIP().whois(email); 
-//				} catch (Exception e1) {
-//					if(Status.DEBUG)
-//						System.err.println("Timeout whois SIP per: " + email);
-//					
-//					e.printStackTrace(); 
-//				}
-//				
-//			}
-			
-			// TODO: se non riesco ad ottenere le info con i whois, devo tornare errore
-			
-			// TODO: remove da qui... (inizio remove)
+			/* WHOIS p2p */
 			try {
-				futureFriend = ClientEngine.getSIP().whois(email);
-			} catch (Exception e) {
-				System.err.println("whois '" + email + "': SIP offline!");
 				
-				// DEBUG!! RIMUOVERE!!
-				futureFriend.setGlobalIP("192.168.1.103");
-				futureFriend.setID(1); 
+				if(Status.DEBUG)
+					System.err.println("Inizio whois p2p per: " + email);
+				
+				/* Voglio ottenere dalla rete p2p l'IP di un contatto data la sua Email. 
+				 * Lancio pertanto il thread che si occupa di gestire la richiesta
+				 * whois p2p. */
+				int requestNumber = ClientEngine.whois(email);
+				
+				/* ogni quanti secondi controlla se è arrivato un risultato */
+				int numSecRefresh = 1; 
+				/* dopo quanti "refresh" (= controlli della richiesta) 
+				 * lanciare il timeout */
+				int numMaxRefresh = 10;
+				
+				/* contatto dell'amico */
+				Contact friendContact = null; 
+				
+				/* Inizio un ciclo in cui controllo se arriva risposta al whois p2p */
+				for(int count=0; count < numMaxRefresh; count++) {
+					
+					if(Status.DEBUG) 
+						System.err.println("[count=" + count + "] Attendo risposta p2p per il contatto '" + email + "'.");
+					
+					/* Attento il numero di secondi per il refresh 
+					 * (per controllare se è arrivata la risposta) */
+					sleep(numSecRefresh * 1000); 
+					
+					/* Verifico se è arrivata risposta per quel contatto */
+					friendContact = StatusP2P.getWhoisResponse(Status.getUserID(), requestNumber);
+					
+					if(friendContact == null) {
+						continue; 
+					} else {
+						/* Ho ricevuto risposta! Rimuovo la 
+						 * risposta dall'elenco delle richieste */
+						StatusP2P.removeWhoisResponse(Status.getUserID(), requestNumber);
+						break; 
+					}
+				}
+
+				/* Se sono uscito e friendContact è null, significa che non 
+				 * ho ottenuto quel che volevo */
+				if(friendContact == null) 
+					throw new Exception();
+				
+			} catch (Exception e) {
+				
+				if(Status.DEBUG)
+					System.err.println("Timeout whois p2p per: " + email);
+				
+				e.printStackTrace(); 
+				
+				/* WHOIS SIP */
+				try {
+					if(Status.DEBUG)
+						System.err.println("Inizio whois SIP per: " + email);
+					/* Se si verifica un timeout nella richiesta alla rete p2p, voglio ottenere 
+					 * dal Server SIP l'IP di un contatto data la sua Email. */
+					futureFriend = ClientEngine.getSIP().whois(email); 
+				} catch (Exception e1) {
+					if(Status.DEBUG)
+						System.err.println("Timeout whois SIP per: " + email);
+					
+					e.printStackTrace(); 
+				}
+				
 			}
+			// TODO: fine whois p2p
+			
+			// se non riesco ad ottenere le info con i whois, devo tornare errore
+			if(futureFriend == null) {
+				System.err.println("futureFriend == null");
+				return new RMISIPBasicResponseMessage(false, "Siamo spiacenti; non è stato possibile reperire il contatto avente email:\n" + email); 
+			}
+			// TODO: remove da qui... (inizio remove)
+//			try {
+//				futureFriend = ClientEngine.getSIP().whois(email);
+//			} catch (Exception e) {
+//				System.err.println("whois '" + email + "': SIP offline!");
+//				
+//				// DEBUG!! RIMUOVERE!!
+//				futureFriend.setGlobalIP("192.168.1.103");
+//				futureFriend.setID(1); 
+//			}
 			// TODO: ... a qui (fine remove)
+			
 			
 			if(Status.DEBUG) {
 				System.out.println("Client - [whois] - risultato: ");
@@ -202,7 +247,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			
 			if( futureFriend.getID() < 0 ) 
-				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto " + email + " non valido"); 
+				return new RMISIPBasicResponseMessage(false, "Errore di sistema: id contatto '" + email + "' non valido"); 
 			
 			
 			ClientInterface clientInterface = null;

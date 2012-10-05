@@ -71,10 +71,9 @@ public class Client implements ClientInterface{
 	}
 	
 	public RMIBasicResponseMessage sendMessageToContact(Message[] chatMsgs, String senderGlobalIP, String senderLocalIP) throws RemoteException {
-		
-		for(Message msg : chatMsgs)
-			ClientEngine.receiveMessageFromContact(msg);
-		
+
+		/* Se ricevo il messaggio da un contatto che non è online, 
+		 * lo rimetto ONLINE */
 		if(chatMsgs != null || chatMsgs.length>0){
 			
 			int senderID = chatMsgs[0].getFrom();
@@ -90,6 +89,11 @@ public class Client implements ClientInterface{
 						table.updateTable(); 
 				}
 		}
+
+		/* mostro il messaggio ricevuto */
+		for(Message msg : chatMsgs)
+			ClientEngine.receiveMessageFromContact(msg);
+		
 		return new RMIBasicResponseMessage(true, "OK");
 	}
 

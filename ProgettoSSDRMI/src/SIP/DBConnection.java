@@ -1045,8 +1045,8 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 					tmpContact.setCognome(results.getString("cognome"));
 					tmpContact.setNickname(results.getString("nickname"));
 					tmpContact.setEmail(results.getString("email"));
-					tmpContact.setGlobalIP("publicIP");
-					tmpContact.setLocalIP("localIP");
+					tmpContact.setGlobalIP(results.getString("publicIP"));
+					tmpContact.setLocalIP(results.getString("localIP"));
 					FriendshipRequest frreq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND, tmpContact, contact);
 					friendShipList.add(frreq);
 				} catch (SQLException e) {

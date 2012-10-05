@@ -19,6 +19,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import RMIMessages.FriendshipRequest;
+import RMIMessages.FriendshipRequestType;
+
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
+
 import chat.ChatStatusList;
 import chat.Contact;
 
@@ -105,88 +112,24 @@ public class FileContactsManager {
 				
 				
 				
+			//Per ogni richiesta pendente verso il SIP
+			for(RequestToSIP rts : RequestToSIPListManager.getRequestsToSIP()){
 				
+				if(rts.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
+					Element friendshipElement = doc.createElement("FriendshipRequest");
+					
+					Element IDMittente = doc.createElement("IDMittente");
+					IDMittente.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoMittente().getID())	);
+						friendshipElement.appendChild(username);
+					Element IDDestinatario = doc.createElement("IDDestinatario");
+					IDDestinatario.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoDestinatario().getID())	);
+						friendshipElement.appendChild(password);
+						
+					rootElement.appendChild(friendshipElement);
+				}
 				
+			}
 				
-				
-				
-				
-				
-				
-//				Element el1 = doc.createElement("kiss1");
-//				Element el2 = doc.createElement("kiss2");
-//				Element el3 = doc.createElement("kiss3");
-//				Element el4 = doc.createElement("kiss4");
-//				Element el5 = doc.createElement("kiss5");
-//				rootElement.appendChild(el1);
-//				el1.appendChild(el2);
-//				el2.appendChild(el3);
-//				el3.appendChild(el4);
-//				el4.appendChild(el5);
-				
-				
-				
-				
-//				Element elemento;
-//				//TYPE
-//				elemento = doc.createElement("Type");
-//					elemento.setTextContent(Integer.toString(Status.Type));
-//						rootElement.appendChild(elemento);
-//				//SIP ADDRESS
-//				Node newNode = doc.createTextNode("asd");
-//					elemento.setTextContent(Status.SIP_Address);
-//						rootElement.appendChild(elemento);
-//				//SIP PORT
-//				elemento = doc.createElement("SIP_Port");
-//					elemento.setTextContent(Integer.toString(Status.SIP_Port));
-//						rootElement.appendChild(elemento);
-//				//CLIENT PORT
-//				elemento = doc.createElement("Client_Port");
-//					elemento.setTextContent(Integer.toString(Status.Client_Port));
-//						rootElement.appendChild(elemento);
-//				//PrivateKey
-//				elemento = doc.createElement("PrivateKey");
-//					elemento.setTextContent(Status.PrivateKey);
-//						rootElement.appendChild(elemento);
-//				//PublicKey
-//				elemento = doc.createElement("PublicKey");
-//					elemento.setTextContent(Status.PublicKey);
-//						rootElement.appendChild(elemento);
-				
-	/*			
-	
-				// staff elements
-				Element staff = doc.createElement("Staff");
-				rootElement.appendChild(staff);
-	
-				// set attribute to staff element
-				Attr attr = doc.createAttribute("id");
-				attr.setValue("1");
-				staff.setAttributeNode(attr);
-	
-				// shorten way
-				// staff.setAttribute("id", "1");
-	
-				// firstname elements
-				Element firstname = doc.createElement("firstname");
-				firstname.appendChild(doc.createTextNode("yong"));
-				staff.appendChild(firstname);
-	
-				// lastname elements
-				Element lastname = doc.createElement("lastname");
-				lastname.appendChild(doc.createTextNode("mook kim"));
-				staff.appendChild(lastname);
-	
-				// nickname elements
-				Element nickname = doc.createElement("nickname");
-				nickname.appendChild(doc.createTextNode("mkyong"));
-				staff.appendChild(nickname);
-	
-				// salary elements
-				Element salary = doc.createElement("salary");
-				salary.appendChild(doc.createTextNode("100000"));
-				staff.appendChild(salary);
-	*/
 				System.out.println("*** Scrittura CONTACTS.XML ***");
 				// write the content into xml file
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -262,6 +205,24 @@ public class FileContactsManager {
 						try {	contact.setLocalIP(getTagValue("LocalIP", eElement));				} catch (Exception e) {}
 						contact.setStatus(ChatStatusList.OFFLINE);
 						ContactListManager.getContactList().add(contact);
+					
+					
+					}else if(eElement.getNodeName().equals("FriendshipRequest")){
+						//Aggiungo alla lista delle richieste del sip la richiesta di amicizia
+						Contact mitt = null;
+						Contact dest = null;
+						try {
+							mitt = new Contact();
+							dest = new Contact();
+							mitt.setID(Integer.parseInt(getTagValue("IDMittente", eElement)));
+							dest.setID(Integer.parseInt(getTagValue("IDDestinatario", eElement)));
+						} catch (Exception e) {}
+						
+						if( mitt != null && dest != null){
+							FriendshipRequest friendReq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND,mitt,dest);
+							RequestToSIPListManager.addRequest( new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, friendReq));
+						}
+						
 					}
 					
 				}

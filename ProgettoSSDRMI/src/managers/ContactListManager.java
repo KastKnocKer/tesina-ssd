@@ -309,6 +309,45 @@ public class ContactListManager {
 			
 			return true; 
 		}
+
+		/**
+		 * Aggiunge alla propria lista locale dei contatti gli aggiornamenti che giungono dal SIP
+		 * @param SIPContactList
+		 */
+		public static void addContactsFromSIPContactList(ArrayList<Contact> SIPContactList) {
+			//Setto tutti i contatti locali come non aggiornati dal SIP
+			for(Contact contact : contactList){
+				contact.setUpdatedFromSIP(false);
+			}
+			
+			//Per ogni contatto ricevuto dal SIP aggiorno la mia lista
+			for(Contact contact : SIPContactList){
+				Contact localContact = searchContactById(contact.getID());
+				
+				if(localContact == null){
+					//Non ho trovato il contatto
+					addToContactList(contact);
+				}else{
+					//Ho trovato il contatto
+					if(!localContact.isConnected()){
+						//Se il contatto è nella mia lista e non è raggiungibile aggiorno i suoi dati
+						localContact.setLocalIP(contact.getLocalIP());
+						localContact.setGlobalIP(contact.getGlobalIP());
+						localContact.setNickname(contact.getNickname());
+						localContact.setUpdatedFromSIP(true);
+						localContact.setTemporary(false);
+						
+					}
+				}
+			}
+			
+			//Elimino i contatti che avevo ricevuto dal SIP in passato, ma di cui non ho ricevuto aggiornamenti (=Contatti rimossi)
+			for(Contact contact : contactList){
+				if(!contact.isTemporary() && !contact.isUpdatedFromSIP())
+					contactList.remove(contact);
+			}
+		}
+
 		
 		
 

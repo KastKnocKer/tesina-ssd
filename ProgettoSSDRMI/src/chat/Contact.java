@@ -3,6 +3,9 @@ package chat;
 import java.io.Serializable;
 
 public class Contact implements Serializable{
+	private boolean Temporary = false;
+	private boolean UpdatedFromSIP = false;
+	
 	public static String NONE = "";
 	private int UserID = -1;
 	private String Nickname = NONE;
@@ -12,6 +15,7 @@ public class Contact implements Serializable{
 	private String Password = NONE;
 	private String AvatarURL = NONE;
 	private ChatStatusList Status = ChatStatusList.OFFLINE;
+
 	private int Client_Port = 1102;
 	private String GlobalIP = NONE;
 	private String LocalIP = NONE;
@@ -188,6 +192,21 @@ public class Contact implements Serializable{
 		return true;
 	}
 	
+	public boolean isTemporary() {
+		return Temporary;
+	}
+
+	public void setTemporary(boolean temporary) {
+		Temporary = temporary;
+	}
+
+	public boolean isUpdatedFromSIP() {
+		return UpdatedFromSIP;
+	}
+
+	public void setUpdatedFromSIP(boolean updatedFromSIP) {
+		UpdatedFromSIP = updatedFromSIP;
+	}
 	
 	
 }

@@ -1,3 +1,4 @@
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
@@ -52,14 +53,24 @@ public class MainSSD {
 		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
 		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
 		
+		
+		Registry registry = null;
 		try {
-			Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+			registry = LocateRegistry.getRegistry("localhost", 1099);
+		} catch (RemoteException e1) {
+			System.err.println("ON START - Exception catched: GetRegistry");
+		}
+		
+		try {
 			registry.unbind("Client");
-	        registry.unbind("SIP");
-		} catch (RemoteException | NotBoundException e) {
-			System.err.println("ON START - Exception catched: Unbinding SIP and Client");
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+		} catch (RemoteException | NotBoundException e1) {
+			System.err.println("ON START - Exception catched: Unbinding Client");
+		}
+		
+		try {
+			registry.unbind("SIP");
+		} catch (RemoteException | NotBoundException e1) {
+			System.err.println("ON START - Exception catched: Unbinding SIP");
 		}
 		
 		

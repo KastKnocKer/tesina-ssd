@@ -33,7 +33,7 @@ public class ClientThread extends Thread{
 
 	/** Ogni quanto tempo aggiornare la lista contatti. 
 	 * NOTA: Questo valore dev'essere superiore a quello di timeout (30 secondi). */
-	private final int CheckContactListTime = 120;
+	private final int CheckContactListTime = 10;
 	
 	/** Ogni quanto tempo controllare se ci sono messaggi da consegnare tramite la chat */
 	private final int DeliveryAllMessagesTime = 2;

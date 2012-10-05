@@ -126,6 +126,7 @@ public class FileContactsManager {
 						friendshipElement.appendChild(password);
 						
 					rootElement.appendChild(friendshipElement);
+					System.out.println("Richiesta di amicizia scritta su contact.xml");
 				}
 				
 			}

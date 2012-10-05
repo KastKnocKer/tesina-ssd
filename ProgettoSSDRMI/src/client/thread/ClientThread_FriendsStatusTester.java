@@ -42,12 +42,24 @@ public class ClientThread_FriendsStatusTester extends Thread{
 				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
 				return;
 			}
+			
+			/* Ricevo la risposta (che eventualmente mi arriva dopo il timeout) */
 			ResponseHowAreYou rhay = client.howAreYou(new RequestHowAreYou(Status.getMyInfoIntoContact()));
+			/* Se mi ha risposto... */
 			if(rhay.isSuccess()){
-				//Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
-				contactToTest.updateInfoFromContact(rhay.getResponseContact());
-				ConversationWindowsManager.updateOneContactInfos(contactToTest);
-				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
+				/* if true, siamo amici */
+				if(rhay.isAreYouMyFriend()) {
+					// Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
+					contactToTest.updateInfoFromContact(rhay.getResponseContact());
+					ConversationWindowsManager.updateOneContactInfos(contactToTest);
+					System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
+				}
+				/* if false, non siamo amici: devo rimuoverlo! Ce l'ho per errore (probabilmente
+				 * il SIP è offline e l'ho caricato dai miei CONTACTS.xml */
+				else {
+					ContactListManager.removeFromContactList(rhay.getResponseContact()); 
+				}
+				
 			}
 			
 		} catch (RemoteException e) {

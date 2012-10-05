@@ -72,7 +72,18 @@ public class WhatIsMyIP {
                 return null;
         }
 
-
+        /**
+         * Ritorna l'ip locale standard delle LAN
+         */
+        public String getStdLocalIP(){
+        	String[][] localIPs = this.getLocalIPs();
+			for(int i=0; i<localIPs.length; i++){
+				if(localIPs[i][0].startsWith("192.168.1.")){
+					return localIPs[i][0];
+				}
+			}
+        	return localIPs[0][0];
+        }
 
         /**
          * Tries to get this computers IP address from www.whatismyip.org through a nio socket.

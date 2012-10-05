@@ -100,7 +100,6 @@ public class ClientEngine {
 				System.out.println("Login Response - Non ci sono richieste di amicizia pending. ");
 			}
 			
-			
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);

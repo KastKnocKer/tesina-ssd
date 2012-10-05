@@ -1019,7 +1019,10 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 		PreparedStatement prepSt;
 		try {
-			prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user WHERE idUser IN (SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'RICHIESTA_AB' UNION SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'RICHIESTA_BA');");
+			prepSt = (PreparedStatement) db.prepareStatement(
+					"SELECT * " +
+					"FROM user left outer join  userstatus AS us ON user.idUser = us.idUser " +
+					"WHERE idUser IN (SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'RICHIESTA_AB' UNION SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'RICHIESTA_BA');");
 			
 			prepSt.setInt(1, userID);
 			prepSt.setInt(2, userID);
@@ -1042,6 +1045,8 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 					tmpContact.setCognome(results.getString("cognome"));
 					tmpContact.setNickname(results.getString("nickname"));
 					tmpContact.setEmail(results.getString("email"));
+					tmpContact.setGlobalIP("publicIP");
+					tmpContact.setLocalIP("localIP");
 					FriendshipRequest frreq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND, tmpContact, contact);
 					friendShipList.add(frreq);
 				} catch (SQLException e) {

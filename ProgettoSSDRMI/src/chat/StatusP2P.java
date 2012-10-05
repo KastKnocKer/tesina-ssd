@@ -49,6 +49,7 @@ public class StatusP2P {
 	 * Aggiunge alla lista una risposta ricevuta dal whois
 	 */
 	public static synchronized boolean addWhoisResponse(int RequestFromID, int RandomNum, int ResponseFromID, Contact contact){
+		System.out.println("Ho ricevuto una WhoisResponse: "+contact.getID()+" "+contact.getNickname()+" "+contact.getGlobalIP()+" "+contact.getLocalIP());
 		whoisResponsesList.add(new WhoisResponse(RequestFromID, RandomNum, ResponseFromID, contact));
 		return true;
 	}

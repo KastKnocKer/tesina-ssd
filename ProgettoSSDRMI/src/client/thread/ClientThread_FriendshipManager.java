@@ -1,5 +1,6 @@
 package client.thread;
 
+import java.net.Authenticator.RequestorType;
 import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
@@ -385,9 +386,20 @@ public class ClientThread_FriendshipManager extends Thread {
 			}
 			
 		} catch (RemoteException e) {
-			/* TODO: se il SIP è offline, aggiungo messaggi 
+			
+			System.err.println("Eccezione gestita - SIP Timeout - sendFriendshipRequestToSIP");
+			e.printStackTrace(); 
+			
+			/* Se il SIP è offline, aggiungo messaggi 
 			di amicizia in una coda con FORCE_ADD_FRIEND */
-			System.err.println("ClientThread_FriendshipManager.sendFriendshipRequestToSIP(): errore durante l'esecuzione del metodo.");
+			System.err.println("SIP offline - aggiungo messaggio di amicizia nella coda delle richieste al SIP.");
+			request.setRequestType(FriendshipRequestType.FORCE_ADD_FRIEND); 
+			RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+			RequestToSIPListManager.addRequest(rtsip); 
+			
+//			System.err.println("ClientThread_FriendshipManager.sendFriendshipRequestToSIP(): errore durante l'esecuzione del metodo.");
+			
+			
 		}
 		
 	}

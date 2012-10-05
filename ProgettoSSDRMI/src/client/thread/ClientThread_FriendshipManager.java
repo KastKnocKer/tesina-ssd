@@ -378,6 +378,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * - 
 		 */
 		try {
+			System.err.println("[ Inizio invio FriendshipRequest al SIP! ]");
+			
 			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND ||
 					request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND ) {
 				ClientEngine.getSIP().addFriendship(request);
@@ -387,20 +389,39 @@ public class ClientThread_FriendshipManager extends Thread {
 			
 		} catch (RemoteException e) {
 			
-			System.err.println("Eccezione gestita - SIP Timeout - sendFriendshipRequestToSIP");
+			System.err.println("Remote Exception [1] - SIP Timeout - sendFriendshipRequestToSIP");
 			e.printStackTrace(); 
 			
-			/* Se il SIP è offline, aggiungo messaggi 
-			di amicizia in una coda con FORCE_ADD_FRIEND */
-			System.err.println("SIP offline - aggiungo messaggio di amicizia nella coda delle richieste al SIP.");
-			request.setRequestType(FriendshipRequestType.FORCE_ADD_FRIEND); 
-			RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
-			RequestToSIPListManager.addRequest(rtsip); 
+			addFriendshipRequestToSipRequestQueue(request); 
 			
-//			System.err.println("ClientThread_FriendshipManager.sendFriendshipRequestToSIP(): errore durante l'esecuzione del metodo.");
+		} catch (Exception e) {
 			
+			System.err.println("Exception [2] - SIP Timeout - sendFriendshipRequestToSIP");
+			e.printStackTrace(); 
 			
+			addFriendshipRequestToSipRequestQueue(request); 
 		}
+		
+	}
+	
+	/**
+	 * Aggiunge le richieste di aggiunta/rimozione amicizia 
+	 * alla coda del SIP. 
+	 */
+	private void addFriendshipRequestToSipRequestQueue(FriendshipRequest request) {
+		
+		/* Se il SIP è offline, aggiungo messaggi 
+		di amicizia in una coda con FORCE_ADD_FRIEND */
+		System.err.println("SIP offline - aggiungo messaggio di amicizia nella coda delle richieste al SIP.");
+		
+		/* Forzo la richiesta di amicizia, se il SIP è offline, di modo che si renda attiva il prima possibile */
+		if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND)
+			request.setRequestType(FriendshipRequestType.FORCE_ADD_FRIEND); 
+		
+		RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+		RequestToSIPListManager.addRequest(rtsip); 
+		
+//		System.err.println("ClientThread_FriendshipManager.sendFriendshipRequestToSIP(): errore durante l'esecuzione del metodo.");
 		
 	}
 	

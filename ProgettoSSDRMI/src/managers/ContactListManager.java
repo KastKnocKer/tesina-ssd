@@ -255,6 +255,15 @@ public class ContactListManager {
 				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
 				RequestToSIPListManager.addRequest(rtsip); 
 //				return false; 
+			} catch(Exception e2) {
+				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
+				System.err.println("Eccezione gestita: ");
+				e2.printStackTrace();
+				
+				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
+				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+				RequestToSIPListManager.addRequest(rtsip); 
+//				return false; 
 			}
 			
 			

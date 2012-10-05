@@ -41,8 +41,8 @@ public class MainSSD {
     		//System.exit(0);
     	}
 		
-		// System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		//Repository FABIO
-		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");			//Repository KKK
+		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
+//		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
 		//TODO tentativo qua sotto fallito
 		//Timeout per le chiamate ad oggetto remoto

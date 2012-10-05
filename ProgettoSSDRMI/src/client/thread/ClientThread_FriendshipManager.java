@@ -178,7 +178,7 @@ public class ClientThread_FriendshipManager extends Thread {
 						/* Ho ricevuto risposta! Rimuovo la 
 						 * risposta dall'elenco delle richieste */
 						System.out.println("whois p2p - tentativo " + count + " - contatto TROVATO!");
-						StatusP2P.removeWhoisResponse(Status.getUserID(), requestNumber);
+//						StatusP2P.removeWhoisResponse(Status.getUserID(), requestNumber);
 						break; 
 					}
 				}
@@ -195,7 +195,7 @@ public class ClientThread_FriendshipManager extends Thread {
 				if(Status.DEBUG)
 					System.err.println("Timeout whois p2p per: " + email);
 				
-				System.err.println("Eccezione gestita - timeout p2p");
+				System.err.println("Eccezione gestita");
 				e.printStackTrace(); 
 				
 				/* WHOIS SIP */

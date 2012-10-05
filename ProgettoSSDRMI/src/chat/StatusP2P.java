@@ -34,7 +34,7 @@ public class StatusP2P {
 	/**
 	 * Controlla se la richiesta è già presente nella lista delle richieste
 	 */
-	public static synchronized boolean checkRequest(int userid, int numquery){
+	public static synchronized boolean checkRequest(int userid, int numquery) {
 		for(int[] array : requestList){
 			if( (array[0] == userid) && (array[1] == numquery) ){
 				//Query già ricevuta

@@ -254,8 +254,7 @@ public class ContactListManager {
 				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
 				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
 				RequestToSIPListManager.addRequest(rtsip); 
-				
-				return false; 
+//				return false; 
 			}
 			
 			
@@ -292,10 +291,10 @@ public class ContactListManager {
 								return true;
 							} 
 						} else {
-							System.err.println("Problema nel reperimento del contatto.");
+							System.err.println("Rimozione amico: " + friendContact.getNickname() + "; Problema nel reperimento del contatto.");
 							
 							/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
-							return true; 
+//							return true; 
 						}
 			}
 			

@@ -49,6 +49,7 @@ public class ClientEngine {
 		SIPInterface SIP = getSIP();
 		if(SIP == null){
 			System.err.println("IL SIP e' OFFLINE!!! Procedo con la procedura di login P2P (SIP == null)");
+			Status.setSIPStatusOnline(false);
 			return LoginP2P(username, password);
 		}
 		
@@ -57,6 +58,7 @@ public class ClientEngine {
 		try {
 			response = SIP.login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
 		} catch (RemoteException e) {
+			Status.setSIPStatusOnline(false);
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("login remoteexception");
 			//System.err.println("ClientEngine.Login() exception: " + e.toString());
@@ -67,6 +69,7 @@ public class ClientEngine {
 		}
 		
 		if(response.isSUCCESS()){
+			Status.setSIPStatusOnline(true);
 			//Aggiorno i dati personali
 			Status.setUserID(response.getLoggedContact().getID());
 			Status.setEmail(response.getLoggedContact().getEmail());
@@ -273,8 +276,6 @@ public class ClientEngine {
 			sip = (SIPInterface) registry.lookup("SIP");
 			if(sip == null)
 				Status.setSIPStatusOnline(false);
-			else
-				Status.setSIPStatusOnline(true);
 		} catch (RemoteException e) {
 			System.out.println("ClientEngine.getSIP() : RemoteException");
 			Status.setSIPStatusOnline(false);

@@ -126,7 +126,7 @@ public class Status {
 
 	public static void setSIPStatusOnline(boolean sIPStatusOnline) {
 		SIPStatusOnline = sIPStatusOnline;
-		System.out.println("SIP ONLINE: "+sIPStatusOnline);
+		System.out.println("SET SIP STATUS ONLINE: "+sIPStatusOnline);
 	}
 	
 	public static void setStato(ChatStatusList stato) {						Stato = stato;	}

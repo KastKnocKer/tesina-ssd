@@ -30,19 +30,20 @@ public class ClientThread_WhoisRequestor extends Thread{
 	private int counterNumber;
 
 	private int requestorUserID;
-	private String requestorGlobalIP;
+	private String requestorIP;
 	private int requestorNum;
 	private int TTL;
 	private String emailToSearch;
 	
 	
-	public ClientThread_WhoisRequestor(int requestorUserID, String requestorGlobalIP,int requestorNum, int TTL, String emailToSearch) {
+	public ClientThread_WhoisRequestor(int requestorUserID, String requestorIP,int requestorNum, int TTL, String emailToSearch) {
 		this.requestorUserID = requestorUserID;
-		this.requestorGlobalIP = requestorGlobalIP;
+		this.requestorIP = requestorIP;
 		this.requestorNum = requestorNum;
 		this.TTL = TTL;
 		this.emailToSearch = emailToSearch;
 		this.start();
+		
 	}
 
 
@@ -56,18 +57,18 @@ public class ClientThread_WhoisRequestor extends Thread{
 			return;
 		}
 		
-		//if( !requestorGlobalIP.equals(Status.getGlobalIP()) ){
+		//if( !requestorGlobalIP.equals(Status.getGlobalIP()) ){ //Ottimizzazione che non funziona in LAN
 			//Se non sono il richiedente originario controllo di avere il contatto nella mia lista contatti
 			contactToSearch = ContactListManager.searchContactByEmail(emailToSearch);
 			if(contactToSearch != null && contactToSearch.getStatus() != ChatStatusList.OFFLINE){
 				//Se ho trovato il contatto ed è online rispondo al richiedente
 				System.out.println("[Whois P2P] Contatto trovato!!");
-				ClientInterface client = ClientEngine.getClient(requestorGlobalIP);
+				ClientInterface client = ClientEngine.getClient(requestorIP);
 				try {
 					client.whoisResponse(requestorUserID, Status.getUserID(), requestorNum, contactToSearch);
 				} catch (RemoteException e) {
-					System.err.println("Client - ClientThread_WhoisRequestor.run()");
-					e.printStackTrace();
+					System.err.println("Client - ClientThread_WhoisRequestor.run() - RemoteException: "+e.toString());
+					//e.printStackTrace();
 				}
 				return;
 			}
@@ -84,7 +85,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 			if(contact.isConnected()){
 				ClientInterface client = ClientEngine.getClient(contact.getID());
 				try {
-					client.whois(requestorUserID, requestorGlobalIP, requestorNum, TTL-1, emailToSearch);
+					client.whois(requestorUserID, requestorIP, requestorNum, TTL-1, emailToSearch);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

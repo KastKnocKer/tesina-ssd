@@ -465,7 +465,10 @@ public class ClientEngine {
 		int randomNum = -1;
 		if(contactToSearch == null || contactToSearch.getStatus()==ChatStatusList.OFFLINE){
 			randomNum = 1+(int)(Math.random()*9999);
-			new ClientThread_WhoisRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
+			if(Status.DEBUGINLAN)
+				new ClientThread_WhoisRequestor(Status.getUserID(),Status.getLocalIP(),randomNum,Status.P2P_TTL,email);
+			else
+				new ClientThread_WhoisRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
 		}else{
 			//Contatto trovato e online
 			System.out.println("Client - ClientEngine.whoIs() : Contatto trovato e ONLINE.");

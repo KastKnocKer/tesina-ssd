@@ -83,6 +83,11 @@ public class RequestToSIPListManager {
 			
 		}
 	}
+
+	public static ArrayList<RequestToSIP> getRequestsToSIP() {
+		return RequestsToSIP;
+	}
+	
 	
 	
 

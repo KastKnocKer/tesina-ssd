@@ -118,12 +118,19 @@ public class FileContactsManager {
 				if(rts.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
 					Element friendshipElement = doc.createElement("FriendshipRequest");
 					
+					Element RequestType = doc.createElement("RequestType");
+					RequestType.setTextContent(	((FriendshipRequest) rts.getRequestMessage()).getRequestType().toString()	);
+						friendshipElement.appendChild(RequestType);
+					
 					Element IDMittente = doc.createElement("IDMittente");
 					IDMittente.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoMittente().getID())	);
 						friendshipElement.appendChild(IDMittente);
+						
 					Element IDDestinatario = doc.createElement("IDDestinatario");
 					IDDestinatario.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoDestinatario().getID())	);
 						friendshipElement.appendChild(IDDestinatario);
+						
+						
 						
 					rootElement.appendChild(friendshipElement);
 					System.out.println("Richiesta di amicizia scritta su contact.xml");

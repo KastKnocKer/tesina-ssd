@@ -1,35 +1,22 @@
 package managers;
 
-import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
-
-import client.ClientEngine;
-
 import chat.ChatStatusList;
 import chat.Contact;
 import chat.FriendsList;
+import client.ClientEngine;
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
 
 /**
  * Classe per la gestione della ContactList globale.
@@ -248,23 +235,30 @@ public class ContactListManager {
 			if(Status.DEBUG) 
 				System.err.println("Contact removed.");
 			
+			/* Preparo la richiesta di rimozione */
+			FriendshipRequest request = new FriendshipRequest(
+					FriendshipRequestType.REMOVE_FRIEND, 
+					myContact, 
+					friendContact);
+			
 			/* Rimuovo l'amico sul SIP */
-			// TODO: Accoda la richiesta di rimozione!!!
 			try {
 
-				FriendshipRequest request = new FriendshipRequest(
-						FriendshipRequestType.REMOVE_FRIEND, 
-						myContact, 
-						friendContact);
-				
 				ClientEngine.getSIP().removeFriendship(request);
 				
 			} catch (RemoteException e1) {
 				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
 				System.err.println("Eccezione gestita: ");
 				e1.printStackTrace();
+				
+				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
+				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+				RequestToSIPListManager.addRequest(rtsip); 
+				
 				return false; 
 			}
+			
+			
 			
 			/* Notifico il client rimosso della rimozione, 
 			 * di modo che non mi veda più online.

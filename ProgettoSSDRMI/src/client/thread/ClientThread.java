@@ -36,7 +36,7 @@ public class ClientThread extends Thread{
 	private final int CheckContactListTime = 120;
 	
 	/** Ogni quanto tempo controllare se ci sono messaggi da consegnare tramite la chat */
-	private final int DeliveryAllMessagesTime = 5;
+	private final int DeliveryAllMessagesTime = 2;
 	
 	/** Ogni quanto tempo controllare se ci sono richieste di amicizia in ingresso*/
 	private final int CheckNewFriendshipTime = 5; 

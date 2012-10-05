@@ -54,11 +54,14 @@ public class RequestToSIPListManager {
 			return; 
 		}
 		
-		if(sip == null) 
+		if(sip == null){
+			for(RequestToSIP req : RequestsToSIP)
+				System.out.println("--> RequestToSIP : "+req.getRequestType());
 			return; 
+		}
+			
 		
 		for(RequestToSIP req : RequestsToSIP){
-			System.out.println("--> RequestToSIP : "+req.getRequestType());
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
 					

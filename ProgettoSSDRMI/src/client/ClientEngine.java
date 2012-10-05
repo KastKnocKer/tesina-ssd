@@ -93,7 +93,7 @@ public class ClientEngine {
 				System.out.println("Login Response - FriendshipRequestList caricata! Ci sono richieste di amicizia pending.");
 				for(FriendshipRequest fr : friendshipRequestsList) {
 					System.err.println("Mostro Richiesta di Amicizia PENDING da parte di: " + fr.getContattoMittente().getEmail());
-					FriendshipManager.acceptFriendshipRequest(fr.getContattoMittente());
+					FriendshipManager.showFriendshipRequestFromContact(fr.getContattoMittente());
 				}
 				
 			} else {

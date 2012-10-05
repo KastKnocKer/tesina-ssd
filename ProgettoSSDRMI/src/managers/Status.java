@@ -1,4 +1,18 @@
 package managers;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import layout.homeframe.Home_Frame;
+import client.thread.ClientThread;
+import client.thread.ClientThread_SipRequestor;
+import RMI.Client;
+import RMI.ClientInterface;
 import chat.ChatStatusList;
 import chat.Contact;
 
@@ -11,6 +25,9 @@ import chat.Contact;
  */
 
 public class Status {
+	
+	private static Client client = null;
+	
 	private static boolean LOGGED = false;
 	private static boolean LOGGEDP2P = false;
 	public final static boolean DEBUGINLAN = true;
@@ -140,5 +157,64 @@ public class Status {
 	public static void setLOGGEDP2P(boolean lOGGEDP2P) {		LOGGEDP2P = lOGGEDP2P;	}
 
 
-	
+	public static boolean startClient(){
+		System.out.println("*** Client is starting ***");
+		
+		if(client == null){
+			try {
+	            client = new Client();
+	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+	            // Registro il SIP nel RMIREGISTRY
+	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+	            registry.rebind("Client", stub);
+	            System.out.println("*** Client obj ready ***");
+			} catch (Exception e) {
+	            System.out.println("Client obj exception:\n" + e.toString());
+	            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
+	            System.out.println("EXIT FORZATO");
+	            System.exit(0);
+			}
+			// imposto visualizzazione con look and feel del sistema operativo in uso 
+					try {
+						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					} catch (Exception ex) {
+						System.err.println("Impossibile impostare L&F di sistema");
+					}
+					
+					
+					/**
+					 * Mostro l'Home Frame
+					 * @author Fabio Pierazzi 
+					 */
+					// places the application on the Swing Event Queue 
+					SwingUtilities.invokeLater(new Runnable() {
+				            public void run() {
+				            	
+				            	Home_Frame hf = new Home_Frame(); 
+				            	hf.setVisible(true);
+				            }
+					});
+			ClientThread ct = new ClientThread();
+			ct.start();
+			ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
+			ctsr.start();
+			
+			return true;
+			
+		}else{
+			ClientInterface stub;
+			try {
+				stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+	            // Registro il SIP nel RMIREGISTRY
+	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+	            registry.rebind("Client", stub);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+	}
 }

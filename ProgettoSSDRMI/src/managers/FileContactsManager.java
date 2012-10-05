@@ -120,10 +120,10 @@ public class FileContactsManager {
 					
 					Element IDMittente = doc.createElement("IDMittente");
 					IDMittente.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoMittente().getID())	);
-						friendshipElement.appendChild(username);
+						friendshipElement.appendChild(IDMittente);
 					Element IDDestinatario = doc.createElement("IDDestinatario");
 					IDDestinatario.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoDestinatario().getID())	);
-						friendshipElement.appendChild(password);
+						friendshipElement.appendChild(IDDestinatario);
 						
 					rootElement.appendChild(friendshipElement);
 					System.out.println("Richiesta di amicizia scritta su contact.xml");

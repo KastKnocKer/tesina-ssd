@@ -134,6 +134,16 @@ public class ClientEngine {
 		for(Contact contact : contactList){
 			new ClientThread_LogoutInformer(false, contact);
 		}
+		
+		//Unbind client
+		try {
+			Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+			registry.unbind("Client");
+		} catch (RemoteException | NotBoundException e1) {
+			System.err.println("ON LOGOUT - Exception catched: GetRegistry & Unbind Client");
+		}
+		//Clean SipRequestor
+		RequestToSIPListManager.getRequestsToSIP().clear();
 		return true;
 	}
 	

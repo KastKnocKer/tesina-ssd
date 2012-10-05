@@ -5,35 +5,32 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.JOptionPane;
 
-
-import client.requesttosip.RequestToSIP;
-import client.requesttosip.RequestToSIPListManager;
-import client.requesttosip.RequestToSIPTypeList;
-import client.thread.ClientThread_LogoutInformer;
-import client.thread.ClientThread_MessageSender;
-import client.thread.ClientThread_WhoisRequestor;
-
+import layout.friendslist.FriendsList_Table;
+import layout.managers.ConversationWindowsManager;
+import layout.managers.LayoutReferences;
+import managers.ContactListManager;
+import managers.FileConfManager;
+import managers.FileContactsManager;
+import managers.FriendshipManager;
+import managers.Status;
 import RMI.ClientInterface;
 import RMI.SIPInterface;
+import RMIMessages.FriendshipRequest;
 import RMIMessages.RMIBasicMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.RequestModifyContactInfos;
 import RMIMessages.ResponseLoginMessage;
+import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
-import chat.ChatStatusList;
-
-import layout.friendslist.FriendsList_Table;
-import layout.managers.*;
-import managers.ContactListManager;
-import managers.FileConfManager;
-import managers.FileContactsManager;
-import managers.Status;
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
+import client.thread.ClientThread_LogoutInformer;
+import client.thread.ClientThread_WhoisRequestor;
 
 /**
  * Rappresenta l'insieme dei metodi richiamabili dall'applicazione per interagire con gli altri nodi della rete
@@ -89,6 +86,21 @@ public class ClientEngine {
 			Status.setLastLoginUsername(username);
 			Status.setLastLoginPassword(password);
 			FileConfManager.writeConfXML();
+			
+			/* Mostro richieste di amicizia PENDING, se ce ne sono */
+			ArrayList<FriendshipRequest> friendshipRequestsList = response.getFriendshipRequestList();
+			if(friendshipRequestsList != null) {
+				System.out.println("Login Response - FriendshipRequestList caricata! Ci sono richieste di amicizia pending.");
+				for(FriendshipRequest fr : friendshipRequestsList) {
+					System.err.println("Mostro Richiesta di Amicizia PENDING da parte di: " + fr.getContattoMittente().getEmail());
+					FriendshipManager.acceptFriendshipRequest(fr.getContattoMittente());
+				}
+				
+			} else {
+				System.out.println("Login Response - Non ci sono richieste di amicizia pending. ");
+			}
+			
+			
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);

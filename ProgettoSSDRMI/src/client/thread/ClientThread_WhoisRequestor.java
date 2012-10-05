@@ -56,7 +56,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 			return;
 		}
 		
-		if( !requestorGlobalIP.equals(Status.getGlobalIP()) ){
+		//if( !requestorGlobalIP.equals(Status.getGlobalIP()) ){
 			//Se non sono il richiedente originario controllo di avere il contatto nella mia lista contatti
 			contactToSearch = ContactListManager.searchContactByEmail(emailToSearch);
 			if(contactToSearch != null && contactToSearch.getStatus() != ChatStatusList.OFFLINE){
@@ -71,7 +71,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 				}
 				return;
 			}
-		}
+		//}
 		
 		//Se il Time To Live è 0 non interrogo i miei contatti
 		if(TTL == 0) return;

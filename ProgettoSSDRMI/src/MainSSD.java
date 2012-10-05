@@ -68,7 +68,7 @@ public class MainSSD {
 		}
 		
 		
-		Status.setLocalIP(wimi.getLocalIPs()[0][0]);
+		Status.setLocalIP(wimi.getStdLocalIP());
 		if(Status.SUPER_DEBUG){
 			System.out.println("My GLOBAL IP: "+Status.getGlobalIP());
 			String[][] localIPs = wimi.getLocalIPs();

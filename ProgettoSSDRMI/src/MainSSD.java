@@ -1,4 +1,6 @@
+import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -49,6 +51,20 @@ public class MainSSD {
 		System.setProperty("sun.rmi.transport.connectionTimeout", "2000");
 		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
 		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
+		
+		try {
+			Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+			registry.unbind("Client");
+	        registry.unbind("SIP");
+		} catch (RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
 		
 		//Inizializzo la classe statica Status
 		Status status = new Status();

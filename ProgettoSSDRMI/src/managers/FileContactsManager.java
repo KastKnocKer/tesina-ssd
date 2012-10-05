@@ -213,7 +213,7 @@ public class FileContactsManager {
 						try {	contact.setGlobalIP(getTagValue("GlobalIP", eElement));				} catch (Exception e) {}
 						try {	contact.setLocalIP(getTagValue("LocalIP", eElement));				} catch (Exception e) {}
 						contact.setStatus(ChatStatusList.OFFLINE);
-						ContactListManager.getContactList().add(contact);
+						ContactListManager.addToContactList(contact);
 					
 					
 					}else if(eElement.getNodeName().equals("FriendshipRequest")){

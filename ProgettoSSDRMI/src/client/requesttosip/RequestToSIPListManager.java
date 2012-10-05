@@ -37,7 +37,7 @@ public class RequestToSIPListManager {
 	 * Risolve le richieste destinate al SIP
 	 */
 	public static synchronized void sendRequests(){
-		if(Status.SUPER_DEBUG) System.out.println("Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
+		if(Status.SUPER_DEBUG && RequestsToSIP.size()>0) System.out.println("Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
 		
 		//Se la lista delle richieste è nulla ritorno
 		if( RequestsToSIP.size() == 0)

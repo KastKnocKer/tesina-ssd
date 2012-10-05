@@ -35,7 +35,7 @@ public class ClientThread_SipRequestor extends Thread {
 			
 			try {
 				/* Ogni 5 secondi */
-				Thread.sleep(5000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {	
 				e.printStackTrace(); System.out.println("ClientThread Exception");
 			}

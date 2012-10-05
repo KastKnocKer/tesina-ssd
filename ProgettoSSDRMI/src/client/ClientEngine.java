@@ -338,19 +338,20 @@ public class ClientEngine {
 			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
 			//Aggiorno la tabella
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			
 			if(table!=null) 
 				table.updateTable(); 
 			
-			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("ClientEngine.getClient() java.rmi.ConnectException: " + e.toString());
 			//e.printStackTrace();
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Client - ClientEngine.getClient() RemoteException: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Client - ClientEngine.getClient() NotBoundException: " + e.toString());
 			//e.printStackTrace();
 		}
 		return client;

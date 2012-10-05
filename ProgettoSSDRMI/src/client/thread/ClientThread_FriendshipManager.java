@@ -190,6 +190,9 @@ public class ClientThread_FriendshipManager extends Thread {
 					throw new Exception();
 				}
 				
+				/* assegno il valore a futureFriend */
+				futureFriend = friendContact; 
+				
 			} catch (Exception e) {
 				
 				if(Status.DEBUG)

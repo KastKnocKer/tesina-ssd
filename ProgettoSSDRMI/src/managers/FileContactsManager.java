@@ -116,18 +116,19 @@ public class FileContactsManager {
 			for(RequestToSIP rts : RequestToSIPListManager.getRequestsToSIP()){
 				
 				if(rts.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
+					FriendshipRequest fr = (FriendshipRequest) rts.getRequestMessage();
 					Element friendshipElement = doc.createElement("FriendshipRequest");
 					
 					Element RequestType = doc.createElement("RequestType");
-					RequestType.setTextContent(	((FriendshipRequest) rts.getRequestMessage()).getRequestType().toString()	);
+					RequestType.setTextContent(	fr.getRequestType().toString()	);
 						friendshipElement.appendChild(RequestType);
 					
 					Element IDMittente = doc.createElement("IDMittente");
-					IDMittente.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoMittente().getID())	);
+					IDMittente.setTextContent(	Integer.toString(fr.getContattoMittente().getID())	);
 						friendshipElement.appendChild(IDMittente);
 						
 					Element IDDestinatario = doc.createElement("IDDestinatario");
-					IDDestinatario.setTextContent(	Integer.toString(((FriendshipRequest)rts.getRequestMessage()).getContattoDestinatario().getID())	);
+					IDDestinatario.setTextContent(	Integer.toString(fr.getContattoDestinatario().getID())	);
 						friendshipElement.appendChild(IDDestinatario);
 						
 						
@@ -217,6 +218,7 @@ public class FileContactsManager {
 					
 					}else if(eElement.getNodeName().equals("FriendshipRequest")){
 						//Aggiungo alla lista delle richieste del sip la richiesta di amicizia
+						FriendshipRequest friendReq = null;
 						Contact mitt = null;
 						Contact dest = null;
 						try {
@@ -227,7 +229,14 @@ public class FileContactsManager {
 						} catch (Exception e) {}
 						
 						if( mitt != null && dest != null){
-							FriendshipRequest friendReq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND,mitt,dest);
+							if(FriendshipRequestType.ADD_FRIEND.toString().equals( getTagValue("RequestType", eElement)) ){
+								friendReq = new FriendshipRequest(FriendshipRequestType.ADD_FRIEND,mitt,dest);
+							}else if(FriendshipRequestType.FORCE_ADD_FRIEND.toString().equals( getTagValue("RequestType", eElement)) ){
+								friendReq = new FriendshipRequest(FriendshipRequestType.FORCE_ADD_FRIEND,mitt,dest);
+							}else if(FriendshipRequestType.REMOVE_FRIEND.toString().equals( getTagValue("RequestType", eElement)) ){
+								friendReq = new FriendshipRequest(FriendshipRequestType.REMOVE_FRIEND,mitt,dest);
+							}
+							
 							RequestToSIPListManager.addRequest( new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, friendReq));
 						}
 						

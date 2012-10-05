@@ -62,7 +62,13 @@ public class ClientThread extends Thread{
 			if(index%CheckContactListTime == 0 || modifiedInfos){
 				//Se sono loggato in modalità P2P prima di contattare i miei contatti provo a verificare le risposte del whois
 				if(Status.isLOGGEDP2P()){
-					StatusP2P.checkResponsesAboutMyContacts();
+					try{
+						StatusP2P.checkResponsesAboutMyContacts();
+					} catch(Exception e) {
+						System.err.println("Eccezione gestita:");
+						e.printStackTrace(); 
+					}
+					
 				}
 				modifiedInfos=false;
 				checkContactList();

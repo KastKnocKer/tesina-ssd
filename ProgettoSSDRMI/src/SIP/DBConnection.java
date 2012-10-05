@@ -332,7 +332,10 @@ public ArrayList<Contact> getMyContacts(RMIBasicMessage msg) {
 	ResultSet result;
 	
 	try {
-		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT * FROM user left outer join  userstatus AS us ON user.idUser = us.idUser WHERE user.idUser IN (SELECT idUserB FROM friendship WHERE idUserA = ? UNION SELECT idUserA FROM friendship WHERE idUserB = ?);");
+		PreparedStatement prepSt = (PreparedStatement) db.prepareStatement(
+				"SELECT * " +
+				"FROM user left outer join  userstatus AS us ON user.idUser = us.idUser " +
+				"WHERE user.idUser IN (SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'ATTIVA' UNION SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'ATTIVA');");
 		
 		prepSt.setString(1, Integer.toString(msg.getRequestorUserID()));
 		prepSt.setString(2, Integer.toString(msg.getRequestorUserID()));

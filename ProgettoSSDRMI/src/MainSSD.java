@@ -57,8 +57,9 @@ public class MainSSD {
 			registry.unbind("Client");
 	        registry.unbind("SIP");
 		} catch (RemoteException | NotBoundException e) {
+			System.err.println("ON START - Exception catched: Unbinding SIP and Client");
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		

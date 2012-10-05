@@ -1022,7 +1022,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			prepSt = (PreparedStatement) db.prepareStatement(
 					"SELECT * " +
 					"FROM user left outer join  userstatus AS us ON user.idUser = us.idUser " +
-					"WHERE idUser IN (SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'RICHIESTA_AB' UNION SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'RICHIESTA_BA');");
+					"WHERE user.idUser IN (SELECT idUserA FROM friendship WHERE idUserB = ? AND linkType = 'RICHIESTA_AB' UNION SELECT idUserB FROM friendship WHERE idUserA = ? AND linkType = 'RICHIESTA_BA');");
 			
 			prepSt.setInt(1, userID);
 			prepSt.setInt(2, userID);

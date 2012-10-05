@@ -50,8 +50,21 @@ public class MainSSD {
 		//TODO tentativo qua sotto fallito
 		//Timeout per le chiamate ad oggetto remoto
 		System.setProperty("sun.rmi.transport.connectionTimeout", "2000");
+		System.setProperty("sun.rmi.transport.proxy.connectTimeout", "2000");
 		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
+		System.setProperty("sun.rmi.activation.execTimeout", "2000");
 		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
+		
+		System.setProperty("sun.rmi.activation.execTimeout", "2000");
+		System.setProperty("sun.rmi.transport.tcp.localHostNameTimeOut", "2000");
+		System.setProperty("sun.rmi.transport.tcp.readTimeout", "2000");
+		System.setProperty("sun.rmi.transport.tcp.responseTimeout", "2000");
+		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
+		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
+		
+		//java.rmi.server.useLocalHostname
+		
+		
 		
 		
 		Registry registry = null;
@@ -84,6 +97,7 @@ public class MainSSD {
 		//	Acquisisco i miei indirizzi IP e li carico sulla classe Status
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		Status.setGlobalIP(wimi.getGlobalIP());
+		System.err.println(wimi.getStdLocalIP());
 		
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
 		 * mettendo l'IP globale al posto dell'ip locale. 

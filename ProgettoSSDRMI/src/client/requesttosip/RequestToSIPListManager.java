@@ -58,7 +58,7 @@ public class RequestToSIPListManager {
 			return; 
 		
 		for(RequestToSIP req : RequestsToSIP){
-			
+			System.out.println("--> RequestToSIP : "+req.getRequestType());
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
 					

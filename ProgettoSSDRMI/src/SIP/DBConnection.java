@@ -589,8 +589,6 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 			return false; 
 		}
 		
-		// TODO distingui ADD e FORCE_ADD
-		
 		FriendshipRequestType requestType = request.getRequestType(); 
 
 		int idMittente = request.getContattoMittente().getID(); 

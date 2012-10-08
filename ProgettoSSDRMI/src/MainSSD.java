@@ -45,8 +45,8 @@ public class MainSSD {
 		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
 //		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
-		Status.unbindSIP();
-		Status.unbindClient();
+//		Status.unbindSIP();
+//		Status.unbindClient();
 		
 		
 		

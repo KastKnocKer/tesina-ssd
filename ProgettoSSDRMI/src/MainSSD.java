@@ -29,7 +29,6 @@ import RMI.SIPInterface;
  *
  */
 public class MainSSD {
-
 	/**
 	 * @param args
 	 */
@@ -41,50 +40,13 @@ public class MainSSD {
     		Runtime.getRuntime().exec("rmiregistry");
     	} catch (java.io.IOException e) {
     		System.out.println("Attenzione: rmid e rmiregistry non trovati!");
-    		//System.exit(0);
     	}
 		
 		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
 //		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
-		//TODO tentativo qua sotto fallito
-		//Timeout per le chiamate ad oggetto remoto
-//		System.setProperty("sun.rmi.transport.connectionTimeout", "2000");
-//		System.setProperty("sun.rmi.transport.proxy.connectTimeout", "2000");
-//		System.setProperty("sun.rmi.transport.tcp.handshakeTimeout", "2000");
-//		System.setProperty("sun.rmi.activation.execTimeout", "2000");
-//		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
-//		
-//		System.setProperty("sun.rmi.activation.execTimeout", "2000");
-//		System.setProperty("sun.rmi.transport.tcp.localHostNameTimeOut", "2000");
-//		System.setProperty("sun.rmi.transport.tcp.readTimeout", "2000");
-//		System.setProperty("sun.rmi.transport.tcp.responseTimeout", "2000");
-//		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
-//		System.setProperty("sun.rmi.dgc.client.gcInterval", "2000");
-		
-		//java.rmi.server.useLocalHostname
-		
-		
-		
-		
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry("localhost", 1099);
-		} catch (RemoteException e1) {
-			System.err.println("ON START - Exception catched: GetRegistry");
-		}
-		
-		try {
-			registry.unbind("Client");
-		} catch (RemoteException | NotBoundException e1) {
-			System.err.println("ON START - Exception catched: Unbinding Client");
-		}
-		
-		try {
-			registry.unbind("SIP");
-		} catch (RemoteException | NotBoundException e1) {
-			System.err.println("ON START - Exception catched: Unbinding SIP");
-		}
+		Status.unbindSIP();
+		Status.unbindClient();
 		
 		
 		
@@ -97,17 +59,27 @@ public class MainSSD {
 		//	Acquisisco i miei indirizzi IP e li carico sulla classe Status
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		Status.setGlobalIP(wimi.getGlobalIP());
-		System.err.println(wimi.getStdLocalIP());
+		Status.setLocalIP(wimi.getStdLocalIP());
+		System.out.println("STATUS IPs: Global:"+Status.getGlobalIP()+"  Local:"+Status.getLocalIP());
 		
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
 		 * mettendo l'IP globale al posto dell'ip locale. 
 		 * NOTA: PROVOCA MALFUNZIONAMENTI IN LAN!!!	 */
-		if(!Status.isDebuginlan()){
+		if(Status.isDebuginlan()){
 			String globalIP = Status.getGlobalIP();
-			if(globalIP != null){
-				System.setProperty("java.rmi.server.hostname", globalIP);
-			}
+			if(Status.getLocalIP() != null){
+				System.setProperty("java.rmi.server.hostname", Status.getLocalIP());
+			}else
+				System.err.println("IP NON VALIDO!!!!");
+		}else{
+			if(Status.getGlobalIP() != null){
+				System.setProperty("java.rmi.server.hostname", Status.getGlobalIP());
+			}else
+				System.err.println("IP NON VALIDO!!!!");
 		}
+		
+		
+		
 		
 		
 		Status.setLocalIP(wimi.getStdLocalIP());
@@ -163,49 +135,5 @@ public class MainSSD {
 		}
 		return true;
 	}
-	
-//	private static boolean StarterClient(){
-//		System.out.println("*** Client is starting ***");
-//		
-//		try {
-//            Client client = new Client();
-//            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-//            // Registro il SIP nel RMIREGISTRY
-//            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-//            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-//            registry.rebind("Client", stub);
-//            System.out.println("*** Client obj ready ***");
-//		} catch (Exception e) {
-//            System.out.println("Client obj exception:\n" + e.toString());
-//            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
-//            System.out.println("EXIT FORZATO");
-//            System.exit(0);
-//		}
-//		// imposto visualizzazione con look and feel del sistema operativo in uso 
-//				try {
-//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//				} catch (Exception ex) {
-//					System.err.println("Impossibile impostare L&F di sistema");
-//				}
-//				
-//				
-//				/**
-//				 * Mostro l'Home Frame
-//				 * @author Fabio Pierazzi 
-//				 */
-//				// places the application on the Swing Event Queue 
-//				SwingUtilities.invokeLater(new Runnable() {
-//			            public void run() {
-//			            	
-//			            	Home_Frame hf = new Home_Frame(); 
-//			            	hf.setVisible(true);
-//			            }
-//				});
-//		ClientThread ct = new ClientThread();
-//		ct.start();
-//		ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
-//		ctsr.start();
-//		
-//		return true;
-//	}
+
 }

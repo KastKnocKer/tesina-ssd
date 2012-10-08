@@ -475,9 +475,12 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	private void acceptFriendshipRequest(Contact contattoMittente) {
 		
+		System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: starting... ");
+		
 		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
 		 * della tabella con la lista amici. */
 		ContactListManager.addToContactList(contattoMittente); 
+		
 //		FriendsList_Table table = LayoutReferences.getFriendsListTable();
 //		if(table != null) {
 //			table.updateTable(); 
@@ -490,19 +493,24 @@ public class ClientThread_FriendshipManager extends Thread {
 		// TODO: cosa succede se mentre rispondo al contatto, questi finisce offline? FORCE_ADD_FRIEND al SIP?
 		try {
 			
+			
+			System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: sending notification to the other client... ");
+			
 			/* se sono in lan */
-			if(contattoMittente.getGlobalIP().equals(Status.getGlobalIP()))
+			if(contattoMittente.getGlobalIP().equals(Status.getGlobalIP())) 
 				ClientEngine.getClient(contattoMittente.getLocalIP()).receiveFriendshipAckFromContact(myContact);
 			/* se non sono in lan */
 			else
 				ClientEngine.getClient(contattoMittente.getGlobalIP()).receiveFriendshipAckFromContact(myContact);
+			
+			System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: notification successfully sent. ");
 			
 		} catch (RemoteException e) {
 			System.err.println("Eccezione gestita: acceptFriendshipRequest: RemoteException while sending ack to contact");
 			e.printStackTrace();
 		} 
 
-		
+		System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: sending notification to SIP... ");
 		
 		/** Richiedo amicizia al SIP */
 		/** NOTA: CHIEDO ESPLICITAMENTE L'AMICIZIA NEL VERSO OPPOSTO: 
@@ -522,6 +530,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		// amici fintanto che non accetta anche lui.
 		
 		// TODO: Se il SIP è offline, invio un FORCE_FRIEND_REQUEST
+		
+		System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: ended.");
 	}
 	
 	

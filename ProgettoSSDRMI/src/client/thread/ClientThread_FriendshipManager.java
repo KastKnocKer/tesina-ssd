@@ -4,6 +4,7 @@ import java.net.Authenticator.RequestorType;
 import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
@@ -546,7 +547,9 @@ public class ClientThread_FriendshipManager extends Thread {
 	private void removeFriend(Contact contactToRemove) {
 		/* rimuovo il contatto */
 		try {
+			
 			ContactListManager.removeFromContactList(contactToRemove);
+			
 		} catch(Exception e) {
 			System.err.println("Errore durante la rimozione del contatto.");
 			e.printStackTrace(); 

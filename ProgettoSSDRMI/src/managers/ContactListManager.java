@@ -240,7 +240,7 @@ public class ContactListManager {
 			/* Aggiorno graficamente la tabella con la lista amici */
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 
-			System.out.println("ContactListManager.removeFromContactList: aggiorno tabella... ");
+			System.err.println("ContactListManager.removeFromContactList: aggiorno tabella... ");
 			
 			/* Aggiorno la tabella */
 			try {
@@ -252,13 +252,21 @@ public class ContactListManager {
 				return true; 
 			}
 			
-			System.out.println("ContactListManager.removeFromContactList: tabella aggiornata. ");
+			System.err.println("ContactListManager.removeFromContactList: tabella aggiornata. ");
 			
-			System.out.println("ContactListManager.removeFromContactList: mostro finestra di dialogo. ");
+			System.err.println("ContactListManager.removeFromContactList: mostro finestra di dialogo. ");
 			
-			JOptionPane.showMessageDialog(null, "Il contatto " + friendContactToRemove.getNickname() + " ( " + 
-					friendContactToRemove.getEmail() + " )  è stato rimosso.", 
-					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
+			/* mostro joptionpane nel thread della GUI */
+			final Contact friendContactToRemove_copy = friendContactToRemove;
+			
+			SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	            	JOptionPane.showMessageDialog(null, "Il contatto " + friendContactToRemove_copy.getNickname() + " ( " + 
+	            			friendContactToRemove_copy.getEmail() + " )  è stato rimosso.", 
+	    					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
+	            }
+        	});
+			
 			
 			System.out.println("ContactListManager.removeFromContactList: finestra di dialogo mostrata. ");
 			

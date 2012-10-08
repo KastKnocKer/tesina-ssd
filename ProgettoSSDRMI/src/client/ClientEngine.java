@@ -84,7 +84,7 @@ public class ClientEngine {
 			ArrayList<Contact> contactList = response.getContactList();
 			if(contactList != null){
 				System.out.println("Contact list caricata dal Login: " +contactList.size());
-				ContactListManager.addContactsFromSIPContactList(contactList);
+				ContactListManager.setContactList(contactList);
 			}
 			
 			//Aggiorno i dati del LastLogin su Status
@@ -105,7 +105,7 @@ public class ClientEngine {
 			} else {
 				System.out.println("Login Response - Non ci sono richieste di amicizia pending. ");
 			}
-			FileContactsManager.writeContactsXML();
+			
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);
@@ -129,10 +129,7 @@ public class ClientEngine {
 			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
 			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
 			return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
-		}else{
-			JOptionPane.showMessageDialog(null, "Non è stato trovato il file temporaneo per il Login P2P.\nNon puoi effettuare il login.", "Tentativo di Login P2P", JOptionPane.ERROR_MESSAGE);
 		}
-			
 		return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 	}
 	
@@ -178,7 +175,7 @@ public class ClientEngine {
 			if(Status.DEBUG) System.out.println("Client - Richiesta lista contatti al SIP");
 			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
 			if(contacts != null){
-				ContactListManager.addContactsFromSIPContactList(contacts);
+				ContactListManager.setContactList(contacts);
 				response = true;
 			}
 		} catch (RemoteException e) {

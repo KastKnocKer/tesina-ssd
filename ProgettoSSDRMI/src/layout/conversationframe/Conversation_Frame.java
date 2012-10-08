@@ -402,24 +402,16 @@ public class Conversation_Frame extends JFrame {
 		 * mostro una finestra di dialogo per avvisare che i messaggi
 		 * verranno recapitati quando tornerà disponibile. */
 		if(contact.getStatus() == ChatStatusList.OFFLINE) {
-			
-			textAreaProvaShowMessage.append("\n *** ATTENZIONE ***: il contatto " + contact.getNickname() + " è offline. " +
-					"I messaggi gli verranno recapitati non appena tornerà online.\n\n");
-			
-			/* sposto in basso la scrollbar */
-			max_value = scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().getMaximum(); 
-			scrollPane_textAreaProvaShowMessage.getVerticalScrollBar().setValue(max_value); 
-			
-//			JOptionPane.showMessageDialog(
-//					null, 
-//					"Attenzione!\n\n" +
-//					"Il contatto: \n" +
-//					"" + contact.getEmail() + "\n" +
-//							"al momento è offline. \n\n" +
-//							"I messaggi gli verranno recapitati\n" +
-//							"non appena tornerà online.", 
-//					"Conversazione con " + contact.getNickname(),
-//					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(
+					null, 
+					"Attenzione!\n\n" +
+					"Il contatto: \n" +
+					"" + contact.getEmail() + "\n" +
+							"al momento è offline. \n\n" +
+							"I messaggi gli verranno recapitati\n" +
+							"non appena tornerà online.", 
+					"Conversazione con " + contact.getNickname(),
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		/* Versione Tabella */

@@ -1,7 +1,6 @@
 package managers;
 
 import RMIMessages.FriendshipRequest;
-import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.thread.ClientThread_FriendshipManager;
@@ -131,7 +130,7 @@ public class FriendshipManager {
 		Contact contattoMittente = Status.getMyInfoIntoContact(); 
 		
 		FriendshipRequest friendshipRequest = new FriendshipRequest(
-				FriendshipRequestType.REMOVE_FRIEND, 
+				null, 
 				contattoMittente, 
 				contactToRemove);
 		

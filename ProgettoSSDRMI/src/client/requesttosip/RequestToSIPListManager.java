@@ -2,14 +2,15 @@ package client.requesttosip;
 
 import java.util.ArrayList;
 
-import managers.Status;
 import RMI.SIPInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
-import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
+
 import client.ClientEngine;
+
+import managers.Status;
 
 public class RequestToSIPListManager {
 	
@@ -20,9 +21,7 @@ public class RequestToSIPListManager {
 	 * Aggiunge alla lista una richiesta destinata al SIP
 	 */
 	public static synchronized void addRequest(RequestToSIP rtsip){
-		if(Status.SUPER_DEBUG) 
-			System.out.println("Aggiungo richiesta: "+rtsip.getRequestType().toString());
-		
+		if(Status.SUPER_DEBUG) System.out.println("Aggiungo richiesta: "+rtsip.getRequestType().toString());
 		rtsip.setProgressiveNum(ProgressiveNum++);
 		RequestsToSIP.add(rtsip);
 	}
@@ -31,9 +30,7 @@ public class RequestToSIPListManager {
 	 * Rimuove una richiesta destinata al SIP dalla lista delle richieste
 	 */
 	public static synchronized void removeRequest(RequestToSIP rtsip){
-		if(Status.SUPER_DEBUG) 
-			System.out.println("Rimuovo richiesta: "+rtsip.getRequestType().toString());
-		
+		if(Status.SUPER_DEBUG) System.out.println("Rimuovo richiesta: "+rtsip.getRequestType().toString());
 		RequestsToSIP.remove(rtsip);
 	}
 	
@@ -63,41 +60,29 @@ public class RequestToSIPListManager {
 			return; 
 		}
 			
-		ArrayList<RequestToSIP> RequestsToSIP_copy = (ArrayList<RequestToSIP>) RequestsToSIP.clone(); 
 		
-		for(RequestToSIP req : RequestsToSIP_copy){
+		for(RequestToSIP req : RequestsToSIP){
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
 					
 					RequestLoginMessage rlm = (RequestLoginMessage) req.getRequestMessage();
 					ResponseLoginMessage resplm = ClientEngine.Login(rlm.getUsername(), rlm.getPassword());
 					if(resplm != null && resplm.isSUCCESS()){
-						System.err.println("RIMUOVO REQUEST-LOGIN DALLA CODA DELLE RICHIESTE AL SIP OFFLINE");
-						RequestsToSIP.remove(req);
+						RequestsToSIP.remove(rlm);
 					}
 					
 				} else if(req.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
 					
 					if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.REMOVE_FRIEND) {
 						System.out.println("Invio richieste al SIP offline: tentativo di rimozione amicizia");
-						
-						RMISIPBasicResponseMessage rbrm = sip.removeFriendship( (FriendshipRequest) req.getRequestMessage() );
-						
-						if (rbrm != null && rbrm.isSUCCESS()) {
-							System.err.println("RIMUOVO REMOVE-FRIENDSHIP DALLA CODA DELLE RICHIESTE AL SIP OFFLINE");
-							RequestsToSIP.remove(req); 
-						}
+						sip.removeFriendship( (FriendshipRequest) req.getRequestMessage() );
 					} else if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.ADD_FRIEND ||
 							((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
 						System.out.println("Invio richieste al SIP offline: tentativo di aggiunta amicizia");
-						
-						RMISIPBasicResponseMessage rbrm = sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
-						
-						if (rbrm != null && rbrm.isSUCCESS()) {
-							System.err.println("RIMUOVO ADD-FRIENDSHIP DALLA CODA DELLE RICHIESTE AL SIP OFFLINE");
-							RequestsToSIP.remove(req); 
-						}
+						sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
 					}
+					
+					
 					
 				} else if(req.getRequestType() == RequestToSIPTypeList.YYY){
 					//TODO rimuovere se non serve

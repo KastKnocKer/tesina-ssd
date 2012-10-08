@@ -167,8 +167,11 @@ public class ContactListManager {
 				table.updateTable();
 			}
 			
-			System.err.println("ContactListManager: addToContactList: ended.");
+			/* Scrivo sul file XML */
+			System.err.println("ContactListManager: addToContactList: writeContactsXML()");
+			FileContactsManager.writeContactsXML();
 			
+			System.err.println("ContactListManager: addToContactList: ended.");
 			
 //			/* Aggiungo il nuovo contatto anche alla FriendsList */
 //			FriendsList friendsList = FriendsListManager.getFriendsList(); 
@@ -257,6 +260,9 @@ public class ContactListManager {
 				return true; 
 			}
 			
+			/* Scrivo sul file XML */
+			System.err.println("ContactListManager: removeFromContactList: writeContactsXML()");
+			FileContactsManager.writeContactsXML();
 			
 			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
 			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 

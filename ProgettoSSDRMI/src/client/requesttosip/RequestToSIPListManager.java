@@ -23,6 +23,7 @@ public class RequestToSIPListManager {
 		if(Status.SUPER_DEBUG) 
 			System.out.println("[CLIENT] Aggiungo richiesta: "+rtsip.getRequestType().toString());
 		
+		/* Controllo che non vengano aggiunte richieste ridondanti. */
 		rtsip.setProgressiveNum(ProgressiveNum++);
 		RequestsToSIP.add(rtsip);
 	}

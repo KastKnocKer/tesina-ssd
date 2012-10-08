@@ -330,7 +330,7 @@ public class ContactListManager {
 				}else{
 					//Ho trovato il contatto
 					if(!localContact.isConnected()){
-						//Se il contatto è nella mia lista e non è raggiungibile aggiorno i suoi dati
+						// Se il contatto è nella mia lista e non è raggiungibile aggiorno i suoi dati
 						localContact.setLocalIP(contact.getLocalIP());
 						localContact.setGlobalIP(contact.getGlobalIP());
 						localContact.setNickname(contact.getNickname());
@@ -342,7 +342,8 @@ public class ContactListManager {
 			}
 			
 			//Elimino i contatti che avevo ricevuto dal SIP in passato, ma di cui non ho ricevuto aggiornamenti (=Contatti rimossi)
-			for(Contact contact : contactList){
+			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
+			for(Contact contact : contactListCopy){
 				if(!contact.isTemporary() && !contact.isUpdatedFromSIP())
 					contactList.remove(contact);
 			}

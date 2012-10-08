@@ -21,7 +21,9 @@ public class RequestToSIPListManager {
 	 * Aggiunge alla lista una richiesta destinata al SIP
 	 */
 	public static synchronized void addRequest(RequestToSIP rtsip){
-		if(Status.SUPER_DEBUG) System.out.println("Aggiungo richiesta: "+rtsip.getRequestType().toString());
+		if(Status.SUPER_DEBUG) 
+			System.out.println("Aggiungo richiesta: "+rtsip.getRequestType().toString());
+		
 		rtsip.setProgressiveNum(ProgressiveNum++);
 		RequestsToSIP.add(rtsip);
 	}
@@ -30,7 +32,9 @@ public class RequestToSIPListManager {
 	 * Rimuove una richiesta destinata al SIP dalla lista delle richieste
 	 */
 	public static synchronized void removeRequest(RequestToSIP rtsip){
-		if(Status.SUPER_DEBUG) System.out.println("Rimuovo richiesta: "+rtsip.getRequestType().toString());
+		if(Status.SUPER_DEBUG) 
+			System.out.println("Rimuovo richiesta: "+rtsip.getRequestType().toString());
+		
 		RequestsToSIP.remove(rtsip);
 	}
 	

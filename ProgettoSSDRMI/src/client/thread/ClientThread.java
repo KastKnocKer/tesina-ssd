@@ -18,6 +18,13 @@ import chat.StatusP2P;
  */
 public class ClientThread extends Thread{
 
+	/** Ogni quanto tempo aggiornare la lista contatti. 
+	 * NOTA: Questo valore dev'essere superiore a quello di timeout (30 secondi). */
+	private final int CheckContactListTime = 30;
+	
+	/** Ogni quanto tempo controllare se ci sono messaggi da consegnare tramite la chat */
+	private final int DeliveryAllMessagesTime = 2;
+	
 	private int index;
 	private static boolean modifiedInfos = false;	//in seguito ad un aggiornamento delle informazioni permette di comunicare immediatamente le modifiche agli altri utenti
 	
@@ -30,17 +37,6 @@ public class ClientThread extends Thread{
 	public static void setModifiedInfos(boolean modifiedInfos) {
 		ClientThread.modifiedInfos = modifiedInfos;
 	}
-
-	/** Ogni quanto tempo aggiornare la lista contatti. 
-	 * NOTA: Questo valore dev'essere superiore a quello di timeout (30 secondi). */
-	private final int CheckContactListTime = 10;
-	
-	/** Ogni quanto tempo controllare se ci sono messaggi da consegnare tramite la chat */
-	private final int DeliveryAllMessagesTime = 2;
-	
-	/** Ogni quanto tempo controllare se ci sono richieste di amicizia in ingresso*/
-	private final int CheckNewFriendshipTime = 5; 
-	
 	
 	public void run() {
 		index = 0;

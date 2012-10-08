@@ -153,14 +153,8 @@ public class Client implements ClientInterface{
 		ContactListManager.addToContactList(contattoDestinatario); 
 		LayoutReferences.getFriendsListTable().updateTable(); 
 		
-		JOptionPane.showMessageDialog(null, "Il contatto " + contattoDestinatario.getNickname() + " ( " + 
-				contattoDestinatario.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
-				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
-		
 		/* Lancio un howAreYou sfruttando il ClienThread */
 		ClientThread.setModifiedInfos(true); 
-		
-		// TODO Verifica se rimanda periodicamente al SIP 
 		
 		/* Invio friendshipRequest al SIP (se è offline, 
 		 * devo salvarlo in una coda e ritentare periodicamente) */
@@ -177,6 +171,9 @@ public class Client implements ClientInterface{
 			e.printStackTrace(); 
 		}
 		
+		JOptionPane.showMessageDialog(null, "Il contatto " + contattoDestinatario.getNickname() + " ( " + 
+				contattoDestinatario.getEmail() + " )  \nha accettato la tua richiesta di amicizia.", 
+				"Aggiungi contatto", JOptionPane.INFORMATION_MESSAGE);
 		
 		return new RMIBasicResponseMessage(true, "L'amicizia è stata confermata correttamente all'utente " + Status.getEmail() + ".");
 	}

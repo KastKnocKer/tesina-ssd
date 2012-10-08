@@ -33,7 +33,7 @@ public class ClientThread_LogoutInformer extends Thread{
 				try {
 					sip.iGoOffline(new RMIBasicMessage());
 				} catch (RemoteException e) {
-					System.err.println("Client - ClientThread_LogoutInformer() Comunicazione al SIP");
+					System.err.println("[CLIENT] ClientThread_LogoutInformer() Comunicazione al SIP");
 				}
 			} else return;
 			
@@ -45,7 +45,7 @@ public class ClientThread_LogoutInformer extends Thread{
 				try {
 					client.iGoOffline(new RMIBasicMessage());
 				} catch (RemoteException e) {
-					System.err.println("Client - ClientThread_LogoutInformer() Comunicazione al Client("+contact.getID()+")");
+					System.err.println("[CLIENT] ClientThread_LogoutInformer() Comunicazione al Client("+contact.getID()+")");
 				}
 			} else return;
 		}

@@ -53,7 +53,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 		//Controllo di non avere già ricevuto la richiesta
 		if(!StatusP2P.addRequest(requestorUserID, requestorNum)){
 			//Ho già ricevuto la richiesta quindi ritorno
-			if(Status.SUPER_DEBUG) System.out.println("Client - ClientThread_WhoisRequestor: Richiesta già ricevuta!!");
+			if(Status.SUPER_DEBUG) System.out.println("[CLIENT] ClientThread_WhoisRequestor: Richiesta già ricevuta!!");
 			return;
 		}
 		
@@ -67,7 +67,7 @@ public class ClientThread_WhoisRequestor extends Thread{
 				try {
 					client.whoisResponse(requestorUserID, Status.getUserID(), requestorNum, contactToSearch);
 				} catch (RemoteException e) {
-					System.err.println("Client - ClientThread_WhoisRequestor.run() - RemoteException: "+e.toString());
+					System.err.println("[CLIENT] ClientThread_WhoisRequestor.run() - RemoteException: "+e.toString());
 					//e.printStackTrace();
 				}
 				return;

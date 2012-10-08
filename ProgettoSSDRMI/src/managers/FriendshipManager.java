@@ -177,13 +177,13 @@ public class FriendshipManager {
 //			 * 1. whois email? ask SIP and p2p network 
 //			 * **********************************************/
 //			if(Status.DEBUG) 
-//				System.out.println("Client - [whois] - Richiesta a SIP del contatto avente mail: " + email);
+//				System.out.println("[CLIENT] [whois] - Richiesta a SIP del contatto avente mail: " + email);
 //			
 //			/* Voglio ottenere dal Server SIP l'IP di un contatto data la sua Email. */
 //			Contact futureFriend = ClientEngine.getSIP().whois(email); 
 //			
 //			if(Status.DEBUG) {
-//				System.out.println("Client - [whois] - risultato: ");
+//				System.out.println("[CLIENT] [whois] - risultato: ");
 //				futureFriend.printInfo(); 
 //			}
 //			
@@ -235,7 +235,7 @@ public class FriendshipManager {
 ////			FriendshipManager.showFriendshipRequestFrom(myContact);
 //			
 //			if(Status.DEBUG) 
-//				System.out.println("Client - Richiesta di amicizia a: " + email);
+//				System.out.println("[CLIENT] Richiesta di amicizia a: " + email);
 //			
 ////			return ClientEngine.getSIP().askFriendship(new RequestFriendshipMessage(email));
 //			return new RMISIPBasicResponseMessage(true, "Richiesta inviata correttamente"); 

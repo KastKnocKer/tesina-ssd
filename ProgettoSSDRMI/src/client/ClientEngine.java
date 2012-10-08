@@ -41,7 +41,7 @@ public class ClientEngine {
 	public static ResponseLoginMessage Login(String username, String password) {
 		ResponseLoginMessage response = null;
 		//Login mediante server SIP
-		if(Status.DEBUG) System.out.println("Client - Tentativo di login username: "+username+" password: "+password);
+		if(Status.DEBUG) System.out.println("[CLIENT] Tentativo di login username: "+username+" password: "+password);
 		
 		
 		SIPInterface SIP = getSIP();
@@ -157,7 +157,7 @@ public class ClientEngine {
 	public static boolean RegisterNewAccount(String nome, String cognome,String email, String nickname, String password) {
 		boolean response = false;
 		try {
-			if(Status.DEBUG) System.out.println("Client - Tentativo registrazione nuovo utente: "+nome+", "+cognome+", "+email+", "+nickname+", ["+password+"]");
+			if(Status.DEBUG) System.out.println("[CLIENT] Tentativo registrazione nuovo utente: "+nome+", "+cognome+", "+email+", "+nickname+", ["+password+"]");
 			response = getSIP().register(nome, cognome, email, nickname, password);
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RegisterNewAccount() exception", JOptionPane.ERROR_MESSAGE);
@@ -174,7 +174,7 @@ public class ClientEngine {
 	public static boolean LoadContactsFromSIP(){
 		boolean response = false;
 		try {
-			if(Status.DEBUG) System.out.println("Client - Richiesta lista contatti al SIP");
+			if(Status.DEBUG) System.out.println("[CLIENT] Richiesta lista contatti al SIP");
 			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
 			
 			if(contacts != null){
@@ -200,7 +200,7 @@ public class ClientEngine {
 //			
 //			/* 2. send friendship request (try client, then eventually SIP) */
 //			
-//			if(Status.DEBUG) System.out.println("Client - Richiesta di amicizia a: " + email);
+//			if(Status.DEBUG) System.out.println("[CLIENT] Richiesta di amicizia a: " + email);
 //			return getSIP().askFriendship(new RequestFriendshipMessage(email));
 //		} catch (RemoteException e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RequestFriendship() exception", JOptionPane.ERROR_MESSAGE);
@@ -214,7 +214,7 @@ public class ClientEngine {
 	 * Invia un messaggio ad un contatto
 	 */
 	public static boolean sendMessageToContact(Message chatMsg){
-		if(Status.SUPER_DEBUG) System.out.println("Client - Inserimento in OUTList del messaggio da:" +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
+		if(Status.SUPER_DEBUG) System.out.println("[CLIENT] Inserimento in OUTList del messaggio da:" +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
 		OUTChatMessageListManager.addMsgToSend(chatMsg);
 		return true;
 	}
@@ -222,7 +222,7 @@ public class ClientEngine {
 	 * Riceve un messaggio da un contatto
 	 */
 	public static boolean receiveMessageFromContact(Message chatMsg){
-		if(Status.SUPER_DEBUG) System.out.println("---> CLIENT - Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
+		if(Status.SUPER_DEBUG) System.out.println("---> [CLIENT] Ho ricevuto il messaggio da: " +chatMsg.getFrom()+ " a:"+ chatMsg.getTo() +" Messaggio: "+chatMsg.getMessage());
 		INChatMessageListManager.addReceivedMsg(chatMsg);
 		
 		/* Mostro la finestra se arriva il messaggio */
@@ -284,7 +284,7 @@ public class ClientEngine {
 	 */
 	public static Contact ModifyMyInfos(Contact contact){
 		try {
-			if(Status.DEBUG) System.out.println("Client -  ModifyMyInfos()");
+			if(Status.DEBUG) System.out.println("[CLIENT]  ModifyMyInfos()");
 			return getSIP().modifyContactInfos(new RequestModifyContactInfos(contact)).getContact();
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.ModifyMyInfos() exception", JOptionPane.ERROR_MESSAGE);
@@ -302,7 +302,7 @@ public class ClientEngine {
 		Registry registry;
 		SIPInterface sip = null;
 		try {
-			if(Status.DEBUG) System.out.println("Client - Tentativo getSIP() SIP: "+Status.getSIPAddress()+":"+Status.getSIP_Port());
+			if(Status.DEBUG) System.out.println("[CLIENT] Tentativo getSIP() SIP: "+Status.getSIPAddress()+":"+Status.getSIP_Port());
 			registry = LocateRegistry.getRegistry(Status.getSIPAddress());
 			sip = (SIPInterface) registry.lookup("SIP");
 			if(sip == null)
@@ -335,7 +335,7 @@ public class ClientEngine {
 		Contact contact = ContactListManager.searchContactById(ContactUserID);
 		//Se è null il contatto non è stato trovato
 		if(contact == null){
-			System.out.println("Client - ClientInterface.getClientWithoutOfflineControl() - Utente "+ContactUserID+" non presente nella lista contatti!");
+			System.out.println("[CLIENT] ClientInterface.getClientWithoutOfflineControl() - Utente "+ContactUserID+" non presente nella lista contatti!");
 			return null;
 		}
 		Registry registry;
@@ -345,10 +345,10 @@ public class ClientEngine {
 		try {
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
-				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
+				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
 				IP = contact.getLocalIP();
 			}else{
-				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
+				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
 				IP = contact.getGlobalIP();
 			}
 
@@ -358,7 +358,7 @@ public class ClientEngine {
 		
 			client = (ClientInterface) registry.lookup("Client");
 			if(client == null){
-				System.out.println("Client - ClientEngine.getClientWithoutOfflineControl() registry.lookup(\"Client\") == NULL");
+				System.out.println("[CLIENT] ClientEngine.getClientWithoutOfflineControl() registry.lookup(\"Client\") == NULL");
 				return null;
 			}
 			
@@ -366,7 +366,7 @@ public class ClientEngine {
 			//Quando sull'host non risponde l'rmiregistry
 			//Ritengo quindi che l'utente sia andato offline
 			contact.setStatus(ChatStatusList.OFFLINE);
-			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
+			System.err.println("[CLIENT] Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
 			//Aggiorno la tabella
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 			
@@ -377,12 +377,12 @@ public class ClientEngine {
 			System.err.println("ClientEngine.getClient() java.rmi.ConnectException: " + e.toString());
 			//e.printStackTrace();
 		} catch (RemoteException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient() RemoteException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient() NotBoundException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient() NotBoundException: " + e.toString());
 			//e.printStackTrace();
 		}
 		return client;
@@ -398,7 +398,7 @@ public class ClientEngine {
 		Contact contact = ContactListManager.searchContactById(ContactUserID);
 		//Se è null il contatto non è stato trovato
 		if(contact == null){
-			System.out.println("Client - ClientInterface.getClient() - Utente "+ContactUserID+" non presente nella lista contatti!");
+			System.out.println("[CLIENT] ClientInterface.getClient() - Utente "+ContactUserID+" non presente nella lista contatti!");
 			return null;
 		}
 		if(!contact.isConnected()){
@@ -410,10 +410,10 @@ public class ClientEngine {
 		try {
 			
 			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
-				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
+				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClient() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
 				IP = contact.getLocalIP();
 			}else{
-				if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
+				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClient() Client: "+contact.getGlobalIP()+":"+contact.getClient_Port());
 				IP = contact.getGlobalIP();
 			}
 			if(IP == null)
@@ -421,7 +421,7 @@ public class ClientEngine {
 			registry = LocateRegistry.getRegistry(IP);
 			client = (ClientInterface) registry.lookup("Client");
 			if(client == null){
-				System.out.println("Client - ClientEngine.getClient() registry.lookup(\"Client\") == NULL");
+				System.out.println("[CLIENT] ClientEngine.getClient() registry.lookup(\"Client\") == NULL");
 				return null;
 			}
 			
@@ -429,7 +429,7 @@ public class ClientEngine {
 			//Quando sull'host non risponde l'rmiregistry
 			//Ritengo quindi che l'utente sia andato offline
 			contact.setStatus(ChatStatusList.OFFLINE);
-			System.err.println("Client - Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
+			System.err.println("[CLIENT] Client: Utente["+contact.getID()+" "+contact.getNickname()+"] e' OFFLINE! (ConnectException)");
 			//Aggiorno la tabella
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 			if(table!=null) 
@@ -439,16 +439,16 @@ public class ClientEngine {
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		} catch (RemoteException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient() RemoteException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient() NotBoundException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient() NotBoundException: " + e.toString());
 			//e.printStackTrace();
 		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient() Exception: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient() Exception: " + e.toString());
 			//e.printStackTrace();
 		}
 		return client;
@@ -464,26 +464,26 @@ public class ClientEngine {
 		Registry registry;
 		ClientInterface client = null;
 		try {
-			if(Status.DEBUG) System.out.println("Client - Tentativo ClientInterface.getClient(IP) Client: "+IP);
+			if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClient(IP) Client: "+IP);
 			registry = LocateRegistry.getRegistry(IP);
 			client = (ClientInterface) registry.lookup("Client");
 			if(client == null){
-				System.out.println("Client - ClientEngine.getClient(IP) registry.lookup(\"Client\") == NULL");
+				System.out.println("[CLIENT] ClientEngine.getClient(IP) registry.lookup(\"Client\") == NULL");
 				return null;
 			}
 			
 		} catch (java.rmi.ConnectException e) {
-			System.err.println("Client - ClientEngine.getClient(IP) Contatto OFFLINE! (ConnectException)");
+			System.err.println("[CLIENT] ClientEngine.getClient(IP) Contatto OFFLINE! (ConnectException)");
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		} catch (RemoteException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient(IP) RemoteException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient(IP) RemoteException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient(IP) RemoteException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient(IP) RemoteException: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
-//			JOptionPane.showMessageDialog(null, e.getMessage(), "Client - ClientEngine.getClient(IP) NotBoundException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("Client - ClientEngine.getClient(IP) NotBoundException: " + e.toString());
+//			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient(IP) NotBoundException", JOptionPane.ERROR_MESSAGE);
+			System.err.println("[CLIENT] ClientEngine.getClient(IP) NotBoundException: " + e.toString());
 			//e.printStackTrace();
 		}
 		return client;
@@ -504,7 +504,7 @@ public class ClientEngine {
 				new ClientThread_WhoisRequestor(Status.getUserID(),Status.getGlobalIP(),randomNum,Status.P2P_TTL,email);
 		}else{
 			//Contatto trovato e online
-			System.out.println("Client - ClientEngine.whoIs() : Contatto trovato e ONLINE.");
+			System.out.println("[CLIENT] ClientEngine.whoIs() : Contatto trovato e ONLINE.");
 		}
 		return randomNum;
 	}

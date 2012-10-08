@@ -61,10 +61,10 @@ public class FileConfManager {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("Client - readConfXML() exception FILE NOT FOUND");
+			System.out.println("[CLIENT] readConfXML() exception FILE NOT FOUND");
 			writeConfXML();
 		} catch (Exception e) {
-			System.out.println("Client - readConfXML() exception");
+			System.out.println("[CLIENT] readConfXML() exception");
 			e.printStackTrace();
 		}
 		return true;

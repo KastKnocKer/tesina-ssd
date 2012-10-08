@@ -129,7 +129,10 @@ public class ClientEngine {
 			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
 			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
 			return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);
+		}else{
+			JOptionPane.showMessageDialog(null, "Non è stato trovato il file temporaneo per il Login P2P.\nNon puoi effettuare il login.", "Tentativo di Login P2P", JOptionPane.ERROR_MESSAGE);
 		}
+			
 		return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 	}
 	

@@ -31,7 +31,6 @@ import chat.Contact;
 
 public class FileContactsManager {
 
-	
 	/**
 	 * Scrive l'elenco contatti su File XML
 	 * @return
@@ -87,6 +86,7 @@ public class FileContactsManager {
 						Element stato = doc.createElement("Stato");
 						Element globalIP = doc.createElement("GlobalIP");
 						Element localIP = doc.createElement("LocalIP");
+						Element IsTemporary = doc.createElement("IsTemporary");
 						
 						id.setTextContent(Integer.toString(contact.getID()));
 						nome.setTextContent(contact.getNome());
@@ -96,6 +96,7 @@ public class FileContactsManager {
 						stato.setTextContent(contact.getStatus().toString());
 						globalIP.setTextContent(contact.getGlobalIP());
 						localIP.setTextContent(contact.getLocalIP());
+						IsTemporary.setTextContent(Boolean.toString(contact.isTemporary()));
 						
 						contactElem.appendChild(id);
 						contactElem.appendChild(nome);
@@ -105,6 +106,7 @@ public class FileContactsManager {
 						contactElem.appendChild(stato);
 						contactElem.appendChild(globalIP);
 						contactElem.appendChild(localIP);
+						contactElem.appendChild(IsTemporary);
 					
 					rootElement.appendChild(contactElem);
 			}	
@@ -204,22 +206,23 @@ public class FileContactsManager {
 							System.err.println("FileContactsManager.readContactsXML() - Fallimento caricamento INFOs");
 						}
 						
-						try {	Status.setUserID(Integer.parseInt(getTagValue("ID", eElement)));		} catch (Exception e) {}
-						try {	Status.setNickname(getTagValue("Nickname", eElement));					} catch (Exception e) {}
-						try {	Status.setEmail(getTagValue("Email", eElement));						} catch (Exception e) {}
+						try {	Status.setUserID(Integer.parseInt(getTagValue("ID", eElement)));					} catch (Exception e) {}
+						try {	Status.setNickname(getTagValue("Nickname", eElement));								} catch (Exception e) {}
+						try {	Status.setEmail(getTagValue("Email", eElement));									} catch (Exception e) {}
 						
 						
 					}else if(eElement.getNodeName().equals("Contact")){
 						//Carico i contatti
 						Contact contact = new Contact();
 						
-						try {	contact.setID(Integer.parseInt(getTagValue("ID", eElement)));		} catch (Exception e) {}
-						try {	contact.setNome(getTagValue("Nome", eElement));						} catch (Exception e) {}
-						try {	contact.setCognome(getTagValue("Cognome", eElement));				} catch (Exception e) {}
-						try {	contact.setEmail(getTagValue("Email", eElement));					} catch (Exception e) {}
-						try {	contact.setNickname(getTagValue("Nickname", eElement));				} catch (Exception e) {}
-						try {	contact.setGlobalIP(getTagValue("GlobalIP", eElement));				} catch (Exception e) {}
-						try {	contact.setLocalIP(getTagValue("LocalIP", eElement));				} catch (Exception e) {}
+						try {	contact.setID(Integer.parseInt(getTagValue("ID", eElement)));						} catch (Exception e) {}
+						try {	contact.setNome(getTagValue("Nome", eElement));										} catch (Exception e) {}
+						try {	contact.setCognome(getTagValue("Cognome", eElement));								} catch (Exception e) {}
+						try {	contact.setEmail(getTagValue("Email", eElement));									} catch (Exception e) {}
+						try {	contact.setNickname(getTagValue("Nickname", eElement));								} catch (Exception e) {}
+						try {	contact.setGlobalIP(getTagValue("GlobalIP", eElement));								} catch (Exception e) {}
+						try {	contact.setLocalIP(getTagValue("LocalIP", eElement));								} catch (Exception e) {}
+						try {	contact.setTemporary(Boolean.parseBoolean(getTagValue("IsTemporary", eElement)));	} catch (Exception e) {}
 						contact.setStatus(ChatStatusList.OFFLINE);
 						ContactListManager.addToContactList(contact);
 					
@@ -256,7 +259,7 @@ public class FileContactsManager {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Non è stato trovato il file temporaneo per il Login P2P.\nNon puoi effettuare il login.", "Tentativo di Login P2P", JOptionPane.ERROR_MESSAGE);
+			System.out.println("File CONTACTS.XML non trovato.");
 			return false;
 //			System.out.println("Client - readConfXML() exception FILE NOT FOUND");
 //			writeConfXML();

@@ -1,24 +1,10 @@
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import client.thread.ClientThread;
-import client.thread.ClientThread_SipRequestor;
-
-import layout.homeframe.Home_Frame;
 import managers.FileConfManager;
 import managers.Status;
 import utility.WhatIsMyIP;
-import RMI.Client;
-import RMI.ClientInterface;
 import RMI.SIP;
 import RMI.SIPInterface;
 
@@ -66,7 +52,6 @@ public class MainSSD {
 		 * mettendo l'IP globale al posto dell'ip locale. 
 		 * NOTA: PROVOCA MALFUNZIONAMENTI IN LAN!!!	 */
 		if(Status.isDebuginlan()){
-			String globalIP = Status.getGlobalIP();
 			if(Status.getLocalIP() != null){
 				System.setProperty("java.rmi.server.hostname", Status.getLocalIP());
 			}else

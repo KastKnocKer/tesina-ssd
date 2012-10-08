@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import layout.friendslist.FriendsList_Table;
+import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
@@ -192,7 +193,12 @@ public class ContactListManager {
 				
 				if(contact.getID() == friendID) {
 					try{
+						
+						/* distruggo il frame di conversazione */
+						ConversationWindowsManager.removeConversationFrame(contact);
+						/* rimuovo il contatto dalla lista */
 						contactList.remove(pos); 
+						
 						found = true; 
 						break;
 					} catch(Exception e) {

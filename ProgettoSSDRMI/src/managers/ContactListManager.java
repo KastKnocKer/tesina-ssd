@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
@@ -35,7 +34,7 @@ public class ContactListManager {
 	 * 
 	 * @param contactList
 	 */
-	public static synchronized void setContactList(ArrayList<Contact> contactList) {
+	public static void setContactList(ArrayList<Contact> contactList) {
 		//TODO aggiungere aggiornamento della tabella visuale
 		//todo Aggiungere aggiornamento friendlist
 		
@@ -61,7 +60,7 @@ public class ContactListManager {
 	 * Metodo per reperire la lista globale dei contatti. 
 	 * @return ArrayList dei contatti
 	 */
-	public static synchronized ArrayList<Contact> getContactList() {
+	public static ArrayList<Contact> getContactList() {
 		if(contactList == null) 
 			contactList = new ArrayList<Contact>(); 
 		
@@ -78,7 +77,7 @@ public class ContactListManager {
 	 * 
 	 *  @author Fabio Pierazzi
 	 */
-	public static synchronized Contact searchContactById(int contactID) {
+	public static Contact searchContactById(int contactID) {
 		
 		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
 		if(contactList == null) {
@@ -105,7 +104,7 @@ public class ContactListManager {
 	 * @return il contatto, se viene trovato; null, altrimenti
 	 */
 	
-		public static synchronized Contact searchContactByEmail(String email) {
+		public static Contact searchContactByEmail(String email) {
 		
 		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
 		if(contactList == null) {
@@ -134,7 +133,7 @@ public class ContactListManager {
 		 * @param newContact da aggiungere
 		 * @author Fabio Pierazzi
 		 */
-		public static synchronized void addToContactList(Contact newContact) {
+		public static void addToContactList(Contact newContact) {
 			
 			/* Controllo che il contatto non sia già presente nella lista */
 			
@@ -144,18 +143,13 @@ public class ContactListManager {
 			Contact searchedContact = ContactListManager.searchContactById(newContact.getID()); 
 			
 			if(searchedContact != null) {
-				System.err.println("Si sta cercando di aggiungere un contatto già presente; verrà eventualmente aggiornato");
-				if(!searchedContact.isConnected()){
-					searchedContact.setLocalIP(newContact.getLocalIP());
-					searchedContact.setGlobalIP(newContact.getGlobalIP());
-					searchedContact.setNickname(newContact.getNickname());
-				}
+				System.err.println("Si sta cercando di aggiungere un contatto già presente");
 				return; 
 			}
 			
 			/* Aggiungo il contatto alla lista */
-			ArrayList<Contact> myContactList = getContactList(); 
-			myContactList.add(newContact); 
+			ArrayList<Contact> contactList = getContactList(); 
+			contactList.add(newContact); 
 			
 //			/* Aggiungo il nuovo contatto anche alla FriendsList */
 //			FriendsList friendsList = FriendsListManager.getFriendsList(); 
@@ -176,50 +170,33 @@ public class ContactListManager {
 		 * 
 		 * @param removeId
 		 */
-		public static synchronized boolean removeFromContactList(Contact friendContactToRemove) {
+		public static boolean removeFromContactList(Contact friendContact) {
 			
-			System.err.println("ContactListManager.removeFromContactList: begin...");
-			
-			/* Verifico che il parametro in ingresso non sia null */
-			if(friendContactToRemove == null) {
-				System.err.println("[error] ContactListManager.removeFromContactList: null parameter!");
-				return false; 
-			}
-			
-			
-			/* Recupero i contatti */
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			
-			int friendID = friendContactToRemove.getID(); 
+			int friendID = friendContact.getID(); 
 			
 			if(Status.DEBUG) 
-				System.err.println("ContactListManager.removeFromContactList: starting contact removal...");
+				System.err.println("Starting contact removal...");
 			
 			/* Cerco il contatto e lo rimuovo */
-			ArrayList<Contact> myContactList = ContactListManager.getContactList(); 
+			ArrayList<Contact> contactList = ContactListManager.getContactList(); 
 			
 			int pos = 0; 
 			boolean found = false; 
 			
-			if(Status.DEBUG) 
-				System.err.println("ContactListManager.removeFromContactList: Beginning contact removal iteration...");
-			
-			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) myContactList.clone();
-			
-			for(Contact contact : contactListCopy) {
+			for(Contact contact : contactList) {
 				
 				if(found == true) 
 					break; 
 				
 				if(contact.getID() == friendID) {
 					try{
-						System.err.println("ContactListManager.removeFromContactList: eseguo metodo remove...");
-						myContactList.remove(pos); 
-						System.err.println("ContactListManager.removeFromContactList: metodo remove eseguito.");
+						contactList.remove(pos); 
 						found = true; 
 						break;
 					} catch(Exception e) {
-						System.err.println("Eccezione gestita: ContactListManager.removeFromContactList - Errore nel corso della rimozione di un contatto.");
+						System.err.println("Errore nel corso della rimozione di un contatto.");
 						e.printStackTrace(); 
 						return false; 
 					}
@@ -228,20 +205,17 @@ public class ContactListManager {
 				pos++; 
 			}
 			
-			System.out.println("ContactListManager.removeFromContactList: uscito con successo dal ciclo di rimozione. ");
-			
 			/* Se non l'ho trovato, ritorno */
 			if(found == false) {
-				System.err.println("Contatto " + friendContactToRemove.getEmail() + " non trovato. Rimozione interrotta.");
+				System.err.println("Contatto " + friendContact.getEmail() + " non trovato. Rimozione interrotta.");
 				return false; 
 			}
+			
 			
 
 			/* Aggiorno graficamente la tabella con la lista amici */
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 
-			System.err.println("ContactListManager.removeFromContactList: aggiorno tabella... ");
-			
 			/* Aggiorno la tabella */
 			try {
 				if(table!=null)
@@ -252,23 +226,11 @@ public class ContactListManager {
 				return true; 
 			}
 			
-			System.err.println("ContactListManager.removeFromContactList: tabella aggiornata. ");
 			
-			System.err.println("ContactListManager.removeFromContactList: mostro finestra di dialogo. ");
-			
-			/* mostro joptionpane nel thread della GUI */
-			final Contact friendContactToRemove_copy = friendContactToRemove;
-			
-			SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
-	            	JOptionPane.showMessageDialog(null, "Il contatto " + friendContactToRemove_copy.getNickname() + " ( " + 
-	            			friendContactToRemove_copy.getEmail() + " )  è stato rimosso.", 
-	    					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
-	            }
-        	});
-			
-			
-			System.out.println("ContactListManager.removeFromContactList: finestra di dialogo mostrata. ");
+			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
+			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 
+					friendContact.getEmail() + " )  è stato rimosso.", 
+					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
 			
 			if(Status.DEBUG) 
 				System.err.println("Contact removed.");
@@ -277,7 +239,7 @@ public class ContactListManager {
 			FriendshipRequest request = new FriendshipRequest(
 					FriendshipRequestType.REMOVE_FRIEND, 
 					myContact, 
-					friendContactToRemove);
+					friendContact);
 			
 			/* Rimuovo l'amico sul SIP */
 			try {
@@ -304,21 +266,23 @@ public class ContactListManager {
 //				return false; 
 			}
 			
+			
+			
 			/* Notifico il client rimosso della rimozione, 
 			 * di modo che non mi veda più online.
 			 * Lo notifico solo se lui non è OFFLINE. */
-			if(friendContactToRemove.getStatus() != ChatStatusList.OFFLINE) {
+			if(friendContact.getStatus() != ChatStatusList.OFFLINE) {
 				
 				ClientInterface client = null;
 				
 				/* se sono in LAN */
-				if(Status.getGlobalIP().equals(friendContactToRemove.getGlobalIP())) {
+				if(Status.getGlobalIP().equals(friendContact.getGlobalIP())) {
 					/* reperisco il client da rimuovere */
-					client = ClientEngine.getClient(friendContactToRemove.getLocalIP()); 
+					client = ClientEngine.getClient(friendContact.getLocalIP()); 
 				/* se invece NON sono in LAN */
 				} else {
 					/* reperisco il client da rimuovere */
-					client = ClientEngine.getClient(friendContactToRemove.getGlobalIP()); 
+					client = ClientEngine.getClient(friendContact.getGlobalIP()); 
 				}
 				
 					/* se ho reperito un client */
@@ -336,57 +300,15 @@ public class ContactListManager {
 								return true;
 							} 
 						} else {
-							System.err.println("Rimozione amico: " + friendContactToRemove.getNickname() + "; Problema nel reperimento del contatto.");
+							System.err.println("Rimozione amico: " + friendContact.getNickname() + "; Problema nel reperimento del contatto.");
 							
 							/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
 //							return true; 
 						}
 			}
 			
-			System.err.println("ContactListManager.removeFromContactList: ended successfully.");
 			return true; 
 		}
-
-		/**
-		 * Aggiunge alla propria lista locale dei contatti gli aggiornamenti che giungono dal SIP
-		 * @param SIPContactList
-		 */
-		public static synchronized void addContactsFromSIPContactList(ArrayList<Contact> SIPContactList) {
-			//Setto tutti i contatti locali come non aggiornati dal SIP
-			for(Contact contact : contactList){
-				contact.setUpdatedFromSIP(false);
-			}
-			
-			//Per ogni contatto ricevuto dal SIP aggiorno la mia lista
-			for(Contact contact : SIPContactList){
-				Contact localContact = searchContactById(contact.getID());
-				
-				if(localContact == null){
-					//Non ho trovato il contatto
-					addToContactList(contact);
-				}else{
-					//Ho trovato il contatto
-					if(!localContact.isConnected()){
-						// Se il contatto è nella mia lista e non è raggiungibile aggiorno i suoi dati
-						localContact.setLocalIP(contact.getLocalIP());
-						localContact.setGlobalIP(contact.getGlobalIP());
-						localContact.setNickname(contact.getNickname());
-						localContact.setUpdatedFromSIP(true);
-						localContact.setTemporary(false);
-						
-					}
-				}
-			}
-			
-			//Elimino i contatti che avevo ricevuto dal SIP in passato, ma di cui non ho ricevuto aggiornamenti (=Contatti rimossi)
-			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
-			for(Contact contact : contactListCopy){
-				if(!contact.isTemporary() && !contact.isUpdatedFromSIP())
-//					contactList.remove(contact);
-					removeFromContactList(contact); 
-			}
-		}
-
 		
 		
 

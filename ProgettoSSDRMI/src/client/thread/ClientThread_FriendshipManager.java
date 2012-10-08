@@ -4,7 +4,6 @@ import java.net.Authenticator.RequestorType;
 import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
@@ -60,7 +59,7 @@ public class ClientThread_FriendshipManager extends Thread {
 	public void run() {
 		
 		/* A seconda del parametro, specializzo */
-		System.err.println("Thread ClientThread_FriendshipManager: started");
+		System.err.println("Thread ClientThread_FriendshipManager: entrato");
 		
 		/*****************************
 		 * SEND FRIENDSHIP REQUEST
@@ -84,13 +83,12 @@ public class ClientThread_FriendshipManager extends Thread {
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST) {
 			
 			System.err.println("Thread ClientThread_FriendshipManager: ACCEPT_FRIENDSHIP_REQUEST");
-			acceptFriendshipRequest(contattoMittente); 
+				acceptFriendshipRequest(contattoMittente); 
 		
 		/*****************************
 		 * SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) ) {
-			
 			System.err.println("Thread ClientThread_FriendshipManager: SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT");
 			showFriendshipRequestFromContact(contattoMittente); 
 			
@@ -98,11 +96,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * REMOVE_FRIEND
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
-			
-			System.err.println("Thread ClientThread_FriendshipManager: REMOVE_FRIEND [begin]");
 			removeFriend(contattoDestinatario);
-			System.err.println("Thread ClientThread_FriendshipManager: REMOVE_FRIEND [end]");
-			
+		
 		/*****************************
 		 * SEND FRIENDSHIP REQUEST TO SIP
 		 *****************************/
@@ -547,9 +542,7 @@ public class ClientThread_FriendshipManager extends Thread {
 	private void removeFriend(Contact contactToRemove) {
 		/* rimuovo il contatto */
 		try {
-			
 			ContactListManager.removeFromContactList(contactToRemove);
-			
 		} catch(Exception e) {
 			System.err.println("Errore durante la rimozione del contatto.");
 			e.printStackTrace(); 

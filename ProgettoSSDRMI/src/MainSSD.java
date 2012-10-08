@@ -107,6 +107,10 @@ public class MainSSD {
 			if(globalIP != null){
 				System.setProperty("java.rmi.server.hostname", globalIP);
 			}
+		}else{
+			if(wimi.getStdLocalIP() != null){
+				System.setProperty("java.rmi.server.hostname", wimi.getStdLocalIP());
+			}
 		}
 		
 		

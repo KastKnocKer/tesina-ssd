@@ -133,7 +133,7 @@ public class ContactListManager {
 		 * @param newContact da aggiungere
 		 * @author Fabio Pierazzi
 		 */
-		public static void addToContactList(Contact newContact) {
+		public static synchronized void addToContactList(Contact newContact) {
 			
 			/* Controllo che il contatto non sia già presente nella lista */
 			
@@ -170,7 +170,7 @@ public class ContactListManager {
 		 * 
 		 * @param removeId
 		 */
-		public static boolean removeFromContactList(Contact friendContact) {
+		public static synchronized boolean removeFromContactList(Contact friendContact) {
 			
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			

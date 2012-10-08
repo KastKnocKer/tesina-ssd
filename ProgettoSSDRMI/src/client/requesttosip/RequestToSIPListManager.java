@@ -21,7 +21,7 @@ public class RequestToSIPListManager {
 	 */
 	public static synchronized void addRequest(RequestToSIP rtsip){
 		if(Status.SUPER_DEBUG) 
-			System.out.println("Aggiungo richiesta: "+rtsip.getRequestType().toString());
+			System.out.println("[CLIENT] Aggiungo richiesta: "+rtsip.getRequestType().toString());
 		
 		rtsip.setProgressiveNum(ProgressiveNum++);
 		RequestsToSIP.add(rtsip);
@@ -32,7 +32,7 @@ public class RequestToSIPListManager {
 	 */
 	public static synchronized void removeRequest(RequestToSIP rtsip){
 		if(Status.SUPER_DEBUG) 
-			System.out.println("Rimuovo richiesta: "+rtsip.getRequestType().toString());
+			System.out.println("[CLIENT] Rimuovo richiesta: "+rtsip.getRequestType().toString());
 		
 		RequestsToSIP.remove(rtsip);
 	}
@@ -41,7 +41,7 @@ public class RequestToSIPListManager {
 	 * Risolve le richieste destinate al SIP
 	 */
 	public static synchronized void sendRequests(){
-		if(Status.SUPER_DEBUG && RequestsToSIP.size()>0) System.out.println("Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
+		if(Status.SUPER_DEBUG && RequestsToSIP.size()>0) System.out.println("[CLIENT] Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
 		
 		//Se la lista delle richieste è nulla ritorno
 		if( RequestsToSIP.size() == 0)
@@ -53,7 +53,7 @@ public class RequestToSIPListManager {
 		try {
 			sip = ClientEngine.getSIP();
 		} catch (Exception e) {
-			System.err.println("RequestToSIPListManager: ClientEngine.getSIP() timeout");
+			System.err.println("[CLIENT] RequestToSIPListManager: ClientEngine.getSIP() timeout");
 			return; 
 		}
 		
@@ -77,7 +77,7 @@ public class RequestToSIPListManager {
 				} else if(req.getRequestType() == RequestToSIPTypeList.FRIENDSHIP_REQUEST){
 					
 					if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.REMOVE_FRIEND) {
-						System.out.println("Invio richieste al SIP offline: tentativo di rimozione amicizia");
+						System.out.println("[CLIENT] Invio richieste al SIP offline: tentativo di rimozione amicizia");
 						RMISIPBasicResponseMessage rmiResponse = sip.removeFriendship( (FriendshipRequest) req.getRequestMessage() );
 						
 						if(rmiResponse != null) {
@@ -87,7 +87,7 @@ public class RequestToSIPListManager {
 						}
 					} else if(((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.ADD_FRIEND ||
 							((FriendshipRequest) req.getRequestMessage()).getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
-						System.out.println("Invio richieste al SIP offline: tentativo di aggiunta amicizia");
+						System.out.println("[CLIENT] Invio richieste al SIP offline: tentativo di aggiunta amicizia");
 						RMISIPBasicResponseMessage rmiResponse = sip.addFriendship( (FriendshipRequest) req.getRequestMessage() );
 						
 						if(rmiResponse != null) {
@@ -107,7 +107,7 @@ public class RequestToSIPListManager {
 				
 				
 			}catch(Exception e){
-				System.err.println("Eccezione gestita: TENTATIVO INVIO RICHIESTE AL SIP OFFLINE");
+				System.err.println("[CLIENT] Eccezione gestita: TENTATIVO INVIO RICHIESTE AL SIP OFFLINE");
 				e.printStackTrace(); 
 			}
 			

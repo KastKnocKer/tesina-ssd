@@ -98,7 +98,7 @@ public class ClientThread_FriendshipManager extends Thread {
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
 			
-			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_SIP");
+			System.err.println("Thread ClientThread_FriendshipManager: REMOVE_FRIEND");
 			removeFriend(contattoDestinatario);
 		
 		/*****************************

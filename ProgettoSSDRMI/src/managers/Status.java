@@ -1,5 +1,4 @@
 package managers;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -56,7 +55,7 @@ public class Status {
 	private static int SIP_Port = 1101;
 	private static int Client_Port = 1102;
 	private static int RMIRegistryPort = 1099;
-	private static int Type = 1;
+	private static int Type = 0;
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
 	private static String Email = "";
@@ -218,51 +217,4 @@ public class Status {
 			return true;
 		}
 	}
-	
-	public static boolean bindClient(){
-		if(client == null){
-			client = new Client();
-		}
-		System.out.println("*** Client binding ***");
-		try {
-            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-            // Registro il SIP nel RMIREGISTRY
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("Client", stub);
-            System.out.println("*** Client obj ready ***");
-            return true;
-		} catch (Exception e) {
-            System.out.println("Client obj exception:\n" + e.toString());
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
-            System.out.println("EXIT FORZATO");
-            System.exit(0);
-		}
-		return false;
-	}
-	
-	public static boolean unbindClient(){
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry("localhost", 1099);
-			registry.unbind("Client");
-			return true;
-		} catch (RemoteException | NotBoundException e1) {
-			System.err.println("Exception catched: Unbinding Client");
-		}
-		return false;
-	}
-	
-	public static boolean unbindSIP(){
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry("localhost", 1099);
-			registry.unbind("SIP");
-			return true;
-		} catch (RemoteException | NotBoundException e1) {
-			System.err.println("Exception catched: Unbinding Client");
-		}
-		return false;
-	}
-	
 }

@@ -31,15 +31,12 @@ public class ClientThread_FriendsStatusTester extends Thread{
 	
 	public void run() {
 		counter.incr();
-		System.err.println("Start to Test to: "+contactToTest.getNickname());
-		
 		try {
 			ClientInterface client = ClientEngine.getClientWithoutOfflineControl(contactToTest.getID());
 			if(client == null){
-				System.err.println("Utente non raggiunto.");
 				contactToTest.setStatus(ChatStatusList.OFFLINE);
 				decrementCounter();
-				System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
+				System.out.println("[CLIENT] ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus()+" (client==null)");
 				return;
 			}
 			
@@ -52,7 +49,7 @@ public class ClientThread_FriendsStatusTester extends Thread{
 					// Se il client risponde correttamente, sostituisco le informazioni del contatto che io possiedo con quelle da lui comunicate
 					contactToTest.updateInfoFromContact(rhay.getResponseContact());
 					ConversationWindowsManager.updateOneContactInfos(contactToTest);
-					System.out.println("ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus());
+					System.out.println("[CLIENT] ClientThreadTester: "+contactToTest.getNickname()+" "+contactToTest.getStatus()+" (client==null)");
 				}
 				/* if false, non siamo amici: devo rimuoverlo! Ce l'ho per errore (probabilmente
 				 * il SIP è offline e l'ho caricato dai miei CONTACTS.xml */

@@ -83,7 +83,7 @@ public class ClientThread_FriendshipManager extends Thread {
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST) {
 			
 			System.err.println("Thread ClientThread_FriendshipManager: ACCEPT_FRIENDSHIP_REQUEST");
-				acceptFriendshipRequest(contattoMittente); 
+			acceptFriendshipRequest(contattoMittente); 
 		
 		/*****************************
 		 * SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT
@@ -96,6 +96,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * REMOVE_FRIEND
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
+			
+			System.err.println("Thread ClientThread_FriendshipManager: REMOVE_FRIEND");
 			removeFriend(contattoDestinatario);
 		
 		/*****************************
@@ -104,17 +106,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.SEND_FRIENDSHIP_REQUEST_TO_SIP) {
 			
 			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_SIP");
-			
 			sendFriendshipRequestToSIP(friendshipRequest); 
 			
-//				String email = contattoMittente.getEmail();
-//				RMISIPBasicResponseMessage answer = sendFriendshipRequestToContact(email);
-				
-//				if(answer.isSUCCESS()) {
-//					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.INFORMATION_MESSAGE);
-//				} else {
-//					JOptionPane.showMessageDialog(null, answer.getMESSAGE(), "Richiesta amicizia", JOptionPane.ERROR_MESSAGE);
-//				}
 		}
 		
 		System.err.println("Thread ClientThread_FriendshipManager: ended");
@@ -485,10 +478,10 @@ public class ClientThread_FriendshipManager extends Thread {
 		/* Aggiungo l'amico alla mia lista amici, ed eseguo il refresh 
 		 * della tabella con la lista amici. */
 		ContactListManager.addToContactList(contattoMittente); 
-		FriendsList_Table table = LayoutReferences.getFriendsListTable();
-		if(table != null) {
-			table.updateTable(); 
-		}
+//		FriendsList_Table table = LayoutReferences.getFriendsListTable();
+//		if(table != null) {
+//			table.updateTable(); 
+//		}
 		
 		/* Invio ack dell'amicizia al contatto, 
 		 * per fargli sapere che può aggiungermi. */
@@ -505,6 +498,7 @@ public class ClientThread_FriendshipManager extends Thread {
 				ClientEngine.getClient(contattoMittente.getGlobalIP()).receiveFriendshipAckFromContact(myContact);
 			
 		} catch (RemoteException e) {
+			System.err.println("Eccezione gestita: acceptFriendshipRequest: RemoteException while sending ack to contact");
 			e.printStackTrace();
 		} 
 

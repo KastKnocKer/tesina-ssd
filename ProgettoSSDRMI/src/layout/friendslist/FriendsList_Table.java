@@ -350,7 +350,13 @@ public class FriendsList_Table extends JTable implements MouseListener,ActionLis
 			
 			if(result == JOptionPane.YES_OPTION) {
 				System.out.println("CONFERMATA - Rimozione contatto " + friendContact.getEmail() + "");
-				FriendshipManager.removeFriend(friendContact); 
+				try {
+					FriendshipManager.removeFriend(friendContact);
+				} catch (Exception e) {
+					System.err.println("ERRORE DURANTE LA RIMOZIONE DI UN CONTATTO");
+					e.printStackTrace(); 
+				}
+				 
 			}
 			else if(result == JOptionPane.NO_OPTION)  {
 				if(Status.DEBUG)

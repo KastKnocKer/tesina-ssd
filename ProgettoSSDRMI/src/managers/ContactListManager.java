@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import sun.swing.MenuItemLayoutHelper.LayoutResult;
+
 import layout.friendslist.FriendsList_Table;
 import layout.managers.ConversationWindowsManager;
 import layout.managers.LayoutReferences;
@@ -151,6 +153,14 @@ public class ContactListManager {
 			/* Aggiungo il contatto alla lista */
 			ArrayList<Contact> contactList = getContactList(); 
 			contactList.add(newContact); 
+			
+			/* Aggiorno graficamente la tabella */
+			FriendsList_Table table = LayoutReferences.getFriendsListTable();
+			if(table!=null) {
+				System.err.println("Aggiorno graficamente la tabella.");
+				table.updateTable();
+			}
+			
 			
 //			/* Aggiungo il nuovo contatto anche alla FriendsList */
 //			FriendsList friendsList = FriendsListManager.getFriendsList(); 

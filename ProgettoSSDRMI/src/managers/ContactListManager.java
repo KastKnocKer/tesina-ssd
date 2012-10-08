@@ -351,7 +351,7 @@ public class ContactListManager {
 			if(tmpContact == null){
 				contact.setUpdatedFromSIP(true);
 				contact.setTemporary(false);
-				addToContactList(contact);
+				getContactList().add(contact);
 			}else{
 				tmpContact.setUpdatedFromSIP(true);
 				tmpContact.setTemporary(false);

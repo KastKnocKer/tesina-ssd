@@ -136,9 +136,11 @@ public class ContactListManager {
 		 * @param newContact da aggiungere
 		 * @author Fabio Pierazzi
 		 */
-		public static synchronized void addToContactList(Contact newContact) {
+		public static void addToContactList(Contact newContact) {
 			
 			/* Controllo che il contatto non sia già presente nella lista */
+			
+			System.err.println("ContactListManager: addToContactList: starting... ");
 			
 			if(newContact.getID() < 0)
 				return; 
@@ -152,7 +154,11 @@ public class ContactListManager {
 			
 			/* Aggiungo il contatto alla lista */
 			ArrayList<Contact> contactList = getContactList(); 
-			contactList.add(newContact); 
+			
+			System.err.println("ContactListManager: addToContactList: adding contact... ");
+			
+			if(contactList != null)
+				contactList.add(newContact); 
 			
 			/* Aggiorno graficamente la tabella */
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
@@ -160,6 +166,8 @@ public class ContactListManager {
 				System.err.println("Aggiorno graficamente la tabella.");
 				table.updateTable();
 			}
+			
+			System.err.println("ContactListManager: addToContactList: ended.");
 			
 			
 //			/* Aggiungo il nuovo contatto anche alla FriendsList */
@@ -181,7 +189,7 @@ public class ContactListManager {
 		 * 
 		 * @param removeId
 		 */
-		public static synchronized boolean removeFromContactList(Contact friendContact) {
+		public static boolean removeFromContactList(Contact friendContact) {
 			
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			

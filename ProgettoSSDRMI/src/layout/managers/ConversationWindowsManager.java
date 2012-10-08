@@ -296,4 +296,25 @@ public class ConversationWindowsManager {
 		arrayList_conversationFrames = new ArrayList<Conversation_Frame>(); 
 		
 	}
+	
+	/**
+	 * Questo metodo chiude e rimuove la finestra di conversazione 
+	 * relativa ad un 
+	 * @param contact Contatto di cui chiudere la finestra di conversazione
+	 */
+	public static void removeConversationFrame(Contact contact) {
+		
+		Conversation_Frame frame = getConversationFrame(contact.getID());
+		
+		if(frame == null) {
+			System.out.println("closeConversationFrame: frame relativo al contatto con id " + contact.getID() + " non trovato.");
+			return; 
+		}
+		
+		int pos = searchConversationWindow(contact.getID());
+		
+		frame.dispose(); 
+		arrayList_conversationFrames.remove(pos);
+		
+	}
 }

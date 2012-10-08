@@ -109,6 +109,7 @@ public class ClientEngine {
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);
+		Status.bindClient();
 		return response;
 	}
 	
@@ -126,6 +127,7 @@ public class ClientEngine {
 		if(FileContactsManager.readContactsXML()){
 			Status.setLOGGED(true);
 			Status.setLOGGEDP2P(true);
+			Status.bindClient();
 			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
 			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(username, password, ChatStatusList.ONLINE)));
 			return new ResponseLoginMessage(true, "ClientEngine.Login() exception", null);

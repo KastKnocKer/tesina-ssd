@@ -165,11 +165,11 @@ public class Status {
 		if(client == null){
 			try {
 	            client = new Client();
-	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-	            // Registro il SIP nel RMIREGISTRY
-	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-	            registry.rebind("Client", stub);
+//	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+//	            // Registro il SIP nel RMIREGISTRY
+//	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+//	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+//	            registry.rebind("Client", stub);
 	            System.out.println("*** Client obj ready ***");
 			} catch (Exception e) {
 	            System.out.println("Client obj exception:\n" + e.toString());

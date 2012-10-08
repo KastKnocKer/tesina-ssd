@@ -261,10 +261,10 @@ public class FileContactsManager {
 		} catch (FileNotFoundException e) {
 			System.out.println("File CONTACTS.XML non trovato.");
 			return false;
-//			System.out.println("Client - readConfXML() exception FILE NOT FOUND");
+//			System.out.println("[CLIENT] readConfXML() exception FILE NOT FOUND");
 //			writeConfXML();
 		} catch (Exception e) {
-//			System.out.println("Client - readConfXML() exception");
+//			System.out.println("[CLIENT] readConfXML() exception");
 			e.printStackTrace();
 		}
 		System.out.println("*** FINE LETTURA DI CONTACTS_"+Status.getLastLoginUsername()+".xml ***");

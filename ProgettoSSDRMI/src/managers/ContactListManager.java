@@ -154,8 +154,8 @@ public class ContactListManager {
 			}
 			
 			/* Aggiungo il contatto alla lista */
-			ArrayList<Contact> contactList = getContactList(); 
-			contactList.add(newContact); 
+			ArrayList<Contact> myContactList = getContactList(); 
+			myContactList.add(newContact); 
 			
 //			/* Aggiungo il nuovo contatto anche alla FriendsList */
 //			FriendsList friendsList = FriendsListManager.getFriendsList(); 
@@ -193,18 +193,18 @@ public class ContactListManager {
 			int friendID = friendContactToRemove.getID(); 
 			
 			if(Status.DEBUG) 
-				System.err.println("Starting contact removal...");
+				System.err.println("ContactListManager.removeFromContactList: starting contact removal...");
 			
 			/* Cerco il contatto e lo rimuovo */
-			ArrayList<Contact> contactList = ContactListManager.getContactList(); 
+			ArrayList<Contact> myContactList = ContactListManager.getContactList(); 
 			
 			int pos = 0; 
 			boolean found = false; 
 			
 			if(Status.DEBUG) 
-				System.err.println("Beginning contact removal...");
+				System.err.println("ContactListManager.removeFromContactList: Beginning contact removal iteration...");
 			
-			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
+			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) myContactList.clone();
 			
 			for(Contact contact : contactListCopy) {
 				
@@ -213,11 +213,13 @@ public class ContactListManager {
 				
 				if(contact.getID() == friendID) {
 					try{
-						contactList.remove(pos); 
+						System.err.println("ContactListManager.removeFromContactList: eseguo metodo remove...");
+						myContactList.remove(pos); 
+						System.err.println("ContactListManager.removeFromContactList: metodo remove eseguito.");
 						found = true; 
 						break;
 					} catch(Exception e) {
-						System.err.println("Eccezione gestita: Errore nel corso della rimozione di un contatto.");
+						System.err.println("Eccezione gestita: ContactListManager.removeFromContactList - Errore nel corso della rimozione di un contatto.");
 						e.printStackTrace(); 
 						return false; 
 					}
@@ -225,6 +227,8 @@ public class ContactListManager {
 				
 				pos++; 
 			}
+			
+			System.out.println("ContactListManager.removeFromContactList: uscito con successo dal ciclo di rimozione. ");
 			
 			/* Se non l'ho trovato, ritorno */
 			if(found == false) {
@@ -236,6 +240,8 @@ public class ContactListManager {
 			/* Aggiorno graficamente la tabella con la lista amici */
 			FriendsList_Table table = LayoutReferences.getFriendsListTable();
 
+			System.out.println("ContactListManager.removeFromContactList: aggiorno tabella... ");
+			
 			/* Aggiorno la tabella */
 			try {
 				if(table!=null)
@@ -246,10 +252,15 @@ public class ContactListManager {
 				return true; 
 			}
 			
+			System.out.println("ContactListManager.removeFromContactList: tabella aggiornata. ");
+			
+			System.out.println("ContactListManager.removeFromContactList: mostro finestra di dialogo. ");
 			
 			JOptionPane.showMessageDialog(null, "Il contatto " + friendContactToRemove.getNickname() + " ( " + 
 					friendContactToRemove.getEmail() + " )  è stato rimosso.", 
 					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
+			
+			System.out.println("ContactListManager.removeFromContactList: finestra di dialogo mostrata. ");
 			
 			if(Status.DEBUG) 
 				System.err.println("Contact removed.");

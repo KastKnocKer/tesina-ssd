@@ -133,7 +133,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			 * **********************************************/
 			
 			if(Status.DEBUG) 
-				System.out.println("Client - [whois] - Richiesta a SIP del contatto avente mail: " + email);
+				System.out.println("[Client] - [whois] - Richiesta a SIP del contatto avente mail: " + email);
 			
 			Contact futureFriend = null; 
 			
@@ -173,12 +173,12 @@ public class ClientThread_FriendshipManager extends Thread {
 					friendContact = StatusP2P.getWhoisResponse(Status.getUserID(), requestNumber);
 					
 					if(friendContact == null) {
-						System.out.println("whois p2p - tentativo " + count + " - contatto non ancora trovato ");
+						System.out.println("[Client] whois p2p - tentativo " + count + " - contatto non ancora trovato ");
 						continue; 
 					} else {
 						/* Ho ricevuto risposta! Rimuovo la 
 						 * risposta dall'elenco delle richieste */
-						System.out.println("whois p2p - tentativo " + count + " - contatto TROVATO!");
+						System.out.println("[Client] whois p2p - tentativo " + count + " - contatto TROVATO!");
 //						StatusP2P.removeWhoisResponse(Status.getUserID(), requestNumber);
 						break; 
 					}

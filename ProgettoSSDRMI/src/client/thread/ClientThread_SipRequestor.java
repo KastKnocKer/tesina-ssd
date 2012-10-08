@@ -35,7 +35,7 @@ public class ClientThread_SipRequestor extends Thread {
 			
 			try {
 				/* Ogni 5 secondi */
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {	
 				e.printStackTrace(); System.out.println("ClientThread Exception");
 			}
@@ -44,8 +44,8 @@ public class ClientThread_SipRequestor extends Thread {
 			if(!Status.isLOGGED()) 
 				continue;	
 
-			//Invio le richieste al SIP
-			if(index%1 == 0)		
+			//Invio le richieste al SIP ogni 60 secondi
+			if(index%12 == 0)		
 				RequestToSIPListManager.sendRequests();
 			
 			index++;

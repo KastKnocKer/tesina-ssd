@@ -197,10 +197,6 @@ public class Status {
 				            	hf.setVisible(true);
 				            }
 					});
-			ClientThread ct = new ClientThread();
-			ct.start();
-			ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
-			ctsr.start();
 			
 			return true;
 			

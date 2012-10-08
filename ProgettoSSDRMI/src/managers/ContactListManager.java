@@ -224,8 +224,11 @@ public class ContactListManager {
 
 			/* Aggiorno la tabella */
 			try {
-				if(table!=null)
+				if(table!=null) {
+					System.err.println("removeFromContactList: rimuovo il contatto " + friendContact.getEmail() + " dalla FriendsListTable!");
 					table.updateTable();
+				}
+					
 			} catch(Exception e) {
 				System.err.println("Errore nell'aggiornamento della tabella" +
 						" a seguito della rimozione di un contatto.");
@@ -240,39 +243,6 @@ public class ContactListManager {
 			
 			if(Status.DEBUG) 
 				System.err.println("Contact removed.");
-			
-			/* Preparo la richiesta di rimozione */
-			FriendshipRequest request = new FriendshipRequest(
-					FriendshipRequestType.REMOVE_FRIEND, 
-					myContact, 
-					friendContact);
-			
-			/* Rimuovo l'amico sul SIP */
-			try {
-
-				ClientEngine.getSIP().removeFriendship(request);
-				
-			} catch (RemoteException e1) {
-				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
-				System.err.println("Eccezione gestita: ");
-				e1.printStackTrace();
-				
-				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
-				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
-				RequestToSIPListManager.addRequest(rtsip); 
-//				return false; 
-			} catch(Exception e2) {
-				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
-				System.err.println("Eccezione gestita: ");
-				e2.printStackTrace();
-				
-				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
-				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
-				RequestToSIPListManager.addRequest(rtsip); 
-//				return false; 
-			}
-			
-			
 			
 			/* Notifico il client rimosso della rimozione, 
 			 * di modo che non mi veda più online.
@@ -311,6 +281,38 @@ public class ContactListManager {
 							/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
 //							return true; 
 						}
+			}
+			
+			
+			/* Preparo la richiesta di rimozione */
+			FriendshipRequest request = new FriendshipRequest(
+					FriendshipRequestType.REMOVE_FRIEND, 
+					myContact, 
+					friendContact);
+			
+			/* Rimuovo l'amico sul SIP */
+			try {
+
+				ClientEngine.getSIP().removeFriendship(request);
+				
+			} catch (RemoteException e1) {
+				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
+				System.err.println("Eccezione gestita: ");
+				e1.printStackTrace();
+				
+				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
+				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+				RequestToSIPListManager.addRequest(rtsip); 
+//				return false; 
+			} catch(Exception e2) {
+				System.err.println("Errore durante la richiesta di rimozione amicizia al SIP.");
+				System.err.println("Eccezione gestita: ");
+				e2.printStackTrace();
+				
+				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
+				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
+				RequestToSIPListManager.addRequest(rtsip); 
+//				return false; 
 			}
 			
 			return true; 

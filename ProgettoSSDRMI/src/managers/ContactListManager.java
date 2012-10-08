@@ -173,9 +173,16 @@ public class ContactListManager {
 		 */
 		public static synchronized boolean removeFromContactList(Contact friendContactToRemove) {
 			
-			if(friendContactToRemove == null) 
-				return false; 
+			System.err.println("ContactListManager.removeFromContactList: begin...");
 			
+			/* Verifico che il parametro in ingresso non sia null */
+			if(friendContactToRemove == null) {
+				System.err.println("[error] ContactListManager.removeFromContactList: null parameter!");
+				return false; 
+			}
+			
+			
+			/* Recupero i contatti */
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			
 			int friendID = friendContactToRemove.getID(); 
@@ -188,6 +195,9 @@ public class ContactListManager {
 			
 			int pos = 0; 
 			boolean found = false; 
+			
+			if(Status.DEBUG) 
+				System.err.println("Beginning contact removal...");
 			
 			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
 			
@@ -309,7 +319,7 @@ public class ContactListManager {
 						}
 			}
 			
-			System.err.println("Rimozione completata.");
+			System.err.println("ContactListManager.removeFromContactList: ended successfully.");
 			return true; 
 		}
 

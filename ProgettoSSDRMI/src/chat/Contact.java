@@ -18,7 +18,7 @@ public class Contact implements Serializable{
 	private String[][] LocalIPs = null;
 	
 	private boolean Temporary = true;
-	private boolean SendedFromSIP = false;
+	private boolean UpdatedFromSIP = false;
 	
 	public Contact(){
 		super();
@@ -199,13 +199,14 @@ public class Contact implements Serializable{
 		Temporary = temporary;
 	}
 
-	public boolean isSendedFromSIP() {
-		return SendedFromSIP;
+	public boolean isUpdatedFromSIP() {
+		return UpdatedFromSIP;
 	}
 
-	public void setSendedFromSIP(boolean sendedFromSIP) {
-		SendedFromSIP = sendedFromSIP;
+	public void setUpdatedFromSIP(boolean updatedFromSIP) {
+		UpdatedFromSIP = updatedFromSIP;
 	}
+
 	
 	
 	

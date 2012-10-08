@@ -285,7 +285,9 @@ public class ClientThread_FriendshipManager extends Thread {
 				
 				/* Invio la richiesta di amicizia */
 				if(clientInterface == null) {
-					return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
+//					return new RMISIPBasicResponseMessage(false, "Si è verificato un errore nel corso del reperimento dello stub del contatto.");
+					System.err.println("clientInterface == null (pertanto, invio l'amicizia al SIP)");
+					throw new Exception(); 
 				} else {
 					clientInterface.receiveFriendshipRequestFromContact(myContact);
 				}

@@ -38,16 +38,16 @@ public class OUTChatMessageListManager {
 		int temporaryClientTarget = -1;
 		boolean toNextUser = false;
 		ArrayList<Message> MessagesToDeliver = new ArrayList<Message>();
-		if(Status.DEBUG) System.out.println("*************************************************************");
+		if(Status.SUPER_DEBUG) System.out.println("*************************************************************");
 		
 		for(Message msg : OUT_ChatMessageList){
-			if(Status.DEBUG) System.out.println("MSG TO: "+msg.getTo()+"\tNum: "+msg.getProgressiveNum());
+			if(Status.SUPER_DEBUG) System.out.println("MSG TO: "+msg.getTo()+"\tNum: "+msg.getProgressiveNum());
 			
 			if(msg.getTo() != temporaryClientTarget){
 				//Sto gestendo un nuovo destinatario
 				if( (temporaryClientTarget > -1) && (MessagesToDeliver != null) && (MessagesToDeliver.size()>0)){
 					//Se ho già considerato altri utenti invio i messaggi
-					System.out.println("INVIO MESSAGGI VERSO: "+MessagesToDeliver.get(0).getTo());
+					if(Status.SUPER_DEBUG) System.out.println("INVIO MESSAGGI VERSO: "+MessagesToDeliver.get(0).getTo());
 					ClientThread_MessageSender cts = new ClientThread_MessageSender(MessagesToDeliver);
 					cts.start();
 					MessagesToDeliver = null;
@@ -91,37 +91,6 @@ public class OUTChatMessageListManager {
 			cts.start();
 			MessagesToDeliver = null;
 		}
-		
-		
-		
-//		while( (temporaryClientTarget < 0) || (OUT_ChatMessageList.size()>5) ){
-//			temporaryClientTarget = -1;
-//			MessagesToDeliver = new ArrayList<Message>();
-//			for(int i=0; i<OUT_ChatMessageList.size(); i++){
-//				Message msg = OUT_ChatMessageList.get(i);
-//				if(temporaryClientTarget<0){
-//					temporaryClientTarget = msg.getTo();
-//					System.out.println("Servo i messaggi verso l'utente: "+temporaryClientTarget);
-//				}
-//				if(msg.getTo() == temporaryClientTarget){
-//					System.out.println("In consegna: " +msg.getMessage());
-//					MessagesToDeliver.add(msg);
-//					//OUT_ChatMessageList.remove(msg);
-//					i--;
-//				}
-//					
-//				System.out.println("Deliver message - " + msg.getMessage());
-//			}
-//			
-//			
-//			
-//			ClientThread_MessageSender cts = new ClientThread_MessageSender(MessagesToDeliver);
-//			cts.start();
-//			
-//			System.err.println("Consegna di "+MessagesToDeliver.size()+" messaggi. Messaggi residui: "+OUT_ChatMessageList.size());
-//		}
-		
-		
 		return true;
 	}
 

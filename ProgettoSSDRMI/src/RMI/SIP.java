@@ -81,16 +81,16 @@ public class SIP implements SIPInterface{
 			throws RemoteException {
 
 		DBConnection dbConn = new DBConnection();
-		dbConn.addFriendship(request);
-		return null; 
+		boolean result = dbConn.addFriendship(request);
+		return new RMISIPBasicResponseMessage(result, "");
 	}
 	
 	
 	public synchronized RMISIPBasicResponseMessage removeFriendship(FriendshipRequest request) {
 		
 		DBConnection dbConn = new DBConnection();
-		dbConn.removeFriendship(request); 
-		return null;
+		boolean result = dbConn.removeFriendship(request); 
+		return new RMISIPBasicResponseMessage(result, "");
 	}
 
 	/**

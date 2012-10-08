@@ -196,7 +196,10 @@ public class ContactListManager {
 			int pos = 0; 
 			boolean found = false; 
 			
-			for(Contact contact : contactList) {
+			/* Itero su una copia della lista */
+			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone(); 
+			
+			for(Contact contact : contactListCopy) {
 				
 				if(found == true) 
 					break; 
@@ -211,6 +214,7 @@ public class ContactListManager {
 						
 						found = true; 
 						break;
+						
 					} catch(Exception e) {
 						System.err.println("Errore nel corso della rimozione di un contatto.");
 						e.printStackTrace(); 

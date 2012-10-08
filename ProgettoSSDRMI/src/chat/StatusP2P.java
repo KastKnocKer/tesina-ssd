@@ -101,7 +101,10 @@ public class StatusP2P {
 	public static synchronized void checkResponsesAboutMyContacts(){
 		Contact contact;
 		Contact tmpContact;
-		for(WhoisResponse whoisResp : whoisResponsesList){
+		
+		ArrayList<WhoisResponse> whoisResponsesListCopy = (ArrayList<WhoisResponse>) whoisResponsesList.clone();
+		
+		for(WhoisResponse whoisResp : whoisResponsesListCopy){
 			contact = whoisResp.getContact();
 			tmpContact = ContactListManager.searchContactById(contact.getID());
 			if(tmpContact == null)

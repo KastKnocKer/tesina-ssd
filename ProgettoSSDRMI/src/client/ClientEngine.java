@@ -84,7 +84,7 @@ public class ClientEngine {
 			ArrayList<Contact> contactList = response.getContactList();
 			if(contactList != null){
 				System.out.println("Contact list caricata dal Login: " +contactList.size());
-				ContactListManager.setContactList(contactList);
+				ContactListManager.addContactsFromSIPContactList(contactList);
 			}
 			
 			//Aggiorno i dati del LastLogin su Status
@@ -176,8 +176,9 @@ public class ClientEngine {
 		try {
 			if(Status.DEBUG) System.out.println("Client - Richiesta lista contatti al SIP");
 			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
+			
 			if(contacts != null){
-				ContactListManager.setContactList(contacts);
+				ContactListManager.addContactsFromSIPContactList(contacts);
 				response = true;
 			}
 		} catch (RemoteException e) {

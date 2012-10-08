@@ -318,7 +318,38 @@ public class ContactListManager {
 		
 		
 
+	public static void addContactsFromSIPContactList(ArrayList<Contact> SIPContactList){
+		if(SIPContactList == null)
+			return;
 		
+		for(Contact contact : SIPContactList){
+			Contact tmpContact = searchContactById(contact.getID());
+			if(tmpContact == null){
+				contact.setUpdatedFromSIP(true);
+				contact.setTemporary(false);
+				addToContactList(contact);
+			}else{
+				tmpContact.setUpdatedFromSIP(true);
+				tmpContact.setTemporary(false);
+				//Se il contatto NON è ONLINE o RAGGIUNGIBILE
+				if(!tmpContact.isConnected()){
+					tmpContact.setNickname(	contact.getNickname());
+					tmpContact.setGlobalIP(	contact.getGlobalIP());
+					tmpContact.setLocalIP(	contact.getLocalIP());
+				}
+			}
+		}
+		
+		//Elimino gli eventuali contatti che avevo ricevuto in passato dal SIP, ma di cui non ho ricevuto aggiornamento e che sono quindi da RIMUOVERE
+		Contact contact = null;
+		for(int i=0; i<contactList.size(); i++){
+			contact = contactList.get(i);
+			if((!contact.isTemporary()) && (!contact.isUpdatedFromSIP())){
+				contactList.remove(contact);
+				i--;
+			}
+		}
+	}
 		
 	
 

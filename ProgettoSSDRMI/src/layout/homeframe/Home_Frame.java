@@ -157,6 +157,7 @@ public class Home_Frame extends JFrame {
      	        	   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "Login"); 
      	        	   /* informo l'utente che la cosa è avvenuta con successo */
      	        	   JOptionPane.showMessageDialog(null, "Logout avvenuto con successo!", "Logout", JOptionPane.INFORMATION_MESSAGE);
+     	        	   Status.unbindClient();
                 	}
         		}
         		else if(result == JOptionPane.NO_OPTION)  {

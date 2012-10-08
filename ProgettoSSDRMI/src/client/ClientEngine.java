@@ -67,6 +67,7 @@ public class ClientEngine {
 		}
 		
 		if(response.isSUCCESS()){
+			Status.bindClient();
 			Status.setSIPStatusOnline(true);
 			//Aggiorno i dati personali
 			Status.setUserID(response.getLoggedContact().getID());
@@ -109,7 +110,6 @@ public class ClientEngine {
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);
-		Status.bindClient();
 		return response;
 	}
 	

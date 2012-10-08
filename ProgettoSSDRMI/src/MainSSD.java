@@ -2,6 +2,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import javax.swing.JOptionPane;
+
+import client.thread.ClientThread;
+import client.thread.ClientThread_SipRequestor;
 import managers.FileConfManager;
 import managers.Status;
 import utility.WhatIsMyIP;
@@ -32,7 +35,7 @@ public class MainSSD {
 //		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
 //		Status.unbindSIP();
-//		Status.unbindClient();
+		Status.unbindClient();
 		
 		
 		
@@ -93,10 +96,13 @@ public class MainSSD {
 			
 			
 		
-		
+		//Avvio i demoni
+		ClientThread ct = new ClientThread();
+		ct.start();
+		ClientThread_SipRequestor ctsr = new ClientThread_SipRequestor();
+		ctsr.start();
 		
 		return;
-
 	}
 	
 	

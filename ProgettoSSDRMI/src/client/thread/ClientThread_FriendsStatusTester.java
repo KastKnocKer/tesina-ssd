@@ -54,7 +54,8 @@ public class ClientThread_FriendsStatusTester extends Thread{
 				/* if false, non siamo amici: devo rimuoverlo! Ce l'ho per errore (probabilmente
 				 * il SIP è offline e l'ho caricato dai miei CONTACTS.xml */
 				else {
-					ContactListManager.removeFromContactList(rhay.getResponseContact()); 
+					if(!rhay.getResponseContact().isTemporary())
+						ContactListManager.removeFromContactList(rhay.getResponseContact()); 
 				}
 				
 			}

@@ -34,7 +34,7 @@ public class ContactListManager {
 	 * 
 	 * @param contactList
 	 */
-	public static void setContactList(ArrayList<Contact> contactList) {
+	public static synchronized void setContactList(ArrayList<Contact> contactList) {
 		//TODO aggiungere aggiornamento della tabella visuale
 		//todo Aggiungere aggiornamento friendlist
 		
@@ -60,7 +60,7 @@ public class ContactListManager {
 	 * Metodo per reperire la lista globale dei contatti. 
 	 * @return ArrayList dei contatti
 	 */
-	public static ArrayList<Contact> getContactList() {
+	public static synchronized ArrayList<Contact> getContactList() {
 		if(contactList == null) 
 			contactList = new ArrayList<Contact>(); 
 		
@@ -77,7 +77,7 @@ public class ContactListManager {
 	 * 
 	 *  @author Fabio Pierazzi
 	 */
-	public static Contact searchContactById(int contactID) {
+	public static synchronized Contact searchContactById(int contactID) {
 		
 		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
 		if(contactList == null) {
@@ -104,7 +104,7 @@ public class ContactListManager {
 	 * @return il contatto, se viene trovato; null, altrimenti
 	 */
 	
-		public static Contact searchContactByEmail(String email) {
+		public static synchronized Contact searchContactByEmail(String email) {
 		
 		/* Se la contactList è vuota quando si cerca di fare una ricerca... */
 		if(contactList == null) {
@@ -133,7 +133,7 @@ public class ContactListManager {
 		 * @param newContact da aggiungere
 		 * @author Fabio Pierazzi
 		 */
-		public static void addToContactList(Contact newContact) {
+		public static synchronized void addToContactList(Contact newContact) {
 			
 			/* Controllo che il contatto non sia già presente nella lista */
 			
@@ -170,7 +170,7 @@ public class ContactListManager {
 		 * 
 		 * @param removeId
 		 */
-		public static boolean removeFromContactList(Contact friendContact) {
+		public static synchronized boolean removeFromContactList(Contact friendContact) {
 			
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			
@@ -314,7 +314,7 @@ public class ContactListManager {
 		 * Aggiunge alla propria lista locale dei contatti gli aggiornamenti che giungono dal SIP
 		 * @param SIPContactList
 		 */
-		public static void addContactsFromSIPContactList(ArrayList<Contact> SIPContactList) {
+		public static synchronized void addContactsFromSIPContactList(ArrayList<Contact> SIPContactList) {
 			//Setto tutti i contatti locali come non aggiornati dal SIP
 			for(Contact contact : contactList){
 				contact.setUpdatedFromSIP(false);

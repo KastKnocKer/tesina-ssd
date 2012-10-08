@@ -641,7 +641,9 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 					|| 
 					
 					(actualFriendshipType == FriendshipType.RICHIESTA_BA 
-					&& requestedFriendshipType == FriendshipType.RICHIESTA_AB) ) 
+					&& requestedFriendshipType == FriendshipType.RICHIESTA_AB) 
+					
+					|| (actualFriendshipType == FriendshipType.ATTIVA)) 
 				{
 					requestedFriendshipType = FriendshipType.ATTIVA; 
 				}
@@ -694,6 +696,10 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 					prepSt.setInt(2, idMittente);
 					prepSt.setString(3, requestedFriendshipType.toString()); 	
 				}
+			}
+			else if (actualFriendshipType == FriendshipType.ATTIVA) {
+				System.err.println("*** Attenzione *** I due contatti sono già amici, perciò non faccio nulla.");
+				return true; 
 			}
 			/* se invece su DB era presente già uno stato dell'amicizia, allora
 			 * devo solamente eseguirne l'update */

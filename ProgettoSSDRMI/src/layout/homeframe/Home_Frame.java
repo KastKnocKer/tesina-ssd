@@ -217,8 +217,16 @@ public class Home_Frame extends JFrame {
 				ClientEngine.whois("biofrost88@gmail.com");
 			}
 		});
-		
 		debug.add(eMenuItem_whoisp2p);
+		
+		JMenuItem eMenuItem_unbindsip = new JMenuItem("Unbind SIP");
+		eMenuItem_unbindsip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Status.unbindSIP();
+			}
+		});
+		debug.add(eMenuItem_unbindsip);
+		
 		menubar.add(debug);
 	}
 }

@@ -59,7 +59,7 @@ public class ClientThread_FriendshipManager extends Thread {
 	public void run() {
 		
 		/* A seconda del parametro, specializzo */
-		System.err.println("Thread ClientThread_FriendshipManager: entrato");
+		System.err.println("Thread ClientThread_FriendshipManager: started");
 		
 		/*****************************
 		 * SEND FRIENDSHIP REQUEST
@@ -83,12 +83,13 @@ public class ClientThread_FriendshipManager extends Thread {
 		} else if(requestType == ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST) {
 			
 			System.err.println("Thread ClientThread_FriendshipManager: ACCEPT_FRIENDSHIP_REQUEST");
-				acceptFriendshipRequest(contattoMittente); 
+			acceptFriendshipRequest(contattoMittente); 
 		
 		/*****************************
 		 * SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) ) {
+			
 			System.err.println("Thread ClientThread_FriendshipManager: SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT");
 			showFriendshipRequestFromContact(contattoMittente); 
 			
@@ -96,6 +97,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * REMOVE_FRIEND
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.REMOVE_FRIEND) ) {
+			
+			System.err.println("Thread ClientThread_FriendshipManager: SEND_FRIENDSHIP_REQUEST_TO_SIP");
 			removeFriend(contattoDestinatario);
 		
 		/*****************************

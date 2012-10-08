@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
@@ -170,11 +171,14 @@ public class ContactListManager {
 		 * 
 		 * @param removeId
 		 */
-		public static synchronized boolean removeFromContactList(Contact friendContact) {
+		public static synchronized boolean removeFromContactList(Contact friendContactToRemove) {
+			
+			if(friendContactToRemove == null) 
+				return false; 
 			
 			Contact myContact = Status.getMyInfoIntoContact(); 
 			
-			int friendID = friendContact.getID(); 
+			int friendID = friendContactToRemove.getID(); 
 			
 			if(Status.DEBUG) 
 				System.err.println("Starting contact removal...");
@@ -185,7 +189,9 @@ public class ContactListManager {
 			int pos = 0; 
 			boolean found = false; 
 			
-			for(Contact contact : contactList) {
+			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
+			
+			for(Contact contact : contactListCopy) {
 				
 				if(found == true) 
 					break; 
@@ -196,7 +202,7 @@ public class ContactListManager {
 						found = true; 
 						break;
 					} catch(Exception e) {
-						System.err.println("Errore nel corso della rimozione di un contatto.");
+						System.err.println("Eccezione gestita: Errore nel corso della rimozione di un contatto.");
 						e.printStackTrace(); 
 						return false; 
 					}
@@ -207,10 +213,9 @@ public class ContactListManager {
 			
 			/* Se non l'ho trovato, ritorno */
 			if(found == false) {
-				System.err.println("Contatto " + friendContact.getEmail() + " non trovato. Rimozione interrotta.");
+				System.err.println("Contatto " + friendContactToRemove.getEmail() + " non trovato. Rimozione interrotta.");
 				return false; 
 			}
-			
 			
 
 			/* Aggiorno graficamente la tabella con la lista amici */
@@ -227,9 +232,8 @@ public class ContactListManager {
 			}
 			
 			
-			/* Mostro un messaggio di notifica dell'avvenuta rimozione con successo */
-			JOptionPane.showMessageDialog(null, "Il contatto " + friendContact.getNickname() + " ( " + 
-					friendContact.getEmail() + " )  è stato rimosso.", 
+			JOptionPane.showMessageDialog(null, "Il contatto " + friendContactToRemove.getNickname() + " ( " + 
+					friendContactToRemove.getEmail() + " )  è stato rimosso.", 
 					"Rimozione contatto", JOptionPane.INFORMATION_MESSAGE);
 			
 			if(Status.DEBUG) 
@@ -239,7 +243,7 @@ public class ContactListManager {
 			FriendshipRequest request = new FriendshipRequest(
 					FriendshipRequestType.REMOVE_FRIEND, 
 					myContact, 
-					friendContact);
+					friendContactToRemove);
 			
 			/* Rimuovo l'amico sul SIP */
 			try {
@@ -266,23 +270,21 @@ public class ContactListManager {
 //				return false; 
 			}
 			
-			
-			
 			/* Notifico il client rimosso della rimozione, 
 			 * di modo che non mi veda più online.
 			 * Lo notifico solo se lui non è OFFLINE. */
-			if(friendContact.getStatus() != ChatStatusList.OFFLINE) {
+			if(friendContactToRemove.getStatus() != ChatStatusList.OFFLINE) {
 				
 				ClientInterface client = null;
 				
 				/* se sono in LAN */
-				if(Status.getGlobalIP().equals(friendContact.getGlobalIP())) {
+				if(Status.getGlobalIP().equals(friendContactToRemove.getGlobalIP())) {
 					/* reperisco il client da rimuovere */
-					client = ClientEngine.getClient(friendContact.getLocalIP()); 
+					client = ClientEngine.getClient(friendContactToRemove.getLocalIP()); 
 				/* se invece NON sono in LAN */
 				} else {
 					/* reperisco il client da rimuovere */
-					client = ClientEngine.getClient(friendContact.getGlobalIP()); 
+					client = ClientEngine.getClient(friendContactToRemove.getGlobalIP()); 
 				}
 				
 					/* se ho reperito un client */
@@ -300,13 +302,14 @@ public class ContactListManager {
 								return true;
 							} 
 						} else {
-							System.err.println("Rimozione amico: " + friendContact.getNickname() + "; Problema nel reperimento del contatto.");
+							System.err.println("Rimozione amico: " + friendContactToRemove.getNickname() + "; Problema nel reperimento del contatto.");
 							
 							/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
 //							return true; 
 						}
 			}
 			
+			System.err.println("Rimozione completata.");
 			return true; 
 		}
 
@@ -345,7 +348,8 @@ public class ContactListManager {
 			ArrayList<Contact> contactListCopy = (ArrayList<Contact>) contactList.clone();
 			for(Contact contact : contactListCopy){
 				if(!contact.isTemporary() && !contact.isUpdatedFromSIP())
-					contactList.remove(contact);
+//					contactList.remove(contact);
+					removeFromContactList(contact); 
 			}
 		}
 

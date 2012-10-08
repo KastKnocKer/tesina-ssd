@@ -144,7 +144,12 @@ public class ContactListManager {
 			Contact searchedContact = ContactListManager.searchContactById(newContact.getID()); 
 			
 			if(searchedContact != null) {
-				System.err.println("Si sta cercando di aggiungere un contatto già presente");
+				System.err.println("Si sta cercando di aggiungere un contatto già presente; verrà eventualmente aggiornato");
+				if(!searchedContact.isConnected()){
+					searchedContact.setLocalIP(newContact.getLocalIP());
+					searchedContact.setGlobalIP(newContact.getGlobalIP());
+					searchedContact.setNickname(newContact.getNickname());
+				}
 				return; 
 			}
 			

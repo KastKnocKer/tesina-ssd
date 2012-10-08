@@ -210,7 +210,8 @@ public class ClientThread_FriendshipManager extends Thread {
 					 * dal Server SIP l'IP di un contatto data la sua Email. */
 					
 					futureFriend = ClientEngine.getSIP().whois(email); 
-					System.err.println("Fine (1) whois p2p al SIP");
+					System.err.println("Fine (1) whois al SIP");
+					
 				} catch (Exception e1) {
 					if(Status.DEBUG)
 						System.err.println("Timeout whois SIP per: " + email);
@@ -218,7 +219,7 @@ public class ClientThread_FriendshipManager extends Thread {
 					e.printStackTrace(); 
 				}
 				
-				System.err.println("Fine (2) whois p2p al SIP");
+				System.err.println("Fine (2) whois al SIP");
 			}
 			// TODO: fine whois p2p
 			

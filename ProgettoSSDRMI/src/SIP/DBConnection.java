@@ -449,7 +449,7 @@ public Contact getContactByEmail(String email) {
 	} catch (SQLException e) {
 		
 		if(Status.SUPER_DEBUG) 
-			System.out.println("SIP - getContactByEmail (" + email + "): SQLException occurred");
+			System.err.println("SIP - getContactByEmail (" + email + "): SQLException occurred");
 		
 		e.printStackTrace();
 		return null;

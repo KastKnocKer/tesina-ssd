@@ -31,7 +31,6 @@ import chat.Contact;
 
 public class FileContactsManager {
 
-	
 	/**
 	 * Scrive l'elenco contatti su File XML
 	 * @return
@@ -260,7 +259,7 @@ public class FileContactsManager {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Non è stato trovato il file temporaneo per il Login P2P.\nNon puoi effettuare il login.", "Tentativo di Login P2P", JOptionPane.ERROR_MESSAGE);
+			System.out.println("File CONTACTS.XML non trovato.");
 			return false;
 //			System.out.println("Client - readConfXML() exception FILE NOT FOUND");
 //			writeConfXML();

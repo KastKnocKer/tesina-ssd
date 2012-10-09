@@ -299,9 +299,6 @@ public class ContactListManager {
 								System.err.println("Non è stato possibile notificare il client della rimozione " +
 										"del contatto.");
 								e.printStackTrace();
-								
-								/* restituisco true perché comunque sono riuscito a rimuoverlo sul SIP */
-								return true;
 							} 
 						} else {
 							System.err.println("Rimozione amico: " + friendContact.getNickname() + "; Problema nel reperimento del contatto.");
@@ -340,7 +337,10 @@ public class ContactListManager {
 				System.err.println("Accodo richiesta di rimozione per re-invio al SIP.");
 				RequestToSIP rtsip = new RequestToSIP(RequestToSIPTypeList.FRIENDSHIP_REQUEST, request); 
 				RequestToSIPListManager.addRequest(rtsip); 
-//				return false; 
+
+				/* ritorno false se non sono riuscito a rimuoverlo sul SIP! */
+				return false; 
+				
 			}
 			
 			return true; 

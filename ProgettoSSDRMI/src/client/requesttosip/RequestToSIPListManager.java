@@ -37,6 +37,9 @@ public class RequestToSIPListManager {
 					/* Per tutte le richieste attualmente in coda... */
 					for(RequestToSIP requestToSIP_temp : RequestsToSIP_copy) {
 						
+						if(requestToSIP_temp.getRequestType() != RequestToSIPTypeList.FRIENDSHIP_REQUEST)
+							continue; 
+						
 						/* ... se si tratta di richieste di amicizia... */
 						if(requestToSIP_temp.getRequestType()  == RequestToSIPTypeList.FRIENDSHIP_REQUEST) {
 							
@@ -81,6 +84,9 @@ public class RequestToSIPListManager {
 					/* Per tutte le richieste attualmente in coda... */
 					for(RequestToSIP requestToSIP_temp : RequestsToSIP_copy) {
 					
+						if(requestToSIP_temp.getRequestType() != RequestToSIPTypeList.FRIENDSHIP_REQUEST)
+							continue; 
+						
 						FriendshipRequest request_temp = (FriendshipRequest) requestToSIP_temp.getRequestMessage();
 						
 						/* Se la richiesta esistente ha tipo ADD_FRIEND ... */
@@ -137,6 +143,9 @@ public class RequestToSIPListManager {
 					/* Per tutte le richieste attualmente in coda... */
 					for(RequestToSIP requestToSIP_temp : RequestsToSIP_copy) {
 					
+						if(requestToSIP_temp.getRequestType() != RequestToSIPTypeList.FRIENDSHIP_REQUEST)
+							continue; 
+						
 						FriendshipRequest request_temp = (FriendshipRequest) requestToSIP_temp.getRequestMessage();
 						
 						/* Se la richiesta esistente ha tipo ADD_FRIEND ... */

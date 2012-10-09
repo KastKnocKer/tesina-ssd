@@ -6,10 +6,11 @@ import managers.Status;
 import RMI.SIPInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
+import RMIMessages.RMISIPBasicResponseMessage;
 import RMIMessages.RequestLoginMessage;
 import RMIMessages.ResponseLoginMessage;
+import managers.FileContactsManager;
 import client.ClientEngine;
-import RMIMessages.*;
 
 public class RequestToSIPListManager {
 	
@@ -119,6 +120,8 @@ public class RequestToSIPListManager {
 								System.out.println("[Aggiunta FriendshipRequest FORCE_ADD_FRIEND]: Richiesta REMOVE_FRIEND già presente, " +
 										"la rimuovo in quanto non piùnecessaria e non aggiungo neanche la FORCE_ADD_FRIEND.");
 								RequestsToSIP.remove(requestToSIP_temp);
+								System.err.println("Updating XML Contacts file with requests modification...");
+								FileContactsManager.writeContactsXML();
 								return; 
 							}
 							
@@ -152,6 +155,8 @@ public class RequestToSIPListManager {
 									/* Ritorno senza aggiungere REMOVE, poiché non c'è bisogno */
 									System.out.println("[Aggiunta FriendshipRequest REMOVE_FRIEND]: Trovato ADD_FRIEND: lo rimuovo, e non aggiuno il REMOVE.");
 									RequestsToSIP.remove(requestToSIP_temp); 
+									System.err.println("Updating XML Contacts file with requests modification...");
+									FileContactsManager.writeContactsXML();
 									return; 
 							}
 							
@@ -165,6 +170,8 @@ public class RequestToSIPListManager {
 								/* non faccio niente: è già presente una richiesta "più forte" */
 								System.out.println("[Aggiunta FriendshipRequest REMOVE_FRIEND]: Trovato FORCE_ADD_FRIEND: lo rimuovo, e non aggiungo il REMOVE.");
 								RequestsToSIP.remove(requestToSIP_temp); 
+								System.err.println("Updating XML Contacts file with requests modification...");
+								FileContactsManager.writeContactsXML();
 								return; 
 							}
 							
@@ -191,6 +198,9 @@ public class RequestToSIPListManager {
 		 * questa nuova richiesta POSSO aggiungerla */
 		newRequestToSIP.setProgressiveNum(ProgressiveNum++);
 		RequestsToSIP.add(newRequestToSIP);
+		
+		System.err.println("Updating XML Contacts file with requests modification...");
+		FileContactsManager.writeContactsXML();
 		
 		if(Status.SUPER_DEBUG) 
 			System.err.println("[CLIENT] SUCCESSFULLY ENDED aggiunta richiesta in coda al SIP poichè offline: " + newRequestToSIP.getRequestType().toString());

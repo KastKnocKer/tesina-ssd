@@ -30,8 +30,10 @@ public class ClientThread_SipRequestor extends Thread {
 	
 	
 	public void run() {
-		index = 0;
+//		index = 0;
 		while(true){
+			
+			System.out.println("*** ClientThread_SipRequestor *** running...");
 			
 			try {
 				/* Ogni 5 secondi */
@@ -40,60 +42,17 @@ public class ClientThread_SipRequestor extends Thread {
 				e.printStackTrace(); System.out.println("ClientThread Exception");
 			}
 			
-			//Se non sono loggato skippo
-			if(!Status.isLOGGED()) 
-				continue;	
+			// TODO: se non sono loggato e skippo, significa che se anche torna online non gli mando neanche la richiesta di LOGIN
+//			// Se non sono loggato skippo
+//			if(!Status.isLOGGED()) 
+//				continue;	
 
-			//Invio le richieste al SIP ogni 60 secondi
-			if(index%12 == 0)		
+			// Invio le richieste al SIP ogni 60 secondi
+//			if(index%12 == 0)		
 				RequestToSIPListManager.sendRequests();
 			
-			index++;
-			
+//			index++;
 		}
 	}
 
 }
-
-//package client;
-//
-//import java.rmi.RemoteException;
-//import java.util.ArrayList;
-//
-//import managers.Status;
-//
-//import RMI.ClientInterface;
-//
-//import chat.Message;
-//
-//public class ClientThreadSender extends Thread{
-//
-//	private ArrayList<Message> MessagesToDeliver;
-//	
-//	public ClientThreadSender(ArrayList<Message> MessagesToDeliver){
-//		this.MessagesToDeliver = MessagesToDeliver;
-//	}
-//	
-//	
-//	public void run() {
-//		System.err.println("Start to send to: "+MessagesToDeliver.get(0).getTo());
-//		Message[] messagesToDeliver = new Message[MessagesToDeliver.size()];
-//		for(int i=0; i<MessagesToDeliver.size(); i++){
-//			messagesToDeliver[i] = MessagesToDeliver.get(i);
-//		}
-//		try {
-//			ClientInterface client = ClientEngine.getClient(messagesToDeliver[0].getTo());
-//			if(client == null){
-//				System.err.println("Messaggi non consegnati - (getClient() == null)");
-//				return;
-//			}
-//			client.sendMessageToContact(messagesToDeliver,Status.getGlobalIP(),Status.getLocalIP());
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	
-//
-//}

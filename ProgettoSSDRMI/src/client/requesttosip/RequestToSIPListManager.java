@@ -20,7 +20,7 @@ public class RequestToSIPListManager {
 	/**
 	 * Aggiunge alla lista una richiesta destinata al SIP
 	 */
-	public static synchronized void addRequest(RequestToSIP newRequestToSIP){
+	public static void addRequest(RequestToSIP newRequestToSIP){
 		if(Status.SUPER_DEBUG) 
 			System.err.println("[CLIENT] Starting aggiunta richiesta in coda al SIP poichè offline: "+newRequestToSIP.getRequestType().toString());
 		
@@ -209,7 +209,7 @@ public class RequestToSIPListManager {
 	/**
 	 * Rimuove una richiesta destinata al SIP dalla lista delle richieste
 	 */
-	public static synchronized void removeRequest(RequestToSIP rtsip){
+	public static void removeRequest(RequestToSIP rtsip){
 		
 		if(Status.SUPER_DEBUG) 
 			System.out.println("[CLIENT] Rimuovo richiesta dalla coda RICHIESTE OFFLINE del SIP: " +rtsip.getRequestType().toString());
@@ -220,7 +220,7 @@ public class RequestToSIPListManager {
 	/**
 	 * Risolve le richieste destinate al SIP
 	 */
-	public static synchronized void sendRequests(){
+	public static void sendRequests(){
 		if(Status.SUPER_DEBUG && RequestsToSIP.size()>0) System.out.println("[CLIENT] Tentativo richieste al SIP - Num richieste: "+RequestsToSIP.size());
 		
 		//Se la lista delle richieste è nulla ritorno

@@ -797,7 +797,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 	public boolean removeFriendship(FriendshipRequest request) {
 		
 		if(Status.DEBUG) 
-			System.out.println("DBConnection.removeFriendship: starting...");
+			System.err.println("DBConnection.removeFriendship: starting...");
 		
 		if(!connesso)
 			connetti(); 
@@ -820,6 +820,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 		if( idMittente < 0 || idDestinatario < 0 ) {
 			System.err.println("Eliminazione di amicizia: l'id di uno o più dei contatti forniti non è valido.");
+			System.err.println("DBConnection.removeFriendship: ended 'failing'."); 
 			return false; 
 		}
 			
@@ -852,7 +853,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 		
 		if(Status.DEBUG) 
-			System.out.println("DBConnection.removeFriendship: ended."); 
+			System.err.println("DBConnection.removeFriendship: ended."); 
 		
 		return true;
 	}

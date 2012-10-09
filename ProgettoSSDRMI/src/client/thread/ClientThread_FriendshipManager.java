@@ -130,8 +130,6 @@ public class ClientThread_FriendshipManager extends Thread {
 			
 			Contact futureFriend = null; 
 			
-			// TODO: whois p2p
-			
 			/* WHOIS p2p */
 			try {
 				
@@ -430,6 +428,8 @@ public class ClientThread_FriendshipManager extends Thread {
 	 */
 	private void showFriendshipRequestFromContact(Contact contattoRichiedente) {
 		
+		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
+		
 		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.getEmail() + " " +
 				"(IP: " + contattoRichiedente.getGlobalIP() + ")");
 		
@@ -440,38 +440,28 @@ public class ClientThread_FriendshipManager extends Thread {
                 JOptionPane.YES_NO_OPTION);
 		
 		if(result == JOptionPane.YES_OPTION) {
-			System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
+			if(Status.DEBUG)
+				System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
+			
+			/* Accetto la richiesta: aggiorno SIP ed informazioni dell'applicazione */
 			acceptFriendshipRequest(contattoRichiedente); 
 		}
 		else if(result == JOptionPane.NO_OPTION)  {
 			if(Status.DEBUG)
 				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
-			// TODO: Avvisa il SIP
-			// ClientEngine.getSIP().remove/refuseFriendship() (Do not notify the other client)
+			
+			/* Rifiuto la richiesta: avviso il SIP di rimuovere l'amicizia PENDING da DB */
+			refuseFriendshipRequest(contattoRichiedente);
 		}
 			
-		//		JFrame frame = new JFrame();
-//	    String message = "message";
-//	    int answer = JOptionPane.showConfirmDialog(frame, message);
-//	    if (answer == JOptionPane.YES_OPTION) {
-//	      // User clicked YES.
-//	    } else if (answer == JOptionPane.NO_OPTION) {
-//	      // User clicked NO.
-//	    }
-	    
-//		final JOptionPane optionPane = new JOptionPane(
-//			    "Hai ricevuto una richiesta di amicizia da " + contattoRichiedente.getNickname() + " ( " + contattoRichiedente.geteMail() + ". \n " +
-//			    		"Desideri accettare?",
-//			    JOptionPane.QUESTION_MESSAGE,
-//			    JOptionPane.YES_NO_OPTION);
-//		
-//		optionPane.setVisible(true); 
-		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
+		
+		
 	}
 	
 	/**
-	 * 
-	 * @param myContact
+	 * Metodo usato per accettare la richiesta di amicizia: aggiunge il contatto
+	 * all'elenco contatti e lo mostra all'interno della lista amici. 
+	 * @param contattoMittente, del quale voglio accettare la richiesta di amicizia
 	 */
 	private void acceptFriendshipRequest(Contact contattoMittente) {
 		
@@ -481,18 +471,12 @@ public class ClientThread_FriendshipManager extends Thread {
 		 * della tabella con la lista amici. */
 		ContactListManager.addToContactList(contattoMittente); 
 		
-//		FriendsList_Table table = LayoutReferences.getFriendsListTable();
-//		if(table != null) {
-//			table.updateTable(); 
-//		}
-		
 		/* Invio ack dell'amicizia al contatto, 
 		 * per fargli sapere che può aggiungermi. */
 		Contact myContact = Status.getMyInfoIntoContact(); 
 		
 		// TODO: cosa succede se mentre rispondo al contatto, questi finisce offline? FORCE_ADD_FRIEND al SIP?
 		try {
-			
 			
 			System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: sending notification to the other client... ");
 			
@@ -507,7 +491,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			
 		} catch (RemoteException e) {
 			System.err.println("Eccezione gestita: acceptFriendshipRequest: RemoteException while sending ack to contact");
-			e.printStackTrace();
+//			e.printStackTrace();
 		} 
 
 		System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: sending notification to SIP... ");
@@ -535,6 +519,29 @@ public class ClientThread_FriendshipManager extends Thread {
 	}
 	
 	
+	/**
+	 * Voglio rifiutare ESPLICITAMENTE la richiesta di amicizia. Cerco di informare
+	 * il SIP del fatto che se è presente un'amicizia PENDING su DB, questa va rimossa, 
+	 * di modo che ad ogni Login non mi chieda nuovamente se io voglio diventare suo amico. 
+	 *  
+	 * @param contattoMittente, del quale voglio RIFIUTARE la richiesta di amicizia
+	 */
+	private void refuseFriendshipRequest(Contact contattoMittente) {
+		System.err.println("ClientThread_FriendshipManager: refuseFriendshipRequest: starting...");
+		
+		/* Rimuovo per precauzione: se non c'è, non rimuove nulla */
+		ContactListManager.removeFromContactList(contattoMittente); 
+//		removeFriend(contattoMittente);
+		FriendshipRequest request = new FriendshipRequest(FriendshipRequestType.REMOVE_FRIEND, contattoMittente, Status.getMyInfoIntoContact()); 
+		try {
+			ClientEngine.getSIP().removeFriendship(request);
+		} catch (RemoteException e) {
+			System.err.println("ClientThread_FriendshipManager: refuseFriendshipRequest: errore durante la rimozione dell'amicizia su DB. Endend with Failure.");
+		}
+		System.err.println("ClientThread_FriendshipManager: refuseFriendshipRequest: successfully ended.");
+	}
+	
+	
 //	/**
 //	 * Funzione per aggiungere un nuovo amico all'interno della propria 
 //     * lista contatti. Il contatto viene aggiunto, e viene aggiornata la
@@ -551,8 +558,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		try {
 			ContactListManager.removeFromContactList(contactToRemove);
 		} catch(Exception e) {
-			System.err.println("Errore durante la rimozione del contatto.");
-			e.printStackTrace(); 
+			System.err.println("ClientThread_FriendshipManager: Errore durante la rimozione del contatto.");
+//			e.printStackTrace(); 
 		}
 		
 	}

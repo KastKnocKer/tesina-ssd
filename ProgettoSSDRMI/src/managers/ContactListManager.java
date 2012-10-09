@@ -238,7 +238,7 @@ public class ContactListManager {
 			
 			/* Se non l'ho trovato, ritorno */
 			if(found == false) {
-				System.err.println("Contatto " + friendContact.getEmail() + " non trovato. Rimozione interrotta.");
+				System.err.println("Contatto " + friendContact.getEmail() + " non trovato. Rimozione dalla ContactList interrotta.");
 				return false; 
 			}
 			

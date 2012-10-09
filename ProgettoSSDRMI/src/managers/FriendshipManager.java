@@ -90,24 +90,24 @@ public class FriendshipManager {
 		thread.start(); 
 	}
 	
-	/**
-	 * Accetto la richiesta di amicizia. 
-	 * @param contattoMittente di colui che ha inviato la richiesta inizialmente
-	 */
-	public static void acceptFriendshipRequest(Contact contattoMittente) {
-		
-		FriendshipRequest friendshipRequest = new FriendshipRequest(
-				null, 
-				contattoMittente, 
-				Status.getMyInfoIntoContact());
-		
-		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
-				ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST, 
-				friendshipRequest); 
-		
-		thread.start(); 
-	}
-	
+//	/**
+//	 * Accetto la richiesta di amicizia. 
+//	 * @param contattoMittente di colui che ha inviato la richiesta inizialmente
+//	 */
+//	public static void acceptFriendshipRequest(Contact contattoMittente) {
+//		
+//		FriendshipRequest friendshipRequest = new FriendshipRequest(
+//				null, 
+//				contattoMittente, 
+//				Status.getMyInfoIntoContact());
+//		
+//		ClientThread_FriendshipManager thread = new ClientThread_FriendshipManager(
+//				ClientThread_FriendshipManager_RequestTypes.ACCEPT_FRIENDSHIP_REQUEST, 
+//				friendshipRequest); 
+//		
+//		thread.start(); 
+//	}
+//	
 	/**
 	 * Funzione per aggiungere un nuovo amico all'interno della propria 
      * lista contatti. Il contatto viene aggiunto, e viene aggiornata la

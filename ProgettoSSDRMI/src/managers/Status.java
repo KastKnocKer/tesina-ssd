@@ -32,7 +32,7 @@ public class Status {
 	
 	private static boolean LOGGED = false;
 	private static boolean LOGGEDP2P = false;
-	public final static boolean DEBUGINLAN = false;
+	public final static boolean DEBUGINLAN = true;
 	public final static boolean DEBUG = true;
 	public final static boolean SUPER_DEBUG = true; 
 	public final static int TYPE_SIP = 			0;

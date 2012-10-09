@@ -559,7 +559,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			ContactListManager.removeFromContactList(contactToRemove);
 		} catch(Exception e) {
 			System.err.println("ClientThread_FriendshipManager: Errore durante la rimozione del contatto.");
-//			e.printStackTrace(); 
+			e.printStackTrace(); 
 		}
 		
 	}

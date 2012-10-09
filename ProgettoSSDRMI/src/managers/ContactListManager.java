@@ -339,8 +339,7 @@ public class ContactListManager {
 				RequestToSIPListManager.addRequest(rtsip); 
 
 				/* ritorno false se non sono riuscito a rimuoverlo sul SIP! */
-				return false; 
-				
+				return true; 
 			}
 			
 			return true; 

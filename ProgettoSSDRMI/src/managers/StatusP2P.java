@@ -1,10 +1,12 @@
-package chat;
+package managers;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import managers.ContactListManager;
+import chat.Contact;
+import chat.WhoisResponse;
+
 
 public class StatusP2P {
 	private static final int NUM_MAX_REQUEST_LIST = 30;

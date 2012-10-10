@@ -7,10 +7,10 @@ import client.ClientEngine;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
+import managers.StatusP2P;
 
 import chat.Contact;
 import chat.Message;
-import chat.StatusP2P;
 
 /**
  * Thread avviato per l'intera durata dell'esecuzione della chat per gestire più operazioni

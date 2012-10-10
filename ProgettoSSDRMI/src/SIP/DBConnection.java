@@ -583,6 +583,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		String emailMittente = request.getContattoMittente().getEmail();
 		String emailDestinatario = request.getContattoDestinatario().getEmail();
 		
+		System.out.println("DBConnection.addFriendship: mittente (" + emailMittente + "), desinatario (" + emailDestinatario + ")");
 		if(checkContactExistence(emailMittente) == false ||
 				checkContactExistence(emailDestinatario) == false) {
 			System.err.println("DBConnection.addFriendship: uno dei due contatti non esiste.");
@@ -609,7 +610,12 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		 * (idUserA < idUserB deve valere sempre) */
 		if(actualFriendshipType == null) {
 			
+			System.out.println("DBConnection.addFriendship: actualFriendshipType == null ");
+			
 			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND) {
+				
+				System.out.println("DBConnection.addFriendship: actualFriendshipType == null - ADD_FRIEND");
+				
 				
 				if(idMittente < idDestinatario) 
 					requestedFriendshipType = FriendshipType.RICHIESTA_AB; 
@@ -618,13 +624,18 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 				
 			} else if(request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
 				
+				System.out.println("DBConnection.addFriendship: actualFriendshipType == null - FORCE_ADD_FRIEND");
 					requestedFriendshipType = FriendshipType.ATTIVA; 
 			}
 			
 		/* Se invece fra i due contatti esiste una relazione */
 		} else if(actualFriendshipType != null) {
 			
+			System.out.println("DBConnection.addFriendship: actualFriendshipType != null");
+			
 			if(request.getRequestType() == FriendshipRequestType.ADD_FRIEND) {
+				
+				System.out.println("DBConnection.addFriendship: actualFriendshipType != null - ADD_FRIEND");
 				
 				if(idMittente < idDestinatario) 
 					requestedFriendshipType = FriendshipType.RICHIESTA_AB; 
@@ -650,6 +661,8 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 				
 			} else if(request.getRequestType() == FriendshipRequestType.FORCE_ADD_FRIEND) {
 				
+				System.out.println("DBConnection.addFriendship: actualFriendshipType != null - FORCE_ADD_FRIEND");
+				
 					requestedFriendshipType = FriendshipType.ATTIVA; 
 			}
 			
@@ -660,6 +673,7 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		if(actualFriendshipType != null) {
 			actualFriendshipType_string = actualFriendshipType.toString(); 
 		}
+		
 		System.err.println("actualFriendshipType: " + 
 				actualFriendshipType_string + "; " +
 				"requestedFriendshipType: " + requestedFriendshipType.toString());

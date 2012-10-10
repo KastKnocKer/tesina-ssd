@@ -66,6 +66,7 @@ public class MainSSD {
 		if(Status.isDebuginlan()){
 			if(Status.getLocalIP() != null){
 				System.setProperty("java.rmi.server.hostname", Status.getLocalIP());
+				System.setProperty("java.rmi.server.useLocalHostname","false");
 			}else
 				System.err.println("IP NON VALIDO!!!!");
 		}else{

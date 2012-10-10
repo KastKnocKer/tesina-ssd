@@ -38,7 +38,8 @@ public class MainSSD {
     		System.out.println("Attenzione: rmid e rmiregistry non trovati!");
     	}
 		
-		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
+//"java.rmi.server.useCodebaseOnly"
+//		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
 //		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
 		Status.unbindSIP();
@@ -59,6 +60,7 @@ public class MainSSD {
 //		Status.setGlobalIP("0.0.0.0");
 		Status.setLocalIP(wimi.getStdLocalIP(LANDomain));
 		System.out.println("STATUS IPs: Global:"+Status.getGlobalIP()+"  Local:"+Status.getLocalIP());
+		
 		
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
 		 * mettendo l'IP globale al posto dell'ip locale. 
@@ -93,6 +95,8 @@ public class MainSSD {
 		//	Carico i dati locali
 		FileConfManager.readConfXML();	//File locale di configurazione
 		
+		System.setProperty("java.rmi.server.codebase", "http://"+Status.getSIPAddress()+":8080/ssd/");		// Repository FABIO
+		System.out.println("http://"+Status.getSIPAddress()+":8080/ssd/");
 		System.err.println("CLIENT TYPE: "+Status.getType());
 		
 		if( Status.getType() == Status.TYPE_SIP ){

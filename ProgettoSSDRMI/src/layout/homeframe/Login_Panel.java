@@ -94,7 +94,9 @@ public class Login_Panel extends JPanel {
 	       loginButton = new JButton("Login");
 	       loginButton.addActionListener(new ActionListener() {
 	    	   public void actionPerformed(ActionEvent event) {
-	    		  
+	    		   Status.setLastLoginUsername(textField_username.getText());
+	    		   Status.setLastLoginPassword(textField_password.getText());
+	    		   
 	    		   	/* Login */
 	    		   ResponseLoginMessage rlm = ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()),false);
 	    			   if( rlm.isSUCCESS() ){

@@ -155,6 +155,9 @@ public class Home_Frame extends JFrame {
                 		/* rimostro la schermata di login */
      	        	   JPanel cardsPanel = LayoutReferences.getHomeFrame_CardPanel(); 
      	        	   ((CardLayout) cardsPanel.getLayout()).show(cardsPanel, "Login"); 
+     	        	   
+     	        	  LayoutReferences.getHomeFrame().show_HomeFrame_LoginMenuBar();
+     	        	  
      	        	   /* informo l'utente che la cosa è avvenuta con successo */
      	        	   JOptionPane.showMessageDialog(null, "Logout avvenuto con successo!", "Logout", JOptionPane.INFORMATION_MESSAGE);
      	        	   Status.unbindClient();

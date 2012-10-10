@@ -221,6 +221,7 @@ public class Status {
 			client = new Client();
 		}
 		System.out.println("*** Client binding ***");
+		unbindClient();
 		try {
             ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
             // Registro il SIP nel RMIREGISTRY

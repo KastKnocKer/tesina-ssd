@@ -24,6 +24,9 @@ public class MainSSD {
 	 * Serve per discriminare tra le diverse interfacce di rete, quale utilizzare
 	 */
 	public static final String LANDomain = "192.168.43.";
+	
+	public static final String CODEBASEURL = "file:///D:/Dropbox/Public/SSD/";
+	
 	/**
 	 * @param args
 	 */
@@ -38,9 +41,9 @@ public class MainSSD {
     		System.out.println("Attenzione: rmid e rmiregistry non trovati!");
     	}
 		
-//"java.rmi.server.useCodebaseOnly"
-//		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
-//		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
+		System.setProperty("java.rmi.server.codebase", CODEBASEURL);		// Repository FABIO
+		//		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
+		//		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
 		Status.unbindSIP();
 		Status.unbindClient();
@@ -95,7 +98,9 @@ public class MainSSD {
 		//	Carico i dati locali
 		FileConfManager.readConfXML();	//File locale di configurazione
 		
-		System.setProperty("java.rmi.server.codebase", "http://"+Status.getSIPAddress()+":8080/ssd/");		// Repository FABIO
+//		System.setProperty("java.rmi.server.codebase", "http://"+Status.getSIPAddress()+":8080/ssd/");		// Repository FABIO
+		
+		
 		System.out.println("http://"+Status.getSIPAddress()+":8080/ssd/");
 		System.err.println("CLIENT TYPE: "+Status.getType());
 		

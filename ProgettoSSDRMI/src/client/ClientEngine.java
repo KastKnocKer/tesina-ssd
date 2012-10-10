@@ -39,6 +39,8 @@ import client.thread.ClientThread_WhoisRequestor;
 public class ClientEngine {
 	
 	public static ResponseLoginMessage Login(String username, String password, boolean calledFromSendRequestToSIP) {
+		Status.setLastLoginUsername(username);
+		Status.setLastLoginPassword(password);
 		ResponseLoginMessage response = null;
 		//Login mediante server SIP
 		if(Status.DEBUG) System.out.println("[CLIENT] Tentativo di login username: "+username+" password: "+password);

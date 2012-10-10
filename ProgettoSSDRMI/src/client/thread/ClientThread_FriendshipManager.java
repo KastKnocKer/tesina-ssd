@@ -260,7 +260,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			try {
 				
 				/* Recupero lo stub del client */
-				if(Status.getGlobalIP().equals(futureFriend.getGlobalIP())) {
+				if(Status.getGlobalIP() == null || Status.getGlobalIP().equals(futureFriend.getGlobalIP())) {
 
 					if(Status.DEBUG)
 						System.err.println("Chiedo amicizia a " + futureFriend.getLocalIP() + " nella mia Lan");
@@ -497,7 +497,7 @@ public class ClientThread_FriendshipManager extends Thread {
 			System.err.println("ClientThread_FriendshipManager: acceptFriendshipRequest: sending notification to the other client... ");
 			
 			/* se sono in lan */
-			if(contattoMittente.getGlobalIP().equals(Status.getGlobalIP())) 
+			if(contattoMittente.getGlobalIP() == null || contattoMittente.getGlobalIP().equals(Status.getGlobalIP())) 
 				ClientEngine.getClient(contattoMittente.getLocalIP()).receiveFriendshipAckFromContact(myContact);
 			/* se non sono in lan */
 			else

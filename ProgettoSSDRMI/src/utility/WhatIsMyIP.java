@@ -78,7 +78,7 @@ public class WhatIsMyIP {
         public String getStdLocalIP(){
         	String[][] localIPs = this.getLocalIPs();
 			for(int i=0; i<localIPs.length; i++){
-				if(localIPs[i][0].startsWith("192.168.43.")){
+				if(localIPs[i][0].startsWith("192.168.1.")){
 					return localIPs[i][0];
 				}
 			}

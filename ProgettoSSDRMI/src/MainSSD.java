@@ -25,7 +25,7 @@ public class MainSSD {
 	 */
 	public static final String LANDomain = "192.168.43.";
 	
-	public static final String CODEBASEURL = "file:///D:/Dropbox/Public/SSD/";
+	public static final String CODEBASEURL = "file:///D:/Programmazione/Workspace-Tesina-SSD/ProgettoSSDRMI/bin/";
 	
 	/**
 	 * @param args

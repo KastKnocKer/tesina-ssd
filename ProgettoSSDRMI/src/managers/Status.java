@@ -140,7 +140,7 @@ public class Status {
 	public static void setCognome(String cognome) {							Cognome = cognome;	}
 	public static void setEmail(String email) {								Email = email;	}
 	public static void setGlobalIP(String globalIP) {
-		if(globalIP == null)
+		if(globalIP == null || globalIP.equals("null"))
 			globalIP = new String("0.0.0.0");
 		else
 			GlobalIP = globalIP;

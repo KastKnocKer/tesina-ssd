@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS USER(
 
 CREATE TABLE IF NOT EXISTS USERSTATUS(
 	idUser int(11) not null,
-	publicIP varchar(20) not null,
+	publicIP varchar(20) not null default '',
 	localIP varchar(20) not null default '',
 	rmiregistryPort int(11) not null default 1099,
 	clientPort int(11) not null default 1102,

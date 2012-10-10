@@ -220,9 +220,11 @@ public class Status {
 	}
 	
 	public static boolean bindClient(){
-		if(client == null){
-			client = new Client();
-		}
+		//rimuovo l'eventuale client
+		unbindClient();
+		//Creo un nuovo oggetto remoto
+		client = new Client();
+		
 		System.out.println("*** Client binding ***");
 		try {
             ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
@@ -233,10 +235,10 @@ public class Status {
             System.out.println("*** Client obj ready ***");
             return true;
 		} catch (Exception e) {
-            System.out.println("Client obj exception:\n" + e.toString());
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
+            System.err.println("[CLIENT] Status.bindClient(): Client obj exception: "+e.getMessage());
+            return false;
 		}
-		return false;
+		
 	}
 	
 	public static boolean unbindClient(){

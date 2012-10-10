@@ -9,12 +9,12 @@ import layout.friendslist.FriendsList_Table;
 import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
+import managers.StatusP2P;
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
-import chat.StatusP2P;
 import client.ClientEngine;
 import client.requesttosip.*;
 

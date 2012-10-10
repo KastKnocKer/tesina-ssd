@@ -7,6 +7,7 @@ import client.ClientEngine;
 
 import managers.ContactListManager;
 import managers.Status;
+import managers.StatusP2P;
 
 import utility.Counter;
 
@@ -17,7 +18,6 @@ import RMIMessages.ResponseHowAreYou;
 import chat.ChatStatusList;
 import chat.Contact;
 import chat.Message;
-import chat.StatusP2P;
 
 /**
  * Thread che si occupa dell'invio delle richieste per il whois P2P

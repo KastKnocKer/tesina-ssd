@@ -75,10 +75,10 @@ public class WhatIsMyIP {
         /**
          * Ritorna l'ip locale standard delle LAN
          */
-        public String getStdLocalIP(){
+        public String getStdLocalIP(String startsWith){
         	String[][] localIPs = this.getLocalIPs();
 			for(int i=0; i<localIPs.length; i++){
-				if(localIPs[i][0].startsWith("192.168.1.")){
+				if(localIPs[i][0].startsWith(startsWith)){
 					return localIPs[i][0];
 				}
 			}

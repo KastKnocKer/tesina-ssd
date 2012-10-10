@@ -18,6 +18,12 @@ import RMI.SIPInterface;
  *
  */
 public class MainSSD {
+	
+	/**
+	 * Questa variabile rappresenta la parte iniziale dell'IP della lan da considerare
+	 * Serve per discriminare tra le diverse interfacce di rete, quale utilizzare
+	 */
+	public static final String LANDomain = "192.168.43.";
 	/**
 	 * @param args
 	 */
@@ -51,7 +57,7 @@ public class MainSSD {
 		Status.setGlobalIP(wimi.getGlobalIP());
 		//TODO REMOVE
 //		Status.setGlobalIP("0.0.0.0");
-		Status.setLocalIP(wimi.getStdLocalIP());
+		Status.setLocalIP(wimi.getStdLocalIP(LANDomain));
 		System.out.println("STATUS IPs: Global:"+Status.getGlobalIP()+"  Local:"+Status.getLocalIP());
 		
 		/** Riga di codice necessaria a far funzionare il tutto su Internet, 
@@ -73,7 +79,7 @@ public class MainSSD {
 		
 		
 		
-		Status.setLocalIP(wimi.getStdLocalIP());
+		Status.setLocalIP(wimi.getStdLocalIP(LANDomain));
 		if(Status.SUPER_DEBUG){
 			System.out.println("My GLOBAL IP: "+Status.getGlobalIP());
 			String[][] localIPs = wimi.getLocalIPs();

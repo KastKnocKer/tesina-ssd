@@ -227,6 +227,14 @@ public class Home_Frame extends JFrame {
 		});
 		debug.add(eMenuItem_unbindsip);
 		
+		JMenuItem eMenuItem_bindsip = new JMenuItem("Bind SIP");
+		eMenuItem_bindsip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				Status.bindSIP();
+			}
+		});
+		debug.add(eMenuItem_unbindsip);
+		
 		JMenuItem eMenuItem_loadContactFromSIP = new JMenuItem("Load contact from SIP");
 		eMenuItem_loadContactFromSIP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {

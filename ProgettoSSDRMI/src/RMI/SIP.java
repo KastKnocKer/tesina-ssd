@@ -22,9 +22,9 @@ public class SIP implements SIPInterface{
 
 	public SIP() {super();}
 	
-	public String sayHello() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public boolean areYouAliveSIP() throws RemoteException {
+		return true;
 	}
 
 	public boolean imAlive(RMIBasicMessage msg) throws RemoteException {

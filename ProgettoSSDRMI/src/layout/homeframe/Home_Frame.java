@@ -233,7 +233,7 @@ public class Home_Frame extends JFrame {
 				Status.bindSIP();
 			}
 		});
-		debug.add(eMenuItem_unbindsip);
+		debug.add(eMenuItem_bindsip);
 		
 		JMenuItem eMenuItem_loadContactFromSIP = new JMenuItem("Load contact from SIP");
 		eMenuItem_loadContactFromSIP.addActionListener(new ActionListener() {

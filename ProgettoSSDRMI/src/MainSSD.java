@@ -49,6 +49,8 @@ public class MainSSD {
 		//	Acquisisco i miei indirizzi IP e li carico sulla classe Status
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		Status.setGlobalIP(wimi.getGlobalIP());
+		//TODO CANCELLAREEEE
+		Status.setGlobalIP(null);
 		Status.setLocalIP(wimi.getStdLocalIP());
 		System.out.println("STATUS IPs: Global:"+Status.getGlobalIP()+"  Local:"+Status.getLocalIP());
 		

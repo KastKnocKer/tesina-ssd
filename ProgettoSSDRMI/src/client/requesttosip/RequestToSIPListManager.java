@@ -248,12 +248,13 @@ public class RequestToSIPListManager {
 		
 		if(sip == null){
 			for(RequestToSIP req : RequestsToSIP)
-				System.out.println("--> RequestToSIP : "+req.getRequestType());
+				System.out.println("--> RequestToSIP : " + req.getRequestType());
 			return; 
 		}
 			
+		ArrayList<RequestToSIP>  RequestsToSIP_copy  = (ArrayList<RequestToSIP>) RequestsToSIP.clone(); 
 		
-		for(RequestToSIP req : RequestsToSIP){
+		for(RequestToSIP req : RequestsToSIP_copy){
 			try{
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
 					

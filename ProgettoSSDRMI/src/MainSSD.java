@@ -50,7 +50,7 @@ public class MainSSD {
 		WhatIsMyIP wimi = new WhatIsMyIP();
 		Status.setGlobalIP(wimi.getGlobalIP());
 		//TODO REMOVE
-		Status.setGlobalIP("0.0.0.0");
+//		Status.setGlobalIP("0.0.0.0");
 		Status.setLocalIP(wimi.getStdLocalIP());
 		System.out.println("STATUS IPs: Global:"+Status.getGlobalIP()+"  Local:"+Status.getLocalIP());
 		

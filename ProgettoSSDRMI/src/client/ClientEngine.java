@@ -164,8 +164,8 @@ public class ClientEngine {
 		try {
 			if(Status.DEBUG) System.out.println("[CLIENT] Tentativo registrazione nuovo utente: "+nome+", "+cognome+", "+email+", "+nickname+", ["+password+"]");
 			response = getSIP().register(nome, cognome, email, nickname, password);
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.RegisterNewAccount() exception", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Non è stato possibile procedere alla registrazione.\nIl server SIP potrebbe essere offline.\nRitenta più tardi.", "Registrazione nuovo account", JOptionPane.WARNING_MESSAGE);
 			//System.err.println("ClientEngine.Login() exception: " + e.toString());
 			//e.printStackTrace();
 		}
@@ -482,14 +482,17 @@ public class ClientEngine {
 		} catch (RemoteException e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
 			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
+			return null;
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
 			System.err.println("[CLIENT] ClientEngine.getClient() NotBoundException: " + e.toString());
+			return null;
 			//e.printStackTrace();
 		} catch (Exception e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() Exception", JOptionPane.ERROR_MESSAGE);
 			System.err.println("[CLIENT] ClientEngine.getClient() Exception: " + e.toString());
+			return null;
 			//e.printStackTrace();
 		}
 		

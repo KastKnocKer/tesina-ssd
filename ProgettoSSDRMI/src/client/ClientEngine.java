@@ -458,11 +458,13 @@ public class ClientEngine {
 			userID = client.whatIsYourID(new RMIBasicMessage());
 		} catch (RemoteException e) {
 			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
+			contact.setStatus(ChatStatusList.OFFLINE);
 			return null;
 		}
 		
 		if(userID != ContactUserID ){
 			System.err.println("[CLIENT] ClientEngine.getClient("+ContactUserID+"): l'utente contattato ha id "+userID);
+			contact.setStatus(ChatStatusList.OFFLINE);
 			return null;
 		}
 		

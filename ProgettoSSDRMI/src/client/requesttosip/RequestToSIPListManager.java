@@ -259,8 +259,12 @@ public class RequestToSIPListManager {
 				if(req.getRequestType() == RequestToSIPTypeList.LOGIN){
 					
 					RequestLoginMessage rlm = (RequestLoginMessage) req.getRequestMessage();
-					ResponseLoginMessage resplm = ClientEngine.Login(rlm.getUsername(), rlm.getPassword());
+					ResponseLoginMessage resplm = ClientEngine.Login(rlm.getUsername(), rlm.getPassword(),true);
+					
+					System.err.println("RESPLMN = "+resplm+"  -  Success: "+resplm.isSUCCESS());
+					
 					if(resplm != null && resplm.isSUCCESS()){
+						System.err.println("[CLIENT] RequestToSIPListManager.sendRequests(): rimozione richiesta Login().");
 						RequestsToSIP.remove(req);
 					}
 					
@@ -297,7 +301,7 @@ public class RequestToSIPListManager {
 				
 				
 			}catch(Exception e){
-				System.err.println("[CLIENT] Eccezione gestita: TENTATIVO INVIO RICHIESTE AL SIP OFFLINE");
+				System.err.println("[CLIENT] RequestToSIPListManager - Eccezione gestita: TENTATIVO INVIO RICHIESTE AL SIP OFFLINE");
 				e.printStackTrace(); 
 			}
 			

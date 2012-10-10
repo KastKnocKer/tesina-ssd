@@ -143,9 +143,12 @@ public class Status {
 	public static void setSIP_Address(String sIP_Address) {					SIP_Address = sIP_Address;	}
 	public static void setSIP_Port(int sIP_PORT) {							SIP_Port = sIP_PORT;	}
 
-	public static void setSIPStatusOnline(boolean sIPStatusOnline) {
-		SIPStatusOnline = sIPStatusOnline;
-		System.out.println("SET SIP STATUS ONLINE: "+sIPStatusOnline);
+	public static void setSIPStatusOnline(boolean newSIPStatusOnline) {
+		if(SIPStatusOnline == newSIPStatusOnline)
+			return;
+		SIPStatusOnline = newSIPStatusOnline;
+		JOptionPane.showMessageDialog(null, "SIP ONLINE: "+SIPStatusOnline, "SIP status", JOptionPane.INFORMATION_MESSAGE);
+		System.out.println("SET SIP STATUS ONLINE: "+SIPStatusOnline);
 	}
 	
 	public static void setStato(ChatStatusList stato) {						Stato = stato;	}
@@ -221,7 +224,6 @@ public class Status {
 			client = new Client();
 		}
 		System.out.println("*** Client binding ***");
-		unbindClient();
 		try {
             ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
             // Registro il SIP nel RMIREGISTRY

@@ -38,7 +38,7 @@ import client.thread.ClientThread_WhoisRequestor;
 
 public class ClientEngine {
 	
-	public static ResponseLoginMessage Login(String username, String password) {
+	public static ResponseLoginMessage Login(String username, String password, boolean calledFromSendRequestToSIP) {
 		ResponseLoginMessage response = null;
 		//Login mediante server SIP
 		if(Status.DEBUG) System.out.println("[CLIENT] Tentativo di login username: "+username+" password: "+password);
@@ -77,7 +77,8 @@ public class ClientEngine {
 				FileContactsManager.readContactsXML();
 			
 			//Invio le richieste al SIP
-			RequestToSIPListManager.sendRequests();
+			if(!calledFromSendRequestToSIP)
+				RequestToSIPListManager.sendRequests();
 			
 //			//Controllo se è stata inviata anche la lista dei contatti
 //			ArrayList<Contact> contactList = response.getContactList();
@@ -106,6 +107,7 @@ public class ClientEngine {
 			}
 			
 			LoadContactsFromSIP();
+			
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);

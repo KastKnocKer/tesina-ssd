@@ -597,7 +597,6 @@ public boolean updateContactConnectionStatus(int UserID, String PublicIP, String
 		
 		PreparedStatement prepSt = null;
 
-
 		/* Recupero da DB lo stato attuale della richiesta di amicizia 
 		 * (potrebbe anche essere null, se non hanno alcun tipo di relazione. */
 		FriendshipType actualFriendshipType = getFriendshipTypeBetweenContacts_FromDB(request); 

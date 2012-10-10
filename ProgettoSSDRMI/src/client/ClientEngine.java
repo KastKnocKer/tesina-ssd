@@ -365,7 +365,7 @@ public class ClientEngine {
 			return null;
 		try {
 			
-			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
+			if(contact.getGlobalIP() == null || contact.getGlobalIP().equals(Status.getGlobalIP())){
 				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClientWithoutOfflineControl() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
 				IP = contact.getLocalIP();
 			}else{
@@ -450,7 +450,7 @@ public class ClientEngine {
 		ClientInterface client = null;
 		try {
 			
-			if(contact.getGlobalIP().equals(Status.getGlobalIP())){
+			if(contact.getGlobalIP() == null || contact.getGlobalIP().equals(Status.getGlobalIP())){
 				if(Status.DEBUG) System.out.println("[CLIENT] Tentativo ClientInterface.getClient() Client: "+contact.getLocalIP()+":"+contact.getClient_Port());
 				IP = contact.getLocalIP();
 			}else{

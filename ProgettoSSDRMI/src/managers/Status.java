@@ -10,12 +10,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import layout.homeframe.Home_Frame;
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
 import client.thread.ClientThread;
 import client.thread.ClientThread_SipRequestor;
 import RMI.Client;
 import RMI.ClientInterface;
 import RMI.SIP;
 import RMI.SIPInterface;
+import RMIMessages.RequestLoginMessage;
+import RMIMessages.ResponseLoginMessage;
 import chat.ChatStatusList;
 import chat.Contact;
 
@@ -66,7 +71,7 @@ public class Status {
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
 	private static String Email = "";
-	private static String SIP_Address = "192.168.1.112";	//"kastknocker.no-ip.biz";
+	private static String SIP_Address = "192.168.1.103";	//"kastknocker.no-ip.biz";
 	private static String LastLoginUsername = "biofrost88@gmail.com";
 	private static String LastLoginPassword = "bio";
 	
@@ -154,6 +159,13 @@ public class Status {
 		SIPStatusOnline = newSIPStatusOnline;
 		JOptionPane.showMessageDialog(null, "SIP ONLINE: "+SIPStatusOnline, "SIP status", JOptionPane.INFORMATION_MESSAGE);
 		System.out.println("SET SIP STATUS ONLINE: "+SIPStatusOnline);
+		if(SIPStatusOnline){
+			//Era offline e ora è online
+		}else{
+			//il SIP è andato OFFLINE
+			//Aggiungo la richiesta asincrona al SIP per conttattarlo appena torna online
+			RequestToSIPListManager.addRequest(new RequestToSIP(RequestToSIPTypeList.LOGIN, new RequestLoginMessage(Status.getLastLoginUsername(), Status.getLastLoginPassword(), Status.getStato())));
+		}
 	}
 	
 	public static void setStato(ChatStatusList stato) {						Stato = stato;	}

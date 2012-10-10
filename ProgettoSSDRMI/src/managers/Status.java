@@ -173,6 +173,8 @@ public class Status {
 		if(client == null){
 			try {
 	            client = new Client();
+	            clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+		           
 //	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
 //	            // Registro il SIP nel RMIREGISTRY
 //	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
@@ -209,13 +211,13 @@ public class Status {
 			return true;
 			
 		}else{
-			ClientInterface stub;
+//			ClientInterface stub;
 			try {
-				stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+				clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
 	            // Registro il SIP nel RMIREGISTRY
 	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-	            registry.rebind("Client", stub);
+	            registry.rebind("Client", clientInterface);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -225,18 +227,13 @@ public class Status {
 	}
 	
 	public static boolean bindClient(){
-		//rimuovo l'eventuale client
-		unbindClient();
-		//Creo un nuovo oggetto remoto
-		client = new Client();
-		
 		System.out.println("*** Client binding ***");
 		try {
-            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+//            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
             // Registro il SIP nel RMIREGISTRY
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("Client", stub);
+            registry.rebind("Client", clientInterface);
             System.out.println("*** Client obj ready ***");
             return true;
 		} catch (Exception e) {

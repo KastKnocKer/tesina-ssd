@@ -170,77 +170,89 @@ public class Status {
 	public static boolean startClient(){
 		System.out.println("*** Client is starting ***");
 		
-		if(client == null){
-			try {
-	            client = new Client();
-	            clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-		           
-//	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+        try {
+        	client = new Client();
+			clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+			System.out.println("*** Client remote object created ***");
+        } catch (RemoteException e1) {
+			System.err.println("[CLIENT] On start: Exception creating client obj.");
+		}
+        
+        // imposto visualizzazione con look and feel del sistema operativo in uso 
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception ex) {
+			System.err.println("Impossibile impostare L&F di sistema");
+		}
+		
+		/**
+		 * Mostro l'Home Frame
+		 * @author Fabio Pierazzi 
+		 */
+		// places the application on the Swing Event Queue 
+		SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	            	
+	            	Home_Frame hf = new Home_Frame(); 
+	            	hf.setVisible(true);
+	            }
+		});
+		
+		
+		
+//		if(client == null){
+//			try {
+//	            client = new Client();
+//	            clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+//		           
+////	            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
+////	            // Registro il SIP nel RMIREGISTRY
+////	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+////	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+////	            registry.rebind("Client", stub);
+//	            System.out.println("*** Client obj ready ***");
+//			} catch (Exception e) {
+//	            System.out.println("Client obj exception:\n" + e.toString());
+//	            JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] Status.startClient() ClientInterface object exception", JOptionPane.ERROR_MESSAGE);
+//	            System.out.println("EXIT FORZATO");
+//	            System.exit(0);
+//			}
+			
+					
+					
+//					
+//			
+//			return true;
+//			
+//		}else{
+////			ClientInterface stub;
+//			try {
+//				clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
 //	            // Registro il SIP nel RMIREGISTRY
 //	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 //	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-//	            registry.rebind("Client", stub);
-	            System.out.println("*** Client obj ready ***");
-			} catch (Exception e) {
-	            System.out.println("Client obj exception:\n" + e.toString());
-	            JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] Status.startClient() ClientInterface object exception", JOptionPane.ERROR_MESSAGE);
-	            System.out.println("EXIT FORZATO");
-	            System.exit(0);
-			}
-			// imposto visualizzazione con look and feel del sistema operativo in uso 
-					try {
-						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					} catch (Exception ex) {
-						System.err.println("Impossibile impostare L&F di sistema");
-					}
-					
-					
-					/**
-					 * Mostro l'Home Frame
-					 * @author Fabio Pierazzi 
-					 */
-					// places the application on the Swing Event Queue 
-					SwingUtilities.invokeLater(new Runnable() {
-				            public void run() {
-				            	
-				            	Home_Frame hf = new Home_Frame(); 
-				            	hf.setVisible(true);
-				            }
-					});
-			
-			return true;
-			
-		}else{
-//			ClientInterface stub;
-			try {
-				clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-	            // Registro il SIP nel RMIREGISTRY
-	            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-	            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-	            registry.rebind("Client", clientInterface);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return true;
-		}
+//	            registry.rebind("Client", clientInterface);
+//			} catch (RemoteException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			return true;
+//		}
+		return true;
 	}
 	
 	public static boolean bindClient(){
-		System.out.println("*** Client binding ***");
 		try {
-//            ClientInterface stub = (ClientInterface) UnicastRemoteObject.exportObject(client, Status.getClient_Port());
-            // Registro il SIP nel RMIREGISTRY
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("Client", clientInterface);
-            System.out.println("*** Client obj ready ***");
-            return true;
-		} catch (Exception e) {
-            System.err.println("[CLIENT] Status.bindClient(): Client obj exception: "+e.getMessage());
-            return false;
+			System.out.println("*** Client binding ***");
+			Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+			registry.rebind("Client", clientInterface);
+		    System.out.println("*** Client ready ***");
+		    return true;
+		} catch (RemoteException e) {
+			System.out.println("*** Client NOT ready ***");
+			System.err.println("[CLIENT] Status.bindClient(): RemoteException");
+			return false;
 		}
-		
 	}
 	
 	public static boolean unbindClient(){
@@ -262,6 +274,7 @@ public class Status {
 		try {
             sip = new SIP();
             sipInterface = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
+            System.out.println("*** SIP remote object created ***");
             // Registro il SIP nel RMIREGISTRY
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             //System.out.println("Registry port "+registry.REGISTRY_PORT);
@@ -279,20 +292,33 @@ public class Status {
 	
 	public static boolean bindSIP(){
 		try {
-//            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
-            // Registro il SIP nel RMIREGISTRY
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("SIP", sipInterface);
-            System.out.println("*** SIP Server ready ***");
-		} catch (Exception e) {
-            System.out.println("SIP Server exception:\n" + e.toString());
-            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); 
-            System.out.println("EXIT FORZATO");
-            System.exit(0);
+			System.out.println("*** SIP binding ***");
+			Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+			registry.rebind("SIP", sipInterface);
+	        System.out.println("*** SIP Server ready ***");
+	        return true;
+		} catch (RemoteException e) {
+			System.out.println("*** SIP Server NOT ready ***");
+			System.err.println("[SIP] Status.bindSIP(): RemoteException");
+			return false;
 		}
-		return true;
+		
+        
+        
+//		try {
+////            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
+//            // Registro il SIP nel RMIREGISTRY
+//            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+//            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+//            registry.rebind("SIP", sipInterface);
+//            System.out.println("*** SIP Server ready ***");
+//		} catch (Exception e) {
+//            System.out.println("SIP Server exception:\n" + e.toString());
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace(); 
+//            System.out.println("EXIT FORZATO");
+//            System.exit(0);
+//		}
 	}
 	
 	public static boolean unbindSIP(){

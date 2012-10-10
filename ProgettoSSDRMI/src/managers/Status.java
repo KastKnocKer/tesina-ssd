@@ -139,7 +139,12 @@ public class Status {
 	public static void setClient_Port(int cLIENT_PORT) {					Client_Port = cLIENT_PORT;	}
 	public static void setCognome(String cognome) {							Cognome = cognome;	}
 	public static void setEmail(String email) {								Email = email;	}
-	public static void setGlobalIP(String globalIP) {						GlobalIP = globalIP;	}
+	public static void setGlobalIP(String globalIP) {
+		if(globalIP == null)
+			globalIP = new String("0.0.0.0");
+		else
+			GlobalIP = globalIP;
+	}
 	public static void setLastLoginPassword(String lastLoginPassword) {		LastLoginPassword = lastLoginPassword;	}	
 	public static void setLastLoginUsername(String lastLoginUsername) {		LastLoginUsername = lastLoginUsername;	}
 	public static void setLocalIP(String localIP) {							LocalIP = localIP;	}

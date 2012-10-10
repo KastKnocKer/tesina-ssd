@@ -35,7 +35,7 @@ public class MainSSD {
 		System.setProperty("java.rmi.server.codebase", "https://dl.dropbox.com/u/852592/SSD/");		// Repository FABIO
 //		System.setProperty("java.rmi.server.codebase", "http://dl.dropbox.com/u/847820/SSD/");		// Repository KKK
 		
-//		Status.unbindSIP();
+		Status.unbindSIP();
 		Status.unbindClient();
 		
 		
@@ -87,11 +87,11 @@ public class MainSSD {
 		System.err.println("CLIENT TYPE: "+Status.getType());
 		
 		if( Status.getType() == Status.TYPE_SIP ){
-			StarterSIP();
+			Status.startSIP();
 		}else if( Status.getType() == Status.TYPE_CLIENT ){
 			Status.startClient();
 		}else if( Status.getType() == Status.TYPE_SIPCLIENT ){
-			StarterSIP();
+			Status.startSIP();
 			Status.startClient();
 		}
 			
@@ -108,24 +108,24 @@ public class MainSSD {
 	
 	
 	
-	private static boolean StarterSIP(){
-		System.out.println("*** SIP is starting ***");
-		try {
-            SIP sip = new SIP();
-            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
-            // Registro il SIP nel RMIREGISTRY
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            //System.out.println("Registry port "+registry.REGISTRY_PORT);
-            registry.rebind("SIP", stub);
-            System.out.println("*** SIP Server ready ***");
-		} catch (Exception e) {
-            System.out.println("SIP Server exception:\n" + e.toString());
-            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); 
-            System.out.println("EXIT FORZATO");
-            System.exit(0);
-		}
-		return true;
-	}
+//	private static boolean StarterSIP(){
+//		System.out.println("*** SIP is starting ***");
+//		try {
+//            SIP sip = new SIP();
+//            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
+//            // Registro il SIP nel RMIREGISTRY
+//            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+//            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+//            registry.rebind("SIP", stub);
+//            System.out.println("*** SIP Server ready ***");
+//		} catch (Exception e) {
+//            System.out.println("SIP Server exception:\n" + e.toString());
+//            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace(); 
+//            System.out.println("EXIT FORZATO");
+//            System.exit(0);
+//		}
+//		return true;
+//	}
 
 }

@@ -14,6 +14,8 @@ import client.thread.ClientThread;
 import client.thread.ClientThread_SipRequestor;
 import RMI.Client;
 import RMI.ClientInterface;
+import RMI.SIP;
+import RMI.SIPInterface;
 import chat.ChatStatusList;
 import chat.Contact;
 
@@ -28,6 +30,9 @@ import chat.Contact;
 public class Status {
 	
 	private static Client client = null;
+	private static ClientInterface clientInterface = null;
+	private static SIP sip = null;
+	private static SIPInterface sipInterface = null;
 	
 	
 	private static boolean LOGGED = false;
@@ -251,6 +256,46 @@ public class Status {
 			System.err.println("Exception catched: Unbinding Client");
 		}
 		return false;
+	}
+	
+	
+	
+	public static boolean startSIP(){
+		System.out.println("*** SIP is starting ***");
+		try {
+            sip = new SIP();
+            sipInterface = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
+            // Registro il SIP nel RMIREGISTRY
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+            registry.rebind("SIP", sipInterface);
+            System.out.println("*** SIP Server ready ***");
+		} catch (Exception e) {
+            System.out.println("SIP Server exception:\n" + e.toString());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); 
+            System.out.println("EXIT FORZATO");
+            System.exit(0);
+		}
+		return true;
+	}
+	
+	public static boolean bindSIP(){
+		try {
+//            SIPInterface stub = (SIPInterface) UnicastRemoteObject.exportObject(sip, Status.getSIP_Port());
+            // Registro il SIP nel RMIREGISTRY
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            //System.out.println("Registry port "+registry.REGISTRY_PORT);
+            registry.rebind("SIP", sipInterface);
+            System.out.println("*** SIP Server ready ***");
+		} catch (Exception e) {
+            System.out.println("SIP Server exception:\n" + e.toString());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "SIP Server exception", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); 
+            System.out.println("EXIT FORZATO");
+            System.exit(0);
+		}
+		return true;
 	}
 	
 	public static boolean unbindSIP(){

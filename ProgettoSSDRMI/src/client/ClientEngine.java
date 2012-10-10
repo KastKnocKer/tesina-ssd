@@ -57,11 +57,6 @@ public class ClientEngine {
 			response = SIP.login(new RequestLoginMessage(username, password, ChatStatusList.ONLINE));
 		} catch (RemoteException e) {
 			Status.setSIPStatusOnline(false);
-			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.Login() exception", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("login remoteexception");
-			//System.err.println("ClientEngine.Login() exception: " + e.toString());
-			//e.printStackTrace();
-			//return new ResponseLoginMessage(false, "ClientEngine.Login() exception", null);
 			System.err.println("IL SIP e' OFFLINE!!! Procedo con la procedura di login P2P (RemoteException)");
 			return LoginP2P(username, password);
 		}
@@ -81,12 +76,15 @@ public class ClientEngine {
 			if(!Status.isLOGGEDP2P())
 				FileContactsManager.readContactsXML();
 			
-			//Controllo se è stata inviata anche la lista dei contatti
-			ArrayList<Contact> contactList = response.getContactList();
-			if(contactList != null){
-				System.out.println("Contact list caricata dal Login: " +contactList.size());
-				ContactListManager.addContactsFromSIPContactList(contactList);
-			}
+			//Invio le richieste al SIP
+			RequestToSIPListManager.sendRequests();
+			
+//			//Controllo se è stata inviata anche la lista dei contatti
+//			ArrayList<Contact> contactList = response.getContactList();
+//			if(contactList != null){
+//				System.out.println("Contact list caricata dal Login: " +contactList.size());
+//				ContactListManager.addContactsFromSIPContactList(contactList);
+//			}
 			
 			//Aggiorno i dati del LastLogin su Status
 			Status.setLastLoginUsername(username);
@@ -107,6 +105,7 @@ public class ClientEngine {
 				System.out.println("Login Response - Non ci sono richieste di amicizia pending. ");
 			}
 			
+			LoadContactsFromSIP();
 		}
 		Status.setLOGGED(true);
 		Status.setLOGGEDP2P(false);
@@ -174,17 +173,17 @@ public class ClientEngine {
 	public static boolean LoadContactsFromSIP(){
 		boolean response = false;
 		try {
-			if(Status.DEBUG) System.out.println("[CLIENT] Richiesta lista contatti al SIP");
+			if(Status.DEBUG) System.out.println("[CLIENT] ClientEngine.LoadContactsFromSIP() Richiesta lista contatti al SIP");
 			ArrayList<Contact> contacts = getSIP().getMyContacts(new RMIBasicMessage());
 			
 			if(contacts != null){
 				ContactListManager.addContactsFromSIPContactList(contacts);
 				response = true;
+				if(Status.DEBUG) System.out.println("[CLIENT] ClientEngine.LoadContactsFromSIP() Richiesta lista contatti al SIP e caricamento effettuati.");
 			}
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.LoadContactsFromSIP() exception", JOptionPane.ERROR_MESSAGE);
-			//System.err.println("ClientEngine.Login() exception: " + e.toString());
-			//e.printStackTrace();
+			System.err.println("IL SIP e' OFFLINE!!!");
+			Status.setSIPStatusOnline(false);
 			return false;
 		}
 		return response;

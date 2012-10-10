@@ -61,7 +61,7 @@ public class Status {
 	private static String PrivateKey = "";
 	private static String PublicKey = "";
 	private static String Email = "";
-	private static String SIP_Address = "87.7.54.112";	//"kastknocker.no-ip.biz";
+	private static String SIP_Address = "192.168.1.112";	//"kastknocker.no-ip.biz";
 	private static String LastLoginUsername = "biofrost88@gmail.com";
 	private static String LastLoginPassword = "bio";
 	

@@ -302,6 +302,7 @@ public class RequestToSIPListManager {
 			
 			
 		}
+		FileContactsManager.writeContactsXML();
 	}
 
 	public static ArrayList<RequestToSIP> getRequestsToSIP() {

@@ -225,33 +225,46 @@ public class ChangeNickname_Frame extends JFrame {
 		updateInfosButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
-            	Status.setNickname(textfield_newNickname.getText()); 
-            	
-            	
+            	String newNickname = textfield_newNickname.getText();
+            	ChatStatusList newStatus = null; 
+            	String newAvatarURL = textfield_newAvatar.getText();
             	switch(combobox_newStato.getSelectedIndex()) {
-            		case 0: Status.setStato(ChatStatusList.ONLINE);
+            		case 0: newStatus = ChatStatusList.ONLINE;
             				System.out.println("ComboBox: Selezionato stato online");
             				break;
-            		case 1: Status.setStato(ChatStatusList.BUSY); 
+            		case 1: newStatus = ChatStatusList.BUSY; 
             				System.out.println("ComboBox: Selezionato stato busy");
             				break; 
-            		case 2: Status.setStato(ChatStatusList.AWAY); 
+            		case 2: newStatus = ChatStatusList.AWAY; 
             				System.out.println("ComboBox: Selezionato stato away");
             				break; 
             		default: 
+//            				newStatus = ChatStatusList.OFFLINE; 
             				System.err.println("Errore: nessuno stato selezionato."); 
             				break; 
             	}
 
-            	Status.setAvatarURL(textfield_newAvatar.getText()); 
-            	
-            	//Modifica dei parametri
+            	/* Creo un contatto fittizio per applicare le modifiche di valori */
             	Contact myContact = new Contact();
             	myContact.setID(Status.getUserID());
-            	myContact.setNickname(Status.getNickname());
-            	myContact.setAvatarURL(Status.getAvatarURL());
-            	myContact.setStatus(Status.getStato());
-            	ClientEngine.ModifyMyInfos(myContact);
+            	myContact.setNickname(newNickname);
+            	myContact.setAvatarURL(newAvatarURL);
+            	myContact.setStatus(newStatus);
+            	
+            	Contact nuovoContatto = ClientEngine.ModifyMyInfos(myContact);
+            	
+            	/* Se fa errore, ritorno (la dialog box di errore viene mostrata nel try/catch 
+            	 * del metodo precedente. */
+            	if(nuovoContatto == null) {
+            		dispose(); 
+            		return; 
+            	}
+            	
+            	/* Se non fa errore, applico le nuove impostazioni */
+            	Status.setNickname(newNickname); 
+            	Status.setStato(newStatus); 
+            	Status.setAvatarURL(newAvatarURL); 
+            	
             	FileContactsManager.writeContactsXML();
             	ClientThread.setModifiedInfos(true);
             	LayoutReferences.getFriendsListPanel().refreshPanel();

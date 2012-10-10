@@ -20,7 +20,11 @@ import chat.Contact;
  * @author Andrea Castelli
  */
 public interface SIPInterface extends Remote{
-	String sayHello() throws RemoteException;
+	
+	/**
+	 * Funzione per verificare la presenza del SIP
+	 */
+	boolean areYouAliveSIP()  throws RemoteException;
 	
 	/**
 	 * Il client indica al SIP il mio stato

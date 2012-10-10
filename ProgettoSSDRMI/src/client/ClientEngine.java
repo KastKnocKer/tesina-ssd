@@ -319,15 +319,25 @@ public class ClientEngine {
 		} catch (RemoteException e) {
 			System.out.println("ClientEngine.getSIP() : RemoteException");
 			Status.setSIPStatusOnline(false);
+			return null;
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
 		} catch (NotBoundException e) {
 			System.out.println("ClientEngine.getSIP() : NotBoundException");
 			Status.setSIPStatusOnline(false);
+			return null;
 			//JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getSIP()", JOptionPane.ERROR_MESSAGE);
 			//System.err.println("ClientEngine.getSIP() exception: " + e.toString());
 			//e.printStackTrace();
+		}
+		
+		try {
+			sip.areYouAliveSIP();
+		} catch (RemoteException e) {
+			System.out.println("ClientEngine.getSIP() : RemoteException (in chiamata)");
+			Status.setSIPStatusOnline(false);
+			return null;
 		}
 		
 		return sip;

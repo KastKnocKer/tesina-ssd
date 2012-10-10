@@ -282,7 +282,7 @@ public class ContactListManager {
 				ClientInterface client = null;
 				
 				/* se sono in LAN */
-				if(Status.getGlobalIP().equals(friendContact.getGlobalIP())) {
+				if(Status.getGlobalIP() == null || Status.getGlobalIP().equals(friendContact.getGlobalIP())) {
 					/* reperisco il client da rimuovere */
 					client = ClientEngine.getClient(friendContact.getLocalIP()); 
 				/* se invece NON sono in LAN */

@@ -22,6 +22,7 @@ public class MainSSD {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
 		System.out.println("**** START - Always-ON Messenger ****");
 		
 		try {

@@ -96,7 +96,7 @@ public class Login_Panel extends JPanel {
 	    	   public void actionPerformed(ActionEvent event) {
 	    		  
 	    		   	/* Login */
-	    		   ResponseLoginMessage rlm = ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()));
+	    		   ResponseLoginMessage rlm = ClientEngine.Login(textField_username.getText(), new String(textField_password.getPassword()),false);
 	    			   if( rlm.isSUCCESS() ){
 	    				   System.out.println("Login effettuato");
 	    				   

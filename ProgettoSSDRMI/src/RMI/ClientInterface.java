@@ -15,17 +15,6 @@ import chat.Message;
 
 public interface ClientInterface extends Remote{
 	
-	String sayHello() throws RemoteException;
-	
-	/**
-	 * Invia un messaggio ad un altro client
-	 */
-	boolean sendMSG(Message msg) throws RemoteException;
-	
-	/**
-	 * Chiede all'utente contattato di identificarsi
-	 */
-	Contact whoAreYou() throws RemoteException;
 	
 	/**
 	 * Chiede all'utente contattato il suo stato, comunicando anche il proprio
@@ -93,4 +82,9 @@ public interface ClientInterface extends Remote{
 	 * Comunica la volontà di uscire dal sistema
 	 */
 	public boolean iGoOffline(RMIBasicMessage rmibm) throws RemoteException;
+	
+	/**
+	 * Comunica il proprio ID
+	 */
+	public int whatIsYourID(RMIBasicMessage rmibm) throws RemoteException;
 }

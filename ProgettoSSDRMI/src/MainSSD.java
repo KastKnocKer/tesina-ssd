@@ -25,16 +25,6 @@ public class MainSSD {
 		System.out.println("**** START - Always-ON Messenger ****");
 		
 		try {
-			///////////////////////////////
-			//SOLO PER WINDOWS			//
-			/////////////////////////////
-			Runtime.getRuntime().exec("TASKKILL /F /IM \"rmid.exe\"");
-    		Runtime.getRuntime().exec("TASKKILL /F /IM \"rmiregistry.exe\"");
-    	} catch (java.io.IOException e) {
-    		System.out.println("Kill rmid & rmiregistry");
-    	}
-		
-		try {
 			Runtime.getRuntime().exec("rmid -J-Djava.security.policy=local.policy");
     		Runtime.getRuntime().exec("rmiregistry");
     	} catch (java.io.IOException e) {

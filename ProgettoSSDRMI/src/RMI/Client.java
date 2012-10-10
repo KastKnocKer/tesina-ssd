@@ -28,26 +28,6 @@ public class Client implements ClientInterface{
 
 	public Client() {}
 	
-	@Override
-	public String sayHello() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean sendMSG(Message msg) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Contact whoAreYou() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
 	public ResponseHowAreYou howAreYou(RequestHowAreYou rhay) throws RemoteException {
 		Contact senderContact = rhay.getSenderContact();
 		int senderID = senderContact.getID();
@@ -206,6 +186,10 @@ public class Client implements ClientInterface{
 			return true;
 		}
 		return false;
+	}
+
+	public int whatIsYourID(RMIBasicMessage rmibm) throws RemoteException {
+		return Status.getUserID();
 	}
 
 	

@@ -451,6 +451,21 @@ public class ClientEngine {
 			System.err.println("[CLIENT] ClientEngine.getClient() Exception: " + e.toString());
 			//e.printStackTrace();
 		}
+		
+		int userID = -1;
+		
+		try {
+			userID = client.whatIsYourID(new RMIBasicMessage());
+		} catch (RemoteException e) {
+			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
+			return null;
+		}
+		
+		if(userID != ContactUserID ){
+			System.err.println("[CLIENT] ClientEngine.getClient("+ContactUserID+"): l'utente contattato ha id "+userID);
+			return null;
+		}
+		
 		return client;
 	}
 	

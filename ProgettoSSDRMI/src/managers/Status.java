@@ -173,7 +173,7 @@ public class Status {
 	            System.out.println("*** Client obj ready ***");
 			} catch (Exception e) {
 	            System.out.println("Client obj exception:\n" + e.toString());
-	            JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
+	            JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] Status.startClient() ClientInterface object exception", JOptionPane.ERROR_MESSAGE);
 	            System.out.println("EXIT FORZATO");
 	            System.exit(0);
 			}
@@ -233,8 +233,6 @@ public class Status {
 		} catch (Exception e) {
             System.out.println("Client obj exception:\n" + e.toString());
             JOptionPane.showMessageDialog(null, e.getMessage(), "Client obj exception", JOptionPane.ERROR_MESSAGE);
-            System.out.println("EXIT FORZATO");
-            System.exit(0);
 		}
 		return false;
 	}

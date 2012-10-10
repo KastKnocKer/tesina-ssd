@@ -291,8 +291,12 @@ public class ClientEngine {
 		try {
 			if(Status.DEBUG) System.out.println("[CLIENT]  ModifyMyInfos()");
 			return getSIP().modifyContactInfos(new RequestModifyContactInfos(contact)).getContact();
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.ModifyMyInfos() exception", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, 
+					"Impossibile modificare le impostazioni personali. \n" +
+					"Il SIP è probabilmente offline. Occorre attendere che torni online.", 
+					"Modifica informazioni personali", 
+					JOptionPane.WARNING_MESSAGE);
 			//System.err.println("ClientEngine.Login() exception: " + e.toString());
 			//e.printStackTrace();
 			return null;

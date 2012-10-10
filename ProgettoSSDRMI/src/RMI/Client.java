@@ -102,26 +102,26 @@ public class Client implements ClientInterface{
 
 	@Override
 	public RMIBasicResponseMessage receiveFriendshipRequestFromContact(
-			Contact contattoRichiedente, 
+			Contact contattoMittente, 
 			String emailDestinatario) throws RemoteException {
 		try {
 			
 			System.out.println("sendFriendshipRequest: sto per mostrare le finestra al contatto ricevente.");
 
-			if(emailDestinatario != Status.getEmail()) {
+			if(!emailDestinatario.equals(Status.getEmail())) {
 				System.err.println("[CLIENT] receiveFriendshipRequestFromContact: ho ricevuto una richiesta di amicizia rivolta a '" + emailDestinatario + "', ma io sono '" + Status.getEmail() + "'.");
 				return new RMIBasicResponseMessage(false, "Siamo spiacenti. Si è verificato un errore nel recapito \n" +
 						"della richiesta di amicizia: è stato raggiunto il contatto errato."); 
 			}
 			
-			contattoRichiedente.printInfo(); 
-			FriendshipManager.showFriendshipRequestFromContact(contattoRichiedente);
+			contattoMittente.printInfo(); 
+			FriendshipManager.showFriendshipRequestFromContact(contattoMittente);
 		} catch (Exception e) {
 			System.err.println("Si è verificata un'eccezione eseguendo: FriendshipManager.showFriendshipRequestFrom(contattoRichiedente); ");
 			e.printStackTrace(); 
 		}
 		
-		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoRichiedente.getEmail() + ".");
+		System.out.println("Richiesta di amicizia inviata correttamente a " + contattoMittente.getEmail() + ".");
 		return new RMIBasicResponseMessage(true, "Richiesta inviata correttamente");
 	}
 

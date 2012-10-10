@@ -429,15 +429,15 @@ public class ClientThread_FriendshipManager extends Thread {
 	 * passato come parametro. Questo metodo viene invocato in seguito 
 	 * all'invocazione remota sul client del metodo per fare richiesta. 
 	 * 
-	 * @param contattoRichiedente che ha inviato la richiesta
+	 * @param contattoMittente che ha inviato la richiesta
 	 * @param contattoDestinatario 
 	 */
-	private void showFriendshipRequestFromContact(Contact contattoRichiedente, Contact contattoDestinatario) {
+	private void showFriendshipRequestFromContact(Contact contattoMittente, Contact contattoDestinatario) {
 		
 		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
 		
-		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.getEmail() + " " +
-				"(IP: " + contattoRichiedente.getGlobalIP() + ")");
+		System.out.println("Ricevuto richiesta amicizia da: " + contattoMittente.getEmail() + " " +
+				"(IP: " + contattoMittente.getGlobalIP() + ")");
 	
 		/* Controllo se il destinatario sono veramente io (può succedere se mi loggo ad esempio
 		 * con biofrost dopo di lui e poi rientro con un altro account: il SIP ha tenuto come 
@@ -450,24 +450,24 @@ public class ClientThread_FriendshipManager extends Thread {
 		}
 		
 		int result = JOptionPane.showConfirmDialog(null, "Hai ricevuto una richiesta di amicizia da: \n" +
-				"" + contattoRichiedente.getEmail() + "\n\n" +
+				"" + contattoMittente.getEmail() + "\n\n" +
 						"Desideri accettare?", 
 						"Aggiungi Contatto",
                 JOptionPane.YES_NO_OPTION);
 		
 		if(result == JOptionPane.YES_OPTION) {
 			if(Status.DEBUG)
-				System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
+				System.out.println("ACCETTATA - Richiesta di amicizia proveniente da " + contattoMittente.getEmail() + "");
 			
 			/* Accetto la richiesta: aggiorno SIP ed informazioni dell'applicazione */
-			acceptFriendshipRequest(contattoRichiedente); 
+			acceptFriendshipRequest(contattoMittente); 
 		}
 		else if(result == JOptionPane.NO_OPTION)  {
 			if(Status.DEBUG)
-				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoRichiedente.getEmail() + "");
+				System.out.println("RIFIUTATA - Richiesta di amicizia proveniente da " + contattoMittente.getEmail() + "");
 			
 			/* Rifiuto la richiesta: avviso il SIP di rimuovere l'amicizia PENDING da DB */
-			refuseFriendshipRequest(contattoRichiedente);
+			refuseFriendshipRequest(contattoMittente);
 		}
 			
 		

@@ -374,17 +374,37 @@ public class ClientEngine {
 				table.updateTable(); 
 			
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "ClientEngine.getClient() java.rmi.ConnectException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("ClientEngine.getClient() java.rmi.ConnectException: " + e.toString());
+			System.err.println("ClientEngine.getClientWithoutOfflineControl("+ContactUserID+") java.rmi.ConnectException: "/* + e.toString()*/);
 			//e.printStackTrace();
+			return null;
 		} catch (RemoteException e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() RemoteException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("[CLIENT] ClientEngine.getClient() RemoteException: " + e.toString());
+			System.err.println("[CLIENT] ClientEngine.getClientWithoutOfflineControl("+ContactUserID+") RemoteException: "/* + e.toString()*/);
 			//e.printStackTrace();
+			return null;
 		} catch (NotBoundException e) {
 //			JOptionPane.showMessageDialog(null, e.getMessage(), "[CLIENT] ClientEngine.getClient() NotBoundException", JOptionPane.ERROR_MESSAGE);
-			System.err.println("[CLIENT] ClientEngine.getClient() NotBoundException: " + e.toString());
+			System.err.println("[CLIENT] ClientEngine.getClientWithoutOfflineControl("+ContactUserID+") NotBoundException: "/* + e.toString()*/);
 			//e.printStackTrace();
+			return null;
 		}
+		
+		int userID = -1;
+		
+		try {
+			userID = client.whatIsYourID(new RMIBasicMessage());
+		} catch (RemoteException e) {
+			System.err.println("[CLIENT] ClientEngine.getClientWithoutOfflineControl("+ContactUserID+") RemoteException: " + e.toString());
+			contact.setStatus(ChatStatusList.OFFLINE);
+			return null;
+		}
+		
+		if(userID != ContactUserID ){
+			System.err.println("[CLIENT] ClientEngine.getClientWithoutOfflineControl("+ContactUserID+"): l'utente contattato ha id "+userID);
+			contact.setStatus(ChatStatusList.OFFLINE);
+			return null;
+		}
+		
 		return client;
 	}
 	

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.mysql.jdbc.UpdatableResultSet;
+
 import sun.swing.MenuItemLayoutHelper.LayoutResult;
 
 import layout.friendslist.FriendsList_Table;
@@ -351,6 +353,10 @@ public class ContactListManager {
 		if(SIPContactList == null)
 			return;
 		
+		for(Contact contact : contactList){
+			contact.setUpdatedFromSIP(false);
+		}
+		
 		for(Contact contact : SIPContactList){
 			Contact tmpContact = searchContactById(contact.getID());
 			if(tmpContact == null){
@@ -377,6 +383,13 @@ public class ContactListManager {
 				contactList.remove(contact);
 				i--;
 			}
+		}
+		
+		/* Aggiorno graficamente la tabella */
+		FriendsList_Table table = LayoutReferences.getFriendsListTable();
+		if(table!=null) {
+			System.err.println("Aggiorno graficamente la tabella.");
+			table.updateTable();
 		}
 	}
 		

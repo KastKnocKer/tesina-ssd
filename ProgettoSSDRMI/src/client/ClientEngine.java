@@ -181,6 +181,7 @@ public class ClientEngine {
 				response = true;
 				if(Status.DEBUG) System.out.println("[CLIENT] ClientEngine.LoadContactsFromSIP() Richiesta lista contatti al SIP e caricamento effettuati.");
 			}
+			FileContactsManager.writeContactsXML();
 		} catch (RemoteException e) {
 			System.err.println("IL SIP e' OFFLINE!!!");
 			Status.setSIPStatusOnline(false);

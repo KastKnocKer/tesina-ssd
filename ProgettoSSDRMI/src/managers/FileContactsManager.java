@@ -36,7 +36,7 @@ public class FileContactsManager {
 	 * @return
 	 * @author Andrea Castelli
 	 */
-	public static boolean writeContactsXML(){
+	public static synchronized boolean writeContactsXML(){
 		ArrayList<Contact> contactList = ContactListManager.getContactList();
 		
 		try {
@@ -173,7 +173,7 @@ public class FileContactsManager {
 	
 	
 	
-	public static boolean readContactsXML(){
+	public static synchronized boolean readContactsXML(){
 		String fileUsername = "";
 		String filePassword = "";
 		try {

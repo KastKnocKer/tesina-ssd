@@ -1,22 +1,22 @@
 package client.thread;
 
-import java.net.Authenticator.RequestorType;
 import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
 
-import layout.friendslist.FriendsList_Table;
-import layout.managers.LayoutReferences;
 import managers.ContactListManager;
 import managers.Status;
 import managers.StatusP2P;
 import RMI.ClientInterface;
 import RMIMessages.FriendshipRequest;
 import RMIMessages.FriendshipRequestType;
+import RMIMessages.RMIBasicResponseMessage;
 import RMIMessages.RMISIPBasicResponseMessage;
 import chat.Contact;
 import client.ClientEngine;
-import client.requesttosip.*;
+import client.requesttosip.RequestToSIP;
+import client.requesttosip.RequestToSIPListManager;
+import client.requesttosip.RequestToSIPTypeList;
 
 /**
  * Thread usato per l'invio e la gestione delle
@@ -90,7 +90,8 @@ public class ClientThread_FriendshipManager extends Thread {
 		 *****************************/
 		} else if(requestType == (ClientThread_FriendshipManager_RequestTypes.SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT) ) {
 			System.err.println("Thread ClientThread_FriendshipManager: SHOW_FRIENDSHIP_REQUEST_FROM_CONTACT");
-			showFriendshipRequestFromContact(contattoMittente); 
+			
+			showFriendshipRequestFromContact(contattoMittente, contattoDestinatario); 
 			
 		/*****************************
 		 * REMOVE_FRIEND
@@ -280,7 +281,11 @@ public class ClientThread_FriendshipManager extends Thread {
 					System.err.println("clientInterface == null (pertanto, invio l'amicizia al SIP)");
 					throw new Exception(); 
 				} else {
-					clientInterface.receiveFriendshipRequestFromContact(myContact);
+					RMIBasicResponseMessage responseMessage = clientInterface.receiveFriendshipRequestFromContact(myContact, email);
+					
+					/* Se ha fallito, significa che ho contattato il client sbagliato */
+					if(responseMessage.isSUCCESS() == false) 
+						return new RMISIPBasicResponseMessage(false, responseMessage.getMESSAGE());
 				}
 					
 			/* se il client non ha ricevuto la richiesta di amicizia (timeout), 
@@ -425,13 +430,24 @@ public class ClientThread_FriendshipManager extends Thread {
 	 * all'invocazione remota sul client del metodo per fare richiesta. 
 	 * 
 	 * @param contattoRichiedente che ha inviato la richiesta
+	 * @param contattoDestinatario 
 	 */
-	private void showFriendshipRequestFromContact(Contact contattoRichiedente) {
+	private void showFriendshipRequestFromContact(Contact contattoRichiedente, Contact contattoDestinatario) {
 		
 		// TODO: gestire il fatto che l'altro client cada o cambi ip nel mentre
 		
 		System.out.println("Ricevuto richiesta amicizia da: " + contattoRichiedente.getEmail() + " " +
 				"(IP: " + contattoRichiedente.getGlobalIP() + ")");
+	
+		/* Controllo se il destinatario sono veramente io (può succedere se mi loggo ad esempio
+		 * con biofrost dopo di lui e poi rientro con un altro account: il SIP ha tenuto come 
+		 * ultimo IP il mio, e non quello di BioFrost. */
+		if(contattoDestinatario.getID() != Status.getUserID()) {
+			System.err.println("*** ATTENZIONE *** - Richiesta di amicizia non rivolta a me! Era rivolta a: " +
+					"" + contattoDestinatario.getID() + " (" + contattoDestinatario.getEmail() + ").");
+			// TODO: notify the other client that the request was sent to the wrong contact 
+			return; 
+		}
 		
 		int result = JOptionPane.showConfirmDialog(null, "Hai ricevuto una richiesta di amicizia da: \n" +
 				"" + contattoRichiedente.getEmail() + "\n\n" +

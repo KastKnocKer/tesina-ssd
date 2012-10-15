@@ -23,9 +23,12 @@ public class MainSSD {
 	 * Questa variabile rappresenta la parte iniziale dell'IP della lan da considerare
 	 * Serve per discriminare tra le diverse interfacce di rete, quale utilizzare
 	 */
-	public static final String LANDomain = "192.168.43.";
+	//public static final String LANDomain = "192.168.43.";
+	public static final String LANDomain = "192.168.1.";
 	
-	public static final String CODEBASEURL = "file:///D:/Programmazione/Workspace-Tesina-SSD/ProgettoSSDRMI/bin/";
+	//public static final String CODEBASEURL = "file:///D:/Programmazione/Workspace-Tesina-SSD/ProgettoSSDRMI/bin/";
+	public static final String CODEBASEURL = "https://dl.dropbox.com/u/852592/SSD/";
+	
 	
 	/**
 	 * @param args
